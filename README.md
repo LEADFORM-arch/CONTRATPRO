@@ -407,6 +407,22 @@ $env:CONTRATPRO_SMOKE_PASSWORD="votre-mot-de-passe"
 npm run deploy:smoke:auth -- https://contratpro-dun.vercel.app
 ```
 
+## Priorite 18 - Cockpit Go-Live fondateur
+
+Page reservee admin :
+
+```text
+/admin/launch
+```
+
+Elle donne un score go-live et les blocages avant une vente forte :
+
+- Stripe Billing et paywall SaaS ;
+- GoCardless live ;
+- auth/RLS/admin ;
+- URL production et repo GitHub ;
+- cron, emails et operations CVC.
+
 ## Variables importantes
 
 Dans `.env.local` :

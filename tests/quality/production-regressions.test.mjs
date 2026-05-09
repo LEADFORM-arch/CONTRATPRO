@@ -46,6 +46,7 @@ describe("production guardrails", () => {
 
   it("protects founder-only routes and keeps internal navigation opt-in", () => {
     const adminRoutes = [
+      "src/app/(dashboard)/admin/launch/page.tsx",
       "src/app/(dashboard)/admin/notifications/page.tsx",
       "src/app/(dashboard)/admin/ops/page.tsx",
       "src/app/(dashboard)/admin/prospection/page.tsx",
@@ -60,6 +61,7 @@ describe("production guardrails", () => {
     const shell = read("src/components/layout/AppShell.tsx");
     assertIncludes(shell, [
       "showInternalTools = false",
+      "/admin/launch",
       "/admin/notifications",
       "/admin/ops",
       "/settings/facebook",
@@ -305,6 +307,28 @@ describe("production guardrails", () => {
       "npm run security:audit",
       "npm run deploy:smoke:auth",
     ], "local env runbook");
+  });
+
+  it("keeps founder go-live readiness visible before commercial launch", () => {
+    assertIncludes(read("src/server/launch-readiness.ts"), [
+      "STRIPE_SECRET_KEY",
+      "CONTRATPRO_REQUIRE_BILLING",
+      "GOCARDLESS_ENVIRONMENT",
+      "admincairn/CONTRATPRO",
+    ], "launch readiness service");
+
+    assertIncludes(read("src/app/(dashboard)/admin/launch/page.tsx"), [
+      "requireAdminUser",
+      "getLaunchReadiness",
+      "Readiness commerciale",
+      "Bloquants avant vente forte",
+    ], "launch admin page");
+
+    assertIncludes(read("src/app/globals.css"), [
+      ".launch-command",
+      ".launch-check-row",
+      ".launch-status-pill",
+    ], "launch styles");
   });
 
   it("keeps public commercial pages available before login", () => {
