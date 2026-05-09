@@ -39,6 +39,14 @@ Le script cree ou recupere :
 - prix recurrent `200 EUR / mois` ;
 - `STRIPE_PRICE_ID=price_...`.
 
+Ressources test creees le 2026-05-09 :
+
+```text
+Product: prod_UUEd2A4iPXLkVT
+Price: price_1TVGABBJsOV2aVH0vBPLaPCm
+Lookup key: contratpro_pro_monthly_200_eur
+```
+
 ## 3. Creer le webhook Stripe test
 
 Dans Stripe :
