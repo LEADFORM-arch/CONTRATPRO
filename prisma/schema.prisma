@@ -1,0 +1,338 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Organization {
+  id          String   @id @default(cuid())
+  name        String
+  clerkOrgId  String?  @unique @map("clerk_org_id")
+  siret       String?
+  rgeNumber   String?  @map("rge_number")
+  vatNumber   String?  @map("vat_number")
+  address     String?
+  city        String?
+  zipCode     String?  @map("zip_code")
+  phone       String?
+  email       String?
+  plan        Plan     @default(STARTER)
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  customers Customer[]
+  documentSends DocumentSend[]
+  invoices  Invoice[]
+  members   OrganizationMembership[]
+  payments  SepaPayment[]
+  paymentEvents PaymentEvent[]
+
+  @@map("organizations")
+}
+
+model DocumentSend {
+  id                String       @id @default(cuid())
+  organizationId    String       @map("organization_id")
+  organization      Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  documentType      String       @map("document_type")
+  documentId        String       @map("document_id")
+  recipientEmail    String       @map("recipient_email")
+  recipientName     String?      @map("recipient_name")
+  subject           String
+  provider          String       @default("resend")
+  providerMessageId String?      @map("provider_message_id")
+  status            String       @default("SENT")
+  errorMessage      String?      @map("error_message")
+  sentAt            DateTime?    @map("sent_at")
+  createdAt         DateTime     @default(now()) @map("created_at")
+
+  @@index([organizationId])
+  @@index([documentType, documentId])
+  @@index([createdAt])
+  @@map("document_sends")
+}
+
+model OrganizationMembership {
+  organizationId String       @map("organization_id")
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  userId         String       @map("user_id") @db.Uuid
+  role           String       @default("OWNER")
+  createdAt      DateTime     @default(now()) @map("created_at")
+
+  @@id([organizationId, userId])
+  @@index([userId])
+  @@map("organization_memberships")
+}
+
+model Customer {
+  id             String       @id @default(cuid())
+  organizationId String       @map("organization_id")
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  firstName      String?      @map("first_name")
+  lastName       String?      @map("last_name")
+  companyName    String?      @map("company_name")
+  email          String?
+  phone          String?
+  address        String?
+  city           String?
+  zipCode        String?      @map("zip_code")
+  notes          String?
+  createdAt      DateTime     @default(now()) @map("created_at")
+  updatedAt      DateTime     @updatedAt @map("updated_at")
+
+  installations Installation[]
+
+  @@index([organizationId])
+  @@map("customers")
+}
+
+model Installation {
+  id           String        @id @default(cuid())
+  customerId   String        @map("customer_id")
+  customer     Customer      @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  type         EquipmentType
+  brand        String?
+  model        String?
+  serialNumber String?       @map("serial_number")
+  powerKw      Decimal?      @map("power_kw") @db.Decimal(6, 2)
+  installDate  DateTime?     @map("install_date")
+  location     String?
+  notes        String?
+  createdAt    DateTime      @default(now()) @map("created_at")
+  updatedAt    DateTime      @updatedAt @map("updated_at")
+
+  contracts Contract[]
+
+  @@index([customerId])
+  @@map("installations")
+}
+
+model Contract {
+  id             String         @id @default(cuid())
+  installationId String         @map("installation_id")
+  installation   Installation   @relation(fields: [installationId], references: [id], onDelete: Cascade)
+  status         ContractStatus @default(ACTIVE)
+  startDate      DateTime       @map("start_date")
+  endDate        DateTime       @map("end_date")
+  priceHt        Decimal        @map("price_ht") @db.Decimal(10, 2)
+  vatRate        Decimal        @map("vat_rate") @db.Decimal(5, 2)
+  priceTtc       Decimal        @map("price_ttc") @db.Decimal(10, 2)
+  billingCycle   BillingCycle   @default(ANNUAL) @map("billing_cycle")
+  paymentMethod  PaymentMethod  @default(SEPA) @map("payment_method")
+  autoRenew      Boolean        @default(true) @map("auto_renew")
+  notes          String?
+  createdAt      DateTime       @default(now()) @map("created_at")
+  updatedAt      DateTime       @updatedAt @map("updated_at")
+
+  interventions Intervention[]
+  certificates  Certificate[]
+  invoices      Invoice[]
+  sepaMandate   SepaMandate?
+
+  @@index([installationId])
+  @@index([status])
+  @@index([endDate])
+  @@map("contracts")
+}
+
+model Intervention {
+  id            String             @id @default(cuid())
+  contractId    String             @map("contract_id")
+  contract      Contract           @relation(fields: [contractId], references: [id], onDelete: Cascade)
+  performedAt   DateTime           @map("performed_at")
+  technician    String?
+  status        InterventionStatus @default(COMPLETED)
+  report        String?
+  nextVisitDate DateTime?          @map("next_visit_date")
+  createdAt     DateTime           @default(now()) @map("created_at")
+
+  certificate Certificate?
+
+  @@index([contractId])
+  @@map("interventions")
+}
+
+model Certificate {
+  id              String       @id @default(cuid())
+  interventionId  String       @unique @map("intervention_id")
+  intervention    Intervention @relation(fields: [interventionId], references: [id], onDelete: Cascade)
+  contractId      String?      @map("contract_id")
+  contract        Contract?    @relation(fields: [contractId], references: [id])
+  fileUrl         String?      @map("file_url")
+  fileName        String?      @map("file_name")
+  legalReference  String       @default("Arrete 15/09/2009 et 02/03/2017") @map("legal_reference")
+  issuedAt        DateTime     @default(now()) @map("issued_at")
+  sentToCustomer  Boolean      @default(false) @map("sent_to_customer")
+  sentAt          DateTime?    @map("sent_at")
+
+  @@map("certificates")
+}
+
+model Invoice {
+  id             String        @id @default(cuid())
+  organizationId String        @map("organization_id")
+  organization   Organization  @relation(fields: [organizationId], references: [id])
+  contractId     String?       @map("contract_id")
+  contract       Contract?     @relation(fields: [contractId], references: [id])
+  number         String        @unique
+  status         InvoiceStatus @default(DRAFT)
+  issueDate      DateTime      @default(now()) @map("issue_date")
+  dueDate        DateTime      @map("due_date")
+  amountHt       Decimal       @map("amount_ht") @db.Decimal(10, 2)
+  vatRate        Decimal       @map("vat_rate") @db.Decimal(5, 2)
+  vatAmount      Decimal       @map("vat_amount") @db.Decimal(10, 2)
+  amountTtc      Decimal       @map("amount_ttc") @db.Decimal(10, 2)
+  paidAt         DateTime?     @map("paid_at")
+  createdAt      DateTime      @default(now()) @map("created_at")
+
+  @@index([organizationId])
+  @@index([status])
+  @@map("invoices")
+}
+
+model SepaMandate {
+  id           String        @id @default(cuid())
+  contractId   String        @unique @map("contract_id")
+  contract     Contract      @relation(fields: [contractId], references: [id])
+  gcMandateId  String?       @unique @map("gc_mandate_id")
+  gcCustomerId String?       @map("gc_customer_id")
+  status       MandateStatus @default(PENDING_SUBMISSION)
+  signedAt     DateTime?     @map("signed_at")
+  createdAt    DateTime      @default(now()) @map("created_at")
+
+  payments SepaPayment[]
+
+  @@map("sepa_mandates")
+}
+
+model SepaPayment {
+  id             String        @id @default(cuid())
+  organizationId String        @map("organization_id")
+  organization   Organization  @relation(fields: [organizationId], references: [id])
+  mandateId      String        @map("mandate_id")
+  mandate        SepaMandate   @relation(fields: [mandateId], references: [id])
+  gcPaymentId    String?       @unique @map("gc_payment_id")
+  amount         Decimal       @db.Decimal(10, 2)
+  currency       String        @default("EUR")
+  status         PaymentStatus @default(PENDING_SUBMISSION)
+  chargeDate     DateTime      @map("charge_date")
+  description    String?
+  failureReason  String?       @map("failure_reason")
+  createdAt      DateTime      @default(now()) @map("created_at")
+
+  events PaymentEvent[]
+
+  @@index([organizationId])
+  @@index([status])
+  @@map("sepa_payments")
+}
+
+model PaymentEvent {
+  id              String       @id @default(cuid())
+  organizationId  String       @map("organization_id")
+  organization    Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  paymentId       String       @map("payment_id")
+  payment         SepaPayment  @relation(fields: [paymentId], references: [id], onDelete: Cascade)
+  eventType       String       @map("event_type")
+  provider        String       @default("gocardless")
+  providerEventId String?      @map("provider_event_id")
+  status          String
+  message         String?
+  payload         Json?
+  createdAt       DateTime     @default(now()) @map("created_at")
+
+  @@index([organizationId])
+  @@index([paymentId, createdAt])
+  @@index([createdAt])
+  @@map("payment_events")
+}
+
+enum Plan {
+  STARTER
+  PRO
+  TEAM
+
+  @@map("plan")
+}
+
+enum EquipmentType {
+  BOILER_GAS
+  BOILER_OIL
+  HEAT_PUMP_AIR_AIR
+  HEAT_PUMP_AIR_WATER
+  HEAT_PUMP_GEO
+  AC_REVERSIBLE
+  VMC
+  OTHER
+
+  @@map("equipment_type")
+}
+
+enum ContractStatus {
+  DRAFT
+  ACTIVE
+  EXPIRING
+  EXPIRED
+  CANCELLED
+
+  @@map("contract_status")
+}
+
+enum BillingCycle {
+  MONTHLY
+  ANNUAL
+
+  @@map("billing_cycle")
+}
+
+enum PaymentMethod {
+  SEPA
+  BANK_TRANSFER
+  CHECK
+  CASH
+
+  @@map("payment_method")
+}
+
+enum InterventionStatus {
+  SCHEDULED
+  COMPLETED
+  CANCELLED
+
+  @@map("intervention_status")
+}
+
+enum InvoiceStatus {
+  DRAFT
+  SENT
+  PAID
+  OVERDUE
+  CANCELLED
+
+  @@map("invoice_status")
+}
+
+enum MandateStatus {
+  PENDING_SUBMISSION
+  SUBMITTED
+  ACTIVE
+  FAILED
+  CANCELLED
+  EXPIRED
+
+  @@map("mandate_status")
+}
+
+enum PaymentStatus {
+  PENDING_SUBMISSION
+  SUBMITTED
+  CONFIRMED
+  PAID_OUT
+  FAILED
+  CANCELLED
+  CHARGED_BACK
+
+  @@map("payment_status")
+}
