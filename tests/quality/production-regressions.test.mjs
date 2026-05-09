@@ -229,6 +229,8 @@ describe("production guardrails", () => {
       "\"deploy:preflight\"",
       "\"deploy:smoke\"",
       "\"deploy:smoke:auth\"",
+      "\"stripe:readiness\"",
+      "\"stripe:create-test-billing\"",
       "npm run production:audit",
       "npm run build",
     ], "package scripts");
@@ -329,6 +331,31 @@ describe("production guardrails", () => {
       ".launch-check-row",
       ".launch-status-pill",
     ], "launch styles");
+  });
+
+  it("keeps Stripe test billing setup executable and documented", () => {
+    assertIncludes(read("scripts/stripe-create-test-billing.mjs"), [
+      "sk_test_",
+      "ContratPro Pro",
+      "unit_amount: \"20000\"",
+      "lookup_key",
+      "STRIPE_PRICE_ID",
+    ], "stripe create test billing script");
+
+    assertIncludes(read("scripts/stripe-readiness.mjs"), [
+      "STRIPE_SECRET_KEY",
+      "STRIPE_WEBHOOK_SECRET",
+      "STRIPE_PRICE_ID",
+      "checkout.session.completed",
+      "invoice.payment_succeeded",
+    ], "stripe readiness script");
+
+    assertIncludes(read("docs/stripe-test-billing.md"), [
+      "https://dashboard.stripe.com/acct_1TVFyGBJsOV2aVH0/test/dashboard",
+      "https://contratpro-dun.vercel.app/api/webhooks/stripe",
+      "4242 4242 4242 4242",
+      "CONTRATPRO_REQUIRE_BILLING=true",
+    ], "stripe billing runbook");
   });
 
   it("keeps public commercial pages available before login", () => {

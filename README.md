@@ -423,6 +423,25 @@ Elle donne un score go-live et les blocages avant une vente forte :
 - URL production et repo GitHub ;
 - cron, emails et operations CVC.
 
+## Priorite 19 - Stripe Billing test
+
+Runbook :
+
+```text
+docs/stripe-test-billing.md
+```
+
+Scripts :
+
+```powershell
+npm run stripe:create-test-billing
+npm run stripe:readiness
+```
+
+Le flux recommande est de creer le produit/prix Stripe en mode test, ajouter
+`STRIPE_SECRET_KEY`, `STRIPE_WEBHOOK_SECRET` et `STRIPE_PRICE_ID` dans Vercel,
+tester `/settings/billing`, puis passer `CONTRATPRO_REQUIRE_BILLING=true`.
+
 ## Variables importantes
 
 Dans `.env.local` :
