@@ -226,6 +226,7 @@ describe("production guardrails", () => {
       "\"ci:verify\"",
       "\"deploy:preflight\"",
       "\"deploy:smoke\"",
+      "\"deploy:smoke:auth\"",
       "npm run production:audit",
       "npm run build",
     ], "package scripts");
@@ -276,6 +277,34 @@ describe("production guardrails", () => {
       "npm run deploy:smoke",
       "supabase/verify_rls.sql",
     ], "vercel launch checklist");
+  });
+
+  it("keeps local env recovery and authenticated smoke checks documented", () => {
+    assertIncludes(read("scripts/security-audit.mjs"), [
+      "hasUsableEnvValue",
+      "[]",
+      "remettre le secret depuis Supabase",
+    ], "security audit local env guard");
+
+    assertIncludes(read("scripts/authenticated-smoke-test.mjs"), [
+      "CONTRATPRO_SMOKE_EMAIL",
+      "CONTRATPRO_SMOKE_PASSWORD",
+      "/api/auth/login",
+      "/api/auth/me",
+      "/onboarding",
+    ], "authenticated smoke test");
+
+    assertIncludes(read(".env.local.example"), [
+      "NEXT_PUBLIC_APP_URL=http://localhost:3000",
+      "SUPABASE_SERVICE_ROLE_KEY=",
+      "CONTRATPRO_REQUIRE_AUTH=true",
+    ], "local env example");
+
+    assertIncludes(read("docs/local-development-env.md"), [
+      "vercel env pull",
+      "npm run security:audit",
+      "npm run deploy:smoke:auth",
+    ], "local env runbook");
   });
 
   it("keeps public commercial pages available before login", () => {

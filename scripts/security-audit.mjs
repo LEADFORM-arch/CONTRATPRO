@@ -36,6 +36,25 @@ function includesAll(content, values) {
   return values.every((value) => content.includes(value));
 }
 
+function normalizeEnvValue(value) {
+  if (!value) {
+    return "";
+  }
+  return value.trim().replace(/^["']|["']$/g, "");
+}
+
+function hasUsableEnvValue(value) {
+  const normalized = normalizeEnvValue(value);
+  if (!normalized) {
+    return false;
+  }
+  return ![
+    "[]",
+    "{}",
+    "Encrypted",
+  ].includes(normalized);
+}
+
 const envPath = ".env.local";
 const envExists = existsSync(file(envPath));
 check(".env.local present", envExists, envExists ? "configuration locale trouvee" : "fichier absent");
@@ -43,12 +62,12 @@ check(".env.local present", envExists, envExists ? "configuration locale trouvee
 const env = envExists ? parseEnv(read(envPath)) : {};
 check(
   "Auth obligatoire",
-  env.CONTRATPRO_REQUIRE_AUTH === "true",
+  normalizeEnvValue(env.CONTRATPRO_REQUIRE_AUTH) === "true",
   "CONTRATPRO_REQUIRE_AUTH doit valoir true",
 );
 check(
   "RLS attendu",
-  env.CONTRATPRO_RLS_ENABLED === "true",
+  normalizeEnvValue(env.CONTRATPRO_RLS_ENABLED) === "true",
   "CONTRATPRO_RLS_ENABLED doit valoir true apres rls.sql",
 );
 check(
@@ -58,18 +77,19 @@ check(
 );
 check(
   "Supabase URL",
-  Boolean(env.SUPABASE_URL || env.NEXT_PUBLIC_SUPABASE_URL),
+  hasUsableEnvValue(env.SUPABASE_URL) || hasUsableEnvValue(env.NEXT_PUBLIC_SUPABASE_URL),
   "SUPABASE_URL ou NEXT_PUBLIC_SUPABASE_URL requis",
 );
 check(
   "Supabase anon key",
-  Boolean(env.SUPABASE_ANON_KEY || env.NEXT_PUBLIC_SUPABASE_ANON_KEY),
+  hasUsableEnvValue(env.SUPABASE_ANON_KEY) ||
+    hasUsableEnvValue(env.NEXT_PUBLIC_SUPABASE_ANON_KEY),
   "SUPABASE_ANON_KEY ou NEXT_PUBLIC_SUPABASE_ANON_KEY requis",
 );
 check(
   "Service role serveur",
-  Boolean(env.SUPABASE_SERVICE_ROLE_KEY),
-  "SUPABASE_SERVICE_ROLE_KEY requis cote serveur",
+  hasUsableEnvValue(env.SUPABASE_SERVICE_ROLE_KEY),
+  "SUPABASE_SERVICE_ROLE_KEY requis cote serveur. Si la valeur vaut [] apres vercel env pull, remettre le secret depuis Supabase.",
 );
 
 const rls = read("supabase/rls.sql");

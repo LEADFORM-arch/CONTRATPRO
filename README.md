@@ -382,6 +382,31 @@ npm run deploy:smoke -- https://votre-deploiement.vercel.app
 `deploy:smoke` controle les routes publiques critiques apres le premier
 deploiement.
 
+## Priorite 17 - Environnement local et smoke test authentifie
+
+Si `vercel env pull` remplace les secrets locaux par `[]`, restaurer `.env.local`
+depuis :
+
+```text
+.env.local.example
+docs/local-development-env.md
+```
+
+Verification locale :
+
+```powershell
+npm run security:audit
+```
+
+Verification authentifiee production, avec les identifiants fournis uniquement
+dans le terminal courant :
+
+```powershell
+$env:CONTRATPRO_SMOKE_EMAIL="esport.hub.pro@proton.me"
+$env:CONTRATPRO_SMOKE_PASSWORD="votre-mot-de-passe"
+npm run deploy:smoke:auth -- https://contratpro-dun.vercel.app
+```
+
 ## Variables importantes
 
 Dans `.env.local` :

@@ -16,6 +16,7 @@
     "production:audit": "node scripts/production-readiness.mjs",
     "deploy:preflight": "node scripts/vercel-preflight.mjs",
     "deploy:smoke": "node scripts/deployment-smoke-test.mjs",
+    "deploy:smoke:auth": "node scripts/authenticated-smoke-test.mjs",
     "ci:verify": "npm run type-check && npm run test:quality && npm run security:audit && npm run production:audit && npm run deploy:preflight && npm run build",
     "db:generate": "prisma generate",
     "db:push": "prisma db push"
