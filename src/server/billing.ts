@@ -27,6 +27,16 @@ export type BillingStatus = {
   trialEnd: string | null;
 };
 
+export type BillingEventRow = {
+  created_at: string;
+  event_type: string;
+  id: string;
+  organization_id: string | null;
+  provider: string;
+  provider_event_id: string | null;
+  status: string | null;
+};
+
 export function isBillingRequired() {
   return process.env.CONTRATPRO_REQUIRE_BILLING === "true";
 }
@@ -72,6 +82,16 @@ export async function getCurrentBillingStatus() {
   } catch {
     return billingStatusFromRow(null);
   }
+}
+
+export async function getRecentBillingEvents(limit = 8) {
+  const organizationId = await getResolvedOrganizationId();
+  return serviceSelect<BillingEventRow>(
+    "billing_events",
+    `organization_id=eq.${encodeURIComponent(
+      organizationId,
+    )}&select=id,organization_id,provider,provider_event_id,event_type,status,created_at&order=created_at.desc&limit=${limit}`,
+  );
 }
 
 export async function findBillingByStripeSubscription(subscriptionId: string) {

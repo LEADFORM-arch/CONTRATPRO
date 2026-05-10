@@ -1,5 +1,5 @@
 import { AppShell, PageHeader } from "@/components/layout/AppShell";
-import { getCurrentBillingStatus } from "@/server/billing";
+import { getCurrentBillingStatus, getRecentBillingEvents } from "@/server/billing";
 import { isStripeConfigured, isStripeWebhookConfigured } from "@/server/stripe";
 
 import { BillingActions } from "./BillingActions";
@@ -26,6 +26,17 @@ function formatDate(value: string | null) {
   }).format(new Date(value));
 }
 
+function formatDateTime(value: string | null) {
+  if (!value) {
+    return "-";
+  }
+
+  return new Intl.DateTimeFormat("fr-FR", {
+    dateStyle: "medium",
+    timeStyle: "short",
+  }).format(new Date(value));
+}
+
 function statusTone(status: string, active: boolean) {
   if (active) {
     return "ready";
@@ -37,7 +48,10 @@ function statusTone(status: string, active: boolean) {
 }
 
 export default async function BillingSettingsPage() {
-  const billing = await getCurrentBillingStatus();
+  const [billing, billingEvents] = await Promise.all([
+    getCurrentBillingStatus(),
+    getRecentBillingEvents().catch(() => []),
+  ]);
   const tone = statusTone(billing.status, billing.active);
   const stripeReady = isStripeConfigured();
   const webhookReady = isStripeWebhookConfigured();
@@ -137,6 +151,39 @@ export default async function BillingSettingsPage() {
           </dl>
         </aside>
       </div>
+
+      <section className="billing-panel mt-6 rounded-lg border shadow-sm">
+        <div className="billing-panel-header">
+          <div>
+            <p className="text-sm font-semibold text-violet-300">Evenements</p>
+            <h3 className="mt-1 text-lg font-bold text-zinc-50">Journal Stripe recent</h3>
+          </div>
+        </div>
+
+        {billingEvents.length ? (
+          <div className="billing-event-list">
+            {billingEvents.map((event) => (
+              <article className="billing-event-row" key={event.id}>
+                <div>
+                  <strong>{event.event_type}</strong>
+                  <p>
+                    {event.provider_event_id ?? "Evenement local"} · {formatDateTime(event.created_at)}
+                  </p>
+                </div>
+                <span data-empty={!event.status}>{event.status ?? "sans statut"}</span>
+              </article>
+            ))}
+          </div>
+        ) : (
+          <div className="billing-empty-state">
+            <strong>Aucun evenement Stripe pour cette organisation.</strong>
+            <p>
+              Le journal se remplira apres le premier Checkout, une mise a jour
+              d'abonnement ou une facture impayee recue par webhook.
+            </p>
+          </div>
+        )}
+      </section>
     </AppShell>
   );
 }

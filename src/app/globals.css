@@ -3689,6 +3689,60 @@ body .hover\:bg-zinc-100:hover {
   color: #fecdd3;
 }
 
+.billing-event-list {
+  display: grid;
+}
+
+.billing-event-row {
+  align-items: center;
+  border-top: 1px solid rgba(255, 255, 255, 0.07);
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: minmax(0, 1fr) auto;
+  padding: 1rem;
+}
+
+.billing-event-row:first-child {
+  border-top: 0;
+}
+
+.billing-event-row strong,
+.billing-empty-state strong {
+  color: #f4f4f5;
+  display: block;
+  font-weight: 850;
+}
+
+.billing-event-row p,
+.billing-empty-state p {
+  color: #a1a1aa;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  margin-top: 0.25rem;
+}
+
+.billing-event-row span {
+  background: rgba(56, 189, 248, 0.08);
+  border: 1px solid rgba(56, 189, 248, 0.2);
+  border-radius: 0.375rem;
+  color: #bae6fd;
+  font-size: 0.72rem;
+  font-weight: 850;
+  padding: 0.4rem 0.55rem;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.billing-event-row span[data-empty="true"] {
+  background: rgba(161, 161, 170, 0.08);
+  border-color: rgba(161, 161, 170, 0.18);
+  color: #d4d4d8;
+}
+
+.billing-empty-state {
+  padding: 1.25rem;
+}
+
 .billing-error {
   background: rgba(127, 29, 29, 0.28);
   border: 1px solid rgba(248, 113, 113, 0.28);
@@ -3700,7 +3754,8 @@ body .hover\:bg-zinc-100:hover {
 }
 
 @media (max-width: 640px) {
-  .billing-check-row {
+  .billing-check-row,
+  .billing-event-row {
     grid-template-columns: 1fr;
   }
 }

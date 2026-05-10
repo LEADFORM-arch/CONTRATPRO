@@ -350,6 +350,12 @@ describe("production guardrails", () => {
       "invoice.payment_succeeded",
     ], "stripe readiness script");
 
+    assertIncludes(read("src/app/(dashboard)/settings/billing/page.tsx"), [
+      "getRecentBillingEvents",
+      "Journal Stripe recent",
+      "billing-event-row",
+    ], "stripe billing page");
+
     assertIncludes(read("docs/stripe-test-billing.md"), [
       "https://dashboard.stripe.com/acct_1TVFyGBJsOV2aVH0/test/dashboard",
       "https://contratpro-dun.vercel.app/api/webhooks/stripe",
