@@ -5,6 +5,7 @@ import {
   type ClientImportMode,
   runClientImport,
 } from "@/server/client-import";
+import { rateLimit } from "@/server/rate-limit";
 import { SupabaseWriteError } from "@/server/supabase-write";
 
 function modeFromBody(value: unknown): ClientImportMode {
@@ -13,6 +14,16 @@ function modeFromBody(value: unknown): ClientImportMode {
 
 export async function POST(request: Request) {
   try {
+    const limited = rateLimit({
+      limit: 12,
+      request,
+      scope: "client-import",
+      windowMs: 60 * 60_000,
+    });
+    if (limited) {
+      return limited;
+    }
+
     const authError = await requireApiUser();
     if (authError) {
       return authError;

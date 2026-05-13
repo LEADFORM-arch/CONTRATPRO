@@ -6,6 +6,7 @@ import {
   getPublicSupabaseAuthConfig,
   REFRESH_TOKEN_COOKIE,
 } from "@/server/auth";
+import { rateLimit } from "@/server/rate-limit";
 
 function text(value: unknown) {
   return typeof value === "string" && value.trim() ? value.trim() : null;
@@ -13,6 +14,16 @@ function text(value: unknown) {
 
 export async function POST(request: Request) {
   try {
+    const limited = rateLimit({
+      limit: 8,
+      request,
+      scope: "auth-login",
+      windowMs: 60_000,
+    });
+    if (limited) {
+      return limited;
+    }
+
     const body = (await request.json()) as Record<string, unknown>;
     const email = text(body.email);
     const password = text(body.password);

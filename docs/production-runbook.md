@@ -138,7 +138,25 @@ Puis effectuer un test metier court :
 - verification supervision ;
 - verification notifications internes.
 
-## 6. Retour arriere
+## 6. Backup et restauration Supabase
+
+Avant chaque mise en production commerciale, verifier que les backups Supabase
+du projet `yotafzxcpyyrkkpeyfpp` sont actifs depuis le dashboard officiel :
+https://supabase.com/dashboard/project/yotafzxcpyyrkkpeyfpp
+
+Cadence minimale pour les pilotes :
+
+- backup quotidien Supabase actif avant les premiers clients payants ;
+- export SQL manuel avant toute modification de `supabase/*.sql` ;
+- verification de restauration sur un projet Supabase de test avant de toucher
+  la base de production ;
+- conservation du dernier export pre-release avec le numero de commit GitHub.
+
+Une restauration doit etre traitee comme un incident production : couper les
+crons, bloquer les webhooks si besoin, restaurer, puis relancer `npm run
+deploy:smoke` et `npm run deploy:smoke:auth`.
+
+## 7. Retour arriere
 
 Si le deploiement casse une route critique :
 

@@ -3,6 +3,7 @@ import { PublicHero, PublicSection, PublicShell } from "@/components/marketing/P
 
 const setupItems = [
   "Import CSV/XLSX clients et contrats",
+  "Activation SEPA GoCardless sur les contrats recurrents",
   "Controle des doublons avant mise en production",
   "Verification Stripe, GoCardless et emails",
 ];
@@ -22,13 +23,13 @@ export default function PricingPage() {
           </>
         }
         description="Trois paliers pour demarrer bas, prouver le ROI, puis ajouter SEPA, relances automatiques et supervision."
-        eyebrow="Tarifs SaaS"
-        title="ContratPro securise les revenus recurrents CVC."
+        eyebrow="Cash-flow CVC"
+        title="Encaissez vos contrats d'entretien sans courir apres les relances."
       />
 
       <PublicSection
-        description="Un artisan peut commencer a 49 EUR/mois ; l'offre premium reste disponible avec onboarding accompagne."
-        title="Choisir le bon niveau"
+        description="Le prix doit se lire comme un investissement : contrats recuperes, impayes reduits, temps administratif evite."
+        title="Choisir le niveau de cash-flow"
       >
         <div className="public-pricing-grid public-pricing-grid-three">
           {billingPlans.map((plan) => (
@@ -56,8 +57,8 @@ export default function PricingPage() {
       </PublicSection>
 
       <PublicSection
-        description="Recommande pour les 5 premiers clients pilotes : on vend un passage en production, pas seulement un acces logiciel."
-        title="Setup accompagne"
+        description="Recommande pour les 5 premiers clients pilotes : on vend un revenu recurrent plus fiable, pas un logiciel de plus."
+        title="Passage en production accompagne"
       >
         <div className="public-feature-list">
           {setupItems.map((item) => (

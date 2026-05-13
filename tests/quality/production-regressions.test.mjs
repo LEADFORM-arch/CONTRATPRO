@@ -103,6 +103,33 @@ describe("production guardrails", () => {
     }
   });
 
+  it("keeps HTTP hardening and brute-force limits in place", () => {
+    assertIncludes(read("next.config.ts"), [
+      "Content-Security-Policy",
+      "frame-ancestors 'none'",
+      "X-Content-Type-Options",
+      "Permissions-Policy",
+    ], "security headers");
+
+    assertIncludes(read("src/server/rate-limit.ts"), [
+      "Retry-After",
+      "status: 429",
+      "x-forwarded-for",
+    ], "rate limit helper");
+
+    assertIncludes(read("src/app/api/auth/login/route.ts"), [
+      "rateLimit",
+      "auth-login",
+      "limit: 8",
+    ], "login rate limit");
+
+    assertIncludes(read("src/app/api/import/clients/route.ts"), [
+      "rateLimit",
+      "client-import",
+      "limit: 12",
+    ], "client import rate limit");
+  });
+
   it("keeps provider webhooks signed and cron protected", () => {
     assertIncludes(read("src/app/api/webhooks/gocardless/route.ts"), [
       "verifyGoCardlessSignature",
@@ -283,6 +310,7 @@ describe("production guardrails", () => {
       "https://github.com/admincairn/CONTRATPRO",
       "Gate avant merge",
       "Variables Vercel obligatoires",
+      "Backup et restauration Supabase",
       "Retour arriere",
     ], "production runbook");
   });
@@ -445,6 +473,13 @@ describe("production guardrails", () => {
       "od-agent-grid",
       "VOIR LA DEMO",
     ], "architecte ia public page");
+
+    assertIncludes(read("src/app/pricing/page.tsx"), [
+      "Cash-flow CVC",
+      "Encaissez vos contrats d'entretien",
+      "contrats recuperes",
+      "revenu recurrent plus fiable",
+    ], "cash-flow pricing positioning");
   });
 
   it("keeps client CSV and Excel import guarded by a dry-run", () => {

@@ -19,12 +19,12 @@ export const billingPlans: BillingPlan[] = [
     unitAmount: 4900,
     envKey: "STRIPE_PRICE_ID_STARTER",
     lookupKey: "contratpro_starter_monthly_49_eur",
-    description: "Pour un artisan solo qui veut sortir du tableur sans complexite.",
+    description: "Pour transformer un Excel en portefeuille relancable sans changer tout le logiciel terrain.",
     features: [
-      "Clients et contrats annuels",
-      "Relances de renouvellement",
+      "Import clients et contrats",
+      "Relances email de renouvellement",
       "Attestations et factures PDF",
-      "Import CSV/XLSX accompagne",
+      "Tableau ROI des contrats a sauver",
     ],
   },
   {
@@ -34,12 +34,12 @@ export const billingPlans: BillingPlan[] = [
     unitAmount: 9900,
     envKey: "STRIPE_PRICE_ID_PRO",
     lookupKey: "contratpro_pro_monthly_99_eur",
-    description: "Pour une TPE CVC qui veut piloter relances, documents et cash.",
+    description: "Pour ajouter l'encaissement SEPA automatique et mesurer le cash-flow recupere.",
     features: [
       "Tout Starter",
       "Paiements SEPA GoCardless",
       "Cron de relance quotidien",
-      "Notifications internes",
+      "Notifications impayes et webhooks",
     ],
   },
   {
@@ -49,7 +49,7 @@ export const billingPlans: BillingPlan[] = [
     unitAmount: 19900,
     envKey: "STRIPE_PRICE_ID_BUSINESS",
     lookupKey: "contratpro_business_monthly_199_eur",
-    description: "Pour une equipe 3-10 techniciens avec besoin de supervision.",
+    description: "Pour une equipe qui veut un passage en production accompagne et surveille.",
     features: [
       "Tout Pro",
       "Supervision production",
