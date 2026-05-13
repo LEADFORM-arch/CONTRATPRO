@@ -13,9 +13,9 @@ Copy-Item .env.local.example .env.local
 
 2. Remettre les vraies valeurs depuis les dashboards :
 
-- Supabase : anon key, service role key, project URL ;
+- Supabase : anon key, service role key, project URL depuis `https://supabase.com/dashboard/project/yotafzxcpyyrkkpeyfpp` ;
 - Resend : API key et adresse d'envoi ;
-- Stripe : secret key, webhook secret, price id ;
+- Stripe : secret key, webhook secret, price ids Starter/Pro/Business depuis `https://dashboard.stripe.com/acct_1TVFyGBJsOV2aVH0/test/dashboard` ;
 - GoCardless : token live/sandbox et webhook secret ;
 - Cron : `CRON_SECRET` et `CONTRATPRO_CRON_SECRET`.
 

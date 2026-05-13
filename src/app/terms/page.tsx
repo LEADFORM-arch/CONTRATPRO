@@ -7,7 +7,7 @@ const clauses = [
   ],
   [
     "Prix",
-    "L'offre ContratPro Pro est commercialisee 200 EUR HT par mois et par entreprise cliente, sauf accord commercial specifique.",
+    "Les offres ContratPro sont commercialisees a partir de 49 EUR HT par mois et peuvent evoluer selon le palier choisi, les options d'onboarding et les accords commerciaux specifiques.",
   ],
   [
     "Responsabilite",

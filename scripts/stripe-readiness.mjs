@@ -29,7 +29,11 @@ function check(label, passed, detail) {
 
 const secretKey = clean(process.env.STRIPE_SECRET_KEY);
 const webhookSecret = clean(process.env.STRIPE_WEBHOOK_SECRET);
-const priceId = clean(process.env.STRIPE_PRICE_ID);
+const priceIds = [
+  clean(process.env.STRIPE_PRICE_ID_STARTER),
+  clean(process.env.STRIPE_PRICE_ID_PRO || process.env.STRIPE_PRICE_ID),
+  clean(process.env.STRIPE_PRICE_ID_BUSINESS),
+];
 const appUrl = clean(process.env.NEXT_PUBLIC_APP_URL || process.env.CONTRATPRO_APP_URL);
 const billingRequired = clean(process.env.CONTRATPRO_REQUIRE_BILLING);
 const mode = modeFromKey(secretKey);
@@ -46,9 +50,11 @@ const checks = [
     webhookSecret ? "secret webhook present" : "secret webhook absent",
   ),
   check(
-    "STRIPE_PRICE_ID",
-    priceId.startsWith("price_"),
-    priceId ? "prix ContratPro configure" : "prix absent",
+    "Prix Stripe",
+    priceIds.every((priceId) => priceId.startsWith("price_")),
+    priceIds.filter(Boolean).length
+      ? `${priceIds.filter((priceId) => priceId.startsWith("price_")).length}/3 prix configures`
+      : "prix Starter/Pro/Business absents",
   ),
   check(
     "URL webhook",

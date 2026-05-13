@@ -27,6 +27,14 @@ function has(name: string) {
   return Boolean(env(name));
 }
 
+function hasStripePrices() {
+  return (
+    has("STRIPE_PRICE_ID_STARTER") &&
+    (has("STRIPE_PRICE_ID_PRO") || has("STRIPE_PRICE_ID")) &&
+    has("STRIPE_PRICE_ID_BUSINESS")
+  );
+}
+
 function item({
   action,
   detail,
@@ -128,11 +136,13 @@ export function getLaunchReadiness() {
     {
       items: [
         item({
-          action: "Ajouter STRIPE_SECRET_KEY, STRIPE_WEBHOOK_SECRET et STRIPE_PRICE_ID.",
-          detail: has("STRIPE_SECRET_KEY") ? "Stripe configure." : "Stripe absent: abonnement non encaissable.",
+          action: "Ajouter STRIPE_SECRET_KEY, STRIPE_WEBHOOK_SECRET et les price_id Starter/Pro/Business.",
+          detail: hasStripePrices()
+            ? "Stripe configure avec les trois paliers."
+            : "Stripe incomplet: abonnement multi-paliers non encaissable.",
           label: "Stripe Billing",
           owner: "Revenus",
-          ready: has("STRIPE_SECRET_KEY") && has("STRIPE_WEBHOOK_SECRET"),
+          ready: has("STRIPE_SECRET_KEY") && has("STRIPE_WEBHOOK_SECRET") && hasStripePrices(),
         }),
         item({
           action: "Passer CONTRATPRO_REQUIRE_BILLING=true apres validation Stripe.",

@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 
+import { defaultBillingPlanId, getBillingPlan } from "@/lib/billing-plans";
 import { requireApiUser } from "@/server/api-auth";
 import { getBillingSubscription } from "@/server/billing";
 import { serviceSelect } from "@/server/supabase-service";
@@ -16,8 +17,12 @@ type OrganizationRow = {
   name: string;
 };
 
-function addProductPrice(params: URLSearchParams) {
-  const priceId = process.env.STRIPE_PRICE_ID;
+function planPriceId(plan: ReturnType<typeof getBillingPlan>) {
+  return process.env[plan.envKey] || (plan.id === defaultBillingPlanId ? process.env.STRIPE_PRICE_ID : "");
+}
+
+function addProductPrice(params: URLSearchParams, plan: ReturnType<typeof getBillingPlan>) {
+  const priceId = planPriceId(plan);
   if (priceId) {
     params.set("line_items[0][price]", priceId);
     params.set("line_items[0][quantity]", "1");
@@ -26,12 +31,12 @@ function addProductPrice(params: URLSearchParams) {
 
   params.set("line_items[0][quantity]", "1");
   params.set("line_items[0][price_data][currency]", "eur");
-  params.set("line_items[0][price_data][unit_amount]", "20000");
+  params.set("line_items[0][price_data][unit_amount]", String(plan.unitAmount));
   params.set("line_items[0][price_data][recurring][interval]", "month");
-  params.set("line_items[0][price_data][product_data][name]", "ContratPro Pro");
+  params.set("line_items[0][price_data][product_data][name]", `ContratPro ${plan.name}`);
   params.set(
     "line_items[0][price_data][product_data][description]",
-    "Gestion des contrats de maintenance CVC",
+    plan.description,
   );
 }
 
@@ -42,6 +47,8 @@ export async function POST(request: Request) {
       return authError;
     }
 
+    const body = (await request.json().catch(() => ({}))) as { plan?: string };
+    const plan = getBillingPlan(body.plan);
     const organizationId = await getResolvedOrganizationId();
     const [organization] = await serviceSelect<OrganizationRow>(
       "organizations",
@@ -55,7 +62,9 @@ export async function POST(request: Request) {
       client_reference_id: organizationId,
       mode: "subscription",
       "metadata[organization_id]": organizationId,
+      "metadata[plan]": plan.id,
       "subscription_data[metadata][organization_id]": organizationId,
+      "subscription_data[metadata][plan]": plan.id,
       success_url: `${baseUrl}/settings/billing?checkout=success`,
       cancel_url: `${baseUrl}/settings/billing?checkout=cancelled`,
     });
@@ -69,10 +78,10 @@ export async function POST(request: Request) {
     }
 
     if (organization?.name) {
-      params.set("custom_text[submit][message]", `${organization.name} active ContratPro Pro.`);
+      params.set("custom_text[submit][message]", `${organization.name} active ContratPro ${plan.name}.`);
     }
 
-    addProductPrice(params);
+    addProductPrice(params, plan);
 
     const session = await stripePost<CheckoutSession>("checkout/sessions", params);
     if (!session.url) {

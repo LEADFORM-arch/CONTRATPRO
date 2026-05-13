@@ -95,7 +95,9 @@ check(
       "https://vercel.com/contratpro",
       "Node.js 24.x",
       "npm run deploy:smoke",
+      "https://supabase.com/dashboard/project/yotafzxcpyyrkkpeyfpp",
       "https://yotafzxcpyyrkkpeyfpp.supabase.co",
+      "https://dashboard.stripe.com/acct_1TVFyGBJsOV2aVH0/test/dashboard",
     ]),
   "la mise en ligne doit avoir une checklist dediee",
 );
@@ -103,7 +105,7 @@ check(
 check(
   "Smoke test deploiement",
   existsSync(file("scripts/deployment-smoke-test.mjs")) &&
-    includesAll(read("scripts/deployment-smoke-test.mjs"), ["/api/health", "/pricing", "/demo"]),
+    includesAll(read("scripts/deployment-smoke-test.mjs"), ["/api/health", "/architecte-ia", "/pricing", "/demo"]),
   "un deploiement doit pouvoir etre controle par URL",
 );
 

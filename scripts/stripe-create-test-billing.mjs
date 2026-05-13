@@ -1,6 +1,28 @@
 const STRIPE_API = "https://api.stripe.com/v1";
-const PRODUCT_NAME = "ContratPro Pro";
-const LOOKUP_KEY = "contratpro_pro_monthly_200_eur";
+
+const plans = [
+  {
+    envKey: "STRIPE_PRICE_ID_STARTER",
+    lookupKey: "contratpro_starter_monthly_49_eur",
+    metadataPlan: "starter",
+    name: "ContratPro Starter",
+    unitAmount: "4900",
+  },
+  {
+    envKey: "STRIPE_PRICE_ID_PRO",
+    lookupKey: "contratpro_pro_monthly_99_eur",
+    metadataPlan: "pro",
+    name: "ContratPro Pro",
+    unitAmount: "9900",
+  },
+  {
+    envKey: "STRIPE_PRICE_ID_BUSINESS",
+    lookupKey: "contratpro_business_monthly_199_eur",
+    metadataPlan: "business",
+    name: "ContratPro Business",
+    unitAmount: "19900",
+  },
+];
 
 function clean(value) {
   return (value ?? "").trim().replace(/^["']|["']$/g, "");
@@ -42,38 +64,50 @@ function body(params) {
   return new URLSearchParams(params).toString();
 }
 
-const existingPrices = await stripe(`/prices?active=true&lookup_keys[]=${LOOKUP_KEY}&limit=1`);
-let price = existingPrices.data?.[0];
-let productId = typeof price?.product === "string" ? price.product : null;
+const created = [];
 
-if (!price) {
-  const product = await stripe("/products", {
-    body: body({
-      name: PRODUCT_NAME,
-      "metadata[source]": "contratpro",
-      "metadata[plan]": "pro",
-    }),
-    method: "POST",
-  });
-  productId = product.id;
-  price = await stripe("/prices", {
-    body: body({
-      currency: "eur",
-      lookup_key: LOOKUP_KEY,
-      product: productId,
-      "recurring[interval]": "month",
-      tax_behavior: "exclusive",
-      unit_amount: "20000",
-    }),
-    method: "POST",
-  });
+for (const plan of plans) {
+  const existingPrices = await stripe(`/prices?active=true&lookup_keys[]=${plan.lookupKey}&limit=1`);
+  let price = existingPrices.data?.[0];
+  let productId = typeof price?.product === "string" ? price.product : null;
+
+  if (!price) {
+    const product = await stripe("/products", {
+      body: body({
+        name: plan.name,
+        "metadata[source]": "contratpro",
+        "metadata[plan]": plan.metadataPlan,
+      }),
+      method: "POST",
+    });
+    productId = product.id;
+    price = await stripe("/prices", {
+      body: body({
+        currency: "eur",
+        lookup_key: plan.lookupKey,
+        product: productId,
+        "recurring[interval]": "month",
+        tax_behavior: "exclusive",
+        unit_amount: plan.unitAmount,
+      }),
+      method: "POST",
+    });
+  }
+
+  created.push({ ...plan, priceId: price.id, productId });
 }
 
 console.log("Stripe test billing pret.");
-console.log(`Product: ${productId}`);
-console.log(`Price: ${price.id}`);
-console.log(`Lookup key: ${LOOKUP_KEY}`);
+for (const plan of created) {
+  console.log(`\n${plan.name}`);
+  console.log(`Product: ${plan.productId}`);
+  console.log(`Price: ${plan.priceId}`);
+  console.log(`Lookup key: ${plan.lookupKey}`);
+}
+
 console.log("\nA ajouter dans Vercel Production:");
 console.log("STRIPE_SECRET_KEY=<votre sk_test_...>");
 console.log("STRIPE_WEBHOOK_SECRET=<whsec_... apres creation du webhook>");
-console.log(`STRIPE_PRICE_ID=${price.id}`);
+for (const plan of created) {
+  console.log(`${plan.envKey}=${plan.priceId}`);
+}

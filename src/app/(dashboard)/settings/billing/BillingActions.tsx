@@ -2,12 +2,18 @@
 
 import { useState } from "react";
 
+import { billingPlans, type BillingPlanId } from "@/lib/billing-plans";
+
 type BillingActionsProps = {
   hasCustomer: boolean;
 };
 
-async function openStripeFlow(endpoint: string) {
-  const response = await fetch(endpoint, { method: "POST" });
+async function openStripeFlow(endpoint: string, plan?: BillingPlanId) {
+  const response = await fetch(endpoint, {
+    body: plan ? JSON.stringify({ plan }) : undefined,
+    headers: plan ? { "Content-Type": "application/json" } : undefined,
+    method: "POST",
+  });
   const payload = (await response.json()) as { error?: string; url?: string };
 
   if (!response.ok || !payload.url) {
@@ -18,14 +24,25 @@ async function openStripeFlow(endpoint: string) {
 }
 
 export function BillingActions({ hasCustomer }: BillingActionsProps) {
-  const [loading, setLoading] = useState<"checkout" | "portal" | null>(null);
+  const [loading, setLoading] = useState<BillingPlanId | "portal" | null>(null);
   const [error, setError] = useState<string | null>(null);
 
-  async function run(type: "checkout" | "portal") {
+  async function runCheckout(plan: BillingPlanId) {
     setError(null);
-    setLoading(type);
+    setLoading(plan);
     try {
-      await openStripeFlow(type === "checkout" ? "/api/billing/checkout" : "/api/billing/portal");
+      await openStripeFlow("/api/billing/checkout", plan);
+    } catch (flowError) {
+      setError(flowError instanceof Error ? flowError.message : "Action Stripe impossible.");
+      setLoading(null);
+    }
+  }
+
+  async function runPortal() {
+    setError(null);
+    setLoading("portal");
+    try {
+      await openStripeFlow("/api/billing/portal");
     } catch (flowError) {
       setError(flowError instanceof Error ? flowError.message : "Action Stripe impossible.");
       setLoading(null);
@@ -34,18 +51,21 @@ export function BillingActions({ hasCustomer }: BillingActionsProps) {
 
   return (
     <div className="grid gap-3">
-      <button
-        className="premium-action rounded-md text-sm font-semibold"
-        disabled={loading !== null}
-        onClick={() => run("checkout")}
-        type="button"
-      >
-        {loading === "checkout" ? "Ouverture..." : "Activer l'abonnement"}
-      </button>
+      {billingPlans.map((plan) => (
+        <button
+          className="premium-action rounded-md text-sm font-semibold"
+          disabled={loading !== null}
+          key={plan.id}
+          onClick={() => runCheckout(plan.id)}
+          type="button"
+        >
+          {loading === plan.id ? "Ouverture..." : `Activer ${plan.name} - ${plan.priceLabel}/mois`}
+        </button>
+      ))}
       <button
         className="premium-secondary-action rounded-md px-4 py-2 text-sm font-semibold"
         disabled={!hasCustomer || loading !== null}
-        onClick={() => run("portal")}
+        onClick={runPortal}
         type="button"
       >
         {loading === "portal" ? "Ouverture..." : "Gerer dans Stripe"}

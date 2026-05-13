@@ -17,6 +17,19 @@ Espace Vercel de reference :
 https://vercel.com/contratpro
 ```
 
+Projet Supabase de reference :
+
+```text
+https://supabase.com/dashboard/project/yotafzxcpyyrkkpeyfpp
+https://yotafzxcpyyrkkpeyfpp.supabase.co
+```
+
+Compte Stripe test de reference :
+
+```text
+https://dashboard.stripe.com/acct_1TVFyGBJsOV2aVH0/test/dashboard
+```
+
 Cette URL correspond au dashboard Vercel. L'URL publique a tester apres
 deploiement sera une URL du type `https://contratpro.vercel.app` ou votre
 domaine final.
@@ -75,7 +88,9 @@ GOCARDLESS_ACCESS_TOKEN
 GOCARDLESS_WEBHOOK_ENDPOINT_SECRET
 STRIPE_SECRET_KEY
 STRIPE_WEBHOOK_SECRET
-STRIPE_PRICE_ID
+STRIPE_PRICE_ID_STARTER
+STRIPE_PRICE_ID_PRO
+STRIPE_PRICE_ID_BUSINESS
 CRON_SECRET
 CONTRATPRO_CRON_SECRET
 ```

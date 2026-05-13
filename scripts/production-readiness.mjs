@@ -109,6 +109,7 @@ check(
 );
 
 for (const page of [
+  "src/app/architecte-ia/page.tsx",
   "src/app/demo/page.tsx",
   "src/app/pricing/page.tsx",
   "src/app/legal/page.tsx",
@@ -156,6 +157,8 @@ check(
       "https://github.com/admincairn/CONTRATPRO",
       "Gate avant merge",
       "Variables Vercel obligatoires",
+      "https://supabase.com/dashboard/project/yotafzxcpyyrkkpeyfpp",
+      "https://dashboard.stripe.com/acct_1TVFyGBJsOV2aVH0/test/dashboard",
       "Retour arriere",
     ]),
   "le deploiement doit etre documente comme une procedure reproductible",
@@ -170,7 +173,9 @@ check(
       "Node.js 24.x",
       "npm run deploy:preflight",
       "npm run deploy:smoke",
+      "https://supabase.com/dashboard/project/yotafzxcpyyrkkpeyfpp",
       "https://yotafzxcpyyrkkpeyfpp.supabase.co",
+      "https://dashboard.stripe.com/acct_1TVFyGBJsOV2aVH0/test/dashboard",
     ]),
   "la mise en ligne Vercel doit avoir une checklist dediee",
 );
@@ -192,6 +197,7 @@ check(
     includesAll(read("scripts/deployment-smoke-test.mjs"), [
       "CONTRATPRO_DEPLOYMENT_URL",
       "/api/health",
+      "/architecte-ia",
       "/pricing",
       "/demo",
     ]),

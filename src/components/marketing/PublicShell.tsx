@@ -1,14 +1,28 @@
 import type { ReactNode } from "react";
 
 const navItems = [
+  { href: "/architecte-ia", label: "Architecte IA" },
   { href: "/demo", label: "Demo" },
   { href: "/pricing", label: "Tarif" },
   { href: "/privacy", label: "Confidentialite" },
 ];
 
-export function PublicShell({ children }: { children: ReactNode }) {
+export function PublicShell({
+  children,
+  variant = "dark",
+}: {
+  children: ReactNode;
+  variant?: "dark" | "openDesign";
+}) {
   return (
-    <main className="public-shell min-h-screen text-white">
+    <main
+      className={[
+        "public-shell min-h-screen text-white",
+        variant === "openDesign" ? "public-shell-open-design" : "",
+      ]
+        .filter(Boolean)
+        .join(" ")}
+    >
       <header className="public-nav mx-auto flex max-w-6xl items-center justify-between gap-4 px-5 py-5 sm:px-8">
         <a className="public-brand" href="/login">
           <span>CP</span>

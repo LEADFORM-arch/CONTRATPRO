@@ -6,8 +6,8 @@ Dashboard fourni :
 https://dashboard.stripe.com/acct_1TVFyGBJsOV2aVH0/test/dashboard
 ```
 
-Objectif : valider l'abonnement ContratPro Pro a 200 EUR/mois en mode test,
-avant de passer le paywall en production forte.
+Objectif : valider les abonnements ContratPro Starter, Pro et Business en mode
+test avant de passer le paywall en production forte.
 
 ## 1. Recuperer la cle test
 
@@ -27,7 +27,7 @@ Ne jamais l'ecrire dans le repo. Dans PowerShell :
 $env:STRIPE_SECRET_KEY="sk_test_..."
 ```
 
-## 2. Creer le produit et le prix test
+## 2. Creer les produits et prix test
 
 ```powershell
 npm run stripe:create-test-billing
@@ -35,16 +35,24 @@ npm run stripe:create-test-billing
 
 Le script cree ou recupere :
 
-- produit `ContratPro Pro` ;
-- prix recurrent `200 EUR / mois` ;
-- `STRIPE_PRICE_ID=price_...`.
+- `ContratPro Starter` a `49 EUR / mois` ;
+- `ContratPro Pro` a `99 EUR / mois` ;
+- `ContratPro Business` a `199 EUR / mois`.
 
-Ressources test creees le 2026-05-09 :
+Variables a reporter dans Vercel :
 
 ```text
-Product: prod_UUEd2A4iPXLkVT
-Price: price_1TVGABBJsOV2aVH0vBPLaPCm
-Lookup key: contratpro_pro_monthly_200_eur
+STRIPE_PRICE_ID_STARTER=price_...
+STRIPE_PRICE_ID_PRO=price_...
+STRIPE_PRICE_ID_BUSINESS=price_...
+```
+
+Lookup keys :
+
+```text
+contratpro_starter_monthly_49_eur
+contratpro_pro_monthly_99_eur
+contratpro_business_monthly_199_eur
 ```
 
 ## 3. Creer le webhook Stripe test
@@ -81,7 +89,9 @@ Dans Vercel, projet `contratpro/contratpro`, environnement Production :
 ```text
 STRIPE_SECRET_KEY=sk_test_...
 STRIPE_WEBHOOK_SECRET=whsec_...
-STRIPE_PRICE_ID=price_...
+STRIPE_PRICE_ID_STARTER=price_...
+STRIPE_PRICE_ID_PRO=price_...
+STRIPE_PRICE_ID_BUSINESS=price_...
 CONTRATPRO_REQUIRE_BILLING=false
 ```
 
@@ -94,7 +104,9 @@ Localement, apres avoir defini les variables dans le terminal :
 
 ```powershell
 $env:STRIPE_WEBHOOK_SECRET="whsec_..."
-$env:STRIPE_PRICE_ID="price_..."
+$env:STRIPE_PRICE_ID_STARTER="price_..."
+$env:STRIPE_PRICE_ID_PRO="price_..."
+$env:STRIPE_PRICE_ID_BUSINESS="price_..."
 $env:CONTRATPRO_REQUIRE_BILLING="false"
 npm run stripe:readiness
 ```
@@ -106,7 +118,7 @@ Le check `Billing lock` restera en echec tant que
 
 1. Se connecter a ContratPro.
 2. Aller sur `/settings/billing`.
-3. Cliquer sur l'activation de l'abonnement.
+3. Cliquer sur l'activation d'un palier.
 4. Utiliser une carte test Stripe, par exemple `4242 4242 4242 4242`.
 5. Verifier que Stripe redirige vers ContratPro.
 6. Verifier `/admin/launch` et `/settings/billing`.

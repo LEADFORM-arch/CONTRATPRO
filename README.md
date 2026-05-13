@@ -120,6 +120,12 @@ contrat, envoie le message de renouvellement, puis cree une ligne
 `renewal_actions` en statut `SENT`. En cas d'echec provider, une action reste
 journalisee en `TODO` avec le detail de l'erreur dans `outcome`.
 
+La page embarque aussi un premier agent "Architecte IA de croissance" :
+scoring des contrats a risque, revenu annuel a securiser, prochaine action
+recommandee et message propose. L'agent ne declenche pas d'envoi sans validation
+humaine : les boutons d'envoi, copie et journalisation restent les points de
+controle.
+
 ## Priorite 6 - Cron relances quotidiennes
 
 Variable a ajouter dans `.env.local` :
@@ -177,7 +183,10 @@ Variables Stripe a ajouter dans `.env.local` :
 ```text
 STRIPE_SECRET_KEY=sk_test_...
 STRIPE_WEBHOOK_SECRET=whsec_...
-STRIPE_PRICE_ID=price_... # optionnel, sinon prix dynamique 200 EUR/mois
+STRIPE_PRICE_ID_STARTER=price_... # optionnel, sinon prix dynamique 49 EUR/mois
+STRIPE_PRICE_ID_PRO=price_... # optionnel, sinon prix dynamique 99 EUR/mois
+STRIPE_PRICE_ID_BUSINESS=price_... # optionnel, sinon prix dynamique 199 EUR/mois
+# STRIPE_PRICE_ID reste accepte comme fallback historique pour le plan Pro.
 NEXT_PUBLIC_APP_URL=http://localhost:3000
 CONTRATPRO_REQUIRE_BILLING=false
 ```
@@ -207,8 +216,9 @@ invoice.payment_failed
 invoice.payment_succeeded
 ```
 
-La page `/settings/billing` permet d'activer l'abonnement ContratPro Pro a
-200 EUR/mois et d'ouvrir le portail Stripe. Quand
+La page `/settings/billing` permet d'activer les abonnements ContratPro Starter
+49 EUR/mois, Pro 99 EUR/mois ou Business 199 EUR/mois, puis d'ouvrir le portail
+Stripe. Quand
 `CONTRATPRO_REQUIRE_BILLING=true`, les statuts `active` et `trialing` donnent
 acces au produit ; les statuts impayes bloquent les pages et API metier avec un
 renvoi vers l'abonnement.
@@ -220,6 +230,29 @@ score de lancement, prochaine action prioritaire, jalons entreprise, base
 clients, contrats, documents, SEPA, billing et securite. Elle s'appuie sur les
 donnees Supabase reelles et sur le statut billing pour guider le client vers une
 mise en production exploitable.
+
+La page `/import` permet maintenant d'importer un fichier clients CSV ou XLSX
+avec simulation obligatoire avant ecriture. Le flux cree les clients, les
+equipements et les contrats annuels apres confirmation, detecte les doublons par
+email ou raison sociale, et fournit un modele CSV telechargeable pour
+l'onboarding accompagne.
+
+Endpoint dedie :
+
+```text
+POST /api/import/clients
+```
+
+Corps attendu :
+
+```json
+{
+  "mode": "dry-run",
+  "rows": []
+}
+```
+
+Passer `mode` a `execute` seulement apres validation du plan d'import.
 
 ## Priorite 10 - Notifications internes
 
@@ -297,7 +330,9 @@ GOCARDLESS_ENVIRONMENT=live
 GOCARDLESS_WEBHOOK_ENDPOINT_SECRET=...
 STRIPE_SECRET_KEY=...
 STRIPE_WEBHOOK_SECRET=...
-STRIPE_PRICE_ID=...
+STRIPE_PRICE_ID_STARTER=...
+STRIPE_PRICE_ID_PRO=...
+STRIPE_PRICE_ID_BUSINESS=...
 CRON_SECRET=...
 ```
 
@@ -328,7 +363,7 @@ Pages publiques disponibles hors session :
 
 La page `/login` expose aussi les liens Demo, Tarif et Confidentialite. Ces
 pages donnent une base propre pour vendre ContratPro avant connexion : offre a
-200 EUR/mois, scenario de demonstration, mentions legales, confidentialite et
+49/99/199 EUR/mois, scenario de demonstration, mentions legales, confidentialite et
 CGV. Les textes juridiques sont des bases de lancement a faire relire avant une
 commercialisation publique.
 
@@ -438,9 +473,10 @@ npm run stripe:create-test-billing
 npm run stripe:readiness
 ```
 
-Le flux recommande est de creer le produit/prix Stripe en mode test, ajouter
-`STRIPE_SECRET_KEY`, `STRIPE_WEBHOOK_SECRET` et `STRIPE_PRICE_ID` dans Vercel,
-tester `/settings/billing`, puis passer `CONTRATPRO_REQUIRE_BILLING=true`.
+Le flux recommande est de creer les produits/prix Stripe en mode test, ajouter
+`STRIPE_SECRET_KEY`, `STRIPE_WEBHOOK_SECRET`, `STRIPE_PRICE_ID_STARTER`,
+`STRIPE_PRICE_ID_PRO` et `STRIPE_PRICE_ID_BUSINESS` dans Vercel, tester
+`/settings/billing`, puis passer `CONTRATPRO_REQUIRE_BILLING=true`.
 
 ## Variables importantes
 

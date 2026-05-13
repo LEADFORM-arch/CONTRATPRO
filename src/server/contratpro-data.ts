@@ -9,6 +9,7 @@ import {
   customers as demoCustomers,
   payments as demoPayments,
 } from "@/lib/mock-data";
+import { canUseDemoData } from "@/server/tenant";
 
 type MaybeArray<T> = T | T[] | null | undefined;
 
@@ -454,6 +455,13 @@ type SupabaseCustomerDetailRow = {
   }>;
 };
 
+class SupabaseDataUnavailableError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = "SupabaseDataUnavailableError";
+  }
+}
+
 function first<T>(value: MaybeArray<T>): T | undefined {
   return Array.isArray(value) ? value[0] : value ?? undefined;
 }
@@ -630,8 +638,14 @@ function leadStatusLabel(status: string) {
 async function supabaseRequest<T>(path: string): Promise<T | null> {
   const baseUrl = process.env.SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL;
   const headers = await getSupabaseReadHeaders();
+  const allowDemoFallback = canUseDemoData();
 
   if (!baseUrl || !headers) {
+    if (!allowDemoFallback) {
+      throw new SupabaseDataUnavailableError(
+        "Supabase doit etre configure pour lire les donnees metier hors mode demo.",
+      );
+    }
     return null;
   }
 
@@ -644,6 +658,11 @@ async function supabaseRequest<T>(path: string): Promise<T | null> {
 
     if (!response.ok) {
       console.warn(`[Supabase] ${response.status} on ${path}`);
+      if (!allowDemoFallback) {
+        throw new SupabaseDataUnavailableError(
+          `Supabase a refuse la lecture des donnees metier (${response.status}).`,
+        );
+      }
       return null;
     }
 
@@ -653,6 +672,11 @@ async function supabaseRequest<T>(path: string): Promise<T | null> {
       throw error;
     }
     console.warn("[Supabase] request failed", error);
+    if (!allowDemoFallback) {
+      throw new SupabaseDataUnavailableError(
+        "Lecture Supabase indisponible hors mode demo.",
+      );
+    }
     return null;
   }
 }
@@ -771,6 +795,10 @@ export async function getContractDetail(id: string) {
   const row = rows?.[0];
 
   if (!row) {
+    if (!canUseDemoData()) {
+      return null;
+    }
+
     const demo = demoContracts.find((contract) => contract.id === id);
     if (!demo) {
       return null;
@@ -913,6 +941,10 @@ export async function getCustomerDetail(id: string) {
   const row = rows?.[0];
 
   if (!row) {
+    if (!canUseDemoData()) {
+      return null;
+    }
+
     const demo = demoCustomers.find((customer) => customer.id === id);
     if (!demo) {
       return null;
@@ -1095,6 +1127,10 @@ export async function getCertificateDetail(id: string) {
   const row = rows?.[0];
 
   if (!row) {
+    if (!canUseDemoData()) {
+      return null;
+    }
+
     const demo = demoCertificates.find((certificate) => certificate.id === id);
     if (!demo) {
       return null;
@@ -1467,6 +1503,12 @@ export async function getOrganizationProfile() {
   const row = rows?.[0];
 
   if (!row) {
+    if (!canUseDemoData()) {
+      throw new SupabaseDataUnavailableError(
+        "Profil organisation introuvable hors mode demo.",
+      );
+    }
+
     return {
       id: orgId,
       name: "JD Chauffage & Clim",

@@ -16,6 +16,19 @@ Espace Vercel de reference :
 https://vercel.com/contratpro
 ```
 
+Projet Supabase de reference :
+
+```text
+https://supabase.com/dashboard/project/yotafzxcpyyrkkpeyfpp
+https://yotafzxcpyyrkkpeyfpp.supabase.co
+```
+
+Compte Stripe test de reference :
+
+```text
+https://dashboard.stripe.com/acct_1TVFyGBJsOV2aVH0/test/dashboard
+```
+
 ## 1. Gate avant merge
 
 Chaque pull request doit passer le workflow GitHub Actions `ContratPro CI`.
@@ -62,7 +75,9 @@ GOCARDLESS_ENVIRONMENT=live
 GOCARDLESS_WEBHOOK_ENDPOINT_SECRET=...
 STRIPE_SECRET_KEY=...
 STRIPE_WEBHOOK_SECRET=...
-STRIPE_PRICE_ID=...
+STRIPE_PRICE_ID_STARTER=...
+STRIPE_PRICE_ID_PRO=...
+STRIPE_PRICE_ID_BUSINESS=...
 CRON_SECRET=...
 ```
 

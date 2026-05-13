@@ -34,6 +34,20 @@ describe("production guardrails", () => {
       "redirect(\"/settings/billing?billing=required\")",
     ], "dashboard layout");
 
+    assertIncludes(read("src/server/tenant.ts"), [
+      "ProductionTenantConfigError",
+      "CONTRATPRO_REQUIRE_AUTH=true",
+      "canUseDemoData",
+      "process.env.VERCEL_ENV === \"production\"",
+    ], "tenant fail closed");
+
+    assertIncludes(read("src/server/contratpro-data.ts"), [
+      "SupabaseDataUnavailableError",
+      "const allowDemoFallback = canUseDemoData()",
+      "Lecture Supabase indisponible hors mode demo.",
+      "Profil organisation introuvable hors mode demo.",
+    ], "data fail closed");
+
     assertIncludes(apiAuth, [
       "requireApiUser",
       "allowInactiveBilling",
@@ -75,6 +89,7 @@ describe("production guardrails", () => {
       "src/app/api/certificates/[id]/send/route.ts",
       "src/app/api/certificates/[id]/pdf/route.ts",
       "src/app/api/contracts/route.ts",
+      "src/app/api/import/clients/route.ts",
       "src/app/api/import/praxedo/route.ts",
       "src/app/api/invoices/[id]/send/route.ts",
       "src/app/api/invoices/[id]/pdf/route.ts",
@@ -107,6 +122,29 @@ describe("production guardrails", () => {
       "authorization",
       "notifyAdmin",
     ], "renewal cron");
+  });
+
+  it("keeps the renewal AI growth agent visible and human-validated", () => {
+    assertIncludes(read("src/server/renewal-agent.ts"), [
+      "analyzeRenewalAgent",
+      "humanValidation: \"required\"",
+      "totalExpectedValue",
+      "validationQueue",
+    ], "renewal agent service");
+
+    assertIncludes(read("src/app/(dashboard)/relances/page.tsx"), [
+      "Agent IA de croissance",
+      "Architecte IA de croissance",
+      "analyzeRenewalAgent",
+      "relance-agent-panel",
+      "Score IA",
+    ], "renewal agent page");
+
+    assertIncludes(read("src/app/globals.css"), [
+      ".relance-agent-panel",
+      ".relance-agent-card",
+      ".relance-agent-note",
+    ], "renewal agent styles");
   });
 
   it("keeps server-side PDFs, document email sending and send history", () => {
@@ -279,7 +317,9 @@ describe("production guardrails", () => {
       "Node.js 24.x",
       "npm run deploy:preflight",
       "npm run deploy:smoke",
+      "https://supabase.com/dashboard/project/yotafzxcpyyrkkpeyfpp",
       "supabase/verify_rls.sql",
+      "https://dashboard.stripe.com/acct_1TVFyGBJsOV2aVH0/test/dashboard",
     ], "vercel launch checklist");
   });
 
@@ -335,17 +375,22 @@ describe("production guardrails", () => {
 
   it("keeps Stripe test billing setup executable and documented", () => {
     assertIncludes(read("scripts/stripe-create-test-billing.mjs"), [
+      "ContratPro Starter",
       "sk_test_",
       "ContratPro Pro",
-      "unit_amount: \"20000\"",
+      "ContratPro Business",
+      "unitAmount: \"9900\"",
       "lookup_key",
-      "STRIPE_PRICE_ID",
+      "STRIPE_PRICE_ID_STARTER",
+      "STRIPE_PRICE_ID_BUSINESS",
     ], "stripe create test billing script");
 
     assertIncludes(read("scripts/stripe-readiness.mjs"), [
       "STRIPE_SECRET_KEY",
       "STRIPE_WEBHOOK_SECRET",
-      "STRIPE_PRICE_ID",
+      "STRIPE_PRICE_ID_STARTER",
+      "STRIPE_PRICE_ID_PRO",
+      "STRIPE_PRICE_ID_BUSINESS",
       "checkout.session.completed",
       "invoice.payment_succeeded",
     ], "stripe readiness script");
@@ -366,6 +411,7 @@ describe("production guardrails", () => {
 
   it("keeps public commercial pages available before login", () => {
     for (const page of [
+      "src/app/architecte-ia/page.tsx",
       "src/app/demo/page.tsx",
       "src/app/pricing/page.tsx",
       "src/app/legal/page.tsx",
@@ -377,6 +423,7 @@ describe("production guardrails", () => {
     }
 
     assertIncludes(read("src/components/marketing/PublicShell.tsx"), [
+      "/architecte-ia",
       "/demo",
       "/pricing",
       "/privacy",
@@ -389,5 +436,39 @@ describe("production guardrails", () => {
       "/pricing",
       "/privacy",
     ], "login public links");
+
+    assertIncludes(read("src/app/architecte-ia/page.tsx"), [
+      "ARCHITECTE IA DE CROISSANCE CVC",
+      "validation humaine",
+      "variant=\"openDesign\"",
+      "od-hero",
+      "od-agent-grid",
+      "VOIR LA DEMO",
+    ], "architecte ia public page");
+  });
+
+  it("keeps client CSV and Excel import guarded by a dry-run", () => {
+    assertIncludes(read("src/app/api/import/clients/route.ts"), [
+      "requireApiUser",
+      "runClientImport",
+      "dry-run",
+      "execute",
+    ], "client import route");
+
+    assertIncludes(read("src/server/client-import.ts"), [
+      "customersToCreate",
+      "customersToReuse",
+      "installationsToCreate",
+      "contractsToCreate",
+      "mode === \"dry-run\"",
+    ], "client import service");
+
+    assertIncludes(read("src/app/(dashboard)/import/page.tsx"), [
+      "read-excel-file/browser",
+      "CSV/XLSX",
+      "Plan d'import",
+      "Confirmer l'import",
+      "modele-import-contratpro.csv",
+    ], "client import page");
   });
 });

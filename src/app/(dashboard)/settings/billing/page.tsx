@@ -1,4 +1,5 @@
 import { AppShell, PageHeader } from "@/components/layout/AppShell";
+import { billingPlans } from "@/lib/billing-plans";
 import { getCurrentBillingStatus, getRecentBillingEvents } from "@/server/billing";
 import { isStripeConfigured, isStripeWebhookConfigured } from "@/server/stripe";
 
@@ -60,7 +61,7 @@ export default async function BillingSettingsPage() {
     <AppShell activePath="/settings/billing">
       <PageHeader
         action={<BillingActions hasCustomer={Boolean(billing.customerId)} />}
-        description="Activation de l'abonnement ContratPro Pro a 200 EUR par mois, suivi via Stripe et synchronise avec Supabase."
+        description="Activation de l'abonnement ContratPro Starter, Pro ou Business, suivi via Stripe et synchronise avec Supabase."
         eyebrow="Parametres"
         title="Abonnement SaaS"
       />
@@ -68,9 +69,9 @@ export default async function BillingSettingsPage() {
       <section className="billing-hero mt-6 rounded-lg border p-5 shadow-sm" data-status={tone}>
         <div className="grid gap-5 lg:grid-cols-[1fr_340px] lg:items-end">
           <div>
-            <p className="text-sm font-semibold text-emerald-300">ContratPro Pro</p>
+            <p className="text-sm font-semibold text-emerald-300">ContratPro SaaS</p>
             <div className="mt-3 flex flex-wrap items-end gap-4">
-              <strong className="text-5xl font-black text-zinc-50">200 EUR</strong>
+              <strong className="text-5xl font-black text-zinc-50">49 / 99 / 199 EUR</strong>
               <span className="text-xl font-bold text-zinc-500">/ mois</span>
               <span className="billing-status-pill" data-status={tone}>
                 {labels[billing.status] ?? billing.status}
@@ -120,9 +121,9 @@ export default async function BillingSettingsPage() {
               ready={webhookReady}
             />
             <CheckRow
-              detail="Optionnel : sinon ContratPro cree un prix dynamique a 200 EUR/mois."
-              label="STRIPE_PRICE_ID"
-              ready={Boolean(process.env.STRIPE_PRICE_ID)}
+              detail="Starter, Pro et Business peuvent avoir chacun leur price_id. STRIPE_PRICE_ID reste accepte pour Pro."
+              label="STRIPE_PRICE_ID_STARTER / PRO / BUSINESS"
+              ready={billingPlans.some((plan) => Boolean(process.env[plan.envKey])) || Boolean(process.env.STRIPE_PRICE_ID)}
               warningOnly
             />
           </div>

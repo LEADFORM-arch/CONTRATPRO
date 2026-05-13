@@ -147,6 +147,26 @@ check(
   "fonctions de portee organisation requises",
 );
 
+check(
+  "Fail-closed tenant production",
+  includesAll(read("src/server/tenant.ts"), [
+    "ProductionTenantConfigError",
+    "VERCEL_ENV",
+    "canUseDemoData",
+  ]),
+  "le tenant demo ne doit pas etre un fallback silencieux en production",
+);
+
+check(
+  "Fail-closed donnees metier",
+  includesAll(read("src/server/contratpro-data.ts"), [
+    "SupabaseDataUnavailableError",
+    "allowDemoFallback",
+    "Lecture Supabase indisponible hors mode demo.",
+  ]),
+  "les donnees demo ne doivent etre servies qu'en mode demo explicite",
+);
+
 const adminRouteFiles = [
   "src/app/(dashboard)/admin/page.tsx",
   "src/app/(dashboard)/admin/notifications/page.tsx",
@@ -188,6 +208,7 @@ const authenticatedApiFiles = [
   "src/app/api/billing/portal/route.ts",
   "src/app/api/contracts/route.ts",
   "src/app/api/customers/route.ts",
+  "src/app/api/import/clients/route.ts",
   "src/app/api/import/praxedo/route.ts",
   "src/app/api/interventions/route.ts",
   "src/app/api/invoices/route.ts",
