@@ -4356,9 +4356,123 @@ body .hover\:bg-zinc-100:hover {
   font-style: normal;
 }
 
+.launch-activation {
+  background:
+    linear-gradient(135deg, rgba(56, 189, 248, 0.14), transparent 34%),
+    linear-gradient(160deg, rgba(245, 158, 11, 0.1), transparent 58%),
+    rgba(9, 9, 11, 0.98);
+  border-color: rgba(56, 189, 248, 0.24);
+  overflow: hidden;
+  position: relative;
+}
+
+.launch-activation::before {
+  background: linear-gradient(90deg, #38bdf8, #34d399 48%, #f59e0b);
+  content: "";
+  height: 3px;
+  inset: 0 0 auto;
+  position: absolute;
+}
+
+.launch-activation-header {
+  align-items: flex-start;
+  border-bottom: 1px solid rgba(63, 63, 70, 0.85);
+  display: flex;
+  gap: 1rem;
+  justify-content: space-between;
+  padding: 1rem;
+}
+
+.launch-activation-header h3 {
+  color: #f8fafc;
+  font-size: 1.25rem;
+  font-weight: 900;
+  margin-top: 0.25rem;
+}
+
+.launch-activation-header p,
+.launch-activation-card p,
+.launch-activation-card small {
+  color: #a1a1aa;
+  font-size: 0.84rem;
+  line-height: 1.55;
+  margin-top: 0.35rem;
+}
+
+.launch-activation-header > span,
+.launch-activation-top span {
+  color: #94a3b8;
+  font-size: 0.72rem;
+  font-weight: 850;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.launch-activation-grid {
+  display: grid;
+  gap: 1rem;
+  padding: 1rem;
+}
+
+.launch-activation-card {
+  background: rgba(24, 24, 27, 0.76);
+  border: 1px solid rgba(63, 63, 70, 0.78);
+  border-radius: 0.75rem;
+  border-top: 4px solid #38bdf8;
+  display: grid;
+  gap: 0.65rem;
+  padding: 1rem;
+}
+
+.launch-activation-card[data-risk="high"] {
+  border-top-color: #fb7185;
+}
+
+.launch-activation-card[data-risk="medium"] {
+  border-top-color: #f59e0b;
+}
+
+.launch-activation-card[data-risk="low"] {
+  border-top-color: #34d399;
+}
+
+.launch-activation-top {
+  align-items: flex-start;
+  display: flex;
+  gap: 1rem;
+  justify-content: space-between;
+}
+
+.launch-activation-card strong {
+  color: #f8fafc;
+  font-weight: 900;
+}
+
+.launch-activation-card code {
+  background: rgba(15, 23, 42, 0.82);
+  border: 1px solid rgba(148, 163, 184, 0.18);
+  border-radius: 0.45rem;
+  color: #cbd5e1;
+  display: block;
+  font-size: 0.78rem;
+  line-height: 1.5;
+  padding: 0.7rem;
+  white-space: normal;
+}
+
 @media (min-width: 900px) {
   .launch-pilot-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .launch-activation-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1180px) {
+  .launch-activation-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }
 

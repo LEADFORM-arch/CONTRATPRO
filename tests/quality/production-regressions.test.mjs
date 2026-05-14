@@ -423,6 +423,8 @@ describe("production guardrails", () => {
       "CONTRATPRO_REQUIRE_BILLING",
       "GOCARDLESS_ENVIRONMENT",
       "admincairn/CONTRATPRO",
+      "getProductionActivationPlan",
+      "ProductionActivationStep",
       "getPilotReadinessPlan",
       "Decision go/no-go",
     ], "launch readiness service");
@@ -431,16 +433,31 @@ describe("production guardrails", () => {
       "requireAdminUser",
       "getLaunchReadiness",
       "getPilotReadinessPlan",
+      "getProductionActivationPlan",
       "Readiness commerciale",
+      "Activation production live",
+      "data-od-id=\"production-live-activation\"",
       "Bloquants avant vente forte",
       "Plan pilote terrain",
     ], "launch admin page");
 
     assertIncludes(read("src/app/globals.css"), [
       ".launch-command",
+      ".launch-activation",
+      ".launch-activation-card",
       ".launch-check-row",
       ".launch-status-pill",
     ], "launch styles");
+
+    assertIncludes(read("docs/live-production-activation.md"), [
+      "Activation production live ContratPro",
+      "Supabase backup + RLS",
+      "Variables Vercel production",
+      "Stripe live",
+      "GoCardless live",
+      "Smoke post-deploiement",
+      "Rollback arme",
+    ], "live activation runbook");
 
     assertIncludes(read("docs/pilot-runbook.md"), [
       "Runbook pilote ContratPro",
@@ -453,6 +470,8 @@ describe("production guardrails", () => {
 
     assertIncludes(read("README.md"), [
       "Priorite 5c - Pilotes chauffagistes",
+      "Priorite 5d - Activation production live",
+      "docs/live-production-activation.md",
       "docs/pilot-runbook.md",
       "/admin/pilots",
       "Architecte IA pilote",

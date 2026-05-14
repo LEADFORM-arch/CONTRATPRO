@@ -23,6 +23,15 @@ export type PilotStep = {
   successCriteria: string;
 };
 
+export type ProductionActivationStep = {
+  command: string;
+  evidence: string;
+  label: string;
+  objective: string;
+  owner: string;
+  risk: "low" | "medium" | "high";
+};
+
 function env(name: string) {
   const value = process.env[name]?.trim();
   if (!value || ["[]", "{}", "\"\"", "''"].includes(value)) {
@@ -254,6 +263,67 @@ export function getPilotReadinessPlan(): PilotStep[] {
       objective: "Savoir si le pilote paierait, et pourquoi il bloquerait.",
       owner: "Fondateur",
       successCriteria: "Decision claire : payer, continuer en pilote, ou abandonner le segment.",
+    },
+  ];
+}
+
+export function getProductionActivationPlan(): ProductionActivationStep[] {
+  return [
+    {
+      command: "git log -1 --oneline && npm run ci:verify",
+      evidence: "Dernier commit note, CI locale verte, aucun fichier non commit.",
+      label: "1. Freeze release",
+      objective: "Bloquer le code avant de toucher aux secrets et providers live.",
+      owner: "Fondateur",
+      risk: "medium",
+    },
+    {
+      command: "Executer supabase/verify_rls.sql dans Supabase SQL Editor",
+      evidence: "Capture Supabase avec tous les checks RLS en OK + backup actif.",
+      label: "2. Supabase backup + RLS",
+      objective: "Verifier cloisonnement tenant et retour arriere base avant vrais clients.",
+      owner: "Produit",
+      risk: "high",
+    },
+    {
+      command: "npm run deploy:preflight",
+      evidence: "Variables Vercel production presentes et preflight OK.",
+      label: "3. Variables Vercel",
+      objective: "Confirmer auth, billing, cron, Supabase, Resend, Stripe et GoCardless.",
+      owner: "Ops",
+      risk: "high",
+    },
+    {
+      command: "npm run stripe:readiness",
+      evidence: "Webhook Stripe live et price_id Starter/Pro/Business verifies.",
+      label: "4. Stripe live",
+      objective: "Rendre l'abonnement encaissable sans casser le paywall.",
+      owner: "Revenus",
+      risk: "high",
+    },
+    {
+      command: "Verifier GOCARDLESS_ENVIRONMENT=live puis tester un mandat pilote",
+      evidence: "Mandat GoCardless live cree sur un compte pilote autorise.",
+      label: "5. GoCardless live",
+      objective: "Ouvrir le SEPA avec preuve de webhook et journal payment_events.",
+      owner: "Finance",
+      risk: "high",
+    },
+    {
+      command: "npm run deploy:smoke -- https://votre-domaine.fr",
+      evidence: "Smoke public OK + smoke authentifie OK avec compte admin.",
+      label: "6. Smoke post-deploiement",
+      objective: "Valider health, login, pages publiques et parcours dashboard minimal.",
+      owner: "Support",
+      risk: "medium",
+    },
+    {
+      command: "Conserver l'URL Vercel stable precedente avant ouverture pilote",
+      evidence: "Plan de rollback documente avec domaine, commit et backup associes.",
+      label: "7. Rollback arme",
+      objective: "Pouvoir revenir en arriere sans improviser pendant un rendez-vous client.",
+      owner: "Fondateur",
+      risk: "low",
     },
   ];
 }

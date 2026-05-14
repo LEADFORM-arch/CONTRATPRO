@@ -1,7 +1,11 @@
 import { AppShell, PageHeader } from "@/components/layout/AppShell";
 import { requireAdminUser } from "@/server/admin";
 import type { LaunchStatus } from "@/server/launch-readiness";
-import { getLaunchReadiness, getPilotReadinessPlan } from "@/server/launch-readiness";
+import {
+  getLaunchReadiness,
+  getPilotReadinessPlan,
+  getProductionActivationPlan,
+} from "@/server/launch-readiness";
 
 const statusLabels: Record<LaunchStatus, string> = {
   critical: "Bloquant",
@@ -26,6 +30,7 @@ export default async function LaunchPage() {
   const admin = await requireAdminUser("/admin/launch");
   const readiness = getLaunchReadiness();
   const pilotPlan = getPilotReadinessPlan();
+  const activationPlan = getProductionActivationPlan();
 
   return (
     <AppShell activePath="/admin/launch" showInternalTools>
@@ -118,6 +123,33 @@ export default async function LaunchPage() {
             </div>
           </article>
         ))}
+      </section>
+
+      <section className="launch-activation mt-6 rounded-lg border shadow-sm" data-od-id="production-live-activation">
+        <div className="launch-activation-header">
+          <div>
+            <p className="text-sm font-semibold text-cyan-300">Activation production live</p>
+            <h3>Passer de MVP pret a SaaS encaissable.</h3>
+            <p>
+              Cette sequence se joue dans l'ordre : freeze, backup, secrets,
+              providers live, smoke tests, rollback. Aucun raccourci avant vrais clients.
+            </p>
+          </div>
+          <span>{activationPlan.length} checks live</span>
+        </div>
+        <div className="launch-activation-grid">
+          {activationPlan.map((step) => (
+            <article className="launch-activation-card" data-risk={step.risk} key={step.label}>
+              <div className="launch-activation-top">
+                <strong>{step.label}</strong>
+                <span>{step.owner}</span>
+              </div>
+              <p>{step.objective}</p>
+              <code>{step.command}</code>
+              <small>Preuve: {step.evidence}</small>
+            </article>
+          ))}
+        </div>
       </section>
 
       <section className="launch-panel mt-6 rounded-lg border shadow-sm">

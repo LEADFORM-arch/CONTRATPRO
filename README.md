@@ -151,6 +151,14 @@ centralise la scorecard a utiliser pendant chaque rendez-vous. Cette page
 embarque un bloc "Architecte IA pilote" qui force la decision premium :
 vendre, iterer ou stopper avant d'ajouter une nouvelle feature.
 
+## Priorite 5d - Activation production live
+
+Le runbook `docs/live-production-activation.md` formalise le passage live :
+freeze release, backup Supabase, RLS, variables Vercel, Stripe live, GoCardless
+live, smoke tests et rollback. Le cockpit `/admin/launch` affiche aussi la
+sequence "Activation production live" pour eviter tout lancement client sans
+preuves operationnelles.
+
 ## Priorite 6 - Cron relances quotidiennes
 
 Variable a ajouter dans `.env.local` :
