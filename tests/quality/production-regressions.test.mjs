@@ -445,6 +445,7 @@ describe("production guardrails", () => {
       "/api/health",
       "/login",
       "/simulateur",
+      "/attestation-entretien-chaudiere",
       "/pricing",
       "/demo",
     ], "deployment smoke test");
@@ -698,6 +699,7 @@ describe("production guardrails", () => {
     for (const page of [
       "src/app/architecte-ia/page.tsx",
       "src/app/simulateur/page.tsx",
+      "src/app/attestation-entretien-chaudiere/page.tsx",
       "src/app/demo/page.tsx",
       "src/app/pricing/page.tsx",
       "src/app/legal/page.tsx",
@@ -711,6 +713,7 @@ describe("production guardrails", () => {
     assertIncludes(read("src/components/marketing/PublicShell.tsx"), [
       "/architecte-ia",
       "/simulateur",
+      "/attestation-entretien-chaudiere",
       "/demo",
       "/pricing",
       "/privacy",
@@ -739,6 +742,25 @@ describe("production guardrails", () => {
       "/api/simulateur/track",
       "Programmer une demo",
     ], "roi simulator public page");
+
+    assertIncludes(read("src/app/attestation-entretien-chaudiere/page.tsx"), [
+      "Attestation d'entretien chaudiere",
+      "Service-Public",
+      "www.ecologie.gouv.fr",
+      "application/ld+json",
+      "Voir la demo documents",
+    ], "seo boiler certificate page");
+
+    assertIncludes(read("src/app/sitemap.ts"), [
+      "/attestation-entretien-chaudiere",
+      "contratpro-dun.vercel.app",
+    ], "public sitemap");
+
+    assertIncludes(read("src/app/robots.ts"), [
+      "/attestation-entretien-chaudiere",
+      "/api",
+      "sitemap.xml",
+    ], "public robots");
 
     assertIncludes(read("src/app/pricing/page.tsx"), [
       "Cash-flow CVC",

@@ -13,6 +13,7 @@ const checks = [
   { path: "/login", includes: ["Connexion", "ContratPro"] },
   { path: "/architecte-ia", includes: ["Architecte IA", "revenus recurrents"] },
   { path: "/simulateur", includes: ["Simulateur ROI", "contrats"] },
+  { path: "/attestation-entretien-chaudiere", includes: ["Attestation", "chaudiere"] },
   { path: "/pricing", includes: ["49", "199", "ContratPro"] },
   { path: "/demo", includes: ["demo", "ContratPro"] },
   { path: "/legal", includes: ["Mentions", "ContratPro"] },

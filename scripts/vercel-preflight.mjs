@@ -109,6 +109,7 @@ check(
       "/api/health",
       "/architecte-ia",
       "/simulateur",
+      "/attestation-entretien-chaudiere",
       "/pricing",
       "/demo",
     ]),

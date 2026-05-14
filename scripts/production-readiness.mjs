@@ -111,6 +111,7 @@ check(
 for (const page of [
   "src/app/architecte-ia/page.tsx",
   "src/app/simulateur/page.tsx",
+  "src/app/attestation-entretien-chaudiere/page.tsx",
   "src/app/demo/page.tsx",
   "src/app/pricing/page.tsx",
   "src/app/legal/page.tsx",
@@ -215,6 +216,7 @@ check(
       "/api/health",
       "/architecte-ia",
       "/simulateur",
+      "/attestation-entretien-chaudiere",
       "/pricing",
       "/demo",
     ]),

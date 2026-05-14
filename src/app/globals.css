@@ -1193,6 +1193,202 @@ body .hover\:bg-zinc-100:hover {
   padding: 1rem;
 }
 
+.seo-hero {
+  min-height: calc(74vh - 8rem);
+}
+
+.seo-summary-card,
+.seo-panel,
+.seo-check-grid article,
+.seo-workflow-grid article,
+.seo-two-column article,
+.seo-faq-grid article {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.052), rgba(255, 255, 255, 0.018)),
+    #111316;
+  border: 1px solid #262a31;
+  border-radius: 0.75rem;
+  box-shadow: 0 24px 68px rgba(0, 0, 0, 0.24);
+  overflow: hidden;
+  position: relative;
+}
+
+.seo-summary-card::before,
+.seo-panel::before,
+.seo-check-grid article::before,
+.seo-workflow-grid article::before,
+.seo-two-column article::before,
+.seo-faq-grid article::before {
+  background: linear-gradient(90deg, #34d399, #38bdf8 55%, #f59e0b);
+  content: "";
+  height: 3px;
+  inset: 0 0 auto;
+  position: absolute;
+}
+
+.seo-summary-card,
+.seo-panel,
+.seo-check-grid article,
+.seo-workflow-grid article,
+.seo-two-column article,
+.seo-faq-grid article {
+  padding: 1.25rem;
+}
+
+.seo-summary-card span,
+.seo-workflow-grid span {
+  color: #34d399;
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 850;
+  text-transform: uppercase;
+}
+
+.seo-summary-card strong,
+.seo-workflow-grid strong,
+.seo-source-grid strong,
+.seo-two-column h2,
+.seo-faq-grid h3 {
+  color: #f4f4f5;
+  display: block;
+  font-weight: 950;
+  line-height: 1.25;
+}
+
+.seo-summary-card strong {
+  font-size: 1.18rem;
+  margin-top: 0.5rem;
+}
+
+.seo-summary-card p,
+.seo-source-grid p,
+.seo-check-grid p,
+.seo-workflow-grid p,
+.seo-two-column p,
+.seo-two-column li,
+.seo-faq-grid p {
+  color: #a1a1aa;
+  font-size: 0.92rem;
+  line-height: 1.7;
+}
+
+.seo-summary-card p,
+.seo-workflow-grid p,
+.seo-faq-grid p {
+  margin-top: 0.75rem;
+}
+
+.seo-panel h2 {
+  color: #f4f4f5;
+  font-size: 1.4rem;
+  font-weight: 950;
+  margin-top: 0.25rem;
+}
+
+.seo-source-grid,
+.seo-workflow-grid,
+.seo-check-grid,
+.seo-faq-grid {
+  display: grid;
+  gap: 1rem;
+  margin-top: 1.25rem;
+}
+
+.seo-source-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.seo-source-grid article {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 0.5rem;
+  padding: 1rem;
+}
+
+.seo-source-grid a {
+  color: #7dd3fc;
+  display: inline-flex;
+  font-size: 0.85rem;
+  font-weight: 850;
+  margin-top: 0.75rem;
+}
+
+.seo-check-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.seo-check-grid article {
+  align-items: center;
+  display: flex;
+  gap: 0.75rem;
+}
+
+.seo-check-grid article::before {
+  background: linear-gradient(180deg, #34d399, rgba(52, 211, 153, 0));
+  height: auto;
+  inset: 0 auto 0 0;
+  width: 3px;
+}
+
+.seo-check-grid span {
+  background: #34d399;
+  border-radius: 999px;
+  box-shadow: 0 0 18px rgba(52, 211, 153, 0.34);
+  flex: 0 0 0.55rem;
+  height: 0.55rem;
+  width: 0.55rem;
+}
+
+.seo-workflow-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.seo-workflow-grid span {
+  align-items: center;
+  background: rgba(52, 211, 153, 0.1);
+  border: 1px solid rgba(52, 211, 153, 0.24);
+  border-radius: 0.375rem;
+  display: inline-flex;
+  height: 2rem;
+  justify-content: center;
+  width: 2rem;
+}
+
+.seo-workflow-grid strong {
+  margin-top: 0.85rem;
+}
+
+.seo-two-column {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+}
+
+.seo-two-column h2 {
+  font-size: 1.15rem;
+}
+
+.seo-two-column p {
+  margin-top: 0.75rem;
+}
+
+.seo-two-column ul {
+  display: grid;
+  gap: 0.65rem;
+  list-style: none;
+  margin: 0.9rem 0 0;
+  padding: 0;
+}
+
+.seo-two-column li {
+  border-left: 3px solid rgba(52, 211, 153, 0.48);
+  padding-left: 0.75rem;
+}
+
+.seo-faq-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
 .public-legal-panel {
   display: grid;
   gap: 1.25rem;
@@ -1595,7 +1791,12 @@ body .hover\:bg-zinc-100:hover {
   .public-demo-steps,
   .public-proof-grid,
   .simulator-next-step,
-  .simulator-proof-grid {
+  .simulator-proof-grid,
+  .seo-source-grid,
+  .seo-check-grid,
+  .seo-workflow-grid,
+  .seo-two-column,
+  .seo-faq-grid {
     grid-template-columns: 1fr;
   }
 
