@@ -241,6 +241,7 @@ type SupabaseProspectionLeadRow = {
   city: string | null;
   specialty: string | null;
   source: string;
+  source_url: string | null;
   status: string;
   score: number | string;
   next_action: string | null;
@@ -633,6 +634,35 @@ function leadStatusLabel(status: string) {
     LOST: "Perdu",
   };
   return labels[status] ?? status;
+}
+
+function leadAttributionLabel(sourceUrl?: string | null, notes?: string | null) {
+  const attributionFromNotes = notes?.match(/Attribution: ([^|]+(?: \| [^|]+)*)/);
+  if (attributionFromNotes?.[1]) {
+    return attributionFromNotes[1].trim();
+  }
+
+  if (!sourceUrl) {
+    return "-";
+  }
+
+  try {
+    const url = new URL(sourceUrl);
+    const source = url.searchParams.get("utm_source");
+    const medium = url.searchParams.get("utm_medium");
+    const campaign = url.searchParams.get("utm_campaign");
+    const ref = url.searchParams.get("ref");
+    const parts = [
+      source ? `source=${source}` : null,
+      medium ? `medium=${medium}` : null,
+      campaign ? `campaign=${campaign}` : null,
+      ref ? `ref=${ref}` : null,
+    ].filter(Boolean);
+
+    return parts.length ? parts.join(" | ") : "-";
+  } catch {
+    return "-";
+  }
 }
 
 async function supabaseRequest<T>(path: string): Promise<T | null> {
@@ -1383,7 +1413,7 @@ export async function getInvoiceContractOptions() {
 export async function getProspectionLeads() {
   const orgId = await organizationId();
   const rows = await supabaseRequest<SupabaseProspectionLeadRow[]>(
-    `/prospection_leads?organization_id=eq.${encodeURIComponent(orgId)}&select=id,company_name,contact_name,email,phone,city,specialty,source,status,score,next_action,last_touch_at,notes,created_at&order=score.desc`,
+    `/prospection_leads?organization_id=eq.${encodeURIComponent(orgId)}&select=id,company_name,contact_name,email,phone,city,specialty,source,source_url,status,score,next_action,last_touch_at,notes,created_at&order=score.desc`,
   );
 
   const fallback = [
@@ -1403,6 +1433,8 @@ export async function getProspectionLeads() {
       lastTouch: "-",
       createdAt: "-",
       notes: "A reagi a un post sur les renouvellements oublies.",
+      sourceUrl: "https://facebook.com/groups/chauffagistes",
+      attribution: "source=facebook | medium=groupes",
     },
     {
       id: "lead_clim_habitat_44",
@@ -1420,6 +1452,8 @@ export async function getProspectionLeads() {
       lastTouch: "-",
       createdAt: "-",
       notes: "Profil tres proche ICP : petite equipe, PAC et clim reversible.",
+      sourceUrl: "https://facebook.com/groups/pompes-a-chaleur",
+      attribution: "source=facebook | medium=commentaire",
     },
     {
       id: "lead_riviere_chauffage",
@@ -1437,6 +1471,8 @@ export async function getProspectionLeads() {
       lastTouch: "-",
       createdAt: "-",
       notes: "Demande une vue simple des contrats actifs et relances.",
+      sourceUrl: "https://contratpro-dun.vercel.app/demo?utm_source=referral",
+      attribution: "source=referral",
     },
   ];
 
@@ -1460,6 +1496,8 @@ export async function getProspectionLeads() {
     lastTouch: formatDate(row.last_touch_at),
     createdAt: formatDate(row.created_at),
     notes: row.notes ?? "-",
+    sourceUrl: row.source_url ?? "-",
+    attribution: leadAttributionLabel(row.source_url, row.notes),
   }));
 }
 

@@ -131,6 +131,9 @@ export default async function AdminProspectionDashboardPage() {
                   {lead.contact} - {lead.city}
                 </p>
                 <p className="mt-3 text-sm text-zinc-300">{lead.nextAction}</p>
+                <p className="mt-2 text-xs text-emerald-300">
+                  {lead.attribution}
+                </p>
               </article>
             ))
           ) : (
@@ -173,6 +176,9 @@ export default async function AdminProspectionDashboardPage() {
                     {lead.contact} - {lead.city} - {lead.specialty}
                   </p>
                   <p className="mt-2 text-sm text-zinc-300">{lead.nextAction}</p>
+                  <p className="mt-2 text-xs text-emerald-300">
+                    Attribution: {lead.attribution}
+                  </p>
                 </div>
                 <div>
                   <span

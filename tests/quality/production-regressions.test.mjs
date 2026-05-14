@@ -89,6 +89,7 @@ describe("production guardrails", () => {
       "lead-stage-board",
       "PUBLIC_DEMO",
       "Cree le {lead.createdAt}",
+      "Attribution: {lead.attribution}",
     ], "founder sales pipeline cockpit");
 
     assertIncludes(read("src/app/(dashboard)/admin/prospection/page.tsx"), [
@@ -96,7 +97,16 @@ describe("production guardrails", () => {
       "Appels demo a traiter aujourd'hui",
       "founder-queue-card",
       "PUBLIC_DEMO",
+      "{lead.attribution}",
     ], "admin sales command queue");
+
+    assertIncludes(read("src/server/contratpro-data.ts"), [
+      "source_url",
+      "leadAttributionLabel",
+      "utm_source",
+      "utm_campaign",
+      "Attribution:",
+    ], "lead attribution mapping");
 
     assertIncludes(read("src/app/(dashboard)/prospection/LeadStatusControls.tsx"), [
       "REPLIED",
@@ -178,6 +188,9 @@ describe("production guardrails", () => {
       "notifyAdmin",
       "sendPlainEmail",
       "Demande demo ContratPro recue",
+      "marketingAttribution",
+      "utm_source",
+      "utm_campaign",
     ], "public demo request guardrails");
   });
 

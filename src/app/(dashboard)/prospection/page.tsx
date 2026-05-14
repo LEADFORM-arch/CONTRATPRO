@@ -114,6 +114,9 @@ export default async function ProspectionPage() {
                     <p className="mt-2 text-sm text-zinc-300">
                       {lead.nextAction}
                     </p>
+                    <p className="mt-2 text-xs text-emerald-300">
+                      Attribution: {lead.attribution}
+                    </p>
                   </div>
                   <span className="prospection-score" data-hot={lead.score >= 80}>
                     {lead.score}<span>/100</span>
@@ -203,11 +206,12 @@ export default async function ProspectionPage() {
         </div>
 
         <div className="overflow-x-auto">
-          <table className="w-full min-w-[1040px] text-left text-sm">
+          <table className="w-full min-w-[1160px] text-left text-sm">
             <thead>
               <tr className="dashboard-table-head">
                 <th className="px-4 py-3 font-semibold">Entreprise</th>
                 <th className="px-4 py-3 font-semibold">Canal</th>
+                <th className="px-4 py-3 font-semibold">Attribution</th>
                 <th className="px-4 py-3 font-semibold">Specialite</th>
                 <th className="px-4 py-3 font-semibold">Score</th>
                 <th className="px-4 py-3 font-semibold">Statut</th>
@@ -232,6 +236,9 @@ export default async function ProspectionPage() {
                   </td>
                   <td className="px-4 py-4">
                     <span className="prospection-source-pill">{lead.source}</span>
+                  </td>
+                  <td className="px-4 py-4 text-xs text-zinc-400">
+                    {lead.attribution}
                   </td>
                   <td className="px-4 py-4 text-zinc-300">{lead.specialty}</td>
                   <td className="px-4 py-4">

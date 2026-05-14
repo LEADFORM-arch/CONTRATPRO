@@ -45,6 +45,47 @@ function integer(value: unknown, fallback = 0) {
   return Number.isFinite(parsed) ? Math.max(0, Math.round(parsed)) : fallback;
 }
 
+function marketingAttribution(sourceUrl: string | null) {
+  if (!sourceUrl) {
+    return null;
+  }
+
+  try {
+    const url = new URL(sourceUrl);
+    const source = text(url.searchParams.get("utm_source"));
+    const medium = text(url.searchParams.get("utm_medium"));
+    const campaign = text(url.searchParams.get("utm_campaign"));
+    const term = text(url.searchParams.get("utm_term"));
+    const content = text(url.searchParams.get("utm_content"));
+    const ref = text(url.searchParams.get("ref"));
+
+    if (!source && !medium && !campaign && !term && !content && !ref) {
+      return null;
+    }
+
+    return {
+      campaign,
+      content,
+      label: [
+        source ? `source=${source}` : null,
+        medium ? `medium=${medium}` : null,
+        campaign ? `campaign=${campaign}` : null,
+        term ? `term=${term}` : null,
+        content ? `content=${content}` : null,
+        ref ? `ref=${ref}` : null,
+      ]
+        .filter(Boolean)
+        .join(" | "),
+      medium,
+      ref,
+      source,
+      term,
+    };
+  } catch {
+    return null;
+  }
+}
+
 function leadOrganizationId() {
   const organizationId =
     process.env.CONTRATPRO_PUBLIC_LEAD_ORG_ID || process.env.CONTRATPRO_ORG_ID;
@@ -114,6 +155,8 @@ export async function POST(request: Request) {
     const score = scoreLead(body);
     const contractCount = integer(body.contractCount);
     const plan = text(body.plan);
+    const sourceUrl = text(body.sourceUrl);
+    const attribution = marketingAttribution(sourceUrl);
     const safeCompanyName = escapeHtml(companyName);
     const safeContactName = contactName ? escapeHtml(contactName) : null;
     const lead = await serviceInsert<{ id: string }>("prospection_leads", {
@@ -127,6 +170,7 @@ export async function POST(request: Request) {
         text(body.message),
         contractCount ? `${contractCount} contrats declares` : null,
         plan ? `Plan d'interet: ${plan}` : null,
+        attribution ? `Attribution: ${attribution.label}` : null,
       ]
         .filter(Boolean)
         .join(" | "),
@@ -134,7 +178,7 @@ export async function POST(request: Request) {
       phone: text(body.phone),
       score,
       source: "PUBLIC_DEMO",
-      source_url: text(body.sourceUrl),
+      source_url: sourceUrl,
       specialty: specialty(body.specialty),
       status: "TO_QUALIFY",
     });
@@ -144,10 +188,14 @@ export async function POST(request: Request) {
       message: `${companyName} demande une demo ContratPro. Score ${score}/100.`,
       metadata: {
         city: text(body.city),
+        campaign: attribution?.campaign,
         contractCount,
         leadId: lead.id,
+        medium: attribution?.medium,
         plan,
+        ref: attribution?.ref,
         source: "PUBLIC_DEMO",
+        utmSource: attribution?.source,
       },
       organizationId,
       severity: score >= 80 ? "warning" : "info",
