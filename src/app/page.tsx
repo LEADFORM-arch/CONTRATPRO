@@ -1,6 +1,6 @@
-import { redirect } from "next/navigation";
-
+import { PublicHero, PublicSection, PublicShell } from "@/components/marketing/PublicShell";
 import { AppShell, PageHeader, StatusPill } from "@/components/layout/AppShell";
+import { billingPlans } from "@/lib/billing-plans";
 import { formatEuro } from "@/lib/mock-data";
 import { getCurrentAdminUser } from "@/server/admin";
 import { getCurrentUser } from "@/server/auth";
@@ -15,6 +15,25 @@ import { isAuthEnforced } from "@/server/tenant";
 export const dynamic = "force-dynamic";
 
 type CardTone = "amber" | "cyan" | "emerald" | "rose";
+
+const homeProblems = [
+  "Les renouvellements restent dans Excel ou dans la tete du dirigeant.",
+  "Les attestations et factures partent trop tard apres les visites.",
+  "Les contrats annuels sont vendus, mais pas toujours relances ni encaisses.",
+];
+
+const homeWorkflow = [
+  ["Importer", "Clients, equipements et contrats existants."],
+  ["Surveiller", "Echeances, attestations et paiements recurrents."],
+  ["Relancer", "Emails, actions commerciales et cron quotidien."],
+  ["Encaisser", "Factures PDF, historique d'envoi et SEPA."],
+];
+
+const homeProofs = [
+  ["15 min", "pour comprendre les contrats a sauver"],
+  ["45 jours", "avant echeance pour relancer proprement"],
+  ["SEPA", "pour fiabiliser le cash recurrent"],
+];
 
 function StatCard({
   label,
@@ -59,13 +78,104 @@ function MiniMetric({
   );
 }
 
-export default async function Home() {
-  if (isAuthEnforced()) {
-    const user = await getCurrentUser();
-    if (!user) {
-      redirect("/login");
-    }
-  }
+function HomeLanding() {
+  return (
+    <PublicShell>
+      <PublicHero
+        action={
+          <>
+            <a className="premium-action rounded-md text-sm font-semibold" href="/demo">
+              Programmer une demo
+            </a>
+            <a className="premium-secondary-action rounded-md px-4 py-2 text-sm font-semibold" href="/simulateur">
+              Calculer mes contrats oublies
+            </a>
+          </>
+        }
+        description="ContratPro aide les chauffagistes et entreprises CVC a transformer leur portefeuille d'entretien en revenu recurrent pilote : relances, attestations, factures et encaissements au meme endroit."
+        eyebrow="SaaS contrats de maintenance CVC"
+        title="Ne laissez plus vos contrats d'entretien dormir dans Excel."
+      />
+
+      <section className="home-proof-strip mx-auto grid max-w-6xl gap-3 px-5 pb-4 sm:px-8 md:grid-cols-3">
+        {homeProofs.map(([value, label]) => (
+          <article key={label}>
+            <strong>{value}</strong>
+            <span>{label}</span>
+          </article>
+        ))}
+      </section>
+
+      <PublicSection
+        description="Le logiciel se concentre sur ce qui fait vraiment perdre du revenu a une entreprise CVC : l'oubli, le retard administratif et les paiements non automatises."
+        title="Le probleme n'est pas de vendre un contrat. C'est de le retrouver au bon moment."
+      >
+        <div className="public-proof-grid">
+          {homeProblems.map((problem) => (
+            <article key={problem}>{problem}</article>
+          ))}
+        </div>
+      </PublicSection>
+
+      <PublicSection
+        description="Un parcours court, pense pour un dirigeant terrain : importer, voir les urgences, relancer, encaisser."
+        title="Une methode simple pour recuperer du cash recurrent"
+      >
+        <div className="public-demo-steps">
+          {homeWorkflow.map(([title, detail], index) => (
+            <article key={title}>
+              <span>{index + 1}</span>
+              <strong>{title}</strong>
+              <p>{detail}</p>
+            </article>
+          ))}
+        </div>
+      </PublicSection>
+
+      <PublicSection
+        description="Commencez bas, prouvez le retour sur investissement, puis activez les automatisations plus avancees."
+        title="Des offres lisibles pour artisans et TPE CVC"
+      >
+        <div className="public-pricing-grid public-pricing-grid-three">
+          {billingPlans.map((plan) => (
+            <article className="public-price-panel" key={plan.id}>
+              <p className="text-sm font-semibold text-emerald-300">
+                ContratPro {plan.name}
+              </p>
+              <strong>{plan.priceLabel}</strong>
+              <span>/ mois</span>
+              <p>{plan.description}</p>
+              <a
+                className="premium-secondary-action mt-4 inline-flex rounded-md px-4 py-2 text-sm font-semibold"
+                href={`/pricing#${plan.id}`}
+              >
+                Voir {plan.name}
+              </a>
+            </article>
+          ))}
+        </div>
+      </PublicSection>
+
+      <section className="home-final-cta mx-auto max-w-6xl px-5 py-8 sm:px-8">
+        <div>
+          <p className="text-sm font-semibold text-emerald-300">
+            Premiere action
+          </p>
+          <h2>Calculez d'abord ce que valent vos contrats oublies.</h2>
+          <p>
+            Le simulateur donne une estimation immediate du revenu annuel que
+            les relances structurees peuvent proteger.
+          </p>
+        </div>
+        <a className="premium-action rounded-md text-sm font-semibold" href="/simulateur">
+          Lancer le simulateur
+        </a>
+      </section>
+    </PublicShell>
+  );
+}
+
+async function DashboardHome() {
 
   const [contracts, customers, certificates, payments] = await Promise.all([
     getContracts(),
@@ -316,4 +426,15 @@ export default async function Home() {
       </div>
     </AppShell>
   );
+}
+
+export default async function Home() {
+  const authEnforced = isAuthEnforced();
+  const user = authEnforced ? await getCurrentUser() : null;
+
+  if (authEnforced && !user) {
+    return <HomeLanding />;
+  }
+
+  return <DashboardHome />;
 }

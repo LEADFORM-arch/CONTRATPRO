@@ -748,6 +748,7 @@ describe("production guardrails", () => {
     }
 
     assertIncludes(read("src/components/marketing/PublicShell.tsx"), [
+      "href=\"/\"",
       "/architecte-ia",
       "/simulateur",
       "/attestation-entretien-chaudiere",
@@ -757,6 +758,20 @@ describe("production guardrails", () => {
       "/legal",
       "/terms",
     ], "public shell");
+
+    assertIncludes(read("src/app/page.tsx"), [
+      "HomeLanding",
+      "PublicShell",
+      "Ne laissez plus vos contrats d'entretien dormir dans Excel.",
+      "if (authEnforced && !user)",
+      "return <HomeLanding />",
+      "return <DashboardHome />",
+    ], "public landing on root");
+
+    assertIncludes(read("src/app/globals.css"), [
+      ".home-proof-strip",
+      ".home-final-cta",
+    ], "public landing styles");
 
     assertIncludes(read("src/app/login/page.tsx"), [
       "/demo",

@@ -26,7 +26,7 @@ export function PublicShell({
         .join(" ")}
     >
       <header className="public-nav mx-auto flex max-w-6xl items-center justify-between gap-4 px-5 py-5 sm:px-8">
-        <a className="public-brand" href="/login">
+        <a className="public-brand" href="/">
           <span>CP</span>
           <div>
             <strong>ContratPro</strong>

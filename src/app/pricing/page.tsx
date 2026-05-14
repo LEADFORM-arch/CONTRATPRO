@@ -33,7 +33,7 @@ export default function PricingPage() {
       >
         <div className="public-pricing-grid public-pricing-grid-three">
           {billingPlans.map((plan) => (
-            <article className="public-price-panel" key={plan.id}>
+            <article className="public-price-panel" id={plan.id} key={plan.id}>
               <p className="text-sm font-semibold text-emerald-300">
                 ContratPro {plan.name}
               </p>

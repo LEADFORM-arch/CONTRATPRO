@@ -975,6 +975,66 @@ body .hover\:bg-zinc-100:hover {
   grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
+.home-proof-strip article,
+.home-final-cta {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.052), rgba(255, 255, 255, 0.018)),
+    #111316;
+  border: 1px solid #262a31;
+  border-radius: 0.5rem;
+  box-shadow: 0 18px 54px rgba(0, 0, 0, 0.22);
+}
+
+.home-proof-strip article {
+  display: grid;
+  gap: 0.35rem;
+  padding: 1rem;
+}
+
+.home-proof-strip strong {
+  color: #f4f4f5;
+  font-size: 1.6rem;
+  font-weight: 950;
+}
+
+.home-proof-strip span {
+  color: #a1a1aa;
+  font-size: 0.86rem;
+  line-height: 1.45;
+}
+
+.home-final-cta {
+  align-items: center;
+  display: flex;
+  gap: 1.5rem;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+  overflow: hidden;
+  position: relative;
+}
+
+.home-final-cta::before {
+  background: linear-gradient(90deg, #34d399, #38bdf8 55%, #f59e0b);
+  content: "";
+  height: 3px;
+  inset: 0 0 auto;
+  position: absolute;
+}
+
+.home-final-cta h2 {
+  color: #f4f4f5;
+  font-size: 1.65rem;
+  font-weight: 950;
+  margin-top: 0.35rem;
+}
+
+.home-final-cta p:last-child {
+  color: #a1a1aa;
+  line-height: 1.65;
+  margin-top: 0.6rem;
+  max-width: 45rem;
+}
+
 .simulator-hero {
   min-height: calc(76vh - 8rem);
 }
@@ -1889,6 +1949,7 @@ body .hover\:bg-zinc-100:hover {
   .public-agent-grid,
   .public-demo-steps,
   .public-proof-grid,
+  .home-final-cta,
   .simulator-next-step,
   .simulator-proof-grid,
   .seo-source-grid,
@@ -1902,6 +1963,7 @@ body .hover\:bg-zinc-100:hover {
   }
 
   .od-pricing-strip,
+  .home-final-cta,
   .od-shot-header,
   .od-score-card,
   .od-renewal-list div {
