@@ -2,6 +2,7 @@ import { AppShell, PageHeader, StatusPill } from "@/components/layout/AppShell";
 import { requireAdminUser } from "@/server/admin";
 import { getFacebookSettings } from "@/server/contratpro-data";
 
+import { CampaignLinkBuilder } from "./CampaignLinkBuilder";
 import { FacebookSettingsForm } from "./FacebookSettingsForm";
 
 const groups = [
@@ -43,6 +44,8 @@ export default async function FacebookSettingsPage() {
       </section>
 
       <FacebookSettingsForm settings={settings} />
+
+      <CampaignLinkBuilder demoUrl={settings.demoUrl} />
 
       <div className="mt-6 grid gap-4 lg:grid-cols-[1fr_360px]">
         <section className="settings-panel rounded-lg border p-4 shadow-sm">

@@ -6313,6 +6313,82 @@ body .hover\:bg-zinc-100:hover {
   border-color: #262a31;
 }
 
+.campaign-link-panel {
+  background:
+    radial-gradient(circle at 8% 0%, rgba(52, 211, 153, 0.1), transparent 28%),
+    radial-gradient(circle at 92% 0%, rgba(56, 189, 248, 0.08), transparent 30%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.052), rgba(255, 255, 255, 0.018)),
+    #111316;
+}
+
+.campaign-preset-button {
+  background: rgba(255, 255, 255, 0.028);
+  border-color: rgba(255, 255, 255, 0.07);
+  color: #f4f4f5;
+  transition:
+    border-color 150ms ease,
+    background 150ms ease,
+    transform 150ms ease;
+}
+
+.campaign-preset-button:hover {
+  background: rgba(52, 211, 153, 0.08);
+  border-color: rgba(52, 211, 153, 0.28);
+  transform: translateY(-1px);
+}
+
+.campaign-preset-button span,
+.campaign-preset-button small {
+  display: block;
+}
+
+.campaign-preset-button span {
+  font-size: 0.875rem;
+  font-weight: 700;
+}
+
+.campaign-preset-button small {
+  color: #a1a1aa;
+  margin-top: 0.35rem;
+}
+
+.campaign-link-grid label {
+  display: block;
+}
+
+.campaign-link-grid span {
+  color: #a1a1aa;
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 700;
+  margin-bottom: 0.35rem;
+}
+
+.campaign-link-grid input,
+.campaign-link-grid select {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.012)),
+    #0b0d10;
+  border: 1px solid #303640;
+  border-radius: 0.375rem;
+  color: #f4f4f5;
+  height: 2.5rem;
+  padding: 0 0.75rem;
+  width: 100%;
+}
+
+.campaign-link-grid input:focus,
+.campaign-link-grid select:focus {
+  border-color: rgba(52, 211, 153, 0.72);
+  box-shadow: 0 0 0 3px rgba(52, 211, 153, 0.12);
+  outline: none;
+}
+
+.campaign-link-output {
+  background: rgba(4, 6, 8, 0.58);
+  border-color: rgba(52, 211, 153, 0.16);
+}
+
 .onboarding-metric {
   background:
     linear-gradient(180deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.018)),

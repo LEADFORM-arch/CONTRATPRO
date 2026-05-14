@@ -108,6 +108,23 @@ describe("production guardrails", () => {
       "Attribution:",
     ], "lead attribution mapping");
 
+    assertIncludes(read("src/app/(dashboard)/settings/facebook/page.tsx"), [
+      "CampaignLinkBuilder",
+      "demoUrl={settings.demoUrl}",
+      "Canal Facebook fondateur",
+    ], "campaign link builder placement");
+
+    assertIncludes(read("src/app/(dashboard)/settings/facebook/CampaignLinkBuilder.tsx"), [
+      "\"use client\"",
+      "Generateur de liens campagnes",
+      "navigator.clipboard.writeText",
+      "utm_source",
+      "utm_medium",
+      "utm_campaign",
+      "utm_content",
+      "plan",
+    ], "campaign link builder");
+
     assertIncludes(read("src/app/(dashboard)/prospection/LeadStatusControls.tsx"), [
       "REPLIED",
       "LOST",
@@ -119,6 +136,9 @@ describe("production guardrails", () => {
       ".sales-command",
       ".lead-stage-board",
       ".founder-queue-card",
+      ".campaign-link-panel",
+      ".campaign-preset-button",
+      ".campaign-link-output",
     ], "sales cockpit styles");
 
     const shell = read("src/components/layout/AppShell.tsx");
