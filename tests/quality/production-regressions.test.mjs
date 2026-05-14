@@ -421,13 +421,17 @@ describe("production guardrails", () => {
       "CONTRATPRO_REQUIRE_BILLING",
       "GOCARDLESS_ENVIRONMENT",
       "admincairn/CONTRATPRO",
+      "getPilotReadinessPlan",
+      "Decision go/no-go",
     ], "launch readiness service");
 
     assertIncludes(read("src/app/(dashboard)/admin/launch/page.tsx"), [
       "requireAdminUser",
       "getLaunchReadiness",
+      "getPilotReadinessPlan",
       "Readiness commerciale",
       "Bloquants avant vente forte",
+      "Plan pilote terrain",
     ], "launch admin page");
 
     assertIncludes(read("src/app/globals.css"), [
@@ -435,6 +439,21 @@ describe("production guardrails", () => {
       ".launch-check-row",
       ".launch-status-pill",
     ], "launch styles");
+
+    assertIncludes(read("docs/pilot-runbook.md"), [
+      "Runbook pilote ContratPro",
+      "Import dry-run",
+      "Terrain mobile",
+      "SEPA et cash-flow",
+      "Scorecard de fin",
+      "Go / no-go",
+    ], "pilot runbook");
+
+    assertIncludes(read("README.md"), [
+      "Priorite 5c - Pilotes chauffagistes",
+      "docs/pilot-runbook.md",
+      "/admin/launch",
+    ], "pilot README");
   });
 
   it("keeps Stripe test billing setup executable and documented", () => {

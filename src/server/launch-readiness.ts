@@ -15,6 +15,14 @@ export type LaunchSection = {
   label: string;
 };
 
+export type PilotStep = {
+  evidence: string;
+  label: string;
+  objective: string;
+  owner: string;
+  successCriteria: string;
+};
+
 function env(name: string) {
   const value = process.env[name]?.trim();
   if (!value || ["[]", "{}", "\"\"", "''"].includes(value)) {
@@ -201,4 +209,51 @@ export function getLaunchReadiness() {
     sections,
     status,
   };
+}
+
+export function getPilotReadinessPlan(): PilotStep[] {
+  return [
+    {
+      evidence: "Fichier CSV/XLSX reel archive avec accord explicite du pilote.",
+      label: "1. Fichier client reel",
+      objective: "Tester avec une base chauffagiste existante, pas avec des donnees demo.",
+      owner: "Fondateur",
+      successCriteria: "50 a 300 clients importables, au moins 10 contrats d'entretien identifiables.",
+    },
+    {
+      evidence: "Capture du rapport dry-run avec erreurs, doublons et lignes pretes.",
+      label: "2. Import dry-run",
+      objective: "Mesurer la friction d'entree et les colonnes manquantes avant toute ecriture.",
+      owner: "Produit",
+      successCriteria: "Aucune erreur bloquante non comprise par le pilote apres 15 minutes.",
+    },
+    {
+      evidence: "Liste de 10 contrats avec montant, date d'echeance et statut relance.",
+      label: "3. Portefeuille recurrent",
+      objective: "Verifier que ContratPro montre le cash a proteger rapidement.",
+      owner: "Revenus",
+      successCriteria: "Le pilote identifie au moins 3 contrats a relancer ou encaisser.",
+    },
+    {
+      evidence: "Une facture PDF, une attestation PDF et un email document envoyes en test.",
+      label: "4. Documents metier",
+      objective: "Valider que les documents produits suffisent a un usage commercial accompagne.",
+      owner: "Support",
+      successCriteria: "Le pilote accepte la structure du document avec au plus 2 corrections texte.",
+    },
+    {
+      evidence: "Relance en dry-run, checkout Stripe test et evenement GoCardless sandbox.",
+      label: "5. Relance + SEPA",
+      objective: "Prouver la promesse cash-flow sans encaisser en live trop tot.",
+      owner: "Finance",
+      successCriteria: "Une relance est prete a envoyer et un mandat SEPA sandbox est trace.",
+    },
+    {
+      evidence: "Scorecard remplie avec note adoption, prix accepte et prochaines objections.",
+      label: "6. Decision go/no-go",
+      objective: "Savoir si le pilote paierait, et pourquoi il bloquerait.",
+      owner: "Fondateur",
+      successCriteria: "Decision claire : payer, continuer en pilote, ou abandonner le segment.",
+    },
+  ];
 }

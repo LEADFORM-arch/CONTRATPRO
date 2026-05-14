@@ -1,7 +1,7 @@
 import { AppShell, PageHeader } from "@/components/layout/AppShell";
 import { requireAdminUser } from "@/server/admin";
 import type { LaunchStatus } from "@/server/launch-readiness";
-import { getLaunchReadiness } from "@/server/launch-readiness";
+import { getLaunchReadiness, getPilotReadinessPlan } from "@/server/launch-readiness";
 
 const statusLabels: Record<LaunchStatus, string> = {
   critical: "Bloquant",
@@ -25,6 +25,7 @@ function formatDate(value: string) {
 export default async function LaunchPage() {
   const admin = await requireAdminUser("/admin/launch");
   const readiness = getLaunchReadiness();
+  const pilotPlan = getPilotReadinessPlan();
 
   return (
     <AppShell activePath="/admin/launch" showInternalTools>
@@ -117,6 +118,31 @@ export default async function LaunchPage() {
             </div>
           </article>
         ))}
+      </section>
+
+      <section className="launch-panel mt-6 rounded-lg border shadow-sm">
+        <div className="launch-panel-header">
+          <div>
+            <h3>Plan pilote terrain</h3>
+            <p className="mt-1 text-sm text-zinc-400">
+              A executer avec 1 a 3 chauffagistes avant publicite ou prospection large.
+            </p>
+          </div>
+          <span>{pilotPlan.length} etapes</span>
+        </div>
+        <div className="launch-pilot-grid">
+          {pilotPlan.map((step) => (
+            <article className="launch-pilot-card" key={step.label}>
+              <div className="flex items-start justify-between gap-3">
+                <strong>{step.label}</strong>
+                <span>{step.owner}</span>
+              </div>
+              <p>{step.objective}</p>
+              <small>Succes: {step.successCriteria}</small>
+              <em>Preuve: {step.evidence}</em>
+            </article>
+          ))}
+        </div>
       </section>
     </AppShell>
   );
