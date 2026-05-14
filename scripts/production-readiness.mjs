@@ -110,7 +110,6 @@ check(
 
 for (const page of [
   "src/app/architecte-ia/page.tsx",
-  "src/app/simulateur/page.tsx",
   "src/app/attestation-entretien-chaudiere/page.tsx",
   "src/app/demo/page.tsx",
   "src/app/pricing/page.tsx",
@@ -124,6 +123,13 @@ for (const page of [
     "les pages commerciales doivent etre accessibles hors dashboard",
   );
 }
+
+check(
+  "Page publique src/app/simulateur/page.tsx",
+  existsSync(file("src/app/simulateur/page.tsx")) &&
+    read("src/app/simulateur/SimulatorClient.tsx").includes("PublicShell"),
+  "les pages commerciales doivent etre accessibles hors dashboard",
+);
 
 check(
   "Workflow GitHub Actions",

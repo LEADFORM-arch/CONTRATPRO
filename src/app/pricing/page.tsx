@@ -1,5 +1,22 @@
+import type { Metadata } from "next";
+
 import { billingPlans } from "@/lib/billing-plans";
 import { PublicHero, PublicSection, PublicShell } from "@/components/marketing/PublicShell";
+
+export const metadata: Metadata = {
+  title: "Tarifs ContratPro Starter, Pro et Business",
+  description:
+    "Comparez les offres ContratPro pour chauffagistes : import contrats, relances, attestations, factures, SEPA et accompagnement.",
+  alternates: {
+    canonical: "/pricing",
+  },
+  openGraph: {
+    description:
+      "Des offres lisibles pour recuperer du revenu recurrent sur les contrats d'entretien CVC.",
+    title: "Tarifs ContratPro - Logiciel contrats entretien CVC",
+    url: "/pricing",
+  },
+};
 
 const setupItems = [
   "Import CSV/XLSX clients et contrats",

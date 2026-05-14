@@ -1,3 +1,5 @@
+import type { Metadata } from "next";
+
 import { PublicHero, PublicSection, PublicShell } from "@/components/marketing/PublicShell";
 import { AppShell, PageHeader, StatusPill } from "@/components/layout/AppShell";
 import { billingPlans } from "@/lib/billing-plans";
@@ -13,6 +15,21 @@ import {
 import { isAuthEnforced } from "@/server/tenant";
 
 export const dynamic = "force-dynamic";
+
+export const metadata: Metadata = {
+  title: "Logiciel contrats entretien CVC pour chauffagistes",
+  description:
+    "ContratPro aide les chauffagistes a retrouver leurs contrats d'entretien, automatiser les relances, generer les attestations et suivre les paiements.",
+  alternates: {
+    canonical: "/",
+  },
+  openGraph: {
+    description:
+      "Contrats d'entretien, relances, attestations, factures et paiements recurrents pour entreprises CVC.",
+    title: "ContratPro - Ne laissez plus vos contrats d'entretien dormir dans Excel",
+    url: "/",
+  },
+};
 
 type CardTone = "amber" | "cyan" | "emerald" | "rose";
 

@@ -1,7 +1,24 @@
-import { PublicHero, PublicSection, PublicShell } from "@/components/marketing/PublicShell";
+import type { Metadata } from "next";
 import { Suspense } from "react";
 
+import { PublicHero, PublicSection, PublicShell } from "@/components/marketing/PublicShell";
+
 import { DemoRequestForm } from "./DemoRequestForm";
+
+export const metadata: Metadata = {
+  title: "Demo ContratPro pour chauffagistes CVC",
+  description:
+    "Programmez une demonstration ContratPro : import clients, contrats d'entretien, relances, attestations, factures et encaissements.",
+  alternates: {
+    canonical: "/demo",
+  },
+  openGraph: {
+    description:
+      "Voyez en 20 minutes comment ContratPro transforme un portefeuille d'entretien CVC en revenu recurrent pilote.",
+    title: "Demo ContratPro pour contrats de maintenance CVC",
+    url: "/demo",
+  },
+};
 
 const demoSteps = [
   ["1", "Importer", "Base clients Praxedo ou creation manuelle des premiers clients."],

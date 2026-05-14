@@ -735,7 +735,6 @@ describe("production guardrails", () => {
   it("keeps public commercial pages available before login", () => {
     for (const page of [
       "src/app/architecte-ia/page.tsx",
-      "src/app/simulateur/page.tsx",
       "src/app/attestation-entretien-chaudiere/page.tsx",
       "src/app/demo/page.tsx",
       "src/app/pricing/page.tsx",
@@ -746,6 +745,11 @@ describe("production guardrails", () => {
       assert.ok(existsSync(pathOf(page)), `${page} should exist`);
       assert.ok(read(page).includes("PublicShell"), `${page} should use public shell`);
     }
+    assert.ok(existsSync(pathOf("src/app/simulateur/page.tsx")), "src/app/simulateur/page.tsx should exist");
+    assert.ok(
+      read("src/app/simulateur/SimulatorClient.tsx").includes("PublicShell"),
+      "src/app/simulateur/SimulatorClient.tsx should use public shell",
+    );
 
     assertIncludes(read("src/components/marketing/PublicShell.tsx"), [
       "href=\"/\"",
@@ -761,12 +765,45 @@ describe("production guardrails", () => {
 
     assertIncludes(read("src/app/page.tsx"), [
       "HomeLanding",
+      "export const metadata",
       "PublicShell",
       "Ne laissez plus vos contrats d'entretien dormir dans Excel.",
       "if (authEnforced && !user)",
       "return <HomeLanding />",
       "return <DashboardHome />",
     ], "public landing on root");
+
+    assertIncludes(read("src/app/layout.tsx"), [
+      "metadataBase",
+      "template: \"%s | ContratPro\"",
+      "openGraph",
+      "twitter",
+      "Logiciel contrats entretien CVC",
+    ], "global public metadata");
+
+    assertIncludes(read("src/app/demo/page.tsx"), [
+      "export const metadata",
+      "canonical: \"/demo\"",
+      "Demo ContratPro pour chauffagistes CVC",
+    ], "demo metadata");
+
+    assertIncludes(read("src/app/pricing/page.tsx"), [
+      "export const metadata",
+      "canonical: \"/pricing\"",
+      "Tarifs ContratPro Starter, Pro et Business",
+    ], "pricing metadata");
+
+    assertIncludes(read("src/app/simulateur/page.tsx"), [
+      "export const metadata",
+      "canonical: \"/simulateur\"",
+      "Simulateur contrats oublies CVC",
+    ], "simulator metadata");
+
+    assertIncludes(read("src/app/simulateur/SimulatorClient.tsx"), [
+      "\"use client\"",
+      "Calculer ma perte",
+      "/api/simulateur/track",
+    ], "simulator client interaction");
 
     assertIncludes(read("src/app/globals.css"), [
       ".home-proof-strip",
@@ -788,7 +825,7 @@ describe("production guardrails", () => {
       "VOIR LA DEMO",
     ], "architecte ia public page");
 
-    assertIncludes(read("src/app/simulateur/page.tsx"), [
+    assertIncludes(read("src/app/simulateur/SimulatorClient.tsx"), [
       "Simulateur ROI",
       "Calculer ma perte",
       "/api/simulateur/track",
