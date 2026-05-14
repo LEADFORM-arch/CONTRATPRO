@@ -9,6 +9,17 @@ export function LoginForm() {
   const searchParams = useSearchParams();
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const requestedPlan = searchParams.get("plan");
+  const isKnownPlan =
+    requestedPlan === "starter" || requestedPlan === "pro" || requestedPlan === "business";
+  const requestedPlanLabel =
+    requestedPlan === "starter"
+      ? "Starter"
+      : requestedPlan === "business"
+        ? "Business"
+        : requestedPlan === "pro"
+          ? "Pro"
+          : "";
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -29,7 +40,10 @@ export function LoginForm() {
       return;
     }
 
-    router.push(searchParams.get("next") || "/onboarding");
+    router.push(
+      searchParams.get("next") ||
+        (isKnownPlan ? `/settings/billing?plan=${requestedPlan}` : "/onboarding"),
+    );
     router.refresh();
   }
 
@@ -56,6 +70,11 @@ export function LoginForm() {
         />
       </label>
       {error && <p className="login-error">{error}</p>}
+      {isKnownPlan ? (
+        <p className="login-plan-intent">
+          Plan demande : ContratPro {requestedPlanLabel}
+        </p>
+      ) : null}
       <button className="login-submit" disabled={isLoading} type="submit">
         {isLoading ? "Connexion..." : "Entrer dans ContratPro"}
       </button>

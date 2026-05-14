@@ -1,5 +1,5 @@
 import { AppShell, PageHeader } from "@/components/layout/AppShell";
-import { billingPlans } from "@/lib/billing-plans";
+import { billingPlans, getBillingPlan, type BillingPlanId } from "@/lib/billing-plans";
 import { getCurrentBillingStatus, getRecentBillingEvents } from "@/server/billing";
 import { isStripeConfigured, isStripeWebhookConfigured } from "@/server/stripe";
 
@@ -69,7 +69,22 @@ function statusTone(status: string, active: boolean) {
   return "critical";
 }
 
-export default async function BillingSettingsPage() {
+function planFromSearch(value: string | string[] | undefined): BillingPlanId | undefined {
+  const plan = Array.isArray(value) ? value[0] : value;
+  if (plan === "starter" || plan === "pro" || plan === "business") {
+    return plan;
+  }
+  return undefined;
+}
+
+export default async function BillingSettingsPage({
+  searchParams,
+}: {
+  searchParams?: Promise<{ plan?: string | string[] }>;
+}) {
+  const resolvedSearchParams = searchParams ? await searchParams : {};
+  const requestedPlan = planFromSearch(resolvedSearchParams.plan);
+  const requestedPlanLabel = requestedPlan ? getBillingPlan(requestedPlan).name : null;
   const [billing, billingEvents] = await Promise.all([
     getCurrentBillingStatus(),
     getRecentBillingEvents().catch(() => []),
@@ -81,7 +96,12 @@ export default async function BillingSettingsPage() {
   return (
     <AppShell activePath="/settings/billing">
       <PageHeader
-        action={<BillingActions hasCustomer={Boolean(billing.customerId)} />}
+        action={
+          <BillingActions
+            hasCustomer={Boolean(billing.customerId)}
+            requestedPlan={requestedPlan}
+          />
+        }
         description="Activation de l'abonnement ContratPro Starter, Pro ou Business, suivi via Stripe et synchronise avec Supabase."
         eyebrow="Parametres"
         title="Abonnement SaaS"
@@ -103,6 +123,11 @@ export default async function BillingSettingsPage() {
               Les statuts `active` et `trialing` donnent acces au SaaS ; les statuts
               impayes renvoient vers cette page.
             </p>
+            {requestedPlan ? (
+              <p className="billing-requested-plan mt-4">
+                Plan demande depuis la page tarifs : ContratPro {requestedPlanLabel}.
+              </p>
+            ) : null}
           </div>
 
           <div className="billing-snapshot">

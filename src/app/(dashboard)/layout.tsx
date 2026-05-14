@@ -14,10 +14,15 @@ export default async function DashboardLayout({
 }: {
   children: ReactNode;
 }) {
+  const requestHeaders = await headers();
+  const pathname = requestHeaders.get("x-contratpro-pathname") ?? "";
+  const search = requestHeaders.get("x-contratpro-search") ?? "";
+
   if (isAuthEnforced()) {
     const user = await getCurrentUser();
     if (!user) {
-      redirect("/login");
+      const next = `${pathname || "/onboarding"}${search}`;
+      redirect(`/login?next=${encodeURIComponent(next)}`);
     }
   }
 
@@ -25,8 +30,6 @@ export default async function DashboardLayout({
     return children;
   }
 
-  const requestHeaders = await headers();
-  const pathname = requestHeaders.get("x-contratpro-pathname") ?? "";
   const isBillingPage = pathname.startsWith("/settings/billing");
   const isInternalAdmin = pathname.startsWith("/admin") || pathname.startsWith("/prospection");
   const [admin, billing] = await Promise.all([

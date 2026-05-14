@@ -17,8 +17,8 @@ export default function PricingPage() {
             <a className="premium-action rounded-md text-sm font-semibold" href="/demo">
               Voir la demo
             </a>
-            <a className="premium-secondary-action rounded-md px-4 py-2 text-sm font-semibold" href="/login">
-              Acces client
+            <a className="premium-secondary-action rounded-md px-4 py-2 text-sm font-semibold" href="/simulateur">
+              Calculer le ROI
             </a>
           </>
         }
@@ -48,8 +48,17 @@ export default function PricingPage() {
                   </div>
                 ))}
               </div>
-              <a className="premium-action mt-4 rounded-md text-sm font-semibold" href="/demo">
-                Demander une demo
+              <a
+                className="premium-action mt-4 rounded-md text-sm font-semibold"
+                href={`/login?plan=${plan.id}`}
+              >
+                Choisir {plan.name}
+              </a>
+              <a
+                className="premium-secondary-action mt-3 inline-flex rounded-md px-4 py-2 text-sm font-semibold"
+                href={`/simulateur?plan=${plan.id}`}
+              >
+                Tester le ROI
               </a>
             </article>
           ))}

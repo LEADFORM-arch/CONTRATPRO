@@ -6,6 +6,7 @@ import { billingPlans, type BillingPlanId } from "@/lib/billing-plans";
 
 type BillingActionsProps = {
   hasCustomer: boolean;
+  requestedPlan?: BillingPlanId;
 };
 
 async function openStripeFlow(endpoint: string, plan?: BillingPlanId) {
@@ -23,7 +24,7 @@ async function openStripeFlow(endpoint: string, plan?: BillingPlanId) {
   window.location.href = payload.url;
 }
 
-export function BillingActions({ hasCustomer }: BillingActionsProps) {
+export function BillingActions({ hasCustomer, requestedPlan }: BillingActionsProps) {
   const [loading, setLoading] = useState<BillingPlanId | "portal" | null>(null);
   const [error, setError] = useState<string | null>(null);
 
@@ -54,12 +55,15 @@ export function BillingActions({ hasCustomer }: BillingActionsProps) {
       {billingPlans.map((plan) => (
         <button
           className="premium-action rounded-md text-sm font-semibold"
+          data-requested={requestedPlan === plan.id}
           disabled={loading !== null}
           key={plan.id}
           onClick={() => runCheckout(plan.id)}
           type="button"
         >
-          {loading === plan.id ? "Ouverture..." : `Activer ${plan.name} - ${plan.priceLabel}/mois`}
+          {loading === plan.id
+            ? "Ouverture..."
+            : `${requestedPlan === plan.id ? "Activer le plan demande" : "Activer"} ${plan.name} - ${plan.priceLabel}/mois`}
         </button>
       ))}
       <button

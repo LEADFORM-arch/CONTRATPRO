@@ -29,6 +29,8 @@ describe("production guardrails", () => {
     assertIncludes(layout, [
       "getCurrentUser",
       "isAuthEnforced",
+      "encodeURIComponent(next)",
+      "x-contratpro-search",
       "isBillingRequired",
       "getCurrentBillingStatus",
       "redirect(\"/settings/billing?billing=required\")",
@@ -63,7 +65,7 @@ describe("production guardrails", () => {
       "getCurrentBillingStatus",
     ], "api auth");
 
-    assertIncludes(proxy, ["x-contratpro-pathname", "NextResponse.next"], "proxy");
+    assertIncludes(proxy, ["x-contratpro-pathname", "x-contratpro-search", "NextResponse.next"], "proxy");
   });
 
   it("protects founder-only routes and keeps internal navigation opt-in", () => {
@@ -612,12 +614,21 @@ describe("production guardrails", () => {
     assertIncludes(read("src/app/(dashboard)/settings/billing/page.tsx"), [
       "getRecentBillingEvents",
       "Architecte IA billing",
+      "requestedPlan",
+      "Plan demande depuis la page tarifs",
       "data-od-id=\"billing-ai-architect\"",
       "Vendre le bon palier",
       "Journal Stripe recent",
       "billing-plan-card",
       "billing-event-row",
     ], "stripe billing page");
+
+    assertIncludes(read("src/app/(dashboard)/settings/billing/BillingActions.tsx"), [
+      "requestedPlan",
+      "data-requested",
+      "Activer le plan demande",
+      "JSON.stringify({ plan })",
+    ], "stripe billing plan actions");
 
     assertIncludes(read("src/server/billing.ts"), [
       "hasRecordedBillingEvent",
@@ -734,7 +745,15 @@ describe("production guardrails", () => {
       "Encaissez vos contrats d'entretien",
       "contrats recuperes",
       "revenu recurrent plus fiable",
+      "href={`/login?plan=${plan.id}`}",
+      "Choisir {plan.name}",
     ], "cash-flow pricing positioning");
+
+    assertIncludes(read("src/app/login/LoginForm.tsx"), [
+      "searchParams.get(\"plan\")",
+      "/settings/billing?plan=",
+      "Plan demande : ContratPro",
+    ], "login plan intent");
   });
 
   it("keeps client CSV and Excel import guarded by a dry-run", () => {
