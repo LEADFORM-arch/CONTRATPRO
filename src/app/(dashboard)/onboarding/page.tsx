@@ -23,6 +23,42 @@ type OnboardingStep = {
   title: string;
 };
 
+type ActivationDecision = {
+  action: string;
+  label: string;
+  range: string;
+  risk: string;
+  signal: string;
+  tone: "critical" | "ready" | "warning";
+};
+
+const activationDecisions: ActivationDecision[] = [
+  {
+    action: "Vendre le pilote Starter si l'import et les relances sont compris.",
+    label: "Demarrer accompagne",
+    range: "0-59",
+    risk: "Le client voit encore ContratPro comme une maquette.",
+    signal: "Identite incomplete, base vide ou aucun document genere.",
+    tone: "critical",
+  },
+  {
+    action: "Passer en pilote payant avec une liste courte d'actions.",
+    label: "Pilote facturable",
+    range: "60-84",
+    risk: "Le client peut payer, mais le go-live doit rester accompagne.",
+    signal: "Clients et contrats presents, SEPA ou documents encore a finaliser.",
+    tone: "warning",
+  },
+  {
+    action: "Ouvrir le Pro ou Business et surveiller les signaux ops.",
+    label: "Go-live limite",
+    range: "85-100",
+    risk: "Le risque principal devient operationnel : emails, webhooks, cron.",
+    signal: "Cycle complet pret : donnees, documents, cash-flow et securite.",
+    tone: "ready",
+  },
+];
+
 function OnboardingMetric({
   label,
   value,
@@ -63,6 +99,16 @@ function qualityLabel(score: number) {
     return "Solide, a finaliser";
   }
   return "Mise en route";
+}
+
+function activationDecision(score: number) {
+  if (score >= 85) {
+    return activationDecisions[2];
+  }
+  if (score >= 60) {
+    return activationDecisions[1];
+  }
+  return activationDecisions[0];
 }
 
 export default async function OnboardingPage() {
@@ -144,6 +190,7 @@ export default async function OnboardingPage() {
   const completed = steps.filter((step) => step.done).length;
   const completionRate = Math.round((completed / steps.length) * 100);
   const nextStep = steps.find((step) => !step.done);
+  const decision = activationDecision(completionRate);
 
   return (
     <AppShell activePath="/onboarding">
@@ -183,6 +230,48 @@ export default async function OnboardingPage() {
             <strong>{nextStep?.title ?? "Pilotage"}</strong>
             <p>{nextStep?.description ?? "Surveiller relances, documents et paiements."}</p>
           </div>
+        </div>
+      </section>
+
+      <section className="onboarding-architect mt-6 rounded-lg border shadow-sm" data-od-id="onboarding-ai-architect">
+        <div className="onboarding-architect-header">
+          <div>
+            <p className="text-sm font-semibold text-emerald-300">Architecte IA activation</p>
+            <h3 className="mt-1 text-lg font-bold text-zinc-50">
+              Decider quoi vendre selon la maturite reelle.
+            </h3>
+          </div>
+          <span className="onboarding-architect-pill" data-status={decision.tone}>
+            {decision.label}
+          </span>
+        </div>
+
+        <div className="onboarding-decision-grid">
+          <article className="onboarding-decision-card" data-status={decision.tone}>
+            <span>Decision maintenant</span>
+            <strong>{decision.action}</strong>
+            <p>{decision.risk}</p>
+          </article>
+          <article className="onboarding-decision-card">
+            <span>Signal observe</span>
+            <strong>{decision.signal}</strong>
+            <p>
+              Le prochain clic doit faire avancer ce signal, sinon l'onboarding
+              devient cosmetique.
+            </p>
+          </article>
+        </div>
+
+        <div className="onboarding-band-grid">
+          {activationDecisions.map((item) => (
+            <article className="onboarding-band-card" data-status={item.tone} key={item.label}>
+              <div>
+                <span>{item.range}</span>
+                <strong>{item.label}</strong>
+              </div>
+              <p>{item.action}</p>
+            </article>
+          ))}
         </div>
       </section>
 

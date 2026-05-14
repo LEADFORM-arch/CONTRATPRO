@@ -610,6 +610,42 @@ describe("production guardrails", () => {
     ], "stripe billing runbook");
   });
 
+  it("keeps premium onboarding guided by an activation architect", () => {
+    assertIncludes(read("src/app/(dashboard)/onboarding/page.tsx"), [
+      "Architecte IA activation",
+      "data-od-id=\"onboarding-ai-architect\"",
+      "activationDecisions",
+      "activationDecision",
+      "Demarrer accompagne",
+      "Pilote facturable",
+      "Go-live limite",
+      "Plan d'activation client",
+    ], "premium onboarding page");
+
+    assertIncludes(read("src/app/globals.css"), [
+      ".onboarding-architect",
+      ".onboarding-decision-grid",
+      ".onboarding-band-grid",
+      ".onboarding-band-card",
+    ], "premium onboarding styles");
+
+    assertIncludes(read("docs/onboarding-activation-runbook.md"), [
+      "Runbook onboarding premium ContratPro",
+      "Score de lancement",
+      "Architecte IA activation",
+      "0-59",
+      "60-84",
+      "85-100",
+      "Stop rules",
+    ], "premium onboarding runbook");
+
+    assertIncludes(read("README.md"), [
+      "Priorite 9 - Onboarding client premium",
+      "Architecte IA activation",
+      "docs/onboarding-activation-runbook.md",
+    ], "premium onboarding README");
+  });
+
   it("keeps public commercial pages available before login", () => {
     for (const page of [
       "src/app/architecte-ia/page.tsx",

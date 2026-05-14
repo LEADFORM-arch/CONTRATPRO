@@ -274,6 +274,11 @@ clients, contrats, documents, SEPA, billing et securite. Elle s'appuie sur les
 donnees Supabase reelles et sur le statut billing pour guider le client vers une
 mise en production exploitable.
 
+Le bloc "Architecte IA activation" transforme ce score en decision commerciale :
+0-59 = accompagnement avant vente, 60-84 = pilote facturable, 85-100 = go-live
+limite. Le runbook `docs/onboarding-activation-runbook.md` donne la sequence a
+suivre avec un dirigeant CVC pendant l'activation.
+
 La page `/import` permet maintenant d'importer un fichier clients CSV ou XLSX
 avec simulation obligatoire avant ecriture. Le flux cree les clients, les
 equipements et les contrats annuels apres confirmation, detecte les doublons par
