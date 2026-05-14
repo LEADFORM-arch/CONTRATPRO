@@ -110,6 +110,7 @@ check(
 
 for (const page of [
   "src/app/architecte-ia/page.tsx",
+  "src/app/simulateur/page.tsx",
   "src/app/demo/page.tsx",
   "src/app/pricing/page.tsx",
   "src/app/legal/page.tsx",
@@ -213,6 +214,7 @@ check(
       "CONTRATPRO_DEPLOYMENT_URL",
       "/api/health",
       "/architecte-ia",
+      "/simulateur",
       "/pricing",
       "/demo",
     ]),

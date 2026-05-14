@@ -2,6 +2,7 @@ import type { ReactNode } from "react";
 
 const navItems = [
   { href: "/architecte-ia", label: "Architecte IA" },
+  { href: "/simulateur", label: "Simulateur" },
   { href: "/demo", label: "Demo" },
   { href: "/pricing", label: "Tarif" },
   { href: "/privacy", label: "Confidentialite" },

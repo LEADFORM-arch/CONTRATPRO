@@ -105,7 +105,13 @@ check(
 check(
   "Smoke test deploiement",
   existsSync(file("scripts/deployment-smoke-test.mjs")) &&
-    includesAll(read("scripts/deployment-smoke-test.mjs"), ["/api/health", "/architecte-ia", "/pricing", "/demo"]),
+    includesAll(read("scripts/deployment-smoke-test.mjs"), [
+      "/api/health",
+      "/architecte-ia",
+      "/simulateur",
+      "/pricing",
+      "/demo",
+    ]),
   "un deploiement doit pouvoir etre controle par URL",
 );
 

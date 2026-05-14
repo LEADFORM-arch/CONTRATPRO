@@ -432,6 +432,7 @@ describe("production guardrails", () => {
       "CONTRATPRO_DEPLOYMENT_URL",
       "/api/health",
       "/login",
+      "/simulateur",
       "/pricing",
       "/demo",
     ], "deployment smoke test");
@@ -675,6 +676,7 @@ describe("production guardrails", () => {
   it("keeps public commercial pages available before login", () => {
     for (const page of [
       "src/app/architecte-ia/page.tsx",
+      "src/app/simulateur/page.tsx",
       "src/app/demo/page.tsx",
       "src/app/pricing/page.tsx",
       "src/app/legal/page.tsx",
@@ -687,6 +689,7 @@ describe("production guardrails", () => {
 
     assertIncludes(read("src/components/marketing/PublicShell.tsx"), [
       "/architecte-ia",
+      "/simulateur",
       "/demo",
       "/pricing",
       "/privacy",
@@ -708,6 +711,13 @@ describe("production guardrails", () => {
       "od-agent-grid",
       "VOIR LA DEMO",
     ], "architecte ia public page");
+
+    assertIncludes(read("src/app/simulateur/page.tsx"), [
+      "Simulateur ROI",
+      "Calculer ma perte",
+      "/api/simulateur/track",
+      "Programmer une demo",
+    ], "roi simulator public page");
 
     assertIncludes(read("src/app/pricing/page.tsx"), [
       "Cash-flow CVC",

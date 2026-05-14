@@ -954,6 +954,224 @@ body .hover\:bg-zinc-100:hover {
   grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
+.simulator-hero {
+  min-height: calc(76vh - 8rem);
+}
+
+.simulator-proof-card,
+.simulator-panel,
+.simulator-result-card,
+.simulator-next-step,
+.simulator-proof-grid article {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.052), rgba(255, 255, 255, 0.018)),
+    #111316;
+  border: 1px solid #262a31;
+  border-radius: 0.75rem;
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.26);
+  overflow: hidden;
+  position: relative;
+}
+
+.simulator-proof-card::before,
+.simulator-panel::before,
+.simulator-result-card::before,
+.simulator-next-step::before,
+.simulator-proof-grid article::before {
+  background: linear-gradient(90deg, #34d399, #38bdf8 55%, #f59e0b);
+  content: "";
+  height: 3px;
+  inset: 0 0 auto;
+  position: absolute;
+}
+
+.simulator-proof-card {
+  padding: 1.25rem;
+}
+
+.simulator-proof-card span,
+.simulator-result-card span,
+.simulator-next-step span,
+.simulator-proof-grid span {
+  color: #34d399;
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 850;
+  text-transform: uppercase;
+}
+
+.simulator-proof-card strong,
+.simulator-result-card strong,
+.simulator-next-step strong,
+.simulator-proof-grid strong {
+  color: #f4f4f5;
+  display: block;
+  font-size: 1.1rem;
+  font-weight: 950;
+  line-height: 1.25;
+  margin-top: 0.5rem;
+}
+
+.simulator-proof-card p,
+.simulator-result-card p,
+.simulator-next-step p,
+.simulator-proof-grid p {
+  color: #a1a1aa;
+  font-size: 0.9rem;
+  line-height: 1.65;
+  margin-top: 0.75rem;
+}
+
+.simulator-panel-header {
+  background:
+    linear-gradient(135deg, rgba(16, 185, 129, 0.075), rgba(56, 189, 248, 0.045)),
+    rgba(255, 255, 255, 0.016);
+  border-bottom: 1px solid #262a31;
+  padding: 1.1rem;
+}
+
+.simulator-panel-header p {
+  color: #34d399;
+  font-size: 0.75rem;
+  font-weight: 850;
+  text-transform: uppercase;
+}
+
+.simulator-panel-header h2 {
+  color: #f4f4f5;
+  font-size: 1.25rem;
+  font-weight: 950;
+  margin-top: 0.25rem;
+}
+
+.simulator-controls {
+  display: grid;
+  gap: 1rem;
+  padding: 1.1rem;
+}
+
+.simulator-slider {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.065);
+  border-radius: 0.5rem;
+  padding: 0.95rem;
+}
+
+.simulator-slider[data-alert="true"] {
+  background: rgba(245, 158, 11, 0.06);
+  border-color: rgba(245, 158, 11, 0.22);
+}
+
+.simulator-slider-top,
+.simulator-slider-scale {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.simulator-slider label,
+.simulator-plan-select label {
+  color: #f4f4f5;
+  font-size: 0.85rem;
+  font-weight: 850;
+}
+
+.simulator-slider strong {
+  color: #f4f4f5;
+  font-size: 0.95rem;
+  font-weight: 950;
+  white-space: nowrap;
+}
+
+.simulator-slider input {
+  accent-color: #34d399;
+  margin-top: 0.85rem;
+  width: 100%;
+}
+
+.simulator-slider-scale {
+  color: #71717a;
+  font-size: 0.72rem;
+  font-weight: 750;
+  margin-top: 0.3rem;
+}
+
+.simulator-slider p {
+  color: #fbbf24;
+  font-size: 0.78rem;
+  line-height: 1.5;
+  margin-top: 0.6rem;
+}
+
+.simulator-plan-select {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.simulator-plan-select select {
+  background: #0b0d10;
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: 0.5rem;
+  color: #f4f4f5;
+  font: inherit;
+  font-weight: 750;
+  min-height: 2.7rem;
+  padding: 0 0.75rem;
+}
+
+.simulator-results {
+  display: grid;
+  gap: 1rem;
+}
+
+.simulator-result-card {
+  padding: 1.25rem;
+}
+
+.simulator-result-card strong {
+  font-size: 2.35rem;
+  letter-spacing: 0;
+}
+
+.simulator-result-card-loss::before {
+  background: linear-gradient(90deg, #fb7185, rgba(251, 113, 133, 0));
+}
+
+.simulator-result-card-loss span {
+  color: #fb7185;
+}
+
+.simulator-result-card-recovery::before {
+  background: linear-gradient(90deg, #34d399, rgba(52, 211, 153, 0));
+}
+
+.simulator-result-card-roi::before {
+  background: linear-gradient(90deg, #38bdf8, rgba(56, 189, 248, 0));
+}
+
+.simulator-result-card-roi span {
+  color: #7dd3fc;
+}
+
+.simulator-next-step {
+  align-items: center;
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: minmax(0, 1fr) auto;
+  padding: 1.25rem;
+}
+
+.simulator-proof-grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.simulator-proof-grid article {
+  padding: 1rem;
+}
+
 .public-legal-panel {
   display: grid;
   gap: 1.25rem;
@@ -1354,7 +1572,9 @@ body .hover\:bg-zinc-100:hover {
   .public-pricing-grid-three,
   .public-agent-grid,
   .public-demo-steps,
-  .public-proof-grid {
+  .public-proof-grid,
+  .simulator-next-step,
+  .simulator-proof-grid {
     grid-template-columns: 1fr;
   }
 
