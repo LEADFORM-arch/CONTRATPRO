@@ -83,6 +83,34 @@ describe("production guardrails", () => {
       assert.ok(read(route).includes("requireAdminUser"), `${route} must require admin user`);
     }
 
+    assertIncludes(read("src/app/(dashboard)/prospection/page.tsx"), [
+      "Command center",
+      "File d'appel fondateur",
+      "lead-stage-board",
+      "PUBLIC_DEMO",
+      "Cree le {lead.createdAt}",
+    ], "founder sales pipeline cockpit");
+
+    assertIncludes(read("src/app/(dashboard)/admin/prospection/page.tsx"), [
+      "Priorite fondateur",
+      "Appels demo a traiter aujourd'hui",
+      "founder-queue-card",
+      "PUBLIC_DEMO",
+    ], "admin sales command queue");
+
+    assertIncludes(read("src/app/(dashboard)/prospection/LeadStatusControls.tsx"), [
+      "REPLIED",
+      "LOST",
+      "nextAction",
+      "Mise a jour impossible.",
+    ], "lead status sales actions");
+
+    assertIncludes(read("src/app/globals.css"), [
+      ".sales-command",
+      ".lead-stage-board",
+      ".founder-queue-card",
+    ], "sales cockpit styles");
+
     const shell = read("src/components/layout/AppShell.tsx");
     assertIncludes(shell, [
       "showInternalTools = false",

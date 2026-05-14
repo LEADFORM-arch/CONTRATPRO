@@ -12,6 +12,9 @@ export default async function AdminProspectionDashboardPage() {
     getFacebookSettings(),
   ]);
   const hotLeads = leads.filter((lead) => lead.score >= 80);
+  const inboundDemoLeads = leads.filter((lead) => lead.source === "PUBLIC_DEMO");
+  const toQualify = leads.filter((lead) => lead.rawStatus === "TO_QUALIFY");
+  const replied = leads.filter((lead) => lead.rawStatus === "REPLIED");
   const contacted = leads.filter((lead) =>
     ["CONTACTED", "REPLIED", "DEMO_SCHEDULED", "WON"].includes(lead.rawStatus),
   );
@@ -26,6 +29,13 @@ export default async function AdminProspectionDashboardPage() {
   const nextActions = topLeads
     .filter((lead) => lead.nextAction && lead.nextAction !== "-")
     .slice(0, 4);
+  const founderQueue = [...inboundDemoLeads, ...hotLeads, ...replied]
+    .filter(
+      (lead, index, list) => list.findIndex((item) => item.id === lead.id) === index,
+    )
+    .filter((lead) => !["WON", "LOST"].includes(lead.rawStatus))
+    .sort((a, b) => b.score - a.score)
+    .slice(0, 5);
   const connectorChecks: Array<[string, boolean]> = [
     ["Buffer", settings.bufferAccessTokenConfigured],
     ["Apify", settings.apifyTokenConfigured],
@@ -74,7 +84,7 @@ export default async function AdminProspectionDashboardPage() {
         {[
           ["Leads", leads.length, "Total pipeline", "cyan"],
           ["Chauds", hotLeads.length, "Score 80+", "amber"],
-          ["Contactes", contacted.length, "Conversation lancee", "emerald"],
+          ["Demandes demo", inboundDemoLeads.length, "Entrantes site", "emerald"],
           ["Demos", demos.length, `${won.length} gagne`, "rose"],
         ].map(([label, value, helper, tone]) => (
           <article
@@ -92,6 +102,48 @@ export default async function AdminProspectionDashboardPage() {
           </article>
         ))}
       </div>
+
+      <section className="sales-command mt-5 rounded-lg border p-4">
+        <div className="sales-command-header">
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-wide text-emerald-300">
+              Priorite fondateur
+            </p>
+            <h3 className="mt-1 text-lg font-semibold text-zinc-50">
+              Appels demo a traiter aujourd'hui
+            </h3>
+          </div>
+          <StatusPill>{toQualify.length} a qualifier</StatusPill>
+        </div>
+
+        <div className="mt-4 grid gap-3 lg:grid-cols-5">
+          {founderQueue.length ? (
+            founderQueue.map((lead) => (
+              <article className="founder-queue-card" key={lead.id}>
+                <div className="flex items-start justify-between gap-3">
+                  <span className="prospection-source-pill">{lead.source}</span>
+                  <span className="prospection-score" data-hot={lead.score >= 80}>
+                    {lead.score}<span>/100</span>
+                  </span>
+                </div>
+                <h4 className="mt-4 font-semibold text-zinc-50">{lead.company}</h4>
+                <p className="mt-1 text-sm text-zinc-400">
+                  {lead.contact} - {lead.city}
+                </p>
+                <p className="mt-3 text-sm text-zinc-300">{lead.nextAction}</p>
+              </article>
+            ))
+          ) : (
+            <article className="founder-queue-card lg:col-span-5">
+              <h4 className="font-semibold text-zinc-50">File d'appel vide</h4>
+              <p className="mt-1 text-sm text-zinc-400">
+                Les demandes du formulaire demo remonteront ici avec score et
+                prochaine action.
+              </p>
+            </article>
+          )}
+        </div>
+      </section>
 
       <section className="mt-5 grid gap-4 xl:grid-cols-[1fr_360px]">
         <article className="prospection-section rounded-lg border">

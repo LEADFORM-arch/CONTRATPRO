@@ -1401,6 +1401,7 @@ export async function getProspectionLeads() {
       score: 72,
       nextAction: "Verifier volume contrats entretien",
       lastTouch: "-",
+      createdAt: "-",
       notes: "A reagi a un post sur les renouvellements oublies.",
     },
     {
@@ -1417,6 +1418,7 @@ export async function getProspectionLeads() {
       score: 81,
       nextAction: "Envoyer lien demo et sequence J+2",
       lastTouch: "-",
+      createdAt: "-",
       notes: "Profil tres proche ICP : petite equipe, PAC et clim reversible.",
     },
     {
@@ -1433,6 +1435,7 @@ export async function getProspectionLeads() {
       score: 88,
       nextAction: "Confirmer creneau demo",
       lastTouch: "-",
+      createdAt: "-",
       notes: "Demande une vue simple des contrats actifs et relances.",
     },
   ];
@@ -1455,6 +1458,7 @@ export async function getProspectionLeads() {
     score: Number(row.score),
     nextAction: row.next_action ?? "-",
     lastTouch: formatDate(row.last_touch_at),
+    createdAt: formatDate(row.created_at),
     notes: row.notes ?? "-",
   }));
 }
