@@ -1389,6 +1389,105 @@ body .hover\:bg-zinc-100:hover {
   grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
+.demo-request-panel {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.052), rgba(255, 255, 255, 0.018)),
+    #111316;
+  border: 1px solid #262a31;
+  border-radius: 0.75rem;
+  box-shadow: 0 24px 68px rgba(0, 0, 0, 0.24);
+  display: grid;
+  gap: 1.25rem;
+  overflow: hidden;
+  padding: 1.25rem;
+  position: relative;
+}
+
+.demo-request-panel::before {
+  background: linear-gradient(90deg, #34d399, #38bdf8 55%, #f59e0b);
+  content: "";
+  height: 3px;
+  inset: 0 0 auto;
+  position: absolute;
+}
+
+.demo-request-panel h2 {
+  color: #f4f4f5;
+  font-size: 1.4rem;
+  font-weight: 950;
+  margin-top: 0.25rem;
+}
+
+.demo-request-panel p {
+  color: #a1a1aa;
+  font-size: 0.92rem;
+  line-height: 1.7;
+  margin-top: 0.5rem;
+}
+
+.demo-request-form {
+  display: grid;
+  gap: 1rem;
+}
+
+.demo-form-grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.demo-request-form label {
+  display: grid;
+  gap: 0.45rem;
+}
+
+.demo-request-form span {
+  color: #f4f4f5;
+  font-size: 0.82rem;
+  font-weight: 850;
+}
+
+.demo-request-form input,
+.demo-request-form select,
+.demo-request-form textarea {
+  background: #0b0d10;
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: 0.5rem;
+  color: #f4f4f5;
+  font: inherit;
+  min-height: 2.7rem;
+  padding: 0.7rem 0.75rem;
+}
+
+.demo-request-form textarea {
+  resize: vertical;
+}
+
+.demo-message-field {
+  grid-column: 1 / -1;
+}
+
+.demo-form-error,
+.demo-form-success {
+  border-radius: 0.45rem;
+  font-size: 0.875rem;
+  font-weight: 750;
+  line-height: 1.55;
+  padding: 0.75rem 0.85rem;
+}
+
+.demo-form-error {
+  background: rgba(127, 29, 29, 0.28);
+  border: 1px solid rgba(248, 113, 113, 0.28);
+  color: #fecaca;
+}
+
+.demo-form-success {
+  background: rgba(52, 211, 153, 0.08);
+  border: 1px solid rgba(52, 211, 153, 0.22);
+  color: #bbf7d0;
+}
+
 .public-legal-panel {
   display: grid;
   gap: 1.25rem;
@@ -1796,7 +1895,8 @@ body .hover\:bg-zinc-100:hover {
   .seo-check-grid,
   .seo-workflow-grid,
   .seo-two-column,
-  .seo-faq-grid {
+  .seo-faq-grid,
+  .demo-form-grid {
     grid-template-columns: 1fr;
   }
 

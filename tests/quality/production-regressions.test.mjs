@@ -140,6 +140,15 @@ describe("production guardrails", () => {
       "client-import",
       "limit: 12",
     ], "client import rate limit");
+
+    assertIncludes(read("src/app/api/public/demo-request/route.ts"), [
+      "rateLimit",
+      "public-demo-request",
+      "limit: 5",
+      "assertProductionSafeOrganizationId",
+      "prospection_leads",
+      "notifyAdmin",
+    ], "public demo request guardrails");
   });
 
   it("keeps provider webhooks signed and cron protected", () => {
@@ -750,6 +759,27 @@ describe("production guardrails", () => {
       "application/ld+json",
       "Voir la demo documents",
     ], "seo boiler certificate page");
+
+    assertIncludes(read("src/app/demo/page.tsx"), [
+      "DemoRequestForm",
+      "Suspense",
+      "#demande-demo",
+      "Capture lead",
+      "Demander une demonstration ContratPro",
+    ], "public demo lead capture page");
+
+    assertIncludes(read("src/app/demo/DemoRequestForm.tsx"), [
+      "/api/public/demo-request",
+      "sourceUrl: window.location.href",
+      "Plan vise",
+      "Demande envoyee",
+    ], "public demo lead form");
+
+    assertIncludes(read("src/app/globals.css"), [
+      ".demo-request-panel",
+      ".demo-request-form",
+      ".demo-form-success",
+    ], "public demo lead styles");
 
     assertIncludes(read("src/app/sitemap.ts"), [
       "/attestation-entretien-chaudiere",

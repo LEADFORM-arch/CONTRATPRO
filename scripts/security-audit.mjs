@@ -250,6 +250,18 @@ for (const route of authenticatedApiFiles) {
   );
 }
 
+check(
+  "API publique demo limitee",
+  includesAll(read("src/app/api/public/demo-request/route.ts"), [
+    "rateLimit",
+    "CONTRATPRO_PUBLIC_LEAD_ORG_ID",
+    "assertProductionSafeOrganizationId",
+    "prospection_leads",
+    "notifyAdmin",
+  ]),
+  "la capture demo publique doit etre rate-limitee, rattachee a une org sure et notifier le fondateur",
+);
+
 const signedWebhookFiles = [
   "src/app/api/webhooks/gocardless/route.ts",
   "src/app/api/webhooks/stripe/route.ts",

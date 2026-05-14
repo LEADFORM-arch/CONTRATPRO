@@ -1,4 +1,7 @@
 import { PublicHero, PublicSection, PublicShell } from "@/components/marketing/PublicShell";
+import { Suspense } from "react";
+
+import { DemoRequestForm } from "./DemoRequestForm";
 
 const demoSteps = [
   ["1", "Importer", "Base clients Praxedo ou creation manuelle des premiers clients."],
@@ -20,7 +23,7 @@ export default function DemoPage() {
       <PublicHero
         action={
           <>
-            <a className="premium-action rounded-md text-sm font-semibold" href="mailto:esport.hub.pro@proton.me?subject=Demo%20ContratPro">
+            <a className="premium-action rounded-md text-sm font-semibold" href="#demande-demo">
               Programmer une demo
             </a>
             <a className="premium-secondary-action rounded-md px-4 py-2 text-sm font-semibold" href="/pricing">
@@ -55,6 +58,24 @@ export default function DemoPage() {
           ))}
         </div>
       </PublicSection>
+
+      <section className="mx-auto max-w-6xl px-5 py-8 sm:px-8" id="demande-demo">
+        <div className="demo-request-panel">
+          <div>
+            <p className="text-sm font-semibold text-emerald-300">
+              Capture lead
+            </p>
+            <h2>Demander une demonstration ContratPro</h2>
+            <p>
+              Cette demande alimente directement le pipeline prospection
+              fondateur, avec scoring et notification interne.
+            </p>
+          </div>
+          <Suspense fallback={<div className="demo-form-success">Chargement du formulaire...</div>}>
+            <DemoRequestForm />
+          </Suspense>
+        </div>
+      </section>
     </PublicShell>
   );
 }
