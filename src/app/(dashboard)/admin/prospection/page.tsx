@@ -44,6 +44,53 @@ export default async function AdminProspectionDashboardPage() {
   const missingConnectors = connectorChecks
     .filter(([, configured]) => !configured)
     .map(([label]) => label);
+  const attributionStats = Object.values(
+    leads.reduce<
+      Record<
+        string,
+        {
+          demos: number;
+          hot: number;
+          label: string;
+          leads: number;
+          scoreTotal: number;
+          won: number;
+        }
+      >
+    >((acc, lead) => {
+      const label = lead.attribution && lead.attribution !== "-" ? lead.attribution : lead.source;
+      const current =
+        acc[label] ??
+        {
+          demos: 0,
+          hot: 0,
+          label,
+          leads: 0,
+          scoreTotal: 0,
+          won: 0,
+        };
+
+      current.leads += 1;
+      current.scoreTotal += lead.score;
+      if (lead.score >= 80) {
+        current.hot += 1;
+      }
+      if (lead.rawStatus === "DEMO_SCHEDULED") {
+        current.demos += 1;
+      }
+      if (lead.rawStatus === "WON") {
+        current.won += 1;
+      }
+      acc[label] = current;
+      return acc;
+    }, {}),
+  )
+    .map((item) => ({
+      ...item,
+      averageScore: item.leads ? Math.round(item.scoreTotal / item.leads) : 0,
+    }))
+    .sort((a, b) => b.leads - a.leads || b.averageScore - a.averageScore)
+    .slice(0, 6);
 
   return (
     <AppShell activePath="/admin/prospection" showInternalTools>
@@ -102,6 +149,60 @@ export default async function AdminProspectionDashboardPage() {
           </article>
         ))}
       </div>
+
+      <section className="settings-panel mt-5 rounded-lg border p-4 shadow-sm">
+        <div className="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-wide text-emerald-300">
+              Performance attribution
+            </p>
+            <h3 className="mt-1 text-lg font-semibold text-zinc-50">
+              Ce qui genere les meilleurs leads
+            </h3>
+            <p className="mt-2 max-w-2xl text-sm leading-6 text-zinc-400">
+              Lecture fondateur des campagnes tracees : volume, qualite et
+              progression vers demo ou signature.
+            </p>
+          </div>
+          <StatusPill>{attributionStats.length} sources suivies</StatusPill>
+        </div>
+
+        <div className="attribution-performance-grid mt-4 grid gap-3 lg:grid-cols-3">
+          {attributionStats.length ? (
+            attributionStats.map((item) => (
+              <article className="attribution-performance-card rounded-lg border p-3" key={item.label}>
+                <p className="break-words text-xs font-semibold uppercase tracking-wide text-zinc-500">
+                  {item.label}
+                </p>
+                <div className="mt-3 grid grid-cols-4 gap-2 text-center">
+                  {[
+                    ["Leads", item.leads],
+                    ["Chauds", item.hot],
+                    ["Demos", item.demos],
+                    ["Gagnes", item.won],
+                  ].map(([label, value]) => (
+                    <div className="attribution-mini-stat" key={label}>
+                      <strong>{value}</strong>
+                      <span>{label}</span>
+                    </div>
+                  ))}
+                </div>
+                <p className="mt-3 text-sm text-zinc-400">
+                  Score moyen : <strong className="text-zinc-100">{item.averageScore}/100</strong>
+                </p>
+              </article>
+            ))
+          ) : (
+            <article className="attribution-performance-card rounded-lg border p-3 lg:col-span-3">
+              <p className="font-semibold text-zinc-50">Aucune campagne tracee</p>
+              <p className="mt-1 text-sm text-zinc-400">
+                Cree un lien UTM dans Reglages Facebook, publie-le, puis les
+                demandes demo alimenteront cette lecture.
+              </p>
+            </article>
+          )}
+        </div>
+      </section>
 
       <section className="sales-command mt-5 rounded-lg border p-4">
         <div className="sales-command-header">

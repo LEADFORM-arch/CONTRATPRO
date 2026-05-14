@@ -98,6 +98,10 @@ describe("production guardrails", () => {
       "founder-queue-card",
       "PUBLIC_DEMO",
       "{lead.attribution}",
+      "Performance attribution",
+      "Ce qui genere les meilleurs leads",
+      "attributionStats",
+      "Score moyen",
     ], "admin sales command queue");
 
     assertIncludes(read("src/server/contratpro-data.ts"), [
@@ -139,6 +143,8 @@ describe("production guardrails", () => {
       ".campaign-link-panel",
       ".campaign-preset-button",
       ".campaign-link-output",
+      ".attribution-performance-card",
+      ".attribution-mini-stat",
     ], "sales cockpit styles");
 
     const shell = read("src/components/layout/AppShell.tsx");
