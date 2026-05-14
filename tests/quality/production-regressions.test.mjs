@@ -176,6 +176,8 @@ describe("production guardrails", () => {
       "assertProductionSafeOrganizationId",
       "prospection_leads",
       "notifyAdmin",
+      "sendPlainEmail",
+      "Demande demo ContratPro recue",
     ], "public demo request guardrails");
   });
 
@@ -486,6 +488,7 @@ describe("production guardrails", () => {
       "/attestation-entretien-chaudiere",
       "/pricing",
       "/demo",
+      "/demo/merci",
     ], "deployment smoke test");
 
     assertIncludes(read("docs/vercel-launch-checklist.md"), [
@@ -767,6 +770,7 @@ describe("production guardrails", () => {
       "src/app/architecte-ia/page.tsx",
       "src/app/attestation-entretien-chaudiere/page.tsx",
       "src/app/demo/page.tsx",
+      "src/app/demo/merci/page.tsx",
       "src/app/pricing/page.tsx",
       "src/app/legal/page.tsx",
       "src/app/privacy/page.tsx",
@@ -826,6 +830,16 @@ describe("production guardrails", () => {
       "canonical: \"/demo\"",
       "Demo ContratPro pour chauffagistes CVC",
     ], "demo metadata");
+
+    assertIncludes(read("src/app/demo/merci/page.tsx"), [
+      "export const metadata",
+      "robots",
+      "index: false",
+      "Demande recue",
+      "Votre demande demo est bien arrivee.",
+      "Prochaines etapes",
+      "Preparer votre fichier clients",
+    ], "demo thank-you page");
 
     assertIncludes(read("src/app/pricing/page.tsx"), [
       "export const metadata",
@@ -896,7 +910,9 @@ describe("production guardrails", () => {
       "/api/public/demo-request",
       "sourceUrl: window.location.href",
       "Plan vise",
-      "Demande envoyee",
+      "useRouter",
+      "URLSearchParams",
+      "/demo/merci",
     ], "public demo lead form");
 
     assertIncludes(read("src/app/globals.css"), [

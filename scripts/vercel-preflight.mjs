@@ -112,6 +112,7 @@ check(
       "/attestation-entretien-chaudiere",
       "/pricing",
       "/demo",
+      "/demo/merci",
     ]),
   "un deploiement doit pouvoir etre controle par URL",
 );

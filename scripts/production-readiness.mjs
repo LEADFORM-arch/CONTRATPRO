@@ -225,6 +225,7 @@ check(
       "/attestation-entretien-chaudiere",
       "/pricing",
       "/demo",
+      "/demo/merci",
     ]),
   "le deploiement doit avoir un controle HTTP post-release",
 );

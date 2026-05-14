@@ -16,6 +16,7 @@ const checks = [
   { path: "/attestation-entretien-chaudiere", includes: ["Attestation", "chaudiere"] },
   { path: "/pricing", includes: ["49", "199", "ContratPro"] },
   { path: "/demo", includes: ["demo", "ContratPro"] },
+  { path: "/demo/merci", includes: ["Demande", "ContratPro"] },
   { path: "/legal", includes: ["Mentions", "ContratPro"] },
   { path: "/privacy", includes: ["confidentialite", "ContratPro"] },
   { path: "/terms", includes: ["conditions", "ContratPro"] },

@@ -1,23 +1,24 @@
 "use client";
 
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import type { FormEvent } from "react";
 import { useState } from "react";
 
 export function DemoRequestForm() {
+  const router = useRouter();
   const searchParams = useSearchParams();
   const requestedPlan = searchParams.get("plan") ?? "";
   const [error, setError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [success, setSuccess] = useState(false);
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setError("");
-    setSuccess(false);
     setIsSubmitting(true);
 
     const formData = new FormData(event.currentTarget);
+    const companyName = String(formData.get("companyName") ?? "").trim();
+    const plan = String(formData.get("plan") ?? requestedPlan ?? "pro").trim();
     const payload = {
       ...Object.fromEntries(formData.entries()),
       sourceUrl: window.location.href,
@@ -36,8 +37,14 @@ export function DemoRequestForm() {
         return;
       }
 
-      setSuccess(true);
-      event.currentTarget.reset();
+      const nextParams = new URLSearchParams();
+      if (companyName) {
+        nextParams.set("company", companyName);
+      }
+      if (plan) {
+        nextParams.set("plan", plan);
+      }
+      router.push(`/demo/merci?${nextParams.toString()}`);
     } catch {
       setError("Le serveur n'a pas repondu. Reessayez dans quelques instants.");
     } finally {
@@ -102,11 +109,6 @@ export function DemoRequestForm() {
       </label>
 
       {error ? <p className="demo-form-error">{error}</p> : null}
-      {success ? (
-        <p className="demo-form-success">
-          Demande envoyee. Le fondateur peut maintenant la traiter dans le dashboard prospection.
-        </p>
-      ) : null}
 
       <button className="premium-action rounded-md text-sm font-semibold" disabled={isSubmitting} type="submit">
         {isSubmitting ? "Envoi..." : "Demander une demo"}

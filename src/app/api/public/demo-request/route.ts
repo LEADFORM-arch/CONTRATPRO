@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 
 import { notifyAdmin } from "@/server/internal-notifications";
 import { rateLimit } from "@/server/rate-limit";
+import { sendPlainEmail } from "@/server/resend";
 import { serviceInsert, SupabaseServiceError } from "@/server/supabase-service";
 import {
   DemoOrganizationForbiddenError,
@@ -19,6 +20,15 @@ const specialties = new Set([
 
 function text(value: unknown) {
   return typeof value === "string" && value.trim() ? value.trim() : null;
+}
+
+function escapeHtml(value: string) {
+  return value
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
 }
 
 function email(value: unknown) {
@@ -104,6 +114,8 @@ export async function POST(request: Request) {
     const score = scoreLead(body);
     const contractCount = integer(body.contractCount);
     const plan = text(body.plan);
+    const safeCompanyName = escapeHtml(companyName);
+    const safeContactName = contactName ? escapeHtml(contactName) : null;
     const lead = await serviceInsert<{ id: string }>("prospection_leads", {
       city: text(body.city),
       company_name: companyName,
@@ -143,6 +155,28 @@ export async function POST(request: Request) {
       type: "public_demo_request",
     }).catch((error) => {
       console.warn("[Public demo] notification failed", error);
+    });
+
+    await sendPlainEmail({
+      html: `
+        <p>Bonjour${safeContactName ? ` ${safeContactName}` : ""},</p>
+        <p>Votre demande de demonstration ContratPro pour <strong>${safeCompanyName}</strong> est bien recue.</p>
+        <p>Pour preparer un echange utile, gardez sous la main votre fichier clients, un export Praxedo ou le nombre approximatif de contrats d'entretien suivis.</p>
+        <p>A tres vite,<br />ContratPro</p>
+      `,
+      subject: "Demande demo ContratPro recue",
+      text: [
+        `Bonjour${contactName ? ` ${contactName}` : ""},`,
+        "",
+        `Votre demande de demonstration ContratPro pour ${companyName} est bien recue.`,
+        "Pour preparer un echange utile, gardez sous la main votre fichier clients, un export Praxedo ou le nombre approximatif de contrats d'entretien suivis.",
+        "",
+        "A tres vite,",
+        "ContratPro",
+      ].join("\n"),
+      to: leadEmail,
+    }).catch((error) => {
+      console.warn("[Public demo] confirmation email failed", error);
     });
 
     return NextResponse.json({ id: lead.id, ok: true }, { status: 201 });
