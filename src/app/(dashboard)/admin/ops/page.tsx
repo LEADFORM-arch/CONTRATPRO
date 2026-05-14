@@ -94,6 +94,29 @@ export default async function OpsPage() {
         ))}
       </section>
 
+      <section className="ops-cron-panel mt-6 rounded-lg border shadow-sm" data-od-id="ops-cron-runbook">
+        <div className="ops-panel-header">
+          <div>
+            <p className="text-sm font-semibold text-cyan-300">Priorite 6</p>
+            <h3 className="mt-1 text-lg font-bold text-zinc-50">Cron relances sous controle</h3>
+          </div>
+          <span className="ops-muted-pill">Dry-run avant envoi reel</span>
+        </div>
+        <div className="ops-cron-grid">
+          {health.cronRunbook.map((item) => (
+            <article className="ops-cron-card" data-status={item.status} key={item.label}>
+              <div className="ops-cron-top">
+                <strong>{item.label}</strong>
+                <span>{statusLabels[item.status]}</span>
+              </div>
+              <p>{item.detail}</p>
+              <code>{item.command}</code>
+              <small>{item.proof}</small>
+            </article>
+          ))}
+        </div>
+      </section>
+
       <div className="mt-6 grid gap-6 xl:grid-cols-[1.1fr_0.9fr]">
         <section className="ops-panel rounded-lg border shadow-sm">
           <div className="ops-panel-header">

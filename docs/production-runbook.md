@@ -138,7 +138,25 @@ Puis effectuer un test metier court :
 - verification supervision ;
 - verification notifications internes.
 
-## 6. Backup et restauration Supabase
+## 6. Cron relances quotidiennes
+
+Le cron Vercel appelle `/api/cron/renewals` tous les jours a 06:00 UTC. Avant
+un envoi reel, suivre `docs/cron-renewals-runbook.md` :
+
+```text
+GET /api/cron/renewals?dryRun=true
+POST /api/cron/renewals { "dryRun": false }
+```
+
+Preuves attendues :
+
+- `CRON_SECRET` ou `CONTRATPRO_CRON_SECRET` configure ;
+- `CONTRATPRO_ORG_ID` pointe vers l'organisation pilote ;
+- `renewal_actions` journalise `SENT` ou `TODO` ;
+- `/admin/ops` affiche le panneau "Cron relances sous controle" ;
+- `/admin/notifications` remonte les echecs.
+
+## 7. Backup et restauration Supabase
 
 Avant chaque mise en production commerciale, verifier que les backups Supabase
 du projet `yotafzxcpyyrkkpeyfpp` sont actifs depuis le dashboard officiel :
@@ -156,7 +174,7 @@ Une restauration doit etre traitee comme un incident production : couper les
 crons, bloquer les webhooks si besoin, restaurer, puis relancer `npm run
 deploy:smoke` et `npm run deploy:smoke:auth`.
 
-## 7. Retour arriere
+## 8. Retour arriere
 
 Si le deploiement casse une route critique :
 

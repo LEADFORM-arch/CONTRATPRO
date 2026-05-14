@@ -189,6 +189,11 @@ Par defaut, `dryRun` vaut `true`. Passez `dryRun: false` seulement lorsque
 jours, ignore les contrats deja relances recemment, envoie l'email via Resend,
 puis journalise dans `renewal_actions`.
 
+Le runbook `docs/cron-renewals-runbook.md` formalise le passage du dry-run a
+l'envoi reel : variables Vercel, preuve Supabase, controle Resend et alerte
+fondateur. Le cockpit `/admin/ops` affiche aussi le panneau "Cron relances sous
+controle" pour verifier la priorite 6 sans exposer les secrets.
+
 ## Priorite 7 - Supervision production
 
 Endpoints disponibles :

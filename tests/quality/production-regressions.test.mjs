@@ -151,6 +151,37 @@ describe("production guardrails", () => {
       "authorization",
       "notifyAdmin",
     ], "renewal cron");
+
+    assertIncludes(read("src/server/ops-health.ts"), [
+      "OpsRunbookAction",
+      "buildCronRunbook",
+      "Dry-run quotidien",
+      "Envoi reel controle",
+      "Preuve de journalisation",
+      "Alerte fondateur",
+      "CONTRATPRO_ORG_ID",
+    ], "ops cron runbook");
+
+    assertIncludes(read("src/app/(dashboard)/admin/ops/page.tsx"), [
+      "data-od-id=\"ops-cron-runbook\"",
+      "Cron relances sous controle",
+      "health.cronRunbook.map",
+      "Dry-run avant envoi reel",
+    ], "ops cron page");
+
+    assertIncludes(read("src/app/globals.css"), [
+      ".ops-cron-panel",
+      ".ops-cron-grid",
+      ".ops-cron-card",
+    ], "ops cron styles");
+
+    assertIncludes(read("docs/cron-renewals-runbook.md"), [
+      "Runbook cron relances ContratPro",
+      "Dry-run obligatoire",
+      "Envoi reel controle",
+      "Verification Supabase",
+      "Alerting fondateur",
+    ], "cron renewal runbook");
   });
 
   it("keeps the renewal AI growth agent visible and human-validated", () => {
@@ -348,6 +379,8 @@ describe("production guardrails", () => {
       "https://github.com/admincairn/CONTRATPRO",
       "Gate avant merge",
       "Variables Vercel obligatoires",
+      "Cron relances quotidiennes",
+      "docs/cron-renewals-runbook.md",
       "Backup et restauration Supabase",
       "Retour arriere",
     ], "production runbook");

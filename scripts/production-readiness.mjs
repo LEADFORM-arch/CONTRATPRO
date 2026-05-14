@@ -157,11 +157,26 @@ check(
       "https://github.com/admincairn/CONTRATPRO",
       "Gate avant merge",
       "Variables Vercel obligatoires",
+      "Cron relances quotidiennes",
+      "docs/cron-renewals-runbook.md",
       "https://supabase.com/dashboard/project/yotafzxcpyyrkkpeyfpp",
       "https://dashboard.stripe.com/acct_1TVFyGBJsOV2aVH0/test/dashboard",
       "Retour arriere",
     ]),
   "le deploiement doit etre documente comme une procedure reproductible",
+);
+
+check(
+  "Runbook cron relances",
+  existsSync(file("docs/cron-renewals-runbook.md")) &&
+    includesAll(read("docs/cron-renewals-runbook.md"), [
+      "Runbook cron relances ContratPro",
+      "Dry-run obligatoire",
+      "Envoi reel controle",
+      "Verification Supabase",
+      "Alerting fondateur",
+    ]),
+  "les relances automatiques doivent avoir une procedure dry-run puis envoi reel",
 );
 
 check(

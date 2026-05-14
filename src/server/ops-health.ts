@@ -24,6 +24,14 @@ export type OpsRecentItem = {
   timestamp: string | null;
 };
 
+export type OpsRunbookAction = {
+  command: string;
+  detail: string;
+  label: string;
+  proof: string;
+  status: OpsStatus;
+};
+
 type SafeRows<T> = {
   error?: string;
   rows: T[];
@@ -43,6 +51,10 @@ function hasEnv(name: string) {
 
 function hasAnyEnv(names: string[]) {
   return names.some((name) => hasEnv(name));
+}
+
+function hasEmailProvider() {
+  return hasEnv("RESEND_API_KEY") && hasEnv("RESEND_FROM_EMAIL");
 }
 
 function envCheck(label: string, name: string, detail: string, critical = false): OpsCheck {
@@ -142,6 +154,54 @@ function recentItem(label: string, rows: SafeRows<TimestampRow>, emptyDetail: st
   };
 }
 
+function buildCronRunbook({
+  adminEmails,
+  internalNotifications,
+  renewalActions,
+}: {
+  adminEmails: string[];
+  internalNotifications: SafeRows<TimestampRow>;
+  renewalActions: SafeRows<TimestampRow>;
+}): OpsRunbookAction[] {
+  const cronSecretReady = hasAnyEnv(["CONTRATPRO_CRON_SECRET", "CRON_SECRET"]);
+  const organizationReady = hasEnv("CONTRATPRO_ORG_ID");
+  const serviceReady = hasEnv("SUPABASE_SERVICE_ROLE_KEY");
+  const emailReady = hasEmailProvider();
+  const renewalJournalReady = renewalActions.rows.length > 0;
+  const notificationReady = adminEmails.length > 0 && !internalNotifications.error;
+
+  return [
+    {
+      command: "GET /api/cron/renewals?dryRun=true",
+      detail: "Simule les contrats a relancer sans envoyer d'email.",
+      label: "Dry-run quotidien",
+      proof: "Rapport JSON avec processed, skipped, sent=0 et failed=0 attendu.",
+      status: cronSecretReady && organizationReady && serviceReady ? "ready" : "critical",
+    },
+    {
+      command: "POST /api/cron/renewals { dryRun: false }",
+      detail: "Autorise l'envoi Resend puis journalise chaque resultat.",
+      label: "Envoi reel controle",
+      proof: "Ligne renewal_actions creee avec status SENT ou TODO.",
+      status: cronSecretReady && organizationReady && serviceReady && emailReady ? "ready" : "critical",
+    },
+    {
+      command: "SELECT * FROM renewal_actions ORDER BY created_at DESC LIMIT 10",
+      detail: "Verifie que les relances deviennent auditables.",
+      label: "Preuve de journalisation",
+      proof: "Derniere relance visible dans /admin/ops et /relances.",
+      status: renewalActions.error ? "warning" : renewalJournalReady ? "ready" : "warning",
+    },
+    {
+      command: "Verifier /admin/notifications apres un echec simule",
+      detail: "Confirme qu'un echec cron remonte au fondateur.",
+      label: "Alerte fondateur",
+      proof: "Notification interne critique ou warning visible sans secret expose.",
+      status: notificationReady ? "ready" : "warning",
+    },
+  ];
+}
+
 export async function getOpsHealth() {
   const adminEmails = [...getAdminEmails()];
   const checks: OpsCheck[] = [
@@ -159,7 +219,8 @@ export async function getOpsHealth() {
     envCheck("Expediteur email", "RESEND_FROM_EMAIL", "Adresse expediteur configuree"),
     envCheck("GoCardless", "GOCARDLESS_ACCESS_TOKEN", "Provider SEPA pret a soumettre les paiements"),
     envCheck("Webhook GoCardless", "GOCARDLESS_WEBHOOK_ENDPOINT_SECRET", "Signature webhook configurable"),
-    envCheck("Cron relances", "CONTRATPRO_CRON_SECRET", "Endpoint cron protege par bearer secret"),
+    envAnyCheck("Cron relances", ["CONTRATPRO_CRON_SECRET", "CRON_SECRET"], "Endpoint cron protege par bearer secret"),
+    envCheck("Organisation cron", "CONTRATPRO_ORG_ID", "Organisation cible configuree pour Vercel Cron"),
     envCheck("Stripe Billing", "STRIPE_SECRET_KEY", "Checkout et portail client disponibles"),
     envCheck("Webhook Stripe", "STRIPE_WEBHOOK_SECRET", "Synchronisation abonnement signee"),
   ];
@@ -204,6 +265,11 @@ export async function getOpsHealth() {
 
   return {
     checks,
+    cronRunbook: buildCronRunbook({
+      adminEmails,
+      internalNotifications,
+      renewalActions,
+    }),
     generatedAt: new Date().toISOString(),
     metrics,
     recent: [
