@@ -465,11 +465,13 @@ Commandes de controle :
 ```powershell
 npm run deploy:preflight
 npm run deploy:smoke -- https://votre-deploiement.vercel.app
+npm run deploy:smoke:journey -- https://votre-deploiement.vercel.app
 ```
 
 `deploy:preflight` verifie la preparation du repo avant import Vercel.
 `deploy:smoke` controle les routes publiques critiques apres le premier
-deploiement.
+deploiement. `deploy:smoke:journey` rejoue le parcours client authentifie sans
+creer de donnees.
 
 ## Priorite 17 - Environnement local et smoke test authentifie
 
@@ -495,6 +497,26 @@ $env:CONTRATPRO_SMOKE_EMAIL="esport.hub.pro@proton.me"
 $env:CONTRATPRO_SMOKE_PASSWORD="votre-mot-de-passe"
 npm run deploy:smoke:auth -- https://contratpro-dun.vercel.app
 ```
+
+## Priorite 30 - Parcours client complet
+
+Runbook :
+
+```text
+docs/customer-journey-runbook.md
+```
+
+Commande production avec un compte smoke dedie :
+
+```powershell
+$env:CONTRATPRO_DEPLOYMENT_URL="https://contratpro-dun.vercel.app"
+$env:CONTRATPRO_SMOKE_EMAIL="compte-smoke@votre-domaine.fr"
+$env:CONTRATPRO_SMOKE_PASSWORD="mot-de-passe-temporaire"
+npm run deploy:smoke:journey -- $env:CONTRATPRO_DEPLOYMENT_URL
+```
+
+Le test couvre connexion, dashboard, onboarding, import, clients, contrats,
+relances, factures, attestations, paiements, entreprise, billing et securite.
 
 ## Priorite 18 - Cockpit Go-Live fondateur
 

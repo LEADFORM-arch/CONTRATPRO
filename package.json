@@ -17,6 +17,7 @@
     "deploy:preflight": "node scripts/vercel-preflight.mjs",
     "deploy:smoke": "node scripts/deployment-smoke-test.mjs",
     "deploy:smoke:auth": "node scripts/authenticated-smoke-test.mjs",
+    "deploy:smoke:journey": "node scripts/customer-journey-smoke-test.mjs",
     "stripe:readiness": "node scripts/stripe-readiness.mjs",
     "stripe:create-test-billing": "node scripts/stripe-create-test-billing.mjs",
     "ci:verify": "npm run type-check && npm run test:quality && npm run security:audit && npm run production:audit && npm run deploy:preflight && npm run build",

@@ -438,6 +438,7 @@ describe("production guardrails", () => {
       "\"deploy:preflight\"",
       "\"deploy:smoke\"",
       "\"deploy:smoke:auth\"",
+      "\"deploy:smoke:journey\"",
       "\"stripe:readiness\"",
       "\"stripe:create-test-billing\"",
       "npm run production:audit",
@@ -514,6 +515,20 @@ describe("production guardrails", () => {
       "/onboarding",
     ], "authenticated smoke test");
 
+    assertIncludes(read("scripts/customer-journey-smoke-test.mjs"), [
+      "CONTRATPRO_SMOKE_EMAIL",
+      "CONTRATPRO_SMOKE_PASSWORD",
+      "Dashboard dirigeant",
+      "/import",
+      "/contracts",
+      "/relances",
+      "/invoices",
+      "/certificates",
+      "/payments",
+      "/settings/billing",
+      "Parcours client OK",
+    ], "customer journey smoke test");
+
     assertIncludes(read(".env.local.example"), [
       "NEXT_PUBLIC_APP_URL=http://localhost:3000",
       "SUPABASE_SERVICE_ROLE_KEY=",
@@ -525,6 +540,21 @@ describe("production guardrails", () => {
       "npm run security:audit",
       "npm run deploy:smoke:auth",
     ], "local env runbook");
+
+    assertIncludes(read("docs/customer-journey-runbook.md"), [
+      "Runbook parcours client ContratPro",
+      "npm run deploy:smoke:journey",
+      "Test manuel avec un vrai fichier",
+      "Definition of done",
+      "Stop rules",
+    ], "customer journey runbook");
+
+    assertIncludes(read("README.md"), [
+      "Priorite 30 - Parcours client complet",
+      "docs/customer-journey-runbook.md",
+      "npm run deploy:smoke:journey",
+      "relances, factures, attestations, paiements",
+    ], "customer journey README");
   });
 
   it("keeps founder go-live readiness visible before commercial launch", () => {
