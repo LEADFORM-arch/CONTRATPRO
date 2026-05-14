@@ -126,6 +126,21 @@ recommandee et message propose. L'agent ne declenche pas d'envoi sans validation
 humaine : les boutons d'envoi, copie et journalisation restent les points de
 controle.
 
+## Priorite 5b - Mobile terrain PWA
+
+ContratPro expose un premier socle mobile installable :
+
+```text
+/manifest.webmanifest
+/terrain
+```
+
+La page `/terrain` est protegee par le layout dashboard et reprend les
+interventions sous forme de cartes tactiles : client, ville, equipement,
+technicien, prochaine visite, statut d'attestation et actions rapides vers le
+contrat ou le PDF. Ce lot ne remplace pas encore une application offline
+complete, mais il pose le premier ecran terrain manquant pour les pilotes.
+
 ## Priorite 6 - Cron relances quotidiennes
 
 Variable a ajouter dans `.env.local` :

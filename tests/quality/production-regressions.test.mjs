@@ -174,6 +174,42 @@ describe("production guardrails", () => {
     ], "renewal agent styles");
   });
 
+  it("keeps the first mobile terrain PWA surface available", () => {
+    assertIncludes(read("src/app/layout.tsx"), [
+      "manifest: \"/manifest.webmanifest\"",
+      "appleWebApp",
+      "themeColor: \"#1E3A5F\"",
+    ], "pwa metadata");
+
+    assertIncludes(read("src/app/manifest.ts"), [
+      "start_url: \"/terrain\"",
+      "display: \"standalone\"",
+      "orientation: \"portrait\"",
+      "theme_color: \"#1E3A5F\"",
+    ], "pwa manifest");
+
+    assert.ok(existsSync(pathOf("src/app/icon.svg")), "PWA icon should exist");
+
+    assertIncludes(read("src/components/layout/AppShell.tsx"), [
+      "/terrain",
+      "Terrain mobile",
+    ], "terrain navigation");
+
+    assertIncludes(read("src/app/(dashboard)/terrain/page.tsx"), [
+      "AppShell",
+      "getInterventions",
+      "PWA terrain",
+      "PLANIFIER",
+      "terrain-card",
+    ], "terrain page");
+
+    assertIncludes(read("README.md"), [
+      "Priorite 5b - Mobile terrain PWA",
+      "/manifest.webmanifest",
+      "/terrain",
+    ], "terrain documentation");
+  });
+
   it("keeps server-side PDFs, document email sending and send history", () => {
     assertIncludes(read("src/server/document-pdf.ts"), [
       "%PDF-1.4",

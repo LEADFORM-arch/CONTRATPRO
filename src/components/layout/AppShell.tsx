@@ -5,6 +5,7 @@ import { LogoutButton } from "./LogoutButton";
 const productNavItems = [
   { href: "/", label: "Pilotage" },
   { href: "/onboarding", label: "Onboarding" },
+  { href: "/terrain", label: "Terrain mobile" },
   { href: "/relances", label: "Relances" },
   { href: "/contracts", label: "Contrats" },
   { href: "/interventions", label: "Interventions" },
