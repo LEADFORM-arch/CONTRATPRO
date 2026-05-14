@@ -287,7 +287,33 @@ describe("production guardrails", () => {
       "requireAdminUser",
       "getRecentInternalNotifications",
       "Notifications production",
+      "Architecte IA incidents",
+      "data-od-id=\"notification-incident-command\"",
+      "incidentDecision",
+      "topNotificationType",
+      "Geler les ventes",
     ], "notification admin page");
+
+    assertIncludes(read("src/app/globals.css"), [
+      ".notification-command",
+      ".notification-command-grid",
+      ".notification-command-card",
+      ".notification-command-pill",
+    ], "notification incident styles");
+
+    assertIncludes(read("docs/internal-notifications-runbook.md"), [
+      "Runbook notifications internes ContratPro",
+      "Architecte IA incidents",
+      "Incident critique",
+      "Alerting degrade",
+      "Stop rules",
+    ], "notification runbook");
+
+    assertIncludes(read("README.md"), [
+      "Priorite 10 - Notifications internes",
+      "Architecte IA incidents",
+      "docs/internal-notifications-runbook.md",
+    ], "notification README");
   });
 
   it("keeps Supabase SQL scripts and RLS verification aligned", () => {

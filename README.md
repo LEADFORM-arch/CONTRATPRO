@@ -323,6 +323,12 @@ journalisees dans `internal_notifications`, avec le statut `SENT`, `FAILED` ou
 nouveaux leads, echecs SEPA, incidents GoCardless, factures Stripe impayees,
 abonnements a surveiller et erreurs de cron.
 
+Le bloc "Architecte IA incidents" de `/admin/notifications` transforme le
+journal en decision : surveillance saine, alerting degrade ou gel des ventes en
+cas d'incident critique. Le runbook
+`docs/internal-notifications-runbook.md` precise les stop rules avant nouveau
+pilote.
+
 ## Priorite 11 - Qualite produit
 
 Suite de regression legere, sans dependance externe :
