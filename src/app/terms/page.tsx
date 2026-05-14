@@ -3,7 +3,7 @@ import { PublicSection, PublicShell } from "@/components/marketing/PublicShell";
 const clauses = [
   [
     "Objet",
-    "ContratPro fournit un logiciel SaaS de gestion des contrats de maintenance CVC, incluant suivi clients, contrats, documents, relances, paiements et supervision.",
+    "ContratPro fournit un logiciel de gestion des contrats de maintenance CVC, incluant suivi clients, contrats, documents, relances, paiements et supervision.",
   ],
   [
     "Prix",

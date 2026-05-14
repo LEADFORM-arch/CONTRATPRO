@@ -141,7 +141,7 @@ export default function SimulatorPage() {
 
         <aside className="simulator-proof-card">
           <span>Promesse commerciale</span>
-          <strong>1 contrat recupere peut payer plusieurs mois de SaaS.</strong>
+          <strong>1 contrat recupere peut payer plusieurs mois de ContratPro.</strong>
           <p>
             Le prix devient acceptable quand le chauffagiste voit le cash oublie,
             pas quand on lui liste des fonctions.
@@ -270,7 +270,7 @@ export default function SimulatorPage() {
           <article>
             <span>01</span>
             <strong>Le probleme devient chiffre</strong>
-            <p>Le prospect voit une perte annuelle concrete, pas une promesse SaaS abstraite.</p>
+            <p>Le prospect voit une perte annuelle concrete, pas une promesse logicielle abstraite.</p>
           </article>
           <article>
             <span>02</span>

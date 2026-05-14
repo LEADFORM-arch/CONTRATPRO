@@ -42,7 +42,7 @@ const checklist = [
     status: "A verifier",
   },
   {
-    label: "Billing SaaS",
+    label: "Billing ContratPro",
     detail: "supabase/billing.sql execute pour Stripe",
     status: "A verifier",
   },

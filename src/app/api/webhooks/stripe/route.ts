@@ -117,7 +117,7 @@ async function handleSubscriptionChanged(object: Record<string, unknown>) {
       },
       organizationId,
       severity: status === "past_due" ? "warning" : "critical",
-      title: "Abonnement SaaS a surveiller",
+      title: "Abonnement ContratPro a surveiller",
       type: "stripe_subscription_status",
     }).catch((notificationError) => {
       console.warn("[Stripe] notification failed", notificationError);

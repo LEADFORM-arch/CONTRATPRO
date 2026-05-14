@@ -104,13 +104,13 @@ export default async function BillingSettingsPage({
         }
         description="Activation de l'abonnement ContratPro Starter, Pro ou Business, suivi via Stripe et synchronise avec Supabase."
         eyebrow="Parametres"
-        title="Abonnement SaaS"
+        title="Abonnement ContratPro"
       />
 
       <section className="billing-hero mt-6 rounded-lg border p-5 shadow-sm" data-status={tone}>
         <div className="grid gap-5 lg:grid-cols-[1fr_340px] lg:items-end">
           <div>
-            <p className="text-sm font-semibold text-emerald-300">ContratPro SaaS</p>
+            <p className="text-sm font-semibold text-emerald-300">ContratPro</p>
             <div className="mt-3 flex flex-wrap items-end gap-4">
               <strong className="text-5xl font-black text-zinc-50">49 / 99 / 199 EUR</strong>
               <span className="text-xl font-bold text-zinc-500">/ mois</span>
@@ -120,7 +120,7 @@ export default async function BillingSettingsPage({
             </div>
             <p className="mt-4 max-w-2xl text-sm leading-6 text-zinc-300">
               Le verrouillage produit s'active avec `CONTRATPRO_REQUIRE_BILLING=true`.
-              Les statuts `active` et `trialing` donnent acces au SaaS ; les statuts
+              Les statuts `active` et `trialing` donnent acces a ContratPro ; les statuts
               impayes renvoient vers cette page.
             </p>
             {requestedPlan ? (

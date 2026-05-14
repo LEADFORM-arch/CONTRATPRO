@@ -42,7 +42,7 @@ export default async function LaunchPage() {
             </a>
           ) : null
         }
-        description={`Cockpit reserve a ${admin.email}. Il se concentre sur le passage de produit en ligne a SaaS vendable: revenus, securite, operations et preuves de production.`}
+        description={`Cockpit reserve a ${admin.email}. Il se concentre sur le passage de produit en ligne a offre vendable: revenus, securite, operations et preuves de production.`}
         eyebrow="Go-live fondateur"
         title="Readiness commerciale"
       />
@@ -129,7 +129,7 @@ export default async function LaunchPage() {
         <div className="launch-activation-header">
           <div>
             <p className="text-sm font-semibold text-cyan-300">Activation production live</p>
-            <h3>Passer de MVP pret a SaaS encaissable.</h3>
+            <h3>Passer de produit pret a offre encaissable.</h3>
             <p>
               Cette sequence se joue dans l'ordre : freeze, backup, secrets,
               providers live, smoke tests, rollback. Aucun raccourci avant vrais clients.

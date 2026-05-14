@@ -93,7 +93,7 @@ function HomeLanding() {
           </>
         }
         description="ContratPro aide les chauffagistes et entreprises CVC a transformer leur portefeuille d'entretien en revenu recurrent pilote : relances, attestations, factures et encaissements au meme endroit."
-        eyebrow="SaaS contrats de maintenance CVC"
+        eyebrow="Logiciel contrats de maintenance CVC"
         title="Ne laissez plus vos contrats d'entretien dormir dans Excel."
       />
 

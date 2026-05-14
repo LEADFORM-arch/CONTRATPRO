@@ -171,7 +171,7 @@ export default async function OnboardingPage() {
     },
     {
       title: "Paiement recurrent",
-      description: "Preparer SEPA et verifier la future facturation SaaS.",
+      description: "Preparer SEPA et verifier la future facturation ContratPro.",
       href: sepaPayments.length ? "/payments" : "/settings/billing",
       accent: "violet",
       done: sepaPayments.length > 0 && billingReady,

@@ -7,7 +7,7 @@ const sections = [
   ],
   [
     "Finalites",
-    "Les donnees servent a fournir le SaaS, securiser l'acces, generer les documents, envoyer les relances, suivre les paiements et assurer la supervision technique.",
+    "Les donnees servent a fournir le service ContratPro, securiser l'acces, generer les documents, envoyer les relances, suivre les paiements et assurer la supervision technique.",
   ],
   [
     "Sous-traitants",
