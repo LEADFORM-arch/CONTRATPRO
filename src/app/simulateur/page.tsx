@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 
+import { StructuredData } from "@/components/marketing/StructuredData";
+
 import SimulatorPage from "./SimulatorClient";
 
 export const metadata: Metadata = {
@@ -17,6 +19,22 @@ export const metadata: Metadata = {
   },
 };
 
+const simulatorStructuredData = {
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  applicationCategory: "BusinessApplication",
+  description:
+    "Simulateur ContratPro pour estimer le revenu perdu avec les contrats d'entretien CVC oublies ou relances trop tard.",
+  name: "Simulateur contrats oublies CVC",
+  operatingSystem: "Web",
+  url: "https://contratpro-dun.vercel.app/simulateur",
+};
+
 export default function SimulatorRoute() {
-  return <SimulatorPage />;
+  return (
+    <>
+      <StructuredData data={simulatorStructuredData} />
+      <SimulatorPage />
+    </>
+  );
 }

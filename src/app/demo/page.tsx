@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Suspense } from "react";
 
 import { PublicHero, PublicSection, PublicShell } from "@/components/marketing/PublicShell";
+import { StructuredData } from "@/components/marketing/StructuredData";
 
 import { DemoRequestForm } from "./DemoRequestForm";
 
@@ -34,9 +35,25 @@ const proofPoints = [
   "Isolation Supabase/RLS par organisation",
 ];
 
+const demoStructuredData = {
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  description:
+    "Page de demande de demonstration ContratPro pour chauffagistes et entreprises CVC.",
+  inLanguage: "fr-FR",
+  name: "Demo ContratPro",
+  potentialAction: {
+    "@type": "ScheduleAction",
+    name: "Programmer une demo ContratPro",
+    target: "https://contratpro-dun.vercel.app/demo#demande-demo",
+  },
+  url: "https://contratpro-dun.vercel.app/demo",
+};
+
 export default function DemoPage() {
   return (
     <PublicShell>
+      <StructuredData data={demoStructuredData} />
       <PublicHero
         action={
           <>

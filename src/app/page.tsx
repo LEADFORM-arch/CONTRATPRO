@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 
 import { PublicHero, PublicSection, PublicShell } from "@/components/marketing/PublicShell";
+import { StructuredData } from "@/components/marketing/StructuredData";
 import { AppShell, PageHeader, StatusPill } from "@/components/layout/AppShell";
 import { billingPlans } from "@/lib/billing-plans";
 import { formatEuro } from "@/lib/mock-data";
@@ -52,6 +53,40 @@ const homeProofs = [
   ["SEPA", "pour fiabiliser le cash recurrent"],
 ];
 
+const homeStructuredData = [
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    description:
+      "Logiciel de gestion des contrats d'entretien CVC pour chauffagistes.",
+    inLanguage: "fr-FR",
+    name: "ContratPro",
+    url: "https://contratpro-dun.vercel.app/",
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    applicationCategory: "BusinessApplication",
+    audience: {
+      "@type": "BusinessAudience",
+      audienceType: "Chauffagistes et entreprises CVC",
+    },
+    description:
+      "ContratPro centralise contrats d'entretien CVC, relances, attestations, factures et paiements recurrents.",
+    name: "ContratPro",
+    offers: billingPlans.map((plan) => ({
+      "@type": "Offer",
+      availability: "https://schema.org/InStock",
+      name: `ContratPro ${plan.name}`,
+      price: String(plan.unitAmount / 100),
+      priceCurrency: "EUR",
+      url: `https://contratpro-dun.vercel.app/pricing#${plan.id}`,
+    })),
+    operatingSystem: "Web",
+    url: "https://contratpro-dun.vercel.app/",
+  },
+];
+
 function StatCard({
   label,
   value,
@@ -98,6 +133,7 @@ function MiniMetric({
 function HomeLanding() {
   return (
     <PublicShell>
+      <StructuredData data={homeStructuredData} />
       <PublicHero
         action={
           <>

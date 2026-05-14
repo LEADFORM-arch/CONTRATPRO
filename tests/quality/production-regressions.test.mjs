@@ -767,11 +767,19 @@ describe("production guardrails", () => {
       "HomeLanding",
       "export const metadata",
       "PublicShell",
+      "StructuredData",
+      "SoftwareApplication",
       "Ne laissez plus vos contrats d'entretien dormir dans Excel.",
       "if (authEnforced && !user)",
       "return <HomeLanding />",
       "return <DashboardHome />",
     ], "public landing on root");
+
+    assertIncludes(read("src/components/marketing/StructuredData.tsx"), [
+      "application/ld+json",
+      "JSON.stringify",
+      "replace(/</g",
+    ], "structured data component");
 
     assertIncludes(read("src/app/layout.tsx"), [
       "metadataBase",
@@ -783,18 +791,24 @@ describe("production guardrails", () => {
 
     assertIncludes(read("src/app/demo/page.tsx"), [
       "export const metadata",
+      "StructuredData",
+      "ScheduleAction",
       "canonical: \"/demo\"",
       "Demo ContratPro pour chauffagistes CVC",
     ], "demo metadata");
 
     assertIncludes(read("src/app/pricing/page.tsx"), [
       "export const metadata",
+      "StructuredData",
+      "\"@type\": \"Product\"",
       "canonical: \"/pricing\"",
       "Tarifs ContratPro Starter, Pro et Business",
     ], "pricing metadata");
 
     assertIncludes(read("src/app/simulateur/page.tsx"), [
       "export const metadata",
+      "StructuredData",
+      "WebApplication",
       "canonical: \"/simulateur\"",
       "Simulateur contrats oublies CVC",
     ], "simulator metadata");

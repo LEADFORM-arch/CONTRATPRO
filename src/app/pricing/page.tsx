@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 
 import { billingPlans } from "@/lib/billing-plans";
 import { PublicHero, PublicSection, PublicShell } from "@/components/marketing/PublicShell";
+import { StructuredData } from "@/components/marketing/StructuredData";
 
 export const metadata: Metadata = {
   title: "Tarifs ContratPro Starter, Pro et Business",
@@ -25,9 +26,32 @@ const setupItems = [
   "Verification Stripe, GoCardless et emails",
 ];
 
+const pricingStructuredData = {
+  "@context": "https://schema.org",
+  "@type": "Product",
+  brand: {
+    "@type": "Brand",
+    name: "ContratPro",
+  },
+  category: "Logiciel de gestion des contrats de maintenance CVC",
+  description:
+    "Offres ContratPro pour importer, relancer, documenter et encaisser les contrats d'entretien CVC.",
+  name: "ContratPro",
+  offers: billingPlans.map((plan) => ({
+    "@type": "Offer",
+    availability: "https://schema.org/InStock",
+    name: `ContratPro ${plan.name}`,
+    price: String(plan.unitAmount / 100),
+    priceCurrency: "EUR",
+    url: `https://contratpro-dun.vercel.app/pricing#${plan.id}`,
+  })),
+  url: "https://contratpro-dun.vercel.app/pricing",
+};
+
 export default function PricingPage() {
   return (
     <PublicShell>
+      <StructuredData data={pricingStructuredData} />
       <PublicHero
         action={
           <>
