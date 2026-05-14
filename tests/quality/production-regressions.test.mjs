@@ -455,11 +455,16 @@ describe("production guardrails", () => {
       "Priorite 5c - Pilotes chauffagistes",
       "docs/pilot-runbook.md",
       "/admin/pilots",
+      "Architecte IA pilote",
+      "vendre, iterer ou stopper",
       "/admin/launch",
     ], "pilot README");
 
     assertIncludes(read("src/server/pilot-scorecard.ts"), [
       "getPilotScorecard",
+      "getPilotArchitectSummary",
+      "pilotArchitectInsights",
+      "Architecte IA pilote",
       "pilotCriteria",
       "pilotQuestions",
       "pilotSessionBlocks",
@@ -469,12 +474,16 @@ describe("production guardrails", () => {
       "requireAdminUser",
       "getPilotScorecard",
       "Scorecard pilote terrain",
+      "Architecte IA pilote",
+      "Decision premium apres rendez-vous",
       "Decision attendue",
       "Vendre / Iterer / Stop",
     ], "pilot admin page");
 
     assertIncludes(read("src/app/globals.css"), [
       ".pilot-command",
+      ".pilot-architect",
+      ".pilot-architect-card",
       ".pilot-panel",
       ".pilot-question-card",
       ".pilot-go",

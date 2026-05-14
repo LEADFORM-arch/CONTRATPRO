@@ -147,7 +147,9 @@ Le runbook `docs/pilot-runbook.md` decrit le test a mener avec 1 a 3
 chauffagistes : import dry-run, import execute, relances, documents, page
 terrain mobile, SEPA sandbox et scorecard go/no-go. Le cockpit fondateur
 `/admin/launch` affiche aussi le plan pilote terrain, et `/admin/pilots`
-centralise la scorecard a utiliser pendant chaque rendez-vous.
+centralise la scorecard a utiliser pendant chaque rendez-vous. Cette page
+embarque un bloc "Architecte IA pilote" qui force la decision premium :
+vendre, iterer ou stopper avant d'ajouter une nouvelle feature.
 
 ## Priorite 6 - Cron relances quotidiennes
 

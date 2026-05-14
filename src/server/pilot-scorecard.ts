@@ -17,6 +17,14 @@ export type PilotSessionBlock = {
   proof: string;
 };
 
+export type PilotArchitectInsight = {
+  action: string;
+  decision: "sell" | "iterate" | "stop";
+  evidence: string;
+  label: string;
+  signal: string;
+};
+
 export const pilotCriteria: PilotCriterion[] = [
   {
     label: "Base clients",
@@ -106,8 +114,46 @@ export const pilotSessionBlocks: PilotSessionBlock[] = [
   },
 ];
 
+export const pilotArchitectInsights: PilotArchitectInsight[] = [
+  {
+    action: "Proposer Starter immediatement et programmer l'import complet.",
+    decision: "sell",
+    evidence: "Le pilote dit oui a 49 EUR/mois ou demande quand commencer.",
+    label: "Signal achat",
+    signal: "Le prix n'est plus discute, seule la mise en route reste a cadrer.",
+  },
+  {
+    action: "Recentrer la demo sur SEPA + relances, puis retester le prix Pro.",
+    decision: "iterate",
+    evidence: "Le pilote voit la valeur mais bloque sur une fonction terrain.",
+    label: "Signal iteration",
+    signal: "La douleur cash-flow existe, mais le produit n'est pas encore assez complet.",
+  },
+  {
+    action: "Ne pas relancer ce segment, documenter l'objection et chercher un meilleur profil.",
+    decision: "stop",
+    evidence: "Pas de fichier, pas de contrats recurrents, pas de douleur relance.",
+    label: "Signal stop",
+    signal: "Le pilote veut un logiciel de tournee complet, pas un moteur de cash-flow.",
+  },
+];
+
+export function getPilotArchitectSummary() {
+  return {
+    headline: "Architecte IA pilote",
+    thesis:
+      "Ne cherche pas une validation polie. Cherche un signal d'achat: fichier reel importe, contrats a relancer identifies, prix accepte ou objection bloquante explicite.",
+    primaryMetric: "3 pilotes",
+    secondaryMetric: "1 intention de payer",
+    insights: pilotArchitectInsights,
+    nextMove:
+      "Apres chaque rendez-vous, classer le pilote en Vendre / Iterer / Stop avant d'ajouter une nouvelle feature.",
+  };
+}
+
 export function getPilotScorecard() {
   return {
+    architect: getPilotArchitectSummary(),
     criteria: pilotCriteria,
     questions: pilotQuestions,
     sessionBlocks: pilotSessionBlocks,

@@ -5,6 +5,7 @@ import { getPilotScorecard } from "@/server/pilot-scorecard";
 export default async function AdminPilotsPage() {
   const admin = await requireAdminUser("/admin/pilots");
   const scorecard = getPilotScorecard();
+  const architect = scorecard.architect;
 
   return (
     <AppShell activePath="/admin/pilots" showInternalTools>
@@ -33,14 +34,12 @@ export default async function AdminPilotsPage() {
       <section className="pilot-command mt-6 rounded-lg border p-5 shadow-sm">
         <div className="grid gap-5 xl:grid-cols-[1fr_360px] xl:items-end">
           <div>
-            <p className="text-sm font-semibold text-emerald-300">Objectif priorite 1</p>
+            <p className="text-sm font-semibold text-emerald-300">Architecte IA pilote</p>
             <h3 className="mt-2 text-2xl font-black text-zinc-50">
               Obtenir une decision claire apres 3 pilotes.
             </h3>
             <p className="mt-3 max-w-3xl text-sm leading-6 text-zinc-300">
-              Le but n'est pas de faire une demo flatteuse. Le but est de savoir si
-              un chauffagiste importe sa vraie base, trouve du cash a recuperer et
-              accepte Starter ou Pro.
+              {architect.thesis}
             </p>
           </div>
           <div className="pilot-decision-box">
@@ -48,6 +47,36 @@ export default async function AdminPilotsPage() {
             <strong>Vendre / Iterer / Stop</strong>
             <p>Une sortie ecrite apres chaque rendez-vous.</p>
           </div>
+        </div>
+      </section>
+
+      <section className="pilot-architect mt-6 rounded-lg border shadow-sm">
+        <div className="pilot-architect-header">
+          <div>
+            <p className="text-sm font-semibold text-cyan-300">{architect.headline}</p>
+            <h3>Decision premium apres rendez-vous</h3>
+            <p>{architect.nextMove}</p>
+          </div>
+          <div className="pilot-architect-metrics">
+            <div>
+              <span>Objectif</span>
+              <strong>{architect.primaryMetric}</strong>
+            </div>
+            <div>
+              <span>Seuil</span>
+              <strong>{architect.secondaryMetric}</strong>
+            </div>
+          </div>
+        </div>
+        <div className="pilot-architect-grid">
+          {architect.insights.map((insight) => (
+            <article className="pilot-architect-card" data-decision={insight.decision} key={insight.label}>
+              <span>{insight.label}</span>
+              <strong>{insight.signal}</strong>
+              <p>Preuve: {insight.evidence}</p>
+              <small>{insight.action}</small>
+            </article>
+          ))}
         </div>
       </section>
 
