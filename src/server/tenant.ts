@@ -7,8 +7,23 @@ export class ProductionTenantConfigError extends Error {
   }
 }
 
-function isProductionRuntime() {
+export class DemoOrganizationForbiddenError extends Error {
+  constructor(source: string) {
+    super(`Le tenant demo est interdit en production (${source}).`);
+    this.name = "DemoOrganizationForbiddenError";
+  }
+}
+
+export function isProductionRuntime() {
   return process.env.NODE_ENV === "production" || process.env.VERCEL_ENV === "production";
+}
+
+export function assertProductionSafeOrganizationId(organizationId: string, source: string) {
+  if (isProductionRuntime() && organizationId === DEMO_ORGANIZATION_ID) {
+    throw new DemoOrganizationForbiddenError(source);
+  }
+
+  return organizationId;
 }
 
 export function getCurrentOrganizationId() {
@@ -16,7 +31,7 @@ export function getCurrentOrganizationId() {
     process.env.CONTRATPRO_ORG_ID || process.env.NEXT_PUBLIC_CONTRATPRO_ORG_ID;
 
   if (configured) {
-    return configured;
+    return assertProductionSafeOrganizationId(configured, "configuration");
   }
 
   if (isProductionRuntime() && !isAuthEnforced()) {
@@ -25,7 +40,7 @@ export function getCurrentOrganizationId() {
     );
   }
 
-  return DEMO_ORGANIZATION_ID;
+  return assertProductionSafeOrganizationId(DEMO_ORGANIZATION_ID, "fallback");
 }
 
 export function isDemoTenant() {

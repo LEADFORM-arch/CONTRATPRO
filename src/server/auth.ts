@@ -1,6 +1,10 @@
 import { cookies } from "next/headers";
 
-import { getCurrentOrganizationId, isAuthEnforced } from "@/server/tenant";
+import {
+  assertProductionSafeOrganizationId,
+  getCurrentOrganizationId,
+  isAuthEnforced,
+} from "@/server/tenant";
 
 export const ACCESS_TOKEN_COOKIE = "contratpro-access-token";
 export const REFRESH_TOKEN_COOKIE = "contratpro-refresh-token";
@@ -134,7 +138,7 @@ export async function getAuthenticatedOrganizationId() {
     );
   }
 
-  return organizationId;
+  return assertProductionSafeOrganizationId(organizationId, "auth");
 }
 
 export async function getRequestOrganizationId() {

@@ -35,11 +35,19 @@ describe("production guardrails", () => {
     ], "dashboard layout");
 
     assertIncludes(read("src/server/tenant.ts"), [
+      "DemoOrganizationForbiddenError",
       "ProductionTenantConfigError",
+      "assertProductionSafeOrganizationId",
+      "organizationId === DEMO_ORGANIZATION_ID",
       "CONTRATPRO_REQUIRE_AUTH=true",
       "canUseDemoData",
       "process.env.VERCEL_ENV === \"production\"",
     ], "tenant fail closed");
+
+    assertIncludes(read("src/server/auth.ts"), [
+      "assertProductionSafeOrganizationId",
+      "return assertProductionSafeOrganizationId(organizationId, \"auth\")",
+    ], "authenticated tenant fail closed");
 
     assertIncludes(read("src/server/contratpro-data.ts"), [
       "SupabaseDataUnavailableError",

@@ -150,11 +150,23 @@ check(
 check(
   "Fail-closed tenant production",
   includesAll(read("src/server/tenant.ts"), [
+    "DemoOrganizationForbiddenError",
     "ProductionTenantConfigError",
+    "assertProductionSafeOrganizationId",
+    "organizationId === DEMO_ORGANIZATION_ID",
     "VERCEL_ENV",
     "canUseDemoData",
   ]),
-  "le tenant demo ne doit pas etre un fallback silencieux en production",
+  "le tenant demo doit etre impossible en production, meme configure explicitement",
+);
+
+check(
+  "Fail-closed tenant auth",
+  includesAll(read("src/server/auth.ts"), [
+    "assertProductionSafeOrganizationId",
+    "return assertProductionSafeOrganizationId(organizationId, \"auth\")",
+  ]),
+  "un rattachement auth a org_demo doit etre refuse en production",
 );
 
 check(
