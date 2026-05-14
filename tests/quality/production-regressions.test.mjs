@@ -464,6 +464,8 @@ describe("production guardrails", () => {
       "getPilotScorecard",
       "getPilotArchitectSummary",
       "pilotArchitectInsights",
+      "pilotArchitectKpis",
+      "pilotSignalSequence",
       "Architecte IA pilote",
       "pilotCriteria",
       "pilotQuestions",
@@ -474,6 +476,9 @@ describe("production guardrails", () => {
       "requireAdminUser",
       "getPilotScorecard",
       "Scorecard pilote terrain",
+      "data-od-id=\"pilot-ai-architect\"",
+      "data-od-id=\"pilot-signal-chart\"",
+      "data-od-id=\"pilot-go-no-go\"",
       "Architecte IA pilote",
       "Decision premium apres rendez-vous",
       "Decision attendue",
@@ -482,6 +487,9 @@ describe("production guardrails", () => {
 
     assertIncludes(read("src/app/globals.css"), [
       ".pilot-command",
+      ".pilot-kpi-grid",
+      ".pilot-signal-panel",
+      ".pilot-signal-bar",
       ".pilot-architect",
       ".pilot-architect-card",
       ".pilot-panel",

@@ -25,6 +25,17 @@ export type PilotArchitectInsight = {
   signal: string;
 };
 
+export type PilotArchitectKpi = {
+  delta: string;
+  label: string;
+  value: string;
+};
+
+export type PilotSignalPoint = {
+  label: string;
+  score: number;
+};
+
 export const pilotCriteria: PilotCriterion[] = [
   {
     label: "Base clients",
@@ -138,9 +149,42 @@ export const pilotArchitectInsights: PilotArchitectInsight[] = [
   },
 ];
 
+export const pilotArchitectKpis: PilotArchitectKpi[] = [
+  {
+    delta: "seuil minimum",
+    label: "Pilotes a mener",
+    value: "3",
+  },
+  {
+    delta: "avant prospection large",
+    label: "Intention de payer",
+    value: "1",
+  },
+  {
+    delta: "comprehension import",
+    label: "Dry-run compris",
+    value: "15 min",
+  },
+  {
+    delta: "Starter ou Pro",
+    label: "Prix teste",
+    value: "49/99",
+  },
+];
+
+export const pilotSignalSequence: PilotSignalPoint[] = [
+  { label: "Fichier", score: 72 },
+  { label: "Import", score: 84 },
+  { label: "Relance", score: 91 },
+  { label: "Terrain", score: 68 },
+  { label: "SEPA", score: 78 },
+  { label: "Prix", score: 86 },
+];
+
 export function getPilotArchitectSummary() {
   return {
     headline: "Architecte IA pilote",
+    kpis: pilotArchitectKpis,
     thesis:
       "Ne cherche pas une validation polie. Cherche un signal d'achat: fichier reel importe, contrats a relancer identifies, prix accepte ou objection bloquante explicite.",
     primaryMetric: "3 pilotes",
@@ -148,6 +192,7 @@ export function getPilotArchitectSummary() {
     insights: pilotArchitectInsights,
     nextMove:
       "Apres chaque rendez-vous, classer le pilote en Vendre / Iterer / Stop avant d'ajouter une nouvelle feature.",
+    signalSequence: pilotSignalSequence,
   };
 }
 

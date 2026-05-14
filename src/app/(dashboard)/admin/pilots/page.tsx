@@ -31,7 +31,7 @@ export default async function AdminPilotsPage() {
         title="Scorecard pilote terrain"
       />
 
-      <section className="pilot-command mt-6 rounded-lg border p-5 shadow-sm">
+      <section className="pilot-command mt-6 rounded-lg border p-5 shadow-sm" data-od-id="pilot-executive-summary">
         <div className="grid gap-5 xl:grid-cols-[1fr_360px] xl:items-end">
           <div>
             <p className="text-sm font-semibold text-emerald-300">Architecte IA pilote</p>
@@ -50,7 +50,17 @@ export default async function AdminPilotsPage() {
         </div>
       </section>
 
-      <section className="pilot-architect mt-6 rounded-lg border shadow-sm">
+      <section className="pilot-kpi-grid mt-6" data-od-id="pilot-kpis">
+        {architect.kpis.map((kpi) => (
+          <article className="pilot-kpi-card" key={kpi.label}>
+            <span>{kpi.label}</span>
+            <strong>{kpi.value}</strong>
+            <p>{kpi.delta}</p>
+          </article>
+        ))}
+      </section>
+
+      <section className="pilot-architect mt-6 rounded-lg border shadow-sm" data-od-id="pilot-ai-architect">
         <div className="pilot-architect-header">
           <div>
             <p className="text-sm font-semibold text-cyan-300">{architect.headline}</p>
@@ -68,6 +78,24 @@ export default async function AdminPilotsPage() {
             </div>
           </div>
         </div>
+        <div className="pilot-signal-panel" data-od-id="pilot-signal-chart">
+          <div>
+            <span>Lecture des signaux</span>
+            <strong>Courbe attendue du pilote ideal</strong>
+            <p>
+              Si la courbe chute sur Terrain ou Prix, l'Architecte IA classe en
+              iteration avant toute nouvelle promesse commerciale.
+            </p>
+          </div>
+          <div className="pilot-signal-bars" aria-label="Signaux pilote">
+            {architect.signalSequence.map((point) => (
+              <div className="pilot-signal-bar" key={point.label}>
+                <span style={{ height: `${point.score}%` }} />
+                <small>{point.label}</small>
+              </div>
+            ))}
+          </div>
+        </div>
         <div className="pilot-architect-grid">
           {architect.insights.map((insight) => (
             <article className="pilot-architect-card" data-decision={insight.decision} key={insight.label}>
@@ -80,8 +108,8 @@ export default async function AdminPilotsPage() {
         </div>
       </section>
 
-      <section className="mt-6 grid gap-5 xl:grid-cols-[0.9fr_1.1fr]">
-        <article className="pilot-panel rounded-lg border shadow-sm">
+      <section className="mt-6 grid gap-5 xl:grid-cols-[0.9fr_1.1fr]" data-od-id="pilot-workflow">
+        <article className="pilot-panel rounded-lg border shadow-sm" data-od-id="pilot-qualification">
           <div className="pilot-panel-header">
             <h3>Qualification du bon pilote</h3>
             <StatusPill>{scorecard.criteria.length} criteres</StatusPill>
@@ -97,7 +125,7 @@ export default async function AdminPilotsPage() {
           </div>
         </article>
 
-        <article className="pilot-panel rounded-lg border shadow-sm">
+        <article className="pilot-panel rounded-lg border shadow-sm" data-od-id="pilot-session-plan">
           <div className="pilot-panel-header">
             <h3>Scenario 90 minutes</h3>
             <StatusPill>{scorecard.sessionBlocks.length} blocs</StatusPill>
@@ -117,7 +145,7 @@ export default async function AdminPilotsPage() {
         </article>
       </section>
 
-      <section className="pilot-panel mt-6 rounded-lg border shadow-sm">
+      <section className="pilot-panel mt-6 rounded-lg border shadow-sm" data-od-id="pilot-questions">
         <div className="pilot-panel-header">
           <div>
             <h3>Questions a poser pendant le rendez-vous</h3>
@@ -138,7 +166,7 @@ export default async function AdminPilotsPage() {
         </div>
       </section>
 
-      <section className="pilot-go mt-6 rounded-lg border p-5">
+      <section className="pilot-go mt-6 rounded-lg border p-5" data-od-id="pilot-go-no-go">
         <div>
           <p className="text-sm font-semibold text-emerald-300">Regle de decision</p>
           <h3 className="mt-1 text-lg font-bold text-zinc-50">GO apres 3 pilotes seulement si...</h3>

@@ -4486,6 +4486,53 @@ body .hover\:bg-zinc-100:hover {
   padding: 0.9rem;
 }
 
+.pilot-kpi-grid {
+  display: grid;
+  gap: 1rem;
+}
+
+.pilot-kpi-card {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.052), rgba(255, 255, 255, 0.02)),
+    #111316;
+  border: 1px solid rgba(63, 63, 70, 0.82);
+  border-radius: 0.75rem;
+  box-shadow: 0 18px 44px rgba(0, 0, 0, 0.18);
+  overflow: hidden;
+  padding: 1rem;
+  position: relative;
+}
+
+.pilot-kpi-card::before {
+  background: linear-gradient(90deg, #1e3a5f, #2d8a5e);
+  content: "";
+  height: 3px;
+  inset: 0 0 auto;
+  position: absolute;
+}
+
+.pilot-kpi-card span {
+  color: #94a3b8;
+  font-size: 0.72rem;
+  font-weight: 850;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.pilot-kpi-card strong {
+  color: #f8fafc;
+  display: block;
+  font-size: 2rem;
+  font-weight: 950;
+  margin-top: 0.45rem;
+}
+
+.pilot-kpi-card p {
+  color: #a1a1aa;
+  font-size: 0.84rem;
+  margin-top: 0.25rem;
+}
+
 .pilot-architect {
   background:
     linear-gradient(135deg, rgba(56, 189, 248, 0.15), transparent 32%),
@@ -4529,7 +4576,8 @@ body .hover\:bg-zinc-100:hover {
 }
 
 .pilot-architect-metrics,
-.pilot-architect-grid {
+.pilot-architect-grid,
+.pilot-signal-bars {
   display: grid;
   gap: 0.85rem;
 }
@@ -4568,6 +4616,69 @@ body .hover\:bg-zinc-100:hover {
   padding: 1rem;
 }
 
+.pilot-signal-panel {
+  align-items: center;
+  border-bottom: 1px solid rgba(63, 63, 70, 0.85);
+  display: grid;
+  gap: 1rem;
+  padding: 1rem;
+}
+
+.pilot-signal-panel > div:first-child span {
+  color: #38bdf8;
+  display: block;
+  font-size: 0.72rem;
+  font-weight: 850;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.pilot-signal-panel > div:first-child strong {
+  color: #f8fafc;
+  display: block;
+  font-size: 1rem;
+  font-weight: 900;
+  margin-top: 0.35rem;
+}
+
+.pilot-signal-panel > div:first-child p {
+  color: #a1a1aa;
+  font-size: 0.84rem;
+  line-height: 1.55;
+  margin-top: 0.35rem;
+}
+
+.pilot-signal-bars {
+  align-items: end;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  min-height: 9.5rem;
+}
+
+.pilot-signal-bar {
+  align-items: center;
+  display: grid;
+  gap: 0.55rem;
+  grid-template-rows: minmax(6rem, 1fr) auto;
+  height: 100%;
+}
+
+.pilot-signal-bar span {
+  align-self: end;
+  background: linear-gradient(180deg, #38bdf8, #2d8a5e);
+  border-radius: 0.45rem 0.45rem 0.2rem 0.2rem;
+  box-shadow: 0 12px 28px rgba(45, 138, 94, 0.22);
+  display: block;
+  min-height: 2rem;
+  width: 100%;
+}
+
+.pilot-signal-bar small {
+  color: #a1a1aa;
+  font-size: 0.7rem;
+  font-weight: 800;
+  text-align: center;
+}
+
 .pilot-architect-card {
   border-top: 4px solid #38bdf8;
   display: grid;
@@ -4597,6 +4708,10 @@ body .hover\:bg-zinc-100:hover {
 }
 
 @media (min-width: 900px) {
+  .pilot-kpi-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
   .pilot-grid,
   .pilot-question-grid,
   .pilot-architect-grid {
@@ -4605,6 +4720,10 @@ body .hover\:bg-zinc-100:hover {
 
   .pilot-architect-header {
     grid-template-columns: minmax(0, 1fr) minmax(18rem, 0.38fr);
+  }
+
+  .pilot-signal-panel {
+    grid-template-columns: minmax(0, 0.82fr) minmax(20rem, 1fr);
   }
 }
 
