@@ -146,8 +146,8 @@ complete, mais il pose le premier ecran terrain manquant pour les pilotes.
 Le runbook `docs/pilot-runbook.md` decrit le test a mener avec 1 a 3
 chauffagistes : import dry-run, import execute, relances, documents, page
 terrain mobile, SEPA sandbox et scorecard go/no-go. Le cockpit fondateur
-`/admin/launch` affiche aussi le plan pilote terrain pour garder la priorite
-visible avant toute prospection large.
+`/admin/launch` affiche aussi le plan pilote terrain, et `/admin/pilots`
+centralise la scorecard a utiliser pendant chaque rendez-vous.
 
 ## Priorite 6 - Cron relances quotidiennes
 

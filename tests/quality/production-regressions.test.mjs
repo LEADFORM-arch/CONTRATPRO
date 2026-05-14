@@ -63,6 +63,7 @@ describe("production guardrails", () => {
       "src/app/(dashboard)/admin/launch/page.tsx",
       "src/app/(dashboard)/admin/notifications/page.tsx",
       "src/app/(dashboard)/admin/ops/page.tsx",
+      "src/app/(dashboard)/admin/pilots/page.tsx",
       "src/app/(dashboard)/admin/prospection/page.tsx",
       "src/app/(dashboard)/prospection/page.tsx",
       "src/app/(dashboard)/settings/facebook/page.tsx",
@@ -76,6 +77,7 @@ describe("production guardrails", () => {
     assertIncludes(shell, [
       "showInternalTools = false",
       "/admin/launch",
+      "/admin/pilots",
       "/admin/notifications",
       "/admin/ops",
       "/settings/facebook",
@@ -452,8 +454,31 @@ describe("production guardrails", () => {
     assertIncludes(read("README.md"), [
       "Priorite 5c - Pilotes chauffagistes",
       "docs/pilot-runbook.md",
+      "/admin/pilots",
       "/admin/launch",
     ], "pilot README");
+
+    assertIncludes(read("src/server/pilot-scorecard.ts"), [
+      "getPilotScorecard",
+      "pilotCriteria",
+      "pilotQuestions",
+      "pilotSessionBlocks",
+    ], "pilot scorecard service");
+
+    assertIncludes(read("src/app/(dashboard)/admin/pilots/page.tsx"), [
+      "requireAdminUser",
+      "getPilotScorecard",
+      "Scorecard pilote terrain",
+      "Decision attendue",
+      "Vendre / Iterer / Stop",
+    ], "pilot admin page");
+
+    assertIncludes(read("src/app/globals.css"), [
+      ".pilot-command",
+      ".pilot-panel",
+      ".pilot-question-card",
+      ".pilot-go",
+    ], "pilot styles");
   });
 
   it("keeps Stripe test billing setup executable and documented", () => {

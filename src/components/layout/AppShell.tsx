@@ -21,6 +21,7 @@ const productNavItems = [
 
 const internalNavItems = [
   { href: "/admin/launch", label: "Go-live" },
+  { href: "/admin/pilots", label: "Pilotes" },
   { href: "/admin/ops", label: "Supervision" },
   { href: "/admin/notifications", label: "Notifications" },
   { href: "/admin/prospection", label: "Dashboard acquisition" },
