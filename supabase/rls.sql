@@ -264,4 +264,12 @@ begin
         organization_id is null or public.can_access_organization(organization_id)
       )';
   end if;
+
+  if to_regclass('public.import_logs') is not null then
+    execute 'alter table public.import_logs enable row level security';
+    execute 'drop policy if exists import_logs_by_org on public.import_logs';
+    execute 'create policy import_logs_by_org on public.import_logs
+      for all using (public.can_access_organization(organization_id))
+      with check (public.can_access_organization(organization_id))';
+  end if;
 end $$;

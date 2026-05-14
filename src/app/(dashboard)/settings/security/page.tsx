@@ -52,6 +52,11 @@ const checklist = [
     status: "A verifier",
   },
   {
+    label: "Imports",
+    detail: "supabase/import_logs.sql execute pour tracer les imports Excel/CSV",
+    status: "A verifier",
+  },
+  {
     label: "RLS multi-tenant",
     detail: "supabase/rls.sql execute apres les scripts metier",
     status: "A faire",
@@ -226,9 +231,10 @@ export default async function SecuritySettingsPage() {
 6. supabase/payment_events.sql -- journal provider SEPA
 7. supabase/billing.sql        -- abonnement Stripe
 8. supabase/notifications.sql  -- alertes internes
-9. supabase/invoices_seed.sql  -- optionnel
-10. supabase/rls.sql           -- dernier, pour verrouiller
-11. supabase/verify_rls.sql    -- toutes les lignes doivent etre OK`}
+9. supabase/import_logs.sql    -- historique imports Excel/CSV
+10. supabase/invoices_seed.sql -- optionnel
+11. supabase/rls.sql           -- dernier, pour verrouiller
+12. supabase/verify_rls.sql    -- toutes les lignes doivent etre OK`}
         </pre>
       </section>
     </AppShell>

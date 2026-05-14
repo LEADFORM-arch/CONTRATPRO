@@ -69,6 +69,28 @@ export type ClientImportReport = {
   }>;
 };
 
+export type ClientImportLogRow = {
+  contract_count: number;
+  created_at: string;
+  customer_created_count: number;
+  customer_reused_count: number;
+  error_count: number;
+  file_name: string | null;
+  id: string;
+  installation_count: number;
+  mode: ClientImportMode;
+  source: string;
+  status: string;
+  total_rows: number;
+  valid_rows: number;
+  warning_count: number;
+};
+
+type ClientImportOptions = {
+  fileName?: string | null;
+  source?: string;
+};
+
 const equipmentTypes = new Set([
   "BOILER_GAS",
   "BOILER_OIL",
@@ -376,7 +398,56 @@ function emptyReport(mode: ClientImportMode, totalRows: number): ClientImportRep
   };
 }
 
-export async function runClientImport(rows: ClientImportRow[], mode: ClientImportMode) {
+async function recordClientImportLog(
+  organizationId: string,
+  report: ClientImportReport,
+  options: ClientImportOptions,
+) {
+  try {
+    await insertSupabaseRow("import_logs", {
+      contract_count:
+        report.mode === "execute" ? report.contractsCreated : report.contractsToCreate,
+      customer_created_count:
+        report.mode === "execute" ? report.customersCreated : report.customersToCreate,
+      customer_reused_count:
+        report.mode === "execute" ? report.customersReused : report.customersToReuse,
+      error_count: report.errors.length,
+      file_name: options.fileName ?? null,
+      installation_count:
+        report.mode === "execute" ? report.installationsCreated : report.installationsToCreate,
+      mode: report.mode,
+      organization_id: organizationId,
+      source: options.source ?? "client_csv_xlsx",
+      status:
+        report.mode === "execute"
+          ? "IMPORTED"
+          : report.invalidRows > 0
+            ? "NEEDS_REVIEW"
+            : "READY",
+      total_rows: report.totalRows,
+      valid_rows: report.validRows,
+      warning_count: report.warnings.length,
+    });
+  } catch {
+    // Import execution must not fail because the optional audit table is not deployed yet.
+  }
+}
+
+export async function getRecentClientImportLogs(limit = 8) {
+  const organizationId = await getResolvedOrganizationId();
+  return selectSupabaseRows<ClientImportLogRow>(
+    "import_logs",
+    `select=id,source,file_name,mode,status,total_rows,valid_rows,error_count,warning_count,customer_created_count,customer_reused_count,installation_count,contract_count,created_at&organization_id=eq.${encodeURIComponent(
+      organizationId,
+    )}&order=created_at.desc&limit=${limit}`,
+  );
+}
+
+export async function runClientImport(
+  rows: ClientImportRow[],
+  mode: ClientImportMode,
+  options: ClientImportOptions = {},
+) {
   const limitedRows = rows.slice(0, 1000);
   const organizationId = await getResolvedOrganizationId();
   const normalizedRows = limitedRows.map(normalizeRow);
@@ -493,5 +564,6 @@ export async function runClientImport(rows: ClientImportRow[], mode: ClientImpor
   }
 
   report.preview = report.preview.slice(0, 12);
+  await recordClientImportLog(organizationId, report, options);
   return report;
 }

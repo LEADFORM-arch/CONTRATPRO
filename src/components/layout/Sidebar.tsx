@@ -4,7 +4,7 @@ const navItems = [
   { href: "/customers", label: "Clients" },
   { href: "/certificates", label: "Attestations" },
   { href: "/payments", label: "Paiements SEPA" },
-  { href: "/import", label: "Import Praxedo" },
+  { href: "/import", label: "Import Excel/CSV" },
 ];
 
 export function Sidebar() {

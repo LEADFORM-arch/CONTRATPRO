@@ -328,6 +328,7 @@ describe("production guardrails", () => {
     const expectedScripts = [
       "supabase/billing.sql",
       "supabase/document_sends.sql",
+      "supabase/import_logs.sql",
       "supabase/notifications.sql",
       "supabase/payment_events.sql",
       "supabase/prospection.sql",
@@ -346,6 +347,7 @@ describe("production guardrails", () => {
       "billing_events",
       "billing_subscriptions",
       "document_sends",
+      "import_logs",
       "internal_notifications",
       "payment_events",
       "prospection_leads",
@@ -738,6 +740,7 @@ describe("production guardrails", () => {
   it("keeps client CSV and Excel import guarded by a dry-run", () => {
     assertIncludes(read("src/app/api/import/clients/route.ts"), [
       "requireApiUser",
+      "getRecentClientImportLogs",
       "runClientImport",
       "dry-run",
       "execute",
@@ -749,12 +752,15 @@ describe("production guardrails", () => {
       "installationsToCreate",
       "contractsToCreate",
       "mode === \"dry-run\"",
+      "recordClientImportLog",
+      "import_logs",
     ], "client import service");
 
     assertIncludes(read("src/app/(dashboard)/import/page.tsx"), [
       "read-excel-file/browser",
       "CSV/XLSX",
       "Plan d'import",
+      "Derniers imports et simulations",
       "Confirmer l'import",
       "modele-import-contratpro.csv",
     ], "client import page");

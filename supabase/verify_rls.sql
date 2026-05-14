@@ -21,7 +21,8 @@ with expected_tables(table_name) as (
     ('facebook_channel_settings'),
     ('billing_subscriptions'),
     ('billing_events'),
-    ('internal_notifications')
+    ('internal_notifications'),
+    ('import_logs')
 ),
 rls_state as (
   select

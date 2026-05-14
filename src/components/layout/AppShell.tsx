@@ -13,7 +13,7 @@ const productNavItems = [
   { href: "/certificates", label: "Attestations" },
   { href: "/payments", label: "Paiements SEPA" },
   { href: "/invoices", label: "Factures" },
-  { href: "/import", label: "Import Praxedo" },
+  { href: "/import", label: "Import Excel/CSV" },
   { href: "/settings/company", label: "Entreprise" },
   { href: "/settings/billing", label: "Abonnement" },
   { href: "/settings/security", label: "S\u00e9curit\u00e9" },

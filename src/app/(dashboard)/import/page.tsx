@@ -1,7 +1,7 @@
 "use client";
 
 import { readSheet } from "read-excel-file/browser";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 import { AppShell, PageHeader, StatusPill } from "@/components/layout/AppShell";
 import { formatEuro } from "@/lib/mock-data";
@@ -33,6 +33,23 @@ type ImportReport = {
     contractAmount: number | null;
     action: "create" | "reuse" | "skip";
   }>;
+};
+
+type ImportLog = {
+  contract_count: number;
+  created_at: string;
+  customer_created_count: number;
+  customer_reused_count: number;
+  error_count: number;
+  file_name: string | null;
+  id: string;
+  installation_count: number;
+  mode: "dry-run" | "execute";
+  source: string;
+  status: string;
+  total_rows: number;
+  valid_rows: number;
+  warning_count: number;
 };
 
 const templateHeaders = [
@@ -205,11 +222,29 @@ function actionLabel(action: ImportReport["preview"][number]["action"]) {
   return "Ignore";
 }
 
+function formatDateTime(value: string) {
+  return new Intl.DateTimeFormat("fr-FR", {
+    dateStyle: "medium",
+    timeStyle: "short",
+  }).format(new Date(value));
+}
+
+function logStatusLabel(status: string) {
+  if (status === "IMPORTED") {
+    return "Importe";
+  }
+  if (status === "NEEDS_REVIEW") {
+    return "A corriger";
+  }
+  return "Pret";
+}
+
 export default function ClientImportPage() {
   const [fileName, setFileName] = useState("");
   const [rows, setRows] = useState<ParsedRow[]>([]);
   const [report, setReport] = useState<ImportReport | null>(null);
   const [result, setResult] = useState<ImportReport | null>(null);
+  const [logs, setLogs] = useState<ImportLog[]>([]);
   const [error, setError] = useState("");
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [isExecuting, setIsExecuting] = useState(false);
@@ -223,7 +258,23 @@ export default function ClientImportPage() {
     [],
   );
 
-  async function analyzeRows(nextRows = rows) {
+  async function refreshLogs() {
+    try {
+      const response = await fetch("/api/import/clients", { method: "GET" });
+      const payload = (await response.json()) as { logs?: ImportLog[] };
+      if (response.ok) {
+        setLogs(payload.logs ?? []);
+      }
+    } catch {
+      setLogs([]);
+    }
+  }
+
+  useEffect(() => {
+    void refreshLogs();
+  }, []);
+
+  async function analyzeRows(nextRows = rows, nextFileName = fileName) {
     setIsAnalyzing(true);
     setError("");
     setReport(null);
@@ -233,7 +284,7 @@ export default function ClientImportPage() {
       const response = await fetch("/api/import/clients", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ mode: "dry-run", rows: nextRows }),
+        body: JSON.stringify({ fileName: nextFileName, mode: "dry-run", rows: nextRows }),
       });
       const payload = await response.json();
 
@@ -243,6 +294,7 @@ export default function ClientImportPage() {
       }
 
       setReport(payload as ImportReport);
+      void refreshLogs();
     } catch {
       setError("Le serveur n'a pas repondu pendant l'analyse.");
     } finally {
@@ -270,7 +322,7 @@ export default function ClientImportPage() {
       }
 
       if (hasRequiredClient(parsedRows)) {
-        await analyzeRows(parsedRows);
+        await analyzeRows(parsedRows, file.name);
       }
     } catch {
       setError("Impossible de lire ce fichier. Utilisez un CSV ou un XLSX simple avec une ligne d'en-tete.");
@@ -286,7 +338,7 @@ export default function ClientImportPage() {
       const response = await fetch("/api/import/clients", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ mode: "execute", rows }),
+        body: JSON.stringify({ fileName, mode: "execute", rows }),
       });
       const payload = await response.json();
 
@@ -297,6 +349,7 @@ export default function ClientImportPage() {
 
       setResult(payload as ImportReport);
       setReport(null);
+      void refreshLogs();
     } catch {
       setError("Le serveur n'a pas repondu pendant l'import.");
     } finally {
@@ -318,7 +371,7 @@ export default function ClientImportPage() {
         }
         description="Importez un fichier CSV ou XLSX, controlez le plan d'import, puis creez les clients, equipements et contrats dans Supabase."
         eyebrow="Onboarding donnees"
-        title="Import clients et contrats"
+        title="Import Excel/CSV clients et contrats"
       />
 
       <label className="import-dropzone mt-6 flex min-h-44 cursor-pointer flex-col items-center justify-center rounded-lg border border-dashed px-6 py-8 text-center">
@@ -535,6 +588,80 @@ export default function ClientImportPage() {
           </div>
         </section>
       ) : null}
+
+      <section className="import-history mt-6 rounded-lg border p-4 shadow-sm">
+        <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <p className="text-xs font-medium uppercase tracking-wide text-zinc-500">
+              Historique
+            </p>
+            <h3 className="mt-1 text-base font-semibold text-zinc-50">
+              Derniers imports et simulations
+            </h3>
+          </div>
+          <button
+            className="premium-secondary-action rounded-md px-4 py-2 text-sm font-semibold"
+            onClick={() => void refreshLogs()}
+            type="button"
+          >
+            Actualiser
+          </button>
+        </div>
+
+        {logs.length ? (
+          <div className="mt-4 overflow-x-auto">
+            <table className="w-full min-w-[820px] text-left text-sm">
+              <thead>
+                <tr className="dashboard-table-head">
+                  <th className="px-4 py-3 font-semibold">Date</th>
+                  <th className="px-4 py-3 font-semibold">Fichier</th>
+                  <th className="px-4 py-3 font-semibold">Mode</th>
+                  <th className="px-4 py-3 font-semibold">Lignes</th>
+                  <th className="px-4 py-3 font-semibold">Clients</th>
+                  <th className="px-4 py-3 font-semibold">Contrats</th>
+                  <th className="px-4 py-3 font-semibold">Statut</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-zinc-800/80">
+                {logs.map((log) => (
+                  <tr className="import-preview-row" key={log.id}>
+                    <td className="px-4 py-3 text-zinc-300">
+                      {formatDateTime(log.created_at)}
+                    </td>
+                    <td className="max-w-64 truncate px-4 py-3 text-zinc-300">
+                      {log.file_name ?? "Fichier non renseigne"}
+                    </td>
+                    <td className="px-4 py-3">
+                      <StatusPill>{log.mode === "execute" ? "Import" : "Simulation"}</StatusPill>
+                    </td>
+                    <td className="px-4 py-3 text-zinc-300">
+                      {log.valid_rows}/{log.total_rows}
+                      {log.error_count ? (
+                        <span className="ml-2 text-rose-300">({log.error_count} erreurs)</span>
+                      ) : null}
+                    </td>
+                    <td className="px-4 py-3 text-zinc-300">
+                      {log.customer_created_count} crees · {log.customer_reused_count} repris
+                    </td>
+                    <td className="px-4 py-3 text-zinc-300">{log.contract_count}</td>
+                    <td className="px-4 py-3">
+                      <StatusPill>{logStatusLabel(log.status)}</StatusPill>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        ) : (
+          <div className="import-empty-history mt-4 rounded-md border p-4">
+            <strong>Aucun import journalise pour cette organisation.</strong>
+            <p>
+              Deposez un fichier, lancez une simulation, puis confirmez uniquement
+              quand le plan d'import est propre.
+            </p>
+          </div>
+        )}
+      </section>
 
       {rows.length === 0 ? (
         <section className="mt-6 grid gap-4 lg:grid-cols-3">

@@ -108,6 +108,11 @@ check(
   existsSync(file("supabase/payment_events.sql")),
   "supabase/payment_events.sql doit creer le journal provider SEPA",
 );
+check(
+  "SQL historique imports",
+  existsSync(file("supabase/import_logs.sql")),
+  "supabase/import_logs.sql doit creer la tracabilite des imports clients",
+);
 const rlsTables = [
   "organizations",
   "organization_memberships",
@@ -122,6 +127,7 @@ const rlsTables = [
   "billing_subscriptions",
   "billing_events",
   "internal_notifications",
+  "import_logs",
   "sepa_mandates",
   "sepa_payments",
 ];
