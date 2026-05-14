@@ -574,14 +574,38 @@ describe("production guardrails", () => {
 
     assertIncludes(read("src/app/(dashboard)/settings/billing/page.tsx"), [
       "getRecentBillingEvents",
+      "Architecte IA billing",
+      "data-od-id=\"billing-ai-architect\"",
+      "Vendre le bon palier",
       "Journal Stripe recent",
+      "billing-plan-card",
       "billing-event-row",
     ], "stripe billing page");
+
+    assertIncludes(read("src/server/billing.ts"), [
+      "hasRecordedBillingEvent",
+      "provider_event_id=eq.",
+      "billing_events",
+    ], "stripe billing idempotency service");
+
+    assertIncludes(read("src/app/api/webhooks/stripe/route.ts"), [
+      "hasRecordedBillingEvent",
+      "duplicate: true",
+      "recordBillingEvent",
+    ], "stripe webhook idempotency");
+
+    assertIncludes(read("src/app/globals.css"), [
+      ".billing-architect",
+      ".billing-architect-grid",
+      ".billing-plan-card",
+    ], "stripe billing architect styles");
 
     assertIncludes(read("docs/stripe-test-billing.md"), [
       "https://dashboard.stripe.com/acct_1TVFyGBJsOV2aVH0/test/dashboard",
       "https://contratpro-dun.vercel.app/api/webhooks/stripe",
       "4242 4242 4242 4242",
+      "Architecte IA billing",
+      "duplicate: true",
       "CONTRATPRO_REQUIRE_BILLING=true",
     ], "stripe billing runbook");
   });

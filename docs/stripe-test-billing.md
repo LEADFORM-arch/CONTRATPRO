@@ -118,10 +118,17 @@ Le check `Billing lock` restera en echec tant que
 
 1. Se connecter a ContratPro.
 2. Aller sur `/settings/billing`.
-3. Cliquer sur l'activation d'un palier.
-4. Utiliser une carte test Stripe, par exemple `4242 4242 4242 4242`.
-5. Verifier que Stripe redirige vers ContratPro.
-6. Verifier `/admin/launch` et `/settings/billing`.
+3. Lire le bloc "Architecte IA billing" pour choisir le palier selon le signal
+   pilote : Starter si l'enjeu est l'import Excel, Pro si le sujet est le ROI
+   SEPA, Business si le client veut un go-live accompagne.
+4. Cliquer sur l'activation d'un palier.
+5. Utiliser une carte test Stripe, par exemple `4242 4242 4242 4242`.
+6. Verifier que Stripe redirige vers ContratPro.
+7. Verifier `/admin/launch` et `/settings/billing`.
+
+Le webhook Stripe doit rester idempotent : si Stripe renvoie le meme event id,
+ContratPro repond `duplicate: true` sans rejouer les effets metier ni renvoyer
+une alerte fondateur.
 
 ## 7. Activation paywall
 

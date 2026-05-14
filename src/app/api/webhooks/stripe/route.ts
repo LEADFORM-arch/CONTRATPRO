@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 import {
   findBillingByStripeSubscription,
+  hasRecordedBillingEvent,
   normalizeStripeDate,
   recordBillingEvent,
   upsertBillingSubscription,
@@ -159,6 +160,14 @@ export async function POST(request: NextRequest) {
     verifyStripeSignature(rawBody, request.headers.get("Stripe-Signature"));
 
     const event = JSON.parse(rawBody) as StripeEvent;
+    if (await hasRecordedBillingEvent(event.id).catch(() => false)) {
+      return NextResponse.json({
+        duplicate: true,
+        ok: true,
+        type: event.type,
+      });
+    }
+
     let organizationId: string | null = null;
 
     if (event.type === "checkout.session.completed") {

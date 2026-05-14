@@ -17,6 +17,27 @@ const labels: Record<string, string> = {
   unpaid: "Impayé",
 };
 
+const planArchitectCopy: Record<
+  string,
+  { decision: string; fit: string; signal: string }
+> = {
+  business: {
+    decision: "Vendre si le dirigeant veut un go-live accompagne et surveille.",
+    fit: "Equipe CVC avec portefeuille recurrent deja rentable.",
+    signal: "Il demande une date de bascule, pas seulement un essai.",
+  },
+  pro: {
+    decision: "Plan recommande pour prouver le ROI SEPA.",
+    fit: "Chauffagiste qui a deja des contrats mais relance encore a la main.",
+    signal: "Il parle d'impayes, de retard d'encaissement ou de charge admin.",
+  },
+  starter: {
+    decision: "Utiliser comme entree simple depuis Excel.",
+    fit: "TPE qui veut importer, voir les relances et tester sans changer son terrain.",
+    signal: "Il accepte 49 EUR/mois pour eviter la ressaisie et les oublis.",
+  },
+};
+
 function formatDate(value: string | null) {
   if (!value) {
     return "-";
@@ -98,6 +119,49 @@ export default async function BillingSettingsPage() {
               <strong>{billing.required ? "Actif" : "Desactive"}</strong>
             </div>
           </div>
+        </div>
+      </section>
+
+      <section className="billing-architect mt-6 rounded-lg border shadow-sm" data-od-id="billing-ai-architect">
+        <div className="billing-panel-header">
+          <div>
+            <p className="text-sm font-semibold text-emerald-300">Architecte IA billing</p>
+            <h3 className="mt-1 text-lg font-bold text-zinc-50">
+              Vendre le bon palier, pas le plus cher.
+            </h3>
+          </div>
+          <span className="billing-architect-badge">49 / 99 / 199 EUR</span>
+        </div>
+        <div className="billing-architect-grid">
+          {billingPlans.map((plan) => {
+            const copy = planArchitectCopy[plan.id];
+            return (
+              <article className="billing-plan-card" data-plan={plan.id} key={plan.id}>
+                <div className="billing-plan-top">
+                  <div>
+                    <p>{plan.name}</p>
+                    <strong>{plan.priceLabel}</strong>
+                  </div>
+                  <span>{plan.lookupKey}</span>
+                </div>
+                <p className="billing-plan-description">{plan.description}</p>
+                <dl className="billing-plan-signal">
+                  <div>
+                    <dt>Fit pilote</dt>
+                    <dd>{copy.fit}</dd>
+                  </div>
+                  <div>
+                    <dt>Signal d'achat</dt>
+                    <dd>{copy.signal}</dd>
+                  </div>
+                  <div>
+                    <dt>Decision</dt>
+                    <dd>{copy.decision}</dd>
+                  </div>
+                </dl>
+              </article>
+            );
+          })}
         </div>
       </section>
 

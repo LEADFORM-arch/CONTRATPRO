@@ -261,6 +261,11 @@ Stripe. Quand
 acces au produit ; les statuts impayes bloquent les pages et API metier avec un
 renvoi vers l'abonnement.
 
+Le bloc "Architecte IA billing" de `/settings/billing` force le bon usage des
+3 paliers : Starter pour l'entree Excel, Pro pour prouver le ROI SEPA, Business
+pour un go-live accompagne. Le webhook Stripe est idempotent via
+`provider_event_id` pour eviter les doubles notifications lors des retries.
+
 ## Priorite 9 - Onboarding client premium
 
 La page `/onboarding` est le cockpit d'activation d'une entreprise cliente :

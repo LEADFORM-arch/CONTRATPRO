@@ -94,6 +94,17 @@ export async function getRecentBillingEvents(limit = 8) {
   );
 }
 
+export async function hasRecordedBillingEvent(providerEventId: string) {
+  const rows = await serviceSelect<{ id: string }>(
+    "billing_events",
+    `provider_event_id=eq.${encodeURIComponent(
+      providerEventId,
+    )}&select=id&limit=1`,
+  );
+
+  return rows.length > 0;
+}
+
 export async function findBillingByStripeSubscription(subscriptionId: string) {
   const rows = await serviceSelect<BillingSubscriptionRow>(
     "billing_subscriptions",
