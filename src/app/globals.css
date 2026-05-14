@@ -2151,6 +2151,234 @@ body .hover\:bg-zinc-100:hover {
   transform: translateY(-1px);
 }
 
+.contract-safety-cockpit {
+  background:
+    radial-gradient(circle at 6% 0%, rgba(52, 211, 153, 0.12), transparent 30%),
+    radial-gradient(circle at 96% 4%, rgba(251, 113, 133, 0.09), transparent 26%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.052), rgba(255, 255, 255, 0.018)),
+    #111316;
+  border: 1px solid #2a2f36;
+  border-radius: 0.5rem;
+  overflow: hidden;
+}
+
+.contract-safety-brief,
+.contract-safety-command {
+  align-items: center;
+  display: flex;
+  gap: 1rem;
+  justify-content: space-between;
+  padding: 1rem;
+}
+
+.contract-safety-brief {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.contract-safety-brief h2,
+.contract-safety-command h3 {
+  color: #f4f4f5;
+  font-weight: 900;
+  letter-spacing: 0;
+}
+
+.contract-safety-brief h2 {
+  font-size: clamp(1.45rem, 2.2vw, 2.25rem);
+  margin-top: 0.35rem;
+}
+
+.contract-safety-brief p:not(:first-child),
+.contract-safety-command p:not(:first-child) {
+  color: #a1a1aa;
+  margin-top: 0.45rem;
+  max-width: 46rem;
+}
+
+.contract-safety-gauge {
+  background: rgba(4, 6, 8, 0.54);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 0.5rem;
+  min-width: 9.25rem;
+  padding: 0.9rem 1rem;
+  text-align: right;
+}
+
+.contract-safety-gauge[data-tone="emerald"] {
+  border-color: rgba(52, 211, 153, 0.26);
+}
+
+.contract-safety-gauge[data-tone="amber"] {
+  border-color: rgba(245, 158, 11, 0.28);
+}
+
+.contract-safety-gauge[data-tone="rose"] {
+  border-color: rgba(251, 113, 133, 0.28);
+}
+
+.contract-safety-gauge span,
+.contract-safety-gauge small {
+  color: #a1a1aa;
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.contract-safety-gauge strong {
+  color: #f4f4f5;
+  display: inline-block;
+  font-size: 2.7rem;
+  font-variant-numeric: tabular-nums;
+  font-weight: 950;
+  line-height: 1;
+  margin-top: 0.45rem;
+}
+
+.contract-safety-grid,
+.contract-safety-actions {
+  display: grid;
+  gap: 0.75rem;
+  padding: 1rem;
+}
+
+.contract-safety-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.contract-safety-signal,
+.contract-safety-action {
+  background: rgba(255, 255, 255, 0.028);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 0.5rem;
+  min-width: 0;
+  padding: 0.85rem;
+}
+
+.contract-safety-signal {
+  color: #f4f4f5;
+}
+
+.contract-safety-signal[data-tone="emerald"],
+.contract-safety-action[data-tone="emerald"] {
+  border-color: rgba(52, 211, 153, 0.18);
+}
+
+.contract-safety-signal[data-tone="cyan"],
+.contract-safety-action[data-tone="cyan"] {
+  border-color: rgba(56, 189, 248, 0.18);
+}
+
+.contract-safety-signal[data-tone="amber"],
+.contract-safety-action[data-tone="amber"] {
+  border-color: rgba(245, 158, 11, 0.2);
+}
+
+.contract-safety-signal[data-tone="rose"],
+.contract-safety-action[data-tone="rose"] {
+  border-color: rgba(251, 113, 133, 0.2);
+}
+
+.contract-safety-signal p,
+.contract-safety-signal span,
+.contract-safety-action small {
+  color: #a1a1aa;
+}
+
+.contract-safety-signal p {
+  font-size: 0.75rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.contract-safety-signal strong {
+  color: #f4f4f5;
+  display: block;
+  font-size: 1.6rem;
+  font-variant-numeric: tabular-nums;
+  font-weight: 900;
+  margin-top: 0.5rem;
+}
+
+.contract-safety-signal span {
+  display: block;
+  font-size: 0.82rem;
+  margin-top: 0.35rem;
+}
+
+.contract-safety-command {
+  background: rgba(4, 6, 8, 0.3);
+  border-block: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.contract-safety-command h3 {
+  font-size: 1.05rem;
+}
+
+.contract-safety-actions {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.contract-safety-action {
+  display: block;
+  transition:
+    background-color 150ms ease,
+    border-color 150ms ease,
+    transform 150ms ease;
+}
+
+.contract-safety-action:hover {
+  background: rgba(255, 255, 255, 0.04);
+  transform: translateY(-1px);
+}
+
+.contract-safety-action span,
+.contract-safety-action strong,
+.contract-safety-action small {
+  display: block;
+}
+
+.contract-safety-action span {
+  color: #f4f4f5;
+  font-size: 1.7rem;
+  font-variant-numeric: tabular-nums;
+  font-weight: 950;
+}
+
+.contract-safety-action strong {
+  color: #f4f4f5;
+  font-size: 0.9rem;
+  margin-top: 0.35rem;
+}
+
+.contract-safety-action small {
+  line-height: 1.45;
+  margin-top: 0.3rem;
+}
+
+@media (max-width: 1024px) {
+  .contract-safety-grid,
+  .contract-safety-actions {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 640px) {
+  .contract-safety-brief,
+  .contract-safety-command {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .contract-safety-gauge {
+    text-align: left;
+  }
+
+  .contract-safety-grid,
+  .contract-safety-actions {
+    grid-template-columns: 1fr;
+  }
+}
+
 .relance-stat-card,
 .relance-section,
 .relance-deal-card,

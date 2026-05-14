@@ -12,6 +12,7 @@ import {
   getContracts,
   getCustomers,
   getPayments,
+  getRenewalPipeline,
 } from "@/server/contratpro-data";
 import { isAuthEnforced } from "@/server/tenant";
 
@@ -130,6 +131,26 @@ function MiniMetric({
   );
 }
 
+function SafetySignal({
+  label,
+  value,
+  detail,
+  tone,
+}: {
+  label: string;
+  value: string;
+  detail: string;
+  tone: CardTone;
+}) {
+  return (
+    <article className="contract-safety-signal" data-tone={tone}>
+      <p>{label}</p>
+      <strong>{value}</strong>
+      <span>{detail}</span>
+    </article>
+  );
+}
+
 function HomeLanding() {
   return (
     <PublicShell>
@@ -229,12 +250,12 @@ function HomeLanding() {
 }
 
 async function DashboardHome() {
-
-  const [contracts, customers, certificates, payments] = await Promise.all([
+  const [contracts, customers, certificates, payments, renewalPipeline] = await Promise.all([
     getContracts(),
     getCustomers(),
     getCertificates(),
     getPayments(),
+    getRenewalPipeline(),
   ]);
   const isAdmin = Boolean(await getCurrentAdminUser());
 
@@ -249,6 +270,63 @@ async function DashboardHome() {
   const certificatesToSend = certificates.filter((certificate) =>
     certificate.status.toLowerCase().includes("envoyer"),
   );
+  const atRiskRenewals = renewalPipeline.filter((renewal) => renewal.daysRemaining <= 45);
+  const criticalRenewals = renewalPipeline.filter((renewal) => renewal.daysRemaining <= 15);
+  const renewalValueAtRisk = atRiskRenewals.reduce(
+    (sum, renewal) => sum + renewal.value,
+    0,
+  );
+  const renewalsWithoutSepa = atRiskRenewals.filter(
+    (renewal) => !renewal.paymentMethod.includes("SEPA"),
+  );
+  const failedPayments = payments.filter((payment) => payment.rawStatus === "FAILED");
+  const pendingPayments = payments.filter((payment) =>
+    ["PENDING_SUBMISSION", "SUBMITTED"].includes(payment.rawStatus),
+  );
+  const safetyActions = [
+    {
+      action: "Relancer avant fuite de revenu",
+      count: criticalRenewals.length,
+      detail: `${formatEuro(criticalRenewals.reduce((sum, renewal) => sum + renewal.value, 0))} a proteger sous 15 jours`,
+      href: "/relances",
+      tone: "rose",
+    },
+    {
+      action: "Envoyer les attestations",
+      count: certificatesToSend.length,
+      detail: "documents entretien a transmettre au client",
+      href: "/certificates",
+      tone: "amber",
+    },
+    {
+      action: "Reprendre les paiements rejetes",
+      count: failedPayments.length,
+      detail: "encaissements a corriger avant perte client",
+      href: "/payments",
+      tone: "rose",
+    },
+    {
+      action: "Basculer en SEPA",
+      count: renewalsWithoutSepa.length,
+      detail: "contrats a risque encore hors prelevement",
+      href: "/payments/new",
+      tone: "cyan",
+    },
+  ] as const;
+  const safetyScore = Math.max(
+    0,
+    Math.min(
+      100,
+      100 -
+        criticalRenewals.length * 12 -
+        certificatesToSend.length * 6 -
+        failedPayments.length * 14 -
+        renewalsWithoutSepa.length * 5,
+    ),
+  );
+  const safetyTone: CardTone =
+    safetyScore >= 80 ? "emerald" : safetyScore >= 58 ? "amber" : "rose";
+  const nextSecuringAction = safetyActions.find((action) => action.count > 0);
   const renewals = contracts.slice(0, 5);
   const paymentQueue = payments.slice(0, 4);
 
@@ -277,6 +355,89 @@ async function DashboardHome() {
         eyebrow="Tableau de bord"
         title="Pilotage commercial et legal des contrats CVC"
       />
+
+      <section className="contract-safety-cockpit mt-6">
+        <div className="contract-safety-brief">
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-wide text-emerald-300">
+              Cockpit revenu recurrent
+            </p>
+            <h2>Securiser les contrats avant qu'ils ne fuient.</h2>
+            <p>
+              Lecture dirigeant des echeances, documents, paiements et mandats
+              qui menacent directement le revenu annuel.
+            </p>
+          </div>
+          <div className="contract-safety-gauge" data-tone={safetyTone}>
+            <span>Score securite</span>
+            <strong>{safetyScore}</strong>
+            <small>/100</small>
+          </div>
+        </div>
+
+        <div className="contract-safety-grid">
+          <SafetySignal
+            detail={`${atRiskRenewals.length} contrat(s) sous 45 jours`}
+            label="Revenu a risque"
+            tone="rose"
+            value={formatEuro(renewalValueAtRisk)}
+          />
+          <SafetySignal
+            detail={`${criticalRenewals.length} critique(s) sous 15 jours`}
+            label="Echeances critiques"
+            tone="amber"
+            value={String(criticalRenewals.length)}
+          />
+          <SafetySignal
+            detail={`${pendingPayments.length} en cours de traitement`}
+            label="Paiements rejetes"
+            tone="rose"
+            value={String(failedPayments.length)}
+          />
+          <SafetySignal
+            detail={`${renewalsWithoutSepa.length} renouvellement(s) sans mandat`}
+            label="SEPA a activer"
+            tone="cyan"
+            value={`${sepaShare}%`}
+          />
+        </div>
+
+        <div className="contract-safety-command">
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-wide text-zinc-500">
+              Action du jour
+            </p>
+            <h3>
+              {nextSecuringAction?.action ?? "Portefeuille sous controle"}
+            </h3>
+            <p>
+              {nextSecuringAction?.detail ??
+                "Aucune fuite urgente detectee. Continuez a suivre les prochaines echeances."}
+            </p>
+          </div>
+          <a
+            className="premium-action rounded-md text-sm font-semibold"
+            href={nextSecuringAction?.href ?? "/relances"}
+          >
+            Ouvrir la file
+          </a>
+        </div>
+
+        <div className="contract-safety-actions">
+          {safetyActions.map((item) => (
+            <a
+              className="contract-safety-action"
+              data-tone={item.tone}
+              href={item.href}
+              key={item.action}
+            >
+              <span>{item.count}</span>
+              <strong>{item.action}</strong>
+              <small>{item.detail}</small>
+            </a>
+          ))}
+        </div>
+      </section>
 
       <div className="mt-6 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
         <StatCard

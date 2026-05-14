@@ -846,6 +846,11 @@ describe("production guardrails", () => {
       "if (authEnforced && !user)",
       "return <HomeLanding />",
       "return <DashboardHome />",
+      "getRenewalPipeline",
+      "Cockpit revenu recurrent",
+      "Securiser les contrats avant qu'ils ne fuient.",
+      "Score securite",
+      "Action du jour",
     ], "public landing on root");
 
     assertIncludes(read("src/components/marketing/StructuredData.tsx"), [
@@ -905,6 +910,9 @@ describe("production guardrails", () => {
     assertIncludes(read("src/app/globals.css"), [
       ".home-proof-strip",
       ".home-final-cta",
+      ".contract-safety-cockpit",
+      ".contract-safety-gauge",
+      ".contract-safety-actions",
     ], "public landing styles");
 
     assertIncludes(read("src/app/login/page.tsx"), [
