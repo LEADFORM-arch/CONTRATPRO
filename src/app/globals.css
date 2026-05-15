@@ -4886,6 +4886,7 @@ body .hover\:bg-zinc-100:hover {
 .ops-hero,
 .ops-panel,
 .ops-cron-panel,
+.ops-demo-panel,
 .ops-smoke-panel,
 .ops-metric-card {
   background:
@@ -4900,6 +4901,7 @@ body .hover\:bg-zinc-100:hover {
 .ops-hero::before,
 .ops-panel::before,
 .ops-cron-panel::before,
+.ops-demo-panel::before,
 .ops-smoke-panel::before,
 .ops-metric-card::before {
   content: "";
@@ -5025,6 +5027,10 @@ body .hover\:bg-zinc-100:hover {
 
 .ops-cron-panel::before {
   background: linear-gradient(90deg, #38bdf8, #34d399 62%, #f59e0b);
+}
+
+.ops-demo-panel::before {
+  background: linear-gradient(90deg, #f59e0b, #34d399 48%, #38bdf8);
 }
 
 .ops-smoke-panel::before {
@@ -5153,6 +5159,84 @@ body .hover\:bg-zinc-100:hover {
   gap: 0.85rem;
   grid-template-columns: repeat(4, minmax(0, 1fr));
   padding: 1rem;
+}
+
+.ops-demo-grid {
+  display: grid;
+  gap: 0.85rem;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  padding: 1rem;
+}
+
+.ops-demo-card {
+  background:
+    linear-gradient(135deg, rgba(245, 158, 11, 0.07), rgba(52, 211, 153, 0.035)),
+    #0b0d10;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 0.5rem;
+  display: grid;
+  gap: 0.75rem;
+  min-width: 0;
+  padding: 0.95rem;
+}
+
+.ops-demo-card[data-status="ready"] {
+  border-color: rgba(52, 211, 153, 0.22);
+}
+
+.ops-demo-card[data-status="warning"] {
+  border-color: rgba(245, 158, 11, 0.26);
+}
+
+.ops-demo-card[data-status="critical"] {
+  border-color: rgba(251, 113, 133, 0.26);
+}
+
+.ops-demo-card-top {
+  align-items: center;
+  display: flex;
+  gap: 0.75rem;
+  justify-content: space-between;
+}
+
+.ops-demo-card-top strong {
+  color: #f4f4f5;
+  font-size: 0.95rem;
+}
+
+.ops-demo-card-top span {
+  border-radius: 0.375rem;
+  font-size: 0.68rem;
+  font-weight: 850;
+  padding: 0.32rem 0.45rem;
+  white-space: nowrap;
+}
+
+.ops-demo-card[data-status="ready"] .ops-demo-card-top span {
+  background: rgba(52, 211, 153, 0.08);
+  color: #bbf7d0;
+}
+
+.ops-demo-card[data-status="warning"] .ops-demo-card-top span {
+  background: rgba(245, 158, 11, 0.1);
+  color: #fde68a;
+}
+
+.ops-demo-card[data-status="critical"] .ops-demo-card-top span {
+  background: rgba(251, 113, 133, 0.1);
+  color: #fecdd3;
+}
+
+.ops-demo-card p,
+.ops-demo-card small {
+  color: #a1a1aa;
+  font-size: 0.82rem;
+  line-height: 1.45;
+}
+
+.ops-demo-card-actions {
+  display: grid;
+  gap: 0.55rem;
 }
 
 .ops-cron-card,
@@ -6604,6 +6688,7 @@ body .hover\:bg-zinc-100:hover {
 
 @media (max-width: 1180px) {
   .ops-cron-grid,
+  .ops-demo-grid,
   .ops-smoke-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -6622,6 +6707,7 @@ body .hover\:bg-zinc-100:hover {
   .ops-check-row,
   .ops-recent-card,
   .ops-cron-grid,
+  .ops-demo-grid,
   .ops-smoke-grid,
   .ops-command-copy {
     grid-template-columns: 1fr;

@@ -122,6 +122,41 @@ export default async function OpsPage() {
         </div>
       </section>
 
+      <section className="ops-demo-panel mt-6 rounded-lg border shadow-sm" data-od-id="ops-demo-checklist">
+        <div className="ops-panel-header">
+          <div>
+            <p className="text-sm font-semibold text-amber-300">Avant rendez-vous</p>
+            <h3 className="mt-1 text-lg font-bold text-zinc-50">Checklist pre-demo</h3>
+          </div>
+          <span className="ops-muted-pill">15 minutes avant l'appel</span>
+        </div>
+        <div className="ops-demo-grid">
+          {health.demoChecklist.map((item) => (
+            <article className="ops-demo-card" data-status={item.status} key={item.label}>
+              <div className="ops-demo-card-top">
+                <strong>{item.label}</strong>
+                <span>{statusLabels[item.status]}</span>
+              </div>
+              <p>{item.detail}</p>
+              <small>{item.proof}</small>
+              <div className="ops-demo-card-actions">
+                {item.command ? (
+                  <div className="ops-command-copy">
+                    <code>{item.command}</code>
+                    <OpsCommandCopyButton command={item.command} />
+                  </div>
+                ) : null}
+                {item.href ? (
+                  <a className="ops-action-link" href={item.href}>
+                    Ouvrir
+                  </a>
+                ) : null}
+              </div>
+            </article>
+          ))}
+        </div>
+      </section>
+
       <section className="ops-smoke-panel mt-6 rounded-lg border shadow-sm" data-od-id="ops-smoke-runbook">
         <div className="ops-panel-header">
           <div>

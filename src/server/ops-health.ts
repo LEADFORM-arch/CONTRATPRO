@@ -36,6 +36,15 @@ export type OpsSmokeAction = OpsRunbookAction & {
   scope: "local" | "production";
 };
 
+export type OpsDemoChecklistItem = {
+  command?: string;
+  detail: string;
+  href?: string;
+  label: string;
+  proof: string;
+  status: OpsStatus;
+};
+
 type SafeRows<T> = {
   error?: string;
   rows: T[];
@@ -246,6 +255,90 @@ function buildSmokeRunbook(): OpsSmokeAction[] {
   ];
 }
 
+function buildDemoChecklist({
+  billingSubscriptions,
+  documentSends,
+  paymentEvents,
+  renewalActions,
+}: {
+  billingSubscriptions: SafeRows<TimestampRow>;
+  documentSends: SafeRows<TimestampRow>;
+  paymentEvents: SafeRows<TimestampRow>;
+  renewalActions: SafeRows<TimestampRow>;
+}): OpsDemoChecklistItem[] {
+  const smokeAccountReady = hasEnv("CONTRATPRO_SMOKE_EMAIL") && hasEnv("CONTRATPRO_SMOKE_PASSWORD");
+  const emailReady = hasEmailProvider();
+  const sepaReady = hasEnv("GOCARDLESS_ACCESS_TOKEN");
+  const billingReady = hasEnv("STRIPE_SECRET_KEY") && hasEnv("STRIPE_WEBHOOK_SECRET");
+
+  return [
+    {
+      command: "npm run smoke:journey",
+      detail: "Valider que le compte pilote traverse les ecrans critiques avant l'appel.",
+      label: "Parcours client",
+      proof: "Le terminal affiche Parcours client OK.",
+      status: smokeAccountReady ? "ready" : "critical",
+    },
+    {
+      detail: "Ouvrir le cockpit pour raconter le revenu protege, pas une liste de menus.",
+      href: "/",
+      label: "Cockpit revenu",
+      proof: "Score securite, action du jour et revenu a risque visibles.",
+      status: "ready",
+    },
+    {
+      detail: "Preparer un import sec pour montrer la reprise Excel sans engagement.",
+      href: "/import",
+      label: "Import Excel",
+      proof: "Page import accessible, plan d'import visible.",
+      status: "ready",
+    },
+    {
+      detail: "Verifier qu'une facture ou une attestation peut etre montree en PDF.",
+      href: "/invoices",
+      label: "Preuve document",
+      proof: documentSends.rows.length
+        ? "Historique d'envoi document present."
+        : "Aucun envoi encore journalise: montrer la generation PDF.",
+      status: documentSends.error ? "warning" : documentSends.rows.length ? "ready" : "warning",
+    },
+    {
+      detail: "Controler le discours cash-flow: SEPA, rejets et encaissements.",
+      href: "/payments",
+      label: "Cash-flow SEPA",
+      proof: paymentEvents.rows.length
+        ? "Evenements provider visibles."
+        : "Aucun evenement provider: rester en demonstration controlee.",
+      status: sepaReady && !paymentEvents.error ? "ready" : "warning",
+    },
+    {
+      detail: "Savoir si l'appel peut basculer vers essai, pilote ou attente technique.",
+      href: "/settings/billing",
+      label: "Offre et billing",
+      proof: billingSubscriptions.rows.length
+        ? "Abonnement synchronise present."
+        : "Stripe pret ou plan pilote a expliquer.",
+      status: billingReady && !billingSubscriptions.error ? "ready" : "warning",
+    },
+    {
+      detail: "Verifier que les relances existent ou que l'ecran explique la prochaine action.",
+      href: "/relances",
+      label: "Relances",
+      proof: renewalActions.rows.length
+        ? "Journal de relances present."
+        : "File commerciale ou etat vide actionnable visible.",
+      status: renewalActions.error ? "warning" : "ready",
+    },
+    {
+      detail: "Confirmer que les emails sortants ne surprendront pas pendant la demo.",
+      href: "/admin/notifications",
+      label: "Alertes fondateur",
+      proof: emailReady ? "Resend et expediteur configures." : "Email non configure: ne pas envoyer en live.",
+      status: emailReady ? "ready" : "warning",
+    },
+  ];
+}
+
 export async function getOpsHealth() {
   const adminEmails = [...getAdminEmails()];
   const checks: OpsCheck[] = [
@@ -312,6 +405,12 @@ export async function getOpsHealth() {
     cronRunbook: buildCronRunbook({
       adminEmails,
       internalNotifications,
+      renewalActions,
+    }),
+    demoChecklist: buildDemoChecklist({
+      billingSubscriptions,
+      documentSends,
+      paymentEvents,
       renewalActions,
     }),
     generatedAt: new Date().toISOString(),
