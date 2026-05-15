@@ -11,6 +11,7 @@ import {
   getCertificates,
   getContracts,
   getCustomers,
+  getInvoices,
   getPayments,
   getRenewalPipeline,
 } from "@/server/contratpro-data";
@@ -101,13 +102,13 @@ function StatCard({
 }) {
   return (
     <article className="dashboard-stat-card" data-tone={tone}>
-      <p className="text-xs font-medium uppercase tracking-wide text-zinc-500">
+      <p className="text-xs font-medium uppercase tracking-wide text-zinc-400">
         {label}
       </p>
-      <strong className="mt-3 block text-3xl font-semibold text-zinc-950">
+      <strong className="mt-3 block text-3xl font-semibold text-zinc-50">
         {value}
       </strong>
-      <p className="mt-2 text-sm text-zinc-500">{detail}</p>
+      <p className="mt-2 text-sm text-zinc-400">{detail}</p>
     </article>
   );
 }
@@ -121,10 +122,10 @@ function MiniMetric({
 }) {
   return (
     <div className="dashboard-mini-metric">
-      <p className="text-xs font-medium uppercase tracking-wide text-zinc-500">
+      <p className="text-xs font-medium uppercase tracking-wide text-zinc-400">
         {label}
       </p>
-      <strong className="mt-2 block text-xl font-semibold text-zinc-950">
+      <strong className="mt-2 block text-xl font-semibold text-zinc-50">
         {value}
       </strong>
     </div>
@@ -148,6 +149,30 @@ function SafetySignal({
       <strong>{value}</strong>
       <span>{detail}</span>
     </article>
+  );
+}
+
+function DashboardActionRow({
+  action,
+  count,
+  detail,
+  href,
+  tone,
+}: {
+  action: string;
+  count: number;
+  detail: string;
+  href: string;
+  tone: CardTone;
+}) {
+  return (
+    <a className="dashboard-today-action" data-tone={tone} href={href}>
+      <span>{count}</span>
+      <div>
+        <strong>{action}</strong>
+        <small>{detail}</small>
+      </div>
+    </a>
   );
 }
 
@@ -250,10 +275,11 @@ function HomeLanding() {
 }
 
 async function DashboardHome() {
-  const [contracts, customers, certificates, payments, renewalPipeline] = await Promise.all([
+  const [contracts, customers, certificates, invoices, payments, renewalPipeline] = await Promise.all([
     getContracts(),
     getCustomers(),
     getCertificates(),
+    getInvoices(),
     getPayments(),
     getRenewalPipeline(),
   ]);
@@ -283,30 +309,33 @@ async function DashboardHome() {
   const pendingPayments = payments.filter((payment) =>
     ["PENDING_SUBMISSION", "SUBMITTED"].includes(payment.rawStatus),
   );
+  const invoicesToFollow = invoices.filter((invoice) =>
+    ["DRAFT", "SENT", "OVERDUE"].includes(invoice.rawStatus),
+  );
   const safetyActions = [
     {
-      action: "Relancer avant fuite de revenu",
+      action: "Relancer",
       count: criticalRenewals.length,
       detail: `${formatEuro(criticalRenewals.reduce((sum, renewal) => sum + renewal.value, 0))} a proteger sous 15 jours`,
       href: "/relances",
       tone: "rose",
     },
     {
-      action: "Envoyer les attestations",
+      action: "Envoyer",
       count: certificatesToSend.length,
       detail: "documents entretien a transmettre au client",
       href: "/certificates",
       tone: "amber",
     },
     {
-      action: "Reprendre les paiements rejetes",
-      count: failedPayments.length,
-      detail: "encaissements a corriger avant perte client",
-      href: "/payments",
-      tone: "rose",
+      action: "Facturer",
+      count: invoicesToFollow.length,
+      detail: `${formatEuro(invoicesToFollow.reduce((sum, invoice) => sum + invoice.amountTtc, 0))} a suivre`,
+      href: "/invoices",
+      tone: "cyan",
     },
     {
-      action: "Basculer en SEPA",
+      action: "Activer SEPA",
       count: renewalsWithoutSepa.length,
       detail: "contrats a risque encore hors prelevement",
       href: "/payments/new",
@@ -321,14 +350,53 @@ async function DashboardHome() {
         criticalRenewals.length * 12 -
         certificatesToSend.length * 6 -
         failedPayments.length * 14 -
+        invoicesToFollow.length * 4 -
         renewalsWithoutSepa.length * 5,
     ),
   );
   const safetyTone: CardTone =
     safetyScore >= 80 ? "emerald" : safetyScore >= 58 ? "amber" : "rose";
-  const nextSecuringAction = safetyActions.find((action) => action.count > 0);
+  const nextSecuringAction =
+    [
+      {
+        action: "Reprendre les paiements rejetes",
+        count: failedPayments.length,
+        detail: "encaissements a corriger avant perte client",
+        href: "/payments",
+        tone: "rose" as const,
+      },
+      ...safetyActions,
+    ].find((action) => action.count > 0);
   const renewals = contracts.slice(0, 5);
   const paymentQueue = payments.slice(0, 4);
+  const hasPortfolio = contracts.length > 0 || customers.length > 0;
+  const architectDecision =
+    criticalRenewals.length > 0 || failedPayments.length > 0
+      ? {
+          label: "Urgent",
+          tone: "rose" as const,
+          title: "Protegez le revenu avant la fin de semaine.",
+          proof: `${criticalRenewals.length} echeance(s) critique(s), ${failedPayments.length} paiement(s) rejete(s).`,
+          action: "Ouvrir la file de relance",
+          href: "/relances",
+        }
+      : atRiskRenewals.length > 0 || certificatesToSend.length > 0 || invoicesToFollow.length > 0
+        ? {
+            label: "A surveiller",
+            tone: "amber" as const,
+            title: "Le portefeuille est sain, mais des preuves restent a envoyer.",
+            proof: `${atRiskRenewals.length} renouvellement(s), ${certificatesToSend.length} attestation(s), ${invoicesToFollow.length} facture(s).`,
+            action: "Traiter les actions du jour",
+            href: "/certificates",
+          }
+        : {
+            label: "Stable",
+            tone: "emerald" as const,
+            title: "Aucune fuite prioritaire detectee aujourd'hui.",
+            proof: "Relances, attestations et paiements ne presentent pas de blocage urgent.",
+            action: "Verifier les prochains contrats",
+            href: "/contracts",
+          };
 
   return (
     <AppShell activePath="/" showInternalTools={isAdmin}>
@@ -352,9 +420,30 @@ async function DashboardHome() {
           </div>
         }
         description="Vue executive des renouvellements, visites legales, attestations et paiements recurrents alimentes par Supabase."
-        eyebrow="Tableau de bord"
-        title="Pilotage commercial et legal des contrats CVC"
+        eyebrow="Cockpit dirigeant"
+        title="Securisation des contrats CVC"
       />
+
+      {!hasPortfolio ? (
+        <section className="dashboard-empty-cockpit mt-6" data-od-id="dashboard-empty-cockpit">
+          <div>
+            <p>Activation portefeuille</p>
+            <h2>Importez votre base pour voir le revenu a securiser.</h2>
+            <span>
+              Le cockpit devient utile des que vos clients, equipements et contrats
+              annuels sont presents. Commencez par un dry-run, sans creation irreversible.
+            </span>
+          </div>
+          <div className="dashboard-empty-actions">
+            <a className="premium-action rounded-md text-sm font-semibold" href="/import">
+              Importer mes contrats
+            </a>
+            <a className="premium-secondary-action rounded-md px-4 py-2 text-sm font-semibold" href="/contracts/new">
+              Creer un contrat
+            </a>
+          </div>
+        </section>
+      ) : null}
 
       <section className="contract-safety-cockpit mt-6">
         <div className="contract-safety-brief">
@@ -439,6 +528,45 @@ async function DashboardHome() {
         </div>
       </section>
 
+      <section className="dashboard-command-grid mt-6" data-od-id="dashboard-contract-architect">
+        <article className="dashboard-architect-panel" data-tone={architectDecision.tone}>
+          <div>
+            <p className="text-sm font-semibold text-cyan-300">Architecte IA contrats</p>
+            <h3>{architectDecision.title}</h3>
+            <span>{architectDecision.proof}</span>
+          </div>
+          <div className="dashboard-architect-decision">
+            <small>Diagnostic</small>
+            <strong>{architectDecision.label}</strong>
+            <a className="premium-action rounded-md text-sm font-semibold" href={architectDecision.href}>
+              {architectDecision.action}
+            </a>
+          </div>
+        </article>
+
+        <article className="dashboard-today-panel">
+          <div className="dashboard-today-header">
+            <div>
+              <p>Aujourd'hui</p>
+              <h3>Actions qui securisent le cash</h3>
+            </div>
+            <StatusPill>{safetyActions.reduce((sum, action) => sum + action.count, 0)} actions</StatusPill>
+          </div>
+          <div className="dashboard-today-list">
+            {safetyActions.map((item) => (
+              <DashboardActionRow
+                action={item.action}
+                count={item.count}
+                detail={item.detail}
+                href={item.href}
+                key={item.action}
+                tone={item.tone}
+              />
+            ))}
+          </div>
+        </article>
+      </section>
+
       <div className="mt-6 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
         <StatCard
           detail={`${contracts.length} contrats suivis`}
@@ -470,10 +598,10 @@ async function DashboardHome() {
         <section className="dashboard-section overflow-hidden">
           <div className="dashboard-section-header flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
             <div>
-              <h3 className="text-base font-semibold text-zinc-950">
+              <h3 className="text-base font-semibold text-zinc-50">
                 Renouvellements prioritaires
               </h3>
-              <p className="mt-1 text-sm text-zinc-500">
+              <p className="mt-1 text-sm text-zinc-400">
                 Tries par echeance pour declencher les relances au bon moment.
               </p>
             </div>
@@ -488,7 +616,7 @@ async function DashboardHome() {
           <div className="overflow-x-auto">
             <table className="w-full min-w-[760px] text-left text-sm">
               <thead>
-                <tr className="dashboard-table-head text-xs uppercase tracking-wide text-zinc-500">
+                <tr className="dashboard-table-head text-xs uppercase tracking-wide text-zinc-400">
                   <th className="px-4 py-3 font-semibold">Client</th>
                   <th className="px-4 py-3 font-semibold">Equipement</th>
                   <th className="px-4 py-3 font-semibold">Echeance</th>
@@ -496,24 +624,24 @@ async function DashboardHome() {
                   <th className="px-4 py-3 font-semibold">Statut</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-zinc-100">
+              <tbody className="divide-y divide-zinc-800/80">
                 {renewals.map((contract) => (
                   <tr className="dashboard-table-row" key={contract.id}>
                     <td className="px-4 py-4">
-                      <p className="font-semibold text-zinc-950">
+                      <p className="font-semibold text-zinc-50">
                         {contract.customer}
                       </p>
-                      <p className="mt-1 text-xs text-zinc-500">
+                      <p className="mt-1 text-xs text-zinc-400">
                         {contract.city}
                       </p>
                     </td>
-                    <td className="px-4 py-4 text-zinc-600">
+                    <td className="px-4 py-4 text-zinc-300">
                       {contract.equipment}
                     </td>
-                    <td className="px-4 py-4 text-zinc-700">
+                    <td className="px-4 py-4 text-zinc-200">
                       {contract.renewal}
                     </td>
-                    <td className="px-4 py-4 font-semibold">
+                    <td className="px-4 py-4 font-semibold text-zinc-50">
                       {formatEuro(contract.value)}
                     </td>
                     <td className="px-4 py-4">
@@ -529,10 +657,10 @@ async function DashboardHome() {
         <section className="dashboard-section p-4">
           <div className="flex items-start justify-between gap-4">
             <div>
-              <h3 className="text-base font-semibold text-zinc-950">
+              <h3 className="text-base font-semibold text-zinc-50">
                 Situation dirigeant
               </h3>
-              <p className="mt-1 text-sm text-zinc-500">
+              <p className="mt-1 text-sm text-zinc-400">
                 Les signaux qui parlent chiffre d'affaires, cash et risque.
               </p>
             </div>
@@ -564,10 +692,10 @@ async function DashboardHome() {
         <section className="dashboard-section p-4">
           <div className="flex items-center justify-between gap-4">
             <div>
-              <h3 className="text-base font-semibold text-zinc-950">
+              <h3 className="text-base font-semibold text-zinc-50">
                 Paiements a surveiller
               </h3>
-              <p className="mt-1 text-sm text-zinc-500">
+              <p className="mt-1 text-sm text-zinc-400">
                 Prelevements, virements et relances issus du modele Supabase.
               </p>
             </div>
@@ -579,19 +707,19 @@ async function DashboardHome() {
             </a>
           </div>
 
-          <div className="mt-5 divide-y divide-zinc-100">
+          <div className="mt-5 divide-y divide-zinc-800/80">
             {paymentQueue.map((payment) => (
               <div
                 className="dashboard-list-row grid gap-3 py-4 sm:grid-cols-[1fr_auto_auto] sm:items-center"
                 key={payment.id}
               >
                 <div>
-                  <p className="font-medium text-zinc-950">{payment.customer}</p>
-                  <p className="mt-1 text-sm text-zinc-500">
+                  <p className="font-medium text-zinc-50">{payment.customer}</p>
+                  <p className="mt-1 text-sm text-zinc-400">
                     {payment.method} - {payment.dueDate}
                   </p>
                 </div>
-                <strong className="text-sm text-zinc-950">
+                <strong className="text-sm text-zinc-50">
                   {formatEuro(payment.amount)}
                 </strong>
                 <StatusPill>{payment.status}</StatusPill>
@@ -603,10 +731,10 @@ async function DashboardHome() {
         <section className="dashboard-section p-4">
           <div className="flex items-center justify-between gap-4">
             <div>
-              <h3 className="text-base font-semibold text-zinc-950">
+              <h3 className="text-base font-semibold text-zinc-50">
                 Conformite entretien
               </h3>
-              <p className="mt-1 text-sm text-zinc-500">
+              <p className="mt-1 text-sm text-zinc-400">
                 Attestations legales rattachees aux interventions et contrats.
               </p>
             </div>
@@ -621,10 +749,10 @@ async function DashboardHome() {
           <div className="mt-5 grid gap-3 sm:grid-cols-3">
             {certificates.slice(0, 3).map((certificate) => (
               <article className="dashboard-certificate-card" key={certificate.id}>
-                <p className="text-sm font-semibold text-zinc-950">
+                <p className="text-sm font-semibold text-zinc-50">
                   {certificate.customer}
                 </p>
-                <p className="mt-2 text-sm text-zinc-500">
+                <p className="mt-2 text-sm text-zinc-400">
                   {certificate.equipment}
                 </p>
                 <p className="mt-3 text-xs font-medium uppercase tracking-wide text-zinc-500">

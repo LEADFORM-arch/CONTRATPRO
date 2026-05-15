@@ -44,7 +44,7 @@ async function loginAndGetCookie() {
 
 const journeyChecks = [
   {
-    includes: ["Pilotage commercial", "Revenu annuel"],
+    includes: ["Securisation des contrats CVC", "Architecte IA contrats", "Revenu annuel"],
     label: "Dashboard dirigeant",
     path: "/",
   },
