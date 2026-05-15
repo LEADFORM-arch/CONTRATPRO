@@ -197,6 +197,8 @@ describe("production guardrails", () => {
       "rateLimit",
       "auth-login",
       "limit: 8",
+      "Supabase Auth est indisponible ou mal configure.",
+      "Session Supabase incomplete apres connexion.",
     ], "login rate limit");
 
     assertIncludes(read("src/app/api/import/clients/route.ts"), [
@@ -592,6 +594,8 @@ describe("production guardrails", () => {
       "NEXT_PUBLIC_APP_URL",
       "http://localhost:3000",
       "CONTRATPRO_SMOKE_EMAIL",
+      "Les identifiants smoke sont encore des valeurs d'exemple.",
+      "ton-domaine.fr",
       "containsDashboardErrorBoundary",
       "TENANT_DEMO_FORBIDDEN",
     ], "smoke test helper");

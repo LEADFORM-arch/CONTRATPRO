@@ -57,6 +57,23 @@ export function getSmokeConfig(commandName) {
     process.exit(1);
   }
 
+  const placeholderEmail =
+    email.includes("ton-domaine.fr") ||
+    email.includes("votre-domaine.fr") ||
+    email.endsWith("@example.com") ||
+    email.endsWith("@example.fr");
+  const placeholderPassword =
+    password.includes("mot-de-passe") ||
+    password.includes("votre-") ||
+    password.includes("ton_");
+
+  if (placeholderEmail || placeholderPassword) {
+    console.error("Les identifiants smoke sont encore des valeurs d'exemple.");
+    console.error("Creez un vrai utilisateur Supabase Auth, puis remplacez CONTRATPRO_SMOKE_EMAIL et CONTRATPRO_SMOKE_PASSWORD dans .env.local.");
+    console.error(`Email actuel: ${email}`);
+    process.exit(1);
+  }
+
   return {
     baseUrl: rawBaseUrl.replace(/\/+$/, ""),
     email,

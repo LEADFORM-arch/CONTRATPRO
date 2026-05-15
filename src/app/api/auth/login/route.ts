@@ -47,27 +47,47 @@ export async function POST(request: Request) {
         body: JSON.stringify({ email, password }),
       },
     );
-    const payload = await response.json();
+    const responseText = await response.text();
+    let payload: Record<string, unknown> = {};
+    try {
+      payload = responseText ? (JSON.parse(responseText) as Record<string, unknown>) : {};
+    } catch {
+      payload = { error_description: responseText };
+    }
 
     if (!response.ok) {
+      const message =
+        text(payload.error_description) ||
+        text(payload.msg) ||
+        text(payload.error) ||
+        "Connexion refusee.";
       return NextResponse.json(
-        { error: payload.error_description || "Connexion refusee." },
+        { error: message },
         { status: 401 },
       );
     }
 
     const cookieStore = await cookies();
     const secure = process.env.NODE_ENV === "production";
+    const accessToken = text(payload.access_token);
+    const refreshToken = text(payload.refresh_token);
+    if (!accessToken || !refreshToken) {
+      return NextResponse.json(
+        { error: "Session Supabase incomplete apres connexion." },
+        { status: 502 },
+      );
+    }
+
     const maxAge = Number(payload.expires_in ?? 3600);
 
-    cookieStore.set(ACCESS_TOKEN_COOKIE, payload.access_token, {
+    cookieStore.set(ACCESS_TOKEN_COOKIE, accessToken, {
       httpOnly: true,
       maxAge,
       path: "/",
       sameSite: "lax",
       secure,
     });
-    cookieStore.set(REFRESH_TOKEN_COOKIE, payload.refresh_token, {
+    cookieStore.set(REFRESH_TOKEN_COOKIE, refreshToken, {
       httpOnly: true,
       maxAge: 60 * 60 * 24 * 30,
       path: "/",
@@ -75,14 +95,17 @@ export async function POST(request: Request) {
       secure,
     });
 
+    const user = payload.user as { email?: unknown; id?: unknown } | undefined;
+
     return NextResponse.json({
-      email: payload.user?.email,
-      id: payload.user?.id,
+      email: user?.email,
+      id: user?.id,
     });
-  } catch {
+  } catch (error) {
+    console.error("ContratPro login failed", error);
     return NextResponse.json(
-      { error: "Impossible de connecter cet utilisateur." },
-      { status: 500 },
+      { error: "Supabase Auth est indisponible ou mal configure." },
+      { status: 502 },
     );
   }
 }
