@@ -616,6 +616,29 @@ describe("production guardrails", () => {
     ], "customer journey README");
   });
 
+  it("keeps dashboard runtime errors converted into a branded recovery screen", () => {
+    assert.ok(
+      existsSync(pathOf("src/app/(dashboard)/error.tsx")),
+      "dashboard error boundary should exist",
+    );
+
+    assertIncludes(read("src/app/(dashboard)/error.tsx"), [
+      "\"use client\"",
+      "DemoOrganizationForbiddenError",
+      "ProductionTenantConfigError",
+      "TENANT_DEMO_FORBIDDEN",
+      "Verifier la securite",
+      "Se reconnecter",
+      "Dashboard error boundary",
+    ], "dashboard error boundary");
+
+    assertIncludes(read("src/app/globals.css"), [
+      ".dashboard-error-shell",
+      ".dashboard-error-card",
+      ".dashboard-error-diagnostic",
+    ], "dashboard error styles");
+  });
+
   it("keeps founder go-live readiness visible before commercial launch", () => {
     assertIncludes(read("src/server/launch-readiness.ts"), [
       "STRIPE_SECRET_KEY",

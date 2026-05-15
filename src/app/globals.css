@@ -7055,6 +7055,33 @@ textarea::placeholder {
   color: #71717a;
 }
 
+.dashboard-error-shell {
+  align-items: center;
+  background:
+    radial-gradient(circle at 18% 20%, rgba(52, 211, 153, 0.12), transparent 28%),
+    radial-gradient(circle at 84% 24%, rgba(245, 158, 11, 0.1), transparent 24%),
+    linear-gradient(135deg, rgba(30, 58, 95, 0.2), rgba(5, 6, 7, 0.98)),
+    #050607;
+  display: flex;
+}
+
+.dashboard-error-card {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.055), rgba(255, 255, 255, 0.018)),
+    rgba(17, 19, 22, 0.92);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow:
+    0 32px 90px rgba(0, 0, 0, 0.34),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+.dashboard-error-diagnostic {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.018)),
+    #0b0d10;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
 button,
 select,
 input,
