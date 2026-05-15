@@ -1,4 +1,5 @@
 import { AppShell, PageHeader, StatusPill } from "@/components/layout/AppShell";
+import { ActivationEmptyState } from "@/components/layout/ActivationEmptyState";
 import { PaymentEventTimeline } from "@/components/payments/PaymentEventTimeline";
 import { formatEuro } from "@/lib/mock-data";
 import { getPayments } from "@/server/contratpro-data";
@@ -102,8 +103,9 @@ export default async function PaymentsPage() {
           </span>
         </div>
 
-        <div className="overflow-x-auto">
-          <table className="w-full min-w-[1160px] text-left text-sm">
+        {payments.length ? (
+          <div className="overflow-x-auto">
+            <table className="w-full min-w-[1160px] text-left text-sm">
             <thead>
               <tr className="dashboard-table-head">
                 <th className="px-4 py-3 font-semibold">Client</th>
@@ -177,8 +179,25 @@ export default async function PaymentsPage() {
                 </tr>
               ))}
             </tbody>
-          </table>
-        </div>
+            </table>
+          </div>
+        ) : (
+          <div className="p-4">
+            <ActivationEmptyState
+              actionHref="/payments/new"
+              actionLabel="Creer un paiement"
+              eyebrow="Cash-flow CVC"
+              proofPoints={[
+                "Suivre mandat et echeance",
+                "Controler les rejets",
+                "Relier paiement et contrat",
+              ]}
+              secondaryHref="/contracts"
+              secondaryLabel="Voir contrats"
+              title="Ajoutez un premier paiement pour securiser l'encaissement recurrent."
+            />
+          </div>
+        )}
       </section>
 
       <div className="mt-6">

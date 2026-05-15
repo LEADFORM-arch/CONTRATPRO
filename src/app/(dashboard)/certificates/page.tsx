@@ -1,4 +1,5 @@
 import { AppShell, PageHeader, StatusPill } from "@/components/layout/AppShell";
+import { ActivationEmptyState } from "@/components/layout/ActivationEmptyState";
 import { getCertificates } from "@/server/contratpro-data";
 
 export default async function CertificatesPage() {
@@ -74,8 +75,9 @@ export default async function CertificatesPage() {
           </span>
         </div>
 
-        <div className="overflow-x-auto">
-          <table className="w-full min-w-[820px] text-left text-sm">
+        {certificates.length ? (
+          <div className="overflow-x-auto">
+            <table className="w-full min-w-[820px] text-left text-sm">
             <thead>
               <tr className="dashboard-table-head">
                 <th className="px-4 py-3 font-semibold">Client</th>
@@ -122,8 +124,25 @@ export default async function CertificatesPage() {
                 </tr>
               ))}
             </tbody>
-          </table>
-        </div>
+            </table>
+          </div>
+        ) : (
+          <div className="p-4">
+            <ActivationEmptyState
+              actionHref="/interventions/new"
+              actionLabel="Planifier une intervention"
+              eyebrow="Conformite entretien"
+              proofPoints={[
+                "Attestation liee a l'intervention",
+                "Reference legale conservee",
+                "Envoi client historise",
+              ]}
+              secondaryHref="/contracts"
+              secondaryLabel="Voir contrats"
+              title="Generez les attestations depuis les interventions realisees."
+            />
+          </div>
+        )}
       </section>
     </AppShell>
   );

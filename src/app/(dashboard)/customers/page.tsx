@@ -1,4 +1,5 @@
 import { AppShell, PageHeader } from "@/components/layout/AppShell";
+import { ActivationEmptyState } from "@/components/layout/ActivationEmptyState";
 import { formatEuro } from "@/lib/mock-data";
 import { getCustomers } from "@/server/contratpro-data";
 
@@ -86,8 +87,9 @@ export default async function CustomersPage() {
           <span className="customer-count-pill">{customers.length} clients</span>
         </div>
 
-        <div className="grid gap-4 p-4 lg:grid-cols-3">
-          {customers.map((customer) => (
+        {customers.length ? (
+          <div className="grid gap-4 p-4 lg:grid-cols-3">
+            {customers.map((customer) => (
             <article className="customer-card" key={customer.id}>
               <div className="flex items-start justify-between gap-4">
                 <div>
@@ -127,8 +129,25 @@ export default async function CustomersPage() {
                 Ouvrir le dossier
               </a>
             </article>
-          ))}
-        </div>
+            ))}
+          </div>
+        ) : (
+          <div className="p-4">
+            <ActivationEmptyState
+              actionHref="/import"
+              actionLabel="Importer mon fichier clients"
+              eyebrow="Premier portefeuille"
+              proofPoints={[
+                "Reprendre Excel sans ressaisie",
+                "Preparer contrats et equipements",
+                "Debloquer relances et factures",
+              ]}
+              secondaryHref="/customers/new"
+              secondaryLabel="Ajouter un client"
+              title="Commencez par importer ou creer vos premiers clients CVC."
+            />
+          </div>
+        )}
       </section>
     </AppShell>
   );

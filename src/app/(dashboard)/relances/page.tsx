@@ -1,4 +1,5 @@
 import { AppShell, PageHeader, StatusPill } from "@/components/layout/AppShell";
+import { ActivationEmptyState } from "@/components/layout/ActivationEmptyState";
 import { formatEuro } from "@/lib/mock-data";
 import {
   getRenewalActions,
@@ -214,8 +215,9 @@ export default async function RelancesPage() {
           </span>
         </div>
 
-        <div className="grid gap-4 p-4">
-          {renewals.map((renewal) => {
+        {renewals.length ? (
+          <div className="grid gap-4 p-4">
+            {renewals.map((renewal) => {
             const recommendation = recommendationsByContract.get(renewal.id);
             return (
             <article
@@ -297,8 +299,25 @@ export default async function RelancesPage() {
               </div>
             </article>
             );
-          })}
-        </div>
+            })}
+          </div>
+        ) : (
+          <div className="p-4">
+            <ActivationEmptyState
+              actionHref="/contracts/new"
+              actionLabel="Creer un contrat actif"
+              eyebrow="Relance automatique"
+              proofPoints={[
+                "Detecter les echeances",
+                "Prioriser le revenu a risque",
+                "Preparer scripts et emails",
+              ]}
+              secondaryHref="/import"
+              secondaryLabel="Importer contrats"
+              title="Les relances apparaissent des qu'un contrat actif possede une echeance."
+            />
+          </div>
+        )}
       </section>
 
       <section className="relance-section mt-6">

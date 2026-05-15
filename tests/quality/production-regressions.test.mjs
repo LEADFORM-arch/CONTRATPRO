@@ -1116,4 +1116,44 @@ describe("production guardrails", () => {
       "modele-import-contratpro.csv",
     ], "client import page");
   });
+
+  it("keeps first-run business screens actionable instead of empty", () => {
+    assertIncludes(read("src/components/layout/ActivationEmptyState.tsx"), [
+      "activation-empty-state",
+      "actionLabel",
+      "proofPoints",
+      "data-od-id=\"activation-empty-state\"",
+    ], "activation empty state component");
+
+    for (const route of [
+      "src/app/(dashboard)/customers/page.tsx",
+      "src/app/(dashboard)/contracts/page.tsx",
+      "src/app/(dashboard)/relances/page.tsx",
+      "src/app/(dashboard)/invoices/page.tsx",
+      "src/app/(dashboard)/certificates/page.tsx",
+      "src/app/(dashboard)/payments/page.tsx",
+    ]) {
+      assert.ok(read(route).includes("ActivationEmptyState"), `${route} should use actionable empty state`);
+    }
+
+    assertIncludes(read("src/app/(dashboard)/customers/page.tsx"), [
+      "Importer mon fichier clients",
+      "Ajouter un client",
+    ], "customers empty state actions");
+
+    assertIncludes(read("src/app/(dashboard)/contracts/page.tsx"), [
+      "Creer mon premier contrat",
+      "Importer depuis Excel",
+    ], "contracts empty state actions");
+
+    assertIncludes(read("src/app/(dashboard)/relances/page.tsx"), [
+      "Les relances apparaissent",
+      "Importer contrats",
+    ], "renewals empty state actions");
+
+    assertIncludes(read("src/app/globals.css"), [
+      ".activation-empty-state",
+      ".activation-empty-actions",
+    ], "activation empty state styles");
+  });
 });

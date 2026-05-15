@@ -1,4 +1,5 @@
 import { AppShell, PageHeader, StatusPill } from "@/components/layout/AppShell";
+import { ActivationEmptyState } from "@/components/layout/ActivationEmptyState";
 import { formatEuro } from "@/lib/mock-data";
 import { getContracts } from "@/server/contratpro-data";
 
@@ -82,8 +83,9 @@ export default async function ContractsPage() {
           <span className="contract-count-pill">{contracts.length} dossiers</span>
         </div>
 
-        <div className="overflow-x-auto">
-          <table className="w-full min-w-[920px] text-left text-sm">
+        {contracts.length ? (
+          <div className="overflow-x-auto">
+            <table className="w-full min-w-[920px] text-left text-sm">
             <thead>
               <tr className="dashboard-table-head text-xs uppercase tracking-wide text-zinc-500">
                 <th className="px-4 py-3 font-semibold">Client</th>
@@ -132,8 +134,25 @@ export default async function ContractsPage() {
                 </tr>
               ))}
             </tbody>
-          </table>
-        </div>
+            </table>
+          </div>
+        ) : (
+          <div className="p-4">
+            <ActivationEmptyState
+              actionHref="/contracts/new"
+              actionLabel="Creer mon premier contrat"
+              eyebrow="Revenu recurrent"
+              proofPoints={[
+                "Fixer une date anniversaire",
+                "Suivre montant et paiement",
+                "Activer les relances futures",
+              ]}
+              secondaryHref="/import"
+              secondaryLabel="Importer depuis Excel"
+              title="Ajoutez un premier contrat pour transformer la base clients en revenu suivi."
+            />
+          </div>
+        )}
       </section>
     </AppShell>
   );

@@ -1,4 +1,5 @@
 import { AppShell, PageHeader, StatusPill } from "@/components/layout/AppShell";
+import { ActivationEmptyState } from "@/components/layout/ActivationEmptyState";
 import { formatEuro } from "@/lib/mock-data";
 import { getInvoices } from "@/server/contratpro-data";
 
@@ -74,8 +75,9 @@ export default async function InvoicesPage() {
           <span className="invoice-open-pill">{formatEuro(openAmount)} ouvert</span>
         </div>
 
-        <div className="overflow-x-auto">
-          <table className="w-full min-w-[1040px] text-left text-sm">
+        {invoices.length ? (
+          <div className="overflow-x-auto">
+            <table className="w-full min-w-[1040px] text-left text-sm">
             <thead>
               <tr className="dashboard-table-head">
                 <th className="px-4 py-3 font-semibold">Facture</th>
@@ -135,8 +137,25 @@ export default async function InvoicesPage() {
                 </tr>
               ))}
             </tbody>
-          </table>
-        </div>
+            </table>
+          </div>
+        ) : (
+          <div className="p-4">
+            <ActivationEmptyState
+              actionHref="/invoices/new"
+              actionLabel="Creer une facture"
+              eyebrow="Facturation pilote"
+              proofPoints={[
+                "Numerotation propre",
+                "TVA et echeance visibles",
+                "PDF pret a envoyer",
+              ]}
+              secondaryHref="/contracts"
+              secondaryLabel="Voir contrats"
+              title="Creez une premiere facture pour verifier le flux document et encaissement."
+            />
+          </div>
+        )}
       </section>
     </AppShell>
   );
