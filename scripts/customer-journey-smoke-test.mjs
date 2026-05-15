@@ -1,24 +1,11 @@
-const rawBaseUrl = process.argv[2] ?? process.env.CONTRATPRO_DEPLOYMENT_URL;
-const email = process.env.CONTRATPRO_SMOKE_EMAIL;
-const password = process.env.CONTRATPRO_SMOKE_PASSWORD;
+import {
+  containsDashboardErrorBoundary,
+  getSessionCookie,
+  getSmokeConfig,
+  read,
+} from "./smoke-test-helpers.mjs";
 
-if (!rawBaseUrl) {
-  console.error("Usage: npm run deploy:smoke:journey -- https://votre-deploiement.vercel.app");
-  console.error("Ou definir CONTRATPRO_DEPLOYMENT_URL.");
-  process.exit(1);
-}
-
-if (!email || !password) {
-  console.error("CONTRATPRO_SMOKE_EMAIL et CONTRATPRO_SMOKE_PASSWORD sont requis.");
-  console.error("Utiliser un compte pilote dedie, jamais un mot de passe client reel partage.");
-  process.exit(1);
-}
-
-const baseUrl = rawBaseUrl.replace(/\/+$/, "");
-
-async function read(response) {
-  return response.text().catch(() => "");
-}
+const { baseUrl, email, password } = getSmokeConfig("smoke:journey");
 
 async function loginAndGetCookie() {
   const response = await fetch(`${baseUrl}/api/auth/login`, {
@@ -37,10 +24,7 @@ async function loginAndGetCookie() {
     process.exit(1);
   }
 
-  const cookies = response.headers.getSetCookie
-    ? response.headers.getSetCookie()
-    : response.headers.get("set-cookie")?.split(/,(?=[^;]+?=)/) ?? [];
-  const cookie = cookies.map((value) => value.split(";")[0]).join("; ");
+  const cookie = getSessionCookie(response);
 
   if (!cookie.includes("contratpro-access-token")) {
     console.error("FAIL cookie session - cookie d'acces absent apres connexion.");
@@ -145,7 +129,8 @@ for (const check of journeyChecks) {
       (response.headers.get("location") ?? "").includes("/settings/billing");
     const passed =
       (response.ok &&
-        check.includes.every((value) => body.toLowerCase().includes(value.toLowerCase()))) ||
+        check.includes.every((value) => body.toLowerCase().includes(value.toLowerCase())) &&
+        !containsDashboardErrorBoundary(body)) ||
       redirectedToBilling;
 
     results.push({

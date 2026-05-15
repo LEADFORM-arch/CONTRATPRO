@@ -24,7 +24,8 @@ set CONTRATPRO_SMOKE_EMAIL=compte-smoke@votre-domaine.fr
 set CONTRATPRO_SMOKE_PASSWORD=mot-de-passe-temporaire
 ```
 
-Ne jamais commiter ces valeurs.
+Ne jamais commiter ces valeurs. Les scripts chargent aussi `.env.local` si les
+variables ne sont pas deja definies dans le terminal.
 
 ## 2. Smoke public
 
@@ -43,14 +44,17 @@ Le prospect doit voir :
 ## 3. Smoke authentifie
 
 ```bash
+npm run smoke:auth
 npm run deploy:smoke:auth -- %CONTRATPRO_DEPLOYMENT_URL%
 ```
 
-Le compte smoke doit pouvoir se connecter et ouvrir `/onboarding`.
+Le compte smoke doit pouvoir se connecter et ouvrir `/onboarding`. Le test
+echoue si l'ecran de reprise dashboard remplace silencieusement la page metier.
 
 ## 4. Parcours client complet
 
 ```bash
+npm run smoke:journey
 npm run deploy:smoke:journey -- %CONTRATPRO_DEPLOYMENT_URL%
 ```
 

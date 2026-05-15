@@ -47,19 +47,37 @@ Le tenant `org_demo` reste utile seulement en mode demo explicite, sans auth et
 hors production. `npm run dev` lance automatiquement `npm run env:guard` avant
 Next.js pour bloquer les configurations dangereuses.
 
-## Smoke test authentifie production
+## Smoke test authentifie local
 
 Ne jamais ecrire le mot de passe dans le repo. Le definir seulement dans le
-terminal courant :
+terminal courant ou dans `.env.local`, qui est ignore par Git :
+
+```powershell
+$env:CONTRATPRO_SMOKE_EMAIL="esport.hub.pro@proton.me"
+$env:CONTRATPRO_SMOKE_PASSWORD="votre-mot-de-passe"
+npm run smoke:auth
+npm run smoke:journey
+```
+
+Sans URL en argument, les scripts ciblent `NEXT_PUBLIC_APP_URL`,
+`CONTRATPRO_APP_URL`, puis `http://localhost:3000`.
+
+`smoke:auth` controle :
+
+- `/api/auth/login` ;
+- `/api/auth/me` ;
+- `/onboarding`.
+
+`smoke:journey` controle les ecrans metier critiques et echoue si la page de
+reprise dashboard apparait a la place du cockpit.
+
+## Smoke test authentifie production
+
+Pour tester Vercel ou le domaine final :
 
 ```powershell
 $env:CONTRATPRO_SMOKE_EMAIL="esport.hub.pro@proton.me"
 $env:CONTRATPRO_SMOKE_PASSWORD="votre-mot-de-passe"
 npm run deploy:smoke:auth -- https://contratpro-dun.vercel.app
+npm run deploy:smoke:journey -- https://contratpro-dun.vercel.app
 ```
-
-Le script controle :
-
-- `/api/auth/login` ;
-- `/api/auth/me` ;
-- `/onboarding`.

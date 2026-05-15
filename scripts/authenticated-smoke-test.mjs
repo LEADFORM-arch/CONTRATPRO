@@ -1,24 +1,11 @@
-const rawBaseUrl = process.argv[2] ?? process.env.CONTRATPRO_DEPLOYMENT_URL;
-const email = process.env.CONTRATPRO_SMOKE_EMAIL;
-const password = process.env.CONTRATPRO_SMOKE_PASSWORD;
+import {
+  containsDashboardErrorBoundary,
+  getSessionCookie,
+  getSmokeConfig,
+  read,
+} from "./smoke-test-helpers.mjs";
 
-if (!rawBaseUrl) {
-  console.error("Usage: npm run deploy:smoke:auth -- https://votre-deploiement.vercel.app");
-  console.error("Ou definir CONTRATPRO_DEPLOYMENT_URL.");
-  process.exit(1);
-}
-
-if (!email || !password) {
-  console.error("CONTRATPRO_SMOKE_EMAIL et CONTRATPRO_SMOKE_PASSWORD sont requis.");
-  console.error("Ne pas les ecrire dans le repo: definir ces variables seulement dans le terminal courant.");
-  process.exit(1);
-}
-
-const baseUrl = rawBaseUrl.replace(/\/+$/, "");
-
-async function read(response) {
-  return response.text().catch(() => "");
-}
+const { baseUrl, email, password } = getSmokeConfig("smoke:auth");
 
 const login = await fetch(`${baseUrl}/api/auth/login`, {
   method: "POST",
@@ -37,10 +24,7 @@ if (!login.ok) {
   process.exit(1);
 }
 
-const setCookie = login.headers.getSetCookie
-  ? login.headers.getSetCookie()
-  : login.headers.get("set-cookie")?.split(/,(?=[^;]+?=)/) ?? [];
-const cookie = setCookie.map((value) => value.split(";")[0]).join("; ");
+const cookie = getSessionCookie(login);
 
 if (!cookie.includes("contratpro-access-token")) {
   console.error("FAIL cookie session - cookie d'acces absent apres connexion.");
@@ -68,10 +52,17 @@ const onboarding = await fetch(`${baseUrl}/onboarding`, {
   },
   redirect: "manual",
 });
+const onboardingBody = await read(onboarding);
 
 if (![200, 307, 308].includes(onboarding.status)) {
   console.error(`FAIL /onboarding - ${onboarding.status}`);
-  console.error((await read(onboarding)).slice(0, 300));
+  console.error(onboardingBody.slice(0, 300));
+  process.exit(1);
+}
+
+if (containsDashboardErrorBoundary(onboardingBody)) {
+  console.error("FAIL /onboarding - l'ecran de reprise dashboard est affiche.");
+  console.error(onboardingBody.slice(0, 300));
   process.exit(1);
 }
 

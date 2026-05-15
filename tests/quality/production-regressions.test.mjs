@@ -559,19 +559,31 @@ describe("production guardrails", () => {
     assertIncludes(read("package.json"), [
       "\"env:guard\": \"node scripts/env-guard.mjs\"",
       "\"dev\": \"node scripts/env-guard.mjs && next dev\"",
+      "\"smoke:auth\": \"node scripts/authenticated-smoke-test.mjs\"",
+      "\"smoke:journey\": \"node scripts/customer-journey-smoke-test.mjs\"",
     ], "env guard package scripts");
 
-    assertIncludes(read("scripts/authenticated-smoke-test.mjs"), [
+    assertIncludes(read("scripts/smoke-test-helpers.mjs"), [
+      "loadLocalEnv",
+      ".env.local",
+      "NEXT_PUBLIC_APP_URL",
+      "http://localhost:3000",
       "CONTRATPRO_SMOKE_EMAIL",
-      "CONTRATPRO_SMOKE_PASSWORD",
+      "containsDashboardErrorBoundary",
+      "TENANT_DEMO_FORBIDDEN",
+    ], "smoke test helper");
+
+    assertIncludes(read("scripts/authenticated-smoke-test.mjs"), [
+      "getSmokeConfig",
+      "containsDashboardErrorBoundary",
       "/api/auth/login",
       "/api/auth/me",
       "/onboarding",
     ], "authenticated smoke test");
 
     assertIncludes(read("scripts/customer-journey-smoke-test.mjs"), [
-      "CONTRATPRO_SMOKE_EMAIL",
-      "CONTRATPRO_SMOKE_PASSWORD",
+      "getSmokeConfig",
+      "containsDashboardErrorBoundary",
       "Dashboard dirigeant",
       "/import",
       "/contracts",
@@ -594,6 +606,9 @@ describe("production guardrails", () => {
     assertIncludes(read("docs/local-development-env.md"), [
       "vercel env pull",
       "npm run env:guard",
+      "npm run smoke:auth",
+      "npm run smoke:journey",
+      "reprise dashboard apparait",
       "VERCEL_ENV=production",
       "org_contratpro_admin",
       "npm run security:audit",
@@ -602,6 +617,9 @@ describe("production guardrails", () => {
 
     assertIncludes(read("docs/customer-journey-runbook.md"), [
       "Runbook parcours client ContratPro",
+      "npm run smoke:auth",
+      "npm run smoke:journey",
+      "ecran de reprise dashboard",
       "npm run deploy:smoke:journey",
       "Test manuel avec un vrai fichier",
       "Definition of done",
