@@ -591,6 +591,8 @@ describe("production guardrails", () => {
     assertIncludes(read("scripts/smoke-test-helpers.mjs"), [
       "loadLocalEnv",
       ".env.local",
+      "npm_lifecycle_event",
+      "CONTRATPRO_SMOKE_BASE_URL",
       "NEXT_PUBLIC_APP_URL",
       "http://localhost:3000",
       "CONTRATPRO_SMOKE_EMAIL",
@@ -603,6 +605,8 @@ describe("production guardrails", () => {
     assertIncludes(read("scripts/authenticated-smoke-test.mjs"), [
       "getSmokeConfig",
       "containsDashboardErrorBoundary",
+      "impossible de joindre",
+      "Demarrez le serveur avec npm run dev",
       "/api/auth/login",
       "/api/auth/me",
       "/onboarding",
@@ -611,6 +615,8 @@ describe("production guardrails", () => {
     assertIncludes(read("scripts/customer-journey-smoke-test.mjs"), [
       "getSmokeConfig",
       "containsDashboardErrorBoundary",
+      "impossible de joindre",
+      "Demarrez le serveur avec npm run dev",
       "Dashboard dirigeant",
       "/import",
       "/contracts",
@@ -635,6 +641,8 @@ describe("production guardrails", () => {
       "npm run env:guard",
       "npm run smoke:auth",
       "npm run smoke:journey",
+      "CONTRATPRO_SMOKE_BASE_URL",
+      "http://localhost:3000",
       "reprise dashboard apparait",
       "VERCEL_ENV=production",
       "org_contratpro_admin",

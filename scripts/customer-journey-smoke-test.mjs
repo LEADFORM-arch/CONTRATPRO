@@ -8,15 +8,23 @@ import {
 const { baseUrl, email, password } = getSmokeConfig("smoke:journey");
 
 async function loginAndGetCookie() {
-  const response = await fetch(`${baseUrl}/api/auth/login`, {
-    method: "POST",
-    headers: {
-      "content-type": "application/json",
-      "user-agent": "ContratPro customer journey smoke test",
-    },
-    body: JSON.stringify({ email, password }),
-    redirect: "manual",
-  });
+  let response;
+  try {
+    response = await fetch(`${baseUrl}/api/auth/login`, {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+        "user-agent": "ContratPro customer journey smoke test",
+      },
+      body: JSON.stringify({ email, password }),
+      redirect: "manual",
+    });
+  } catch (error) {
+    console.error(`FAIL /api/auth/login - impossible de joindre ${baseUrl}.`);
+    console.error("Demarrez le serveur avec npm run dev, ou passez une URL en argument.");
+    console.error(error instanceof Error ? error.message : "Erreur reseau inconnue.");
+    process.exit(1);
+  }
 
   if (!response.ok) {
     console.error(`FAIL /api/auth/login - ${response.status}`);
@@ -46,7 +54,7 @@ const journeyChecks = [
     path: "/onboarding",
   },
   {
-    includes: ["Import Excel/CSV", "dry-run"],
+    includes: ["Import Excel/CSV", "plan d&#x27;import"],
     label: "Import clients et contrats",
     path: "/import",
   },

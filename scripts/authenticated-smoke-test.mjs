@@ -7,15 +7,23 @@ import {
 
 const { baseUrl, email, password } = getSmokeConfig("smoke:auth");
 
-const login = await fetch(`${baseUrl}/api/auth/login`, {
-  method: "POST",
-  headers: {
-    "content-type": "application/json",
-    "user-agent": "ContratPro authenticated smoke test",
-  },
-  body: JSON.stringify({ email, password }),
-  redirect: "manual",
-});
+let login;
+try {
+  login = await fetch(`${baseUrl}/api/auth/login`, {
+    method: "POST",
+    headers: {
+      "content-type": "application/json",
+      "user-agent": "ContratPro authenticated smoke test",
+    },
+    body: JSON.stringify({ email, password }),
+    redirect: "manual",
+  });
+} catch (error) {
+  console.error(`FAIL /api/auth/login - impossible de joindre ${baseUrl}.`);
+  console.error("Demarrez le serveur avec npm run dev, ou passez une URL en argument.");
+  console.error(error instanceof Error ? error.message : "Erreur reseau inconnue.");
+  process.exit(1);
+}
 
 const loginBody = await read(login);
 if (!login.ok) {

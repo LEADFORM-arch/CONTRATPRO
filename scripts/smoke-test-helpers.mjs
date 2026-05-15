@@ -40,12 +40,17 @@ export function loadLocalEnv() {
 export function getSmokeConfig(commandName) {
   loadLocalEnv();
 
+  const lifecycle = process.env.npm_lifecycle_event ?? commandName;
+  const isDeploySmoke = lifecycle.startsWith("deploy:");
+  const defaultBaseUrl = isDeploySmoke
+    ? process.env.CONTRATPRO_DEPLOYMENT_URL ||
+      process.env.NEXT_PUBLIC_APP_URL ||
+      process.env.CONTRATPRO_APP_URL ||
+      "http://localhost:3000"
+    : process.env.CONTRATPRO_SMOKE_BASE_URL || "http://localhost:3000";
   const rawBaseUrl =
     process.argv[2] ??
-    process.env.CONTRATPRO_DEPLOYMENT_URL ??
-    process.env.NEXT_PUBLIC_APP_URL ??
-    process.env.CONTRATPRO_APP_URL ??
-    "http://localhost:3000";
+    defaultBaseUrl;
   const email = process.env.CONTRATPRO_SMOKE_EMAIL;
   const password = process.env.CONTRATPRO_SMOKE_PASSWORD;
 

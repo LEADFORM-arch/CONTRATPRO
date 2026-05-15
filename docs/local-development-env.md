@@ -59,8 +59,14 @@ npm run smoke:auth
 npm run smoke:journey
 ```
 
-Sans URL en argument, les scripts ciblent `NEXT_PUBLIC_APP_URL`,
-`CONTRATPRO_APP_URL`, puis `http://localhost:3000`.
+Les commandes locales `npm run smoke:auth` et `npm run smoke:journey` ciblent
+toujours `http://localhost:3000` par defaut, meme si `NEXT_PUBLIC_APP_URL`
+pointe vers Vercel. Pour forcer une autre URL locale :
+
+```powershell
+$env:CONTRATPRO_SMOKE_BASE_URL="http://localhost:3001"
+npm run smoke:auth
+```
 
 `smoke:auth` controle :
 
