@@ -31,6 +31,15 @@ export type PilotObjection = {
   pivot: string;
 };
 
+export type PilotDecisionNote = {
+  checklist: string[];
+  decision: "sell" | "iterate" | "stop";
+  label: string;
+  nextAction: string;
+  note: string;
+  trigger: string;
+};
+
 export type PilotArchitectInsight = {
   action: string;
   decision: "sell" | "iterate" | "stop";
@@ -207,6 +216,48 @@ export const pilotObjections: PilotObjection[] = [
   },
 ];
 
+export const pilotDecisionNotes: PilotDecisionNote[] = [
+  {
+    checklist: [
+      "Le pilote a identifie au moins 3 contrats relancables.",
+      "Le prix Starter ou Pro n'a pas bloque la discussion.",
+      "La prochaine action est datee avec une personne responsable.",
+    ],
+    decision: "sell",
+    label: "Vendre",
+    nextAction: "Envoyer une proposition Starter/Pro et planifier l'import complet sous 48h.",
+    note:
+      "Decision: Vendre. Le pilote comprend la valeur cash-flow de ContratPro, voit des contrats a relancer et accepte un prix Starter/Pro. Prochaine etape: proposition commerciale + import accompagne.",
+    trigger: "Signal achat clair",
+  },
+  {
+    checklist: [
+      "La douleur relance ou cash-flow existe vraiment.",
+      "Une objection produit precise empeche la signature.",
+      "La correction peut etre livree sans devier du coeur contrats.",
+    ],
+    decision: "iterate",
+    label: "Iterer",
+    nextAction: "Documenter l'objection, corriger le point bloquant puis refaire un test cible.",
+    note:
+      "Decision: Iterer. Le pilote voit la valeur, mais une objection terrain, import, document ou SEPA bloque l'achat. Ne pas ajouter de promesse floue: corriger le blocage unique et retester le prix.",
+    trigger: "Valeur comprise, achat bloque",
+  },
+  {
+    checklist: [
+      "Pas de fichier exploitable ou moins de 10 contrats recurrents.",
+      "Le pilote cherche surtout une GMAO ou une tournee technicien.",
+      "Le prix acceptable reste sous 49 EUR/mois.",
+    ],
+    decision: "stop",
+    label: "Stop",
+    nextAction: "Ne pas relancer ce profil. Chercher un pilote avec base clients + contrats recurrents.",
+    note:
+      "Decision: Stop. Le profil ne valide pas le segment prioritaire: pas assez de contrats recurrents, pas de douleur relance ou besoin principal hors ContratPro. Garder l'apprentissage, mais ne pas vendre a ce segment maintenant.",
+    trigger: "Mauvais segment",
+  },
+];
+
 export const pilotArchitectInsights: PilotArchitectInsight[] = [
   {
     action: "Proposer Starter immediatement et programmer l'import complet.",
@@ -283,6 +334,7 @@ export function getPilotScorecard() {
     architect: getPilotArchitectSummary(),
     criteria: pilotCriteria,
     demoScript: pilotDemoScript,
+    decisionNotes: pilotDecisionNotes,
     objections: pilotObjections,
     questions: pilotQuestions,
     sessionBlocks: pilotSessionBlocks,

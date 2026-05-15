@@ -5824,6 +5824,124 @@ body .hover\:bg-zinc-100:hover {
   color: #34d399;
 }
 
+.pilot-decision-note-grid {
+  display: grid;
+  gap: 1rem;
+  padding: 1rem;
+}
+
+.pilot-decision-note {
+  background:
+    linear-gradient(135deg, rgba(52, 211, 153, 0.07), rgba(56, 189, 248, 0.026)),
+    rgba(24, 24, 27, 0.78);
+  border: 1px solid rgba(63, 63, 70, 0.82);
+  border-radius: 0.75rem;
+  border-top: 4px solid #38bdf8;
+  display: grid;
+  gap: 0.9rem;
+  padding: 1rem;
+}
+
+.pilot-decision-note[data-decision="sell"] {
+  border-top-color: #34d399;
+}
+
+.pilot-decision-note[data-decision="iterate"] {
+  border-top-color: #f59e0b;
+}
+
+.pilot-decision-note[data-decision="stop"] {
+  border-top-color: #fb7185;
+}
+
+.pilot-decision-note-top {
+  align-items: start;
+  display: flex;
+  gap: 0.75rem;
+  justify-content: space-between;
+}
+
+.pilot-decision-note-top span,
+.pilot-decision-next span {
+  color: #94a3b8;
+  font-size: 0.72rem;
+  font-weight: 850;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.pilot-decision-note-top strong {
+  color: #f8fafc;
+  font-size: 1.15rem;
+  font-weight: 950;
+}
+
+.pilot-decision-note p {
+  color: #d4d4d8;
+  font-size: 0.88rem;
+  line-height: 1.6;
+}
+
+.pilot-decision-checklist {
+  display: grid;
+  gap: 0.45rem;
+}
+
+.pilot-decision-checklist small {
+  color: #a1a1aa;
+  font-size: 0.8rem;
+  line-height: 1.45;
+  padding-left: 1rem;
+  position: relative;
+}
+
+.pilot-decision-checklist small::before {
+  background: #34d399;
+  border-radius: 999px;
+  content: "";
+  height: 0.34rem;
+  left: 0;
+  position: absolute;
+  top: 0.45rem;
+  width: 0.34rem;
+}
+
+.pilot-decision-next {
+  background: rgba(9, 9, 11, 0.52);
+  border: 1px solid rgba(82, 82, 91, 0.74);
+  border-radius: 0.6rem;
+  padding: 0.8rem;
+}
+
+.pilot-decision-next strong {
+  color: #f8fafc;
+  display: block;
+  font-size: 0.84rem;
+  font-weight: 850;
+  line-height: 1.5;
+  margin-top: 0.35rem;
+}
+
+.pilot-decision-copy {
+  background: rgba(52, 211, 153, 0.12);
+  border: 1px solid rgba(52, 211, 153, 0.28);
+  border-radius: 0.5rem;
+  color: #bbf7d0;
+  cursor: pointer;
+  font-size: 0.8rem;
+  font-weight: 850;
+  justify-self: start;
+  min-height: 2.35rem;
+  padding: 0.55rem 0.8rem;
+  transition: background-color 150ms ease, border-color 150ms ease, color 150ms ease;
+}
+
+.pilot-decision-copy:hover {
+  background: rgba(52, 211, 153, 0.18);
+  border-color: rgba(52, 211, 153, 0.46);
+  color: #ecfdf5;
+}
+
 .pilot-script-timeline {
   display: grid;
   gap: 0.75rem;
@@ -6121,6 +6239,7 @@ body .hover\:bg-zinc-100:hover {
   .pilot-grid,
   .pilot-question-grid,
   .pilot-objection-grid,
+  .pilot-decision-note-grid,
   .pilot-architect-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -6135,6 +6254,10 @@ body .hover\:bg-zinc-100:hover {
 }
 
 @media (min-width: 1180px) {
+  .pilot-decision-note-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
   .pilot-architect-grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }

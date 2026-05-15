@@ -777,6 +777,10 @@ describe("production guardrails", () => {
       "pilotSignalSequence",
       "pilotDemoScript",
       "pilotObjections",
+      "pilotDecisionNotes",
+      "Decision: Vendre",
+      "Decision: Iterer",
+      "Decision: Stop",
       "Architecte IA pilote",
       "Je ne vais pas vous vendre un logiciel aujourd'hui",
       "J'ai deja Excel",
@@ -794,13 +798,23 @@ describe("production guardrails", () => {
       "data-od-id=\"pilot-go-no-go\"",
       "data-od-id=\"pilot-demo-script\"",
       "data-od-id=\"pilot-objections\"",
+      "data-od-id=\"pilot-decision-notes\"",
       "Architecte IA pilote",
       "Script de rendez-vous pilote",
       "Objections a traiter",
+      "Fiche de sortie pilote",
+      "PilotDecisionCopyButton",
       "Decision premium apres rendez-vous",
       "Decision attendue",
       "Vendre / Iterer / Stop",
     ], "pilot admin page");
+
+    assertIncludes(read("src/app/(dashboard)/admin/pilots/PilotDecisionCopyButton.tsx"), [
+      "navigator.clipboard.writeText",
+      "pilot-decision-copy",
+      "Copier la note",
+      "Copie",
+    ], "pilot decision copy button");
 
     assertIncludes(read("src/app/globals.css"), [
       ".pilot-command",
@@ -815,6 +829,9 @@ describe("production guardrails", () => {
       ".pilot-script-step",
       ".pilot-objection-grid",
       ".pilot-objection-card",
+      ".pilot-decision-note-grid",
+      ".pilot-decision-note",
+      ".pilot-decision-copy",
       ".pilot-go",
     ], "pilot styles");
   });

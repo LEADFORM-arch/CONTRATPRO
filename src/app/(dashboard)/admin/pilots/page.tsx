@@ -2,6 +2,8 @@ import { AppShell, PageHeader, StatusPill } from "@/components/layout/AppShell";
 import { requireAdminUser } from "@/server/admin";
 import { getPilotScorecard } from "@/server/pilot-scorecard";
 
+import { PilotDecisionCopyButton } from "./PilotDecisionCopyButton";
+
 export default async function AdminPilotsPage() {
   const admin = await requireAdminUser("/admin/pilots");
   const scorecard = getPilotScorecard();
@@ -189,6 +191,39 @@ export default async function AdminPilotsPage() {
               <span>{item.objection}</span>
               <strong>{item.answer}</strong>
               <p>Pivot: {item.pivot}</p>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section className="pilot-panel mt-6 rounded-lg border shadow-sm" data-od-id="pilot-decision-notes">
+        <div className="pilot-panel-header">
+          <div>
+            <h3>Fiche de sortie pilote</h3>
+            <p className="mt-1 text-sm text-zinc-400">
+              Une decision ecrite a chaud, copiable dans le CRM fondateur ou le recap interne.
+            </p>
+          </div>
+          <StatusPill>3 issues</StatusPill>
+        </div>
+        <div className="pilot-decision-note-grid">
+          {scorecard.decisionNotes.map((decision) => (
+            <article className="pilot-decision-note" data-decision={decision.decision} key={decision.label}>
+              <div className="pilot-decision-note-top">
+                <span>{decision.trigger}</span>
+                <strong>{decision.label}</strong>
+              </div>
+              <p>{decision.note}</p>
+              <div className="pilot-decision-checklist">
+                {decision.checklist.map((item) => (
+                  <small key={item}>{item}</small>
+                ))}
+              </div>
+              <div className="pilot-decision-next">
+                <span>Prochaine action</span>
+                <strong>{decision.nextAction}</strong>
+              </div>
+              <PilotDecisionCopyButton note={decision.note} />
             </article>
           ))}
         </div>

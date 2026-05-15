@@ -131,6 +131,21 @@ Remplir a chaud :
 | Fonction manquante bloquante | Texte libre |
 | Decision | Payer / Continuer pilote / Stop |
 
+## Fiche de sortie pilote
+
+La page `/admin/pilots` contient maintenant une fiche copiable pour imposer une
+decision nette apres chaque rendez-vous :
+
+- Vendre : le pilote voit au moins 3 contrats relancables et accepte Starter ou
+  Pro sans blocage majeur.
+- Iterer : la valeur est comprise, mais une objection precise bloque l'achat.
+- Stop : le segment n'est pas bon, le besoin sort du coeur contrats ou le prix
+  accepte reste sous 49 EUR/mois.
+
+Copier la note a chaud dans le CRM fondateur avec le nom du pilote, la date, la
+preuve observee et la prochaine action. Sans note ecrite, le rendez-vous n'est
+pas considere comme exploitable.
+
 ## Go / no-go
 
 GO pilote suivant si :
