@@ -39,6 +39,32 @@ npm run build
 
 ## Scenario de test en 90 minutes
 
+## Script de rendez-vous
+
+Utiliser la page `/admin/pilots` comme conducteur d'appel. Le bon ton n'est pas
+"voici toutes les features", mais "voyons si ContratPro recupere ou protege du
+revenu recurrent".
+
+1. Ouverture : "Je ne vais pas vous vendre un logiciel aujourd'hui. Je veux voir
+   si ContratPro vous fait gagner ou recuperer de l'argent sur vos contrats
+   d'entretien."
+2. Fichier reel : demander comment le pilote retrouve les clients a relancer ce
+   mois-ci.
+3. Import : lancer un dry-run et rappeler que rien n'est cree tant que le rapport
+   n'est pas compris.
+4. Valeur : demander quels contrats seraient vraiment relances.
+5. Prix : tester Starter a 49 EUR/mois et Pro a 99 EUR/mois avec SEPA.
+6. Cloture : classer le pilote en vendre / iterer / stop avec une objection
+   bloquante ecrite.
+
+Objections a cadrer :
+
+- "J'ai deja Excel" -> revenir au dry-run et aux relances generees depuis Excel.
+- "49 EUR, c'est cher" -> revenir au nombre de contrats recuperables.
+- "Je n'aime pas le SEPA" -> expliquer Starter sans SEPA puis Pro avec SEPA.
+- "Il me faut une app terrain complete" -> rappeler que le pari est d'abord de
+  proteger le revenu recurrent.
+
 ### 1. Import dry-run
 
 - Charger le fichier pilote dans `/import`.

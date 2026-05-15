@@ -17,6 +17,20 @@ export type PilotSessionBlock = {
   proof: string;
 };
 
+export type PilotDemoScriptStep = {
+  label: string;
+  line: string;
+  objective: string;
+  proof: string;
+  timing: string;
+};
+
+export type PilotObjection = {
+  answer: string;
+  objection: string;
+  pivot: string;
+};
+
 export type PilotArchitectInsight = {
   action: string;
   decision: "sell" | "iterate" | "stop";
@@ -125,6 +139,74 @@ export const pilotSessionBlocks: PilotSessionBlock[] = [
   },
 ];
 
+export const pilotDemoScript: PilotDemoScriptStep[] = [
+  {
+    label: "Ouverture",
+    line: "Je ne vais pas vous vendre un logiciel aujourd'hui. Je veux voir si ContratPro vous fait gagner ou recuperer de l'argent sur vos contrats d'entretien.",
+    objective: "Installer une posture de diagnostic, pas de demo catalogue.",
+    proof: "Le pilote accepte de parler fichier, relances et prix des les 5 premieres minutes.",
+    timing: "5 min",
+  },
+  {
+    label: "Fichier reel",
+    line: "Montrez-moi comment vous retrouvez aujourd'hui les clients a relancer ce mois-ci.",
+    objective: "Faire emergir la douleur actuelle avant de montrer l'interface.",
+    proof: "Le pilote cite Excel, agenda, papier, memoire ou logiciel generaliste.",
+    timing: "10 min",
+  },
+  {
+    label: "Import",
+    line: "On va commencer par un dry-run: rien n'est cree tant que le rapport n'est pas compris.",
+    objective: "Reduire la peur de casser la base client.",
+    proof: "Le pilote comprend les colonnes corrigeables et les doublons.",
+    timing: "15 min",
+  },
+  {
+    label: "Valeur",
+    line: "Ces contrats-la, est-ce que vous les relanceriez vraiment si ContratPro les sortait chaque semaine ?",
+    objective: "Relier la demo au revenu recuperable.",
+    proof: "Le pilote nomme au moins 3 clients ou montants.",
+    timing: "15 min",
+  },
+  {
+    label: "Prix",
+    line: "Si ContratPro vous evite d'oublier 3 contrats par an, est-ce que 49 euros par mois est coherent ? Et 99 euros avec SEPA ?",
+    objective: "Tester l'intention de payer sans attendre la fin.",
+    proof: "Starter ou Pro obtient un oui, une objection claire ou un non explicite.",
+    timing: "10 min",
+  },
+  {
+    label: "Cloture",
+    line: "Je vous classe en Vendre, Iterer ou Stop. Quelle est la seule chose qui vous empecherait de continuer le pilote ?",
+    objective: "Sortir avec une decision exploitable.",
+    proof: "Une prochaine action datee ou une objection bloquante ecrite.",
+    timing: "5 min",
+  },
+];
+
+export const pilotObjections: PilotObjection[] = [
+  {
+    objection: "J'ai deja Excel.",
+    answer: "Justement. ContratPro ne remplace pas votre fichier le premier jour: il transforme ce fichier en relances, documents et encaissements suivis.",
+    pivot: "Ouvrir /import et montrer le dry-run sans creation.",
+  },
+  {
+    objection: "49 euros, c'est cher.",
+    answer: "On ne le justifie pas au temps gagne, mais au contrat recupere. Un seul renouvellement de 180 a 300 euros couvre plusieurs mois.",
+    pivot: "Ouvrir /simulateur ou /relances et isoler 3 contrats concrets.",
+  },
+  {
+    objection: "Je n'aime pas le prelevement SEPA.",
+    answer: "SEPA n'est pas obligatoire au depart. Starter sert a securiser les echeances; Pro sert a automatiser l'encaissement quand vous etes pret.",
+    pivot: "Ouvrir /pricing puis /payments sans declencher d'encaissement.",
+  },
+  {
+    objection: "Il me faut une app terrain complete.",
+    answer: "ContratPro n'est pas une GMAO lourde. Le pari est de proteger le revenu recurrent avant d'ajouter toute la tournee.",
+    pivot: "Ouvrir /terrain et demander ce qui bloque vraiment l'usage mobile.",
+  },
+];
+
 export const pilotArchitectInsights: PilotArchitectInsight[] = [
   {
     action: "Proposer Starter immediatement et programmer l'import complet.",
@@ -200,6 +282,8 @@ export function getPilotScorecard() {
   return {
     architect: getPilotArchitectSummary(),
     criteria: pilotCriteria,
+    demoScript: pilotDemoScript,
+    objections: pilotObjections,
     questions: pilotQuestions,
     sessionBlocks: pilotSessionBlocks,
   };

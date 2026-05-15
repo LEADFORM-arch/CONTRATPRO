@@ -108,6 +108,34 @@ export default async function AdminPilotsPage() {
         </div>
       </section>
 
+      <section className="pilot-panel mt-6 rounded-lg border shadow-sm" data-od-id="pilot-demo-script">
+        <div className="pilot-panel-header">
+          <div>
+            <h3>Script de rendez-vous pilote</h3>
+            <p className="mt-1 text-sm text-zinc-400">
+              Trame courte pour conduire l'appel sans tomber dans la demo catalogue.
+            </p>
+          </div>
+          <StatusPill>{scorecard.demoScript.length} temps forts</StatusPill>
+        </div>
+        <div className="pilot-script-timeline">
+          {scorecard.demoScript.map((step, index) => (
+            <article className="pilot-script-step" key={step.label}>
+              <span>{String(index + 1).padStart(2, "0")}</span>
+              <div>
+                <div className="pilot-script-step-header">
+                  <strong>{step.label}</strong>
+                  <em>{step.timing}</em>
+                </div>
+                <blockquote>{step.line}</blockquote>
+                <p>{step.objective}</p>
+                <small>Preuve: {step.proof}</small>
+              </div>
+            </article>
+          ))}
+        </div>
+      </section>
+
       <section className="mt-6 grid gap-5 xl:grid-cols-[0.9fr_1.1fr]" data-od-id="pilot-workflow">
         <article className="pilot-panel rounded-lg border shadow-sm" data-od-id="pilot-qualification">
           <div className="pilot-panel-header">
@@ -143,6 +171,27 @@ export default async function AdminPilotsPage() {
             ))}
           </div>
         </article>
+      </section>
+
+      <section className="pilot-panel mt-6 rounded-lg border shadow-sm" data-od-id="pilot-objections">
+        <div className="pilot-panel-header">
+          <div>
+            <h3>Objections a traiter sans se disperser</h3>
+            <p className="mt-1 text-sm text-zinc-400">
+              Chaque objection doit ramener vers une preuve produit, pas vers une promesse de feature.
+            </p>
+          </div>
+          <StatusPill>{scorecard.objections.length} objections</StatusPill>
+        </div>
+        <div className="pilot-objection-grid">
+          {scorecard.objections.map((item) => (
+            <article className="pilot-objection-card" key={item.objection}>
+              <span>{item.objection}</span>
+              <strong>{item.answer}</strong>
+              <p>Pivot: {item.pivot}</p>
+            </article>
+          ))}
+        </div>
       </section>
 
       <section className="pilot-panel mt-6 rounded-lg border shadow-sm" data-od-id="pilot-questions">
