@@ -3,6 +3,8 @@ import { requireAdminUser } from "@/server/admin";
 import type { OpsStatus } from "@/server/ops-health";
 import { getOpsHealth } from "@/server/ops-health";
 
+import { OpsCommandCopyButton } from "./OpsCommandCopyButton";
+
 const statusLabels: Record<OpsStatus, string> = {
   critical: "Critique",
   ready: "Pret",
@@ -110,7 +112,10 @@ export default async function OpsPage() {
                 <span>{statusLabels[item.status]}</span>
               </div>
               <p>{item.detail}</p>
-              <code>{item.command}</code>
+              <div className="ops-command-copy">
+                <code>{item.command}</code>
+                <OpsCommandCopyButton command={item.command} />
+              </div>
               <small>{item.proof}</small>
             </article>
           ))}
@@ -133,7 +138,10 @@ export default async function OpsPage() {
                 <span>{statusLabels[item.status]}</span>
               </div>
               <p>{item.detail}</p>
-              <code>{item.command}</code>
+              <div className="ops-command-copy">
+                <code>{item.command}</code>
+                <OpsCommandCopyButton command={item.command} />
+              </div>
               <small>{item.proof}</small>
             </article>
           ))}

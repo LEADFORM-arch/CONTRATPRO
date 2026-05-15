@@ -257,6 +257,7 @@ describe("production guardrails", () => {
     ], "ops cron runbook");
 
     assertIncludes(read("src/app/(dashboard)/admin/ops/page.tsx"), [
+      "OpsCommandCopyButton",
       "data-od-id=\"ops-cron-runbook\"",
       "data-od-id=\"ops-smoke-runbook\"",
       "Cron relances sous controle",
@@ -267,6 +268,13 @@ describe("production guardrails", () => {
       "Local puis Vercel",
     ], "ops cron page");
 
+    assertIncludes(read("src/app/(dashboard)/admin/ops/OpsCommandCopyButton.tsx"), [
+      "\"use client\"",
+      "navigator.clipboard.writeText",
+      "Copier la commande",
+      "ops-copy-command-button",
+    ], "ops command copy button");
+
     assertIncludes(read("src/app/globals.css"), [
       ".ops-cron-panel",
       ".ops-cron-grid",
@@ -274,6 +282,8 @@ describe("production guardrails", () => {
       ".ops-smoke-panel",
       ".ops-smoke-grid",
       ".ops-smoke-card",
+      ".ops-command-copy",
+      ".ops-copy-command-button",
     ], "ops cron styles");
 
     assertIncludes(read("docs/cron-renewals-runbook.md"), [

@@ -5223,6 +5223,39 @@ body .hover\:bg-zinc-100:hover {
   padding: 0.65rem;
 }
 
+.ops-command-copy {
+  align-items: stretch;
+  display: grid;
+  gap: 0.5rem;
+  grid-template-columns: 1fr auto;
+}
+
+.ops-command-copy code {
+  min-width: 0;
+}
+
+.ops-copy-command-button {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.018)),
+    #111316;
+  border: 1px solid rgba(52, 211, 153, 0.22);
+  border-radius: 0.45rem;
+  color: #bbf7d0;
+  font-size: 0.72rem;
+  font-weight: 850;
+  min-width: 4.75rem;
+  padding: 0.55rem 0.65rem;
+}
+
+.ops-copy-command-button:hover {
+  background:
+    linear-gradient(180deg, rgba(52, 211, 153, 0.12), rgba(255, 255, 255, 0.025)),
+    #171a1f;
+  border-color: rgba(110, 231, 183, 0.44);
+  color: #ecfdf5;
+  transform: translateY(-1px);
+}
+
 .launch-command,
 .launch-panel,
 .launch-blockers {
@@ -6554,7 +6587,8 @@ body .hover\:bg-zinc-100:hover {
   .ops-check-row,
   .ops-recent-card,
   .ops-cron-grid,
-  .ops-smoke-grid {
+  .ops-smoke-grid,
+  .ops-command-copy {
     grid-template-columns: 1fr;
   }
 
