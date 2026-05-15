@@ -242,25 +242,38 @@ describe("production guardrails", () => {
 
     assertIncludes(read("src/server/ops-health.ts"), [
       "OpsRunbookAction",
+      "OpsSmokeAction",
       "buildCronRunbook",
+      "buildSmokeRunbook",
       "Dry-run quotidien",
       "Envoi reel controle",
       "Preuve de journalisation",
       "Alerte fondateur",
       "CONTRATPRO_ORG_ID",
+      "CONTRATPRO_SMOKE_EMAIL",
+      "npm run smoke:auth",
+      "npm run smoke:journey",
+      "npm run deploy:smoke:journey -- https://votre-domaine.fr",
     ], "ops cron runbook");
 
     assertIncludes(read("src/app/(dashboard)/admin/ops/page.tsx"), [
       "data-od-id=\"ops-cron-runbook\"",
+      "data-od-id=\"ops-smoke-runbook\"",
       "Cron relances sous controle",
+      "Smoke tests client",
       "health.cronRunbook.map",
+      "health.smokeRunbook.map",
       "Dry-run avant envoi reel",
+      "Local puis Vercel",
     ], "ops cron page");
 
     assertIncludes(read("src/app/globals.css"), [
       ".ops-cron-panel",
       ".ops-cron-grid",
       ".ops-cron-card",
+      ".ops-smoke-panel",
+      ".ops-smoke-grid",
+      ".ops-smoke-card",
     ], "ops cron styles");
 
     assertIncludes(read("docs/cron-renewals-runbook.md"), [

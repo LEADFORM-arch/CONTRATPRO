@@ -117,6 +117,29 @@ export default async function OpsPage() {
         </div>
       </section>
 
+      <section className="ops-smoke-panel mt-6 rounded-lg border shadow-sm" data-od-id="ops-smoke-runbook">
+        <div className="ops-panel-header">
+          <div>
+            <p className="text-sm font-semibold text-emerald-300">Qualite avant demo</p>
+            <h3 className="mt-1 text-lg font-bold text-zinc-50">Smoke tests client</h3>
+          </div>
+          <span className="ops-muted-pill">Local puis Vercel</span>
+        </div>
+        <div className="ops-smoke-grid">
+          {health.smokeRunbook.map((item) => (
+            <article className="ops-smoke-card" data-scope={item.scope} data-status={item.status} key={item.label}>
+              <div className="ops-cron-top">
+                <strong>{item.label}</strong>
+                <span>{statusLabels[item.status]}</span>
+              </div>
+              <p>{item.detail}</p>
+              <code>{item.command}</code>
+              <small>{item.proof}</small>
+            </article>
+          ))}
+        </div>
+      </section>
+
       <div className="mt-6 grid gap-6 xl:grid-cols-[1.1fr_0.9fr]">
         <section className="ops-panel rounded-lg border shadow-sm">
           <div className="ops-panel-header">

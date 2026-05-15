@@ -32,6 +32,10 @@ export type OpsRunbookAction = {
   status: OpsStatus;
 };
 
+export type OpsSmokeAction = OpsRunbookAction & {
+  scope: "local" | "production";
+};
+
 type SafeRows<T> = {
   error?: string;
   rows: T[];
@@ -202,6 +206,46 @@ function buildCronRunbook({
   ];
 }
 
+function buildSmokeRunbook(): OpsSmokeAction[] {
+  const smokeAccountReady = hasEnv("CONTRATPRO_SMOKE_EMAIL") && hasEnv("CONTRATPRO_SMOKE_PASSWORD");
+  const deploymentUrlReady = hasEnv("CONTRATPRO_DEPLOYMENT_URL") || hasEnv("NEXT_PUBLIC_APP_URL");
+
+  return [
+    {
+      command: "npm run deploy:smoke",
+      detail: "Verifie les pages publiques avant acquisition: home, simulateur, pricing, demo et SEO.",
+      label: "Smoke public",
+      proof: "Toutes les pages commerciales repondent sans authentification.",
+      scope: "local",
+      status: "ready",
+    },
+    {
+      command: "npm run smoke:auth",
+      detail: "Connecte le compte pilote et confirme la session puis l'ouverture de /onboarding.",
+      label: "Connexion pilote",
+      proof: "OK /api/auth/login, OK /api/auth/me, OK /onboarding.",
+      scope: "local",
+      status: smokeAccountReady ? "ready" : "warning",
+    },
+    {
+      command: "npm run smoke:journey",
+      detail: "Traverse les ecrans client critiques sans creer de donnees.",
+      label: "Parcours metier",
+      proof: "Aucun ecran de reprise dashboard ne remplace une page metier.",
+      scope: "local",
+      status: smokeAccountReady ? "ready" : "warning",
+    },
+    {
+      command: "npm run deploy:smoke:journey -- https://votre-domaine.fr",
+      detail: "Rejoue le parcours complet sur Vercel ou le domaine final avant une demo payante.",
+      label: "Validation Vercel",
+      proof: "Parcours client OK sur l'URL de production ou preview.",
+      scope: "production",
+      status: smokeAccountReady && deploymentUrlReady ? "ready" : "warning",
+    },
+  ];
+}
+
 export async function getOpsHealth() {
   const adminEmails = [...getAdminEmails()];
   const checks: OpsCheck[] = [
@@ -280,6 +324,7 @@ export async function getOpsHealth() {
       recentItem("Derniere alerte", internalNotifications, "Aucune notification interne"),
     ],
     score,
+    smokeRunbook: buildSmokeRunbook(),
     status: scoreStatus(score),
   };
 }
