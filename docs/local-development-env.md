@@ -22,11 +22,30 @@ Copy-Item .env.local.example .env.local
 3. Verifier :
 
 ```powershell
+npm run env:guard
 npm run security:audit
 ```
 
 Si l'audit affiche une valeur `[]`, le secret local n'est pas restaurable depuis
 Vercel et doit etre repris dans son dashboard d'origine.
+
+## Regle locale anti-`org_demo`
+
+`.env.local` ne doit jamais contenir `VERCEL_ENV=production` ni
+`NODE_ENV=production`. Ces variables sont injectees par Vercel ou Next.js, pas
+par le fichier local.
+
+Pour une session authentifiee locale, utiliser une organisation non-demo :
+
+```env
+CONTRATPRO_REQUIRE_AUTH=true
+CONTRATPRO_ORG_ID=org_contratpro_admin
+CONTRATPRO_PUBLIC_LEAD_ORG_ID=org_contratpro_admin
+```
+
+Le tenant `org_demo` reste utile seulement en mode demo explicite, sans auth et
+hors production. `npm run dev` lance automatiquement `npm run env:guard` avant
+Next.js pour bloquer les configurations dangereuses.
 
 ## Smoke test authentifie production
 

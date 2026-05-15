@@ -549,6 +549,18 @@ describe("production guardrails", () => {
       "remettre le secret depuis Supabase",
     ], "security audit local env guard");
 
+    assertIncludes(read("scripts/env-guard.mjs"), [
+      "VERCEL_ENV ne doit pas etre defini dans .env.local",
+      "CONTRATPRO_ORG_ID pointe vers org_demo",
+      "CONTRATPRO_PUBLIC_LEAD_ORG_ID pointe vers org_demo",
+      "OK env guard",
+    ], "local dev env guard");
+
+    assertIncludes(read("package.json"), [
+      "\"env:guard\": \"node scripts/env-guard.mjs\"",
+      "\"dev\": \"node scripts/env-guard.mjs && next dev\"",
+    ], "env guard package scripts");
+
     assertIncludes(read("scripts/authenticated-smoke-test.mjs"), [
       "CONTRATPRO_SMOKE_EMAIL",
       "CONTRATPRO_SMOKE_PASSWORD",
@@ -575,10 +587,15 @@ describe("production guardrails", () => {
       "NEXT_PUBLIC_APP_URL=http://localhost:3000",
       "SUPABASE_SERVICE_ROLE_KEY=",
       "CONTRATPRO_REQUIRE_AUTH=true",
+      "CONTRATPRO_ORG_ID=org_contratpro_admin",
+      "CONTRATPRO_PUBLIC_LEAD_ORG_ID=org_contratpro_admin",
     ], "local env example");
 
     assertIncludes(read("docs/local-development-env.md"), [
       "vercel env pull",
+      "npm run env:guard",
+      "VERCEL_ENV=production",
+      "org_contratpro_admin",
       "npm run security:audit",
       "npm run deploy:smoke:auth",
     ], "local env runbook");

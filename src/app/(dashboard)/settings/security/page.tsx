@@ -69,6 +69,10 @@ export default async function SecuritySettingsPage() {
   const authEnforced = isAuthEnforced();
   const rlsExpected = isRlsExpected();
   const demoTenant = isDemoTenant();
+  const localVercelEnv = process.env.VERCEL_ENV ?? "";
+  const localNodeEnv = process.env.NODE_ENV ?? "";
+  const envGuardReady =
+    organizationId !== "org_demo" && localVercelEnv !== "production";
   const currentUser = await userPromise;
   const currentAdmin = await getCurrentAdminUser();
   const adminEmails = [...getAdminEmails()].join(", ");
@@ -110,6 +114,41 @@ export default async function SecuritySettingsPage() {
           </article>
         ))}
       </div>
+
+      <section
+        className="security-env-guard mt-6 rounded-lg border p-4"
+        data-ready={envGuardReady}
+      >
+        <div>
+          <p className="text-xs font-semibold uppercase tracking-wide text-emerald-300">
+            Garde-fou environnement
+          </p>
+          <h3 className="mt-1 text-base font-semibold text-zinc-50">
+            Local sain avant demonstration
+          </h3>
+          <p className="mt-2 text-sm leading-6 text-zinc-400">
+            `npm run dev` execute `npm run env:guard` avant Next.js. Il bloque
+            un demarrage local si `.env.local` contient `VERCEL_ENV=production`
+            ou un tenant `org_demo`.
+          </p>
+        </div>
+        <dl className="mt-4 grid gap-3 text-sm md:grid-cols-3">
+          <div>
+            <dt className="text-zinc-500">VERCEL_ENV local</dt>
+            <dd className="font-semibold text-zinc-50">
+              {localVercelEnv || "Non defini"}
+            </dd>
+          </div>
+          <div>
+            <dt className="text-zinc-500">NODE_ENV</dt>
+            <dd className="font-semibold text-zinc-50">{localNodeEnv || "-"}</dd>
+          </div>
+          <div>
+            <dt className="text-zinc-500">Commande</dt>
+            <dd className="font-semibold text-zinc-50">npm run env:guard</dd>
+          </div>
+        </dl>
+      </section>
 
       <section className="mt-6 grid gap-6 lg:grid-cols-[1fr_360px]">
         <article className="settings-panel rounded-lg border p-5 shadow-sm">
