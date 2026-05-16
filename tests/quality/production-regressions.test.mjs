@@ -1200,6 +1200,10 @@ describe("production guardrails", () => {
     ], "customers empty state actions");
 
     assertIncludes(read("src/app/(dashboard)/contracts/page.tsx"), [
+      "data-od-id=\"contracts-portfolio-architect\"",
+      "Architecte IA portefeuille",
+      "A securiser",
+      "Prochaine action",
       "Creer mon premier contrat",
       "Importer depuis Excel",
     ], "contracts empty state actions");
@@ -1212,6 +1216,8 @@ describe("production guardrails", () => {
     assertIncludes(read("src/app/globals.css"), [
       ".activation-empty-state",
       ".activation-empty-actions",
+      ".contract-portfolio-command",
+      ".contract-portfolio-decision",
     ], "activation empty state styles");
   });
 });
