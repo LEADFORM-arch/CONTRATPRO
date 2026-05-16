@@ -117,9 +117,11 @@ npx vercel env ls | npm run vercel:live-audit --silent
 Dans GitHub, attendre que `ContratPro CI` passe au vert.
 
 `vercel:live-audit` controle les variables vraiment presentes dans Vercel
-Production : auth, RLS, billing obligatoire, organisation non-demo, Supabase,
-Resend, Stripe multi-paliers, GoCardless live, cron et bypass de smoke si la
-Deployment Protection reste active.
+Production. Tant que `CONTRATPRO_REQUIRE_BILLING=false`, l'audit sort un mode
+`PILOT CONTROLE` : auth, RLS, organisation non-demo, Supabase et cron restent
+bloquants, tandis que Resend, Stripe multi-paliers et GoCardless live sont des
+points differes a annoncer avant vente large. Quand le billing obligatoire passe
+a `true`, ces integrations redeviennent des blocages live.
 
 ## 5. Premier deploiement
 

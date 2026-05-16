@@ -53,6 +53,8 @@ if (!input.includes("Environment Variables found")) {
 }
 
 const variables = parseVercelEnv(input);
+const billingRequired = valueEquals(variables, "CONTRATPRO_REQUIRE_BILLING", "true");
+const pilotMode = !billingRequired;
 
 check(
   "Auth production",
@@ -68,8 +70,9 @@ check(
 
 check(
   "Billing lock",
-  valueEquals(variables, "CONTRATPRO_REQUIRE_BILLING", "true"),
-  "CONTRATPRO_REQUIRE_BILLING=false garde ContratPro en pilote gratuit: LIVE PAUSE.",
+  billingRequired,
+  "CONTRATPRO_REQUIRE_BILLING=false garde ContratPro en pilote controle sans encaissement automatique.",
+  pilotMode ? "warn" : "fail",
 );
 
 check(
@@ -96,7 +99,10 @@ check(
 check(
   "Resend documents",
   hasProduction(variables, "RESEND_API_KEY") && hasProduction(variables, "RESEND_FROM_EMAIL"),
-  "RESEND_API_KEY et RESEND_FROM_EMAIL sont requis pour emails documents et relances.",
+  pilotMode
+    ? "RESEND_FROM_EMAIL est differe: ne pas promettre les emails documents/relances en live."
+    : "RESEND_API_KEY et RESEND_FROM_EMAIL sont requis pour emails documents et relances.",
+  pilotMode ? "warn" : "fail",
 );
 
 check(
@@ -106,7 +112,10 @@ check(
     hasProduction(variables, "STRIPE_PRICE_ID_STARTER") &&
     hasOneOfProduction(variables, ["STRIPE_PRICE_ID_PRO", "STRIPE_PRICE_ID"]) &&
     hasProduction(variables, "STRIPE_PRICE_ID_BUSINESS"),
-  "Starter, Pro et Business doivent avoir leurs price_id live avant billing obligatoire.",
+  pilotMode
+    ? "Price IDs Starter/Pro/Business differes: pilote sans paywall obligatoire."
+    : "Starter, Pro et Business doivent avoir leurs price_id live avant billing obligatoire.",
+  pilotMode ? "warn" : "fail",
 );
 
 check(
@@ -114,7 +123,10 @@ check(
   hasProduction(variables, "GOCARDLESS_ACCESS_TOKEN") &&
     valueEquals(variables, "GOCARDLESS_ENVIRONMENT", "live") &&
     hasProduction(variables, "GOCARDLESS_WEBHOOK_ENDPOINT_SECRET"),
-  "GoCardless doit avoir token live, environment=live et webhook secret.",
+  pilotMode
+    ? "GoCardless live est differe: ne pas ouvrir les prelevements SEPA."
+    : "GoCardless doit avoir token live, environment=live et webhook secret.",
+  pilotMode ? "warn" : "fail",
 );
 
 check(
@@ -144,7 +156,18 @@ if (failures.length) {
 }
 
 if (warnings.length) {
+  if (pilotMode) {
+    console.warn(`\nPILOT CONTROLE: ${warnings.length} point(s) volontairement differes avant vente large.`);
+    console.warn("Socle pilote acceptable si smokes public/auth/parcours sont verts et si les limites sont annoncees.");
+    process.exit(0);
+  }
+
   console.warn(`\nLIVE CONTROLE: ${warnings.length} avertissement(s) a traiter avant smoke final.`);
+  process.exit(0);
+}
+
+if (pilotMode) {
+  console.log("\nPILOT OK: variables Vercel alignees avec un pilote production sans encaissement automatique.");
   process.exit(0);
 }
 

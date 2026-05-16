@@ -574,6 +574,10 @@ describe("production guardrails", () => {
       "STRIPE_PRICE_ID_STARTER",
       "STRIPE_PRICE_ID_BUSINESS",
       "VERCEL_AUTOMATION_BYPASS_SECRET",
+      "pilotMode",
+      "PILOT CONTROLE",
+      "pilote controle sans encaissement automatique",
+      "volontairement differes",
       "LIVE PAUSE",
       "LIVE OK",
     ], "vercel live audit");
@@ -596,6 +600,7 @@ describe("production guardrails", () => {
       "Node.js 24.x",
       "npm run deploy:preflight",
       "npx vercel env ls | npm run vercel:live-audit --silent",
+      "PILOT CONTROLE",
       "npm run deploy:smoke",
       "https://supabase.com/dashboard/project/yotafzxcpyyrkkpeyfpp",
       "supabase/verify_rls.sql",

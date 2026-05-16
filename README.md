@@ -474,9 +474,11 @@ npm run deploy:smoke:journey -- https://votre-deploiement.vercel.app
 ```
 
 `deploy:preflight` verifie la preparation du repo avant import Vercel.
-`vercel:live-audit` lit les variables Vercel Production et sort les blocages
-`LIVE PAUSE` : billing desactive, org demo, GoCardless sandbox, price_id
-manquants, webhook absent ou smoke protege sans bypass.
+`vercel:live-audit` lit les variables Vercel Production. En mode
+`CONTRATPRO_REQUIRE_BILLING=false`, il sort `PILOT CONTROLE` : Resend,
+GoCardless live et Stripe multi-paliers peuvent rester differes, mais les smokes
+et la limite "pas d'encaissement automatique" doivent etre explicites. En mode
+billing obligatoire, ces points redeviennent des blocages `LIVE PAUSE`.
 `deploy:smoke` controle les routes publiques critiques apres le premier
 deploiement. `deploy:smoke:journey` rejoue le parcours client authentifie sans
 creer de donnees.
