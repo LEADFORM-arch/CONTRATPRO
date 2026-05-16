@@ -320,6 +320,9 @@ describe("production guardrails", () => {
     assertIncludes(read("src/app/(dashboard)/relances/page.tsx"), [
       "Agent IA de croissance",
       "Architecte IA de croissance",
+      "data-od-id=\"relance-revenue-command\"",
+      "Commande du jour",
+      "Action prioritaire",
       "analyzeRenewalAgent",
       "relance-agent-panel",
       "Score IA",
@@ -329,6 +332,8 @@ describe("production guardrails", () => {
       ".relance-agent-panel",
       ".relance-agent-card",
       ".relance-agent-note",
+      ".relance-command-panel",
+      ".relance-command-decision",
     ], "renewal agent styles");
   });
 

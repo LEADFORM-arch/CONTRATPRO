@@ -27,13 +27,13 @@ function StatCard({
 }) {
   return (
     <article className="relance-stat-card" data-tone={tone}>
-      <p className="text-xs font-medium uppercase tracking-wide text-zinc-500">
+      <p className="text-xs font-medium uppercase tracking-wide text-zinc-400">
         {label}
       </p>
-      <strong className="mt-3 block text-3xl font-semibold text-zinc-950">
+      <strong className="mt-3 block text-3xl font-semibold text-zinc-50">
         {value}
       </strong>
-      <p className="mt-2 text-sm leading-5 text-zinc-500">{detail}</p>
+      <p className="mt-2 text-sm leading-5 text-zinc-400">{detail}</p>
     </article>
   );
 }
@@ -49,8 +49,8 @@ function ActionStat({
 }) {
   return (
     <div className="relance-action-stat" data-tone={tone}>
-      <p className="text-xs uppercase tracking-wide text-zinc-500">{label}</p>
-      <strong className="mt-1 block text-xl text-zinc-950">{value}</strong>
+      <p className="text-xs uppercase tracking-wide text-zinc-400">{label}</p>
+      <strong className="mt-1 block text-xl text-zinc-50">{value}</strong>
     </div>
   );
 }
@@ -99,6 +99,37 @@ export default async function RelancesPage() {
     todo: actions.filter((action) => action.rawStatus === "TODO").length,
     won: actions.filter((action) => action.rawStatus === "WON").length,
   };
+  const topRecommendation = agent.topRecommendations[0];
+  const topRenewal =
+    (topRecommendation
+      ? renewals.find((renewal) => renewal.id === topRecommendation.contractId)
+      : undefined) ??
+    critical[0] ??
+    atRisk[0] ??
+    renewals[0];
+  const commandTone: RelanceTone =
+    critical.length > 0 ? "rose" : atRisk.length > 0 ? "amber" : "emerald";
+  const command = critical.length
+    ? {
+        action: "Relancer maintenant",
+        label: "Risque critique",
+        proof: `${critical.length} contrat(s) sous 15 jours. ${formatEuro(
+          critical.reduce((sum, renewal) => sum + renewal.value, 0),
+        )} a proteger immediatement.`,
+      }
+    : atRisk.length
+      ? {
+          action: "Preparer les relances",
+          label: "Fenetre active",
+          proof: `${atRisk.length} contrat(s) entrent dans la fenetre de 45 jours. ${formatEuro(
+            valueAtRisk,
+          )} a securiser.`,
+        }
+      : {
+          action: "Controler la file",
+          label: "Portefeuille stable",
+          proof: "Aucune urgence forte detectee. Gardez le rythme et surveillez les prochaines echeances.",
+        };
 
   return (
     <AppShell activePath="/relances">
@@ -112,6 +143,28 @@ export default async function RelancesPage() {
         eyebrow="Agent IA de croissance"
         title="Relances renouvellement"
       />
+
+      <section className="relance-command-panel mt-6" data-od-id="relance-revenue-command">
+        <div className="relance-command-brief">
+          <p>Commande du jour</p>
+          <h2>{command.label}</h2>
+          <span>{command.proof}</span>
+        </div>
+        <div className="relance-command-decision" data-tone={commandTone}>
+          <small>Action prioritaire</small>
+          <strong>{command.action}</strong>
+          {topRenewal ? (
+            <span>
+              {topRenewal.customer} - {formatEuro(topRenewal.value)} - J-{topRenewal.daysRemaining}
+            </span>
+          ) : (
+            <span>Importer ou creer un contrat actif pour alimenter la file.</span>
+          )}
+          <a className="premium-action rounded-md text-sm font-semibold" href={topRenewal ? `/contracts/${topRenewal.id}` : "/contracts/new"}>
+            Ouvrir le dossier
+          </a>
+        </div>
+      </section>
 
       <div className="mt-6 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
         <StatCard
@@ -203,10 +256,10 @@ export default async function RelancesPage() {
       <section className="relance-section mt-6">
         <div className="relance-section-header flex flex-wrap items-start justify-between gap-4">
           <div>
-            <h3 className="text-base font-semibold text-zinc-950">
+            <h3 className="text-base font-semibold text-zinc-50">
               File commerciale
             </h3>
-            <p className="mt-1 text-sm text-zinc-500">
+            <p className="mt-1 text-sm text-zinc-400">
               Tri par echeance, avec la prochaine action conseillee.
             </p>
           </div>
@@ -229,14 +282,14 @@ export default async function RelancesPage() {
                 <div>
                   <div className="flex flex-wrap items-center gap-3">
                     <a
-                      className="text-lg font-semibold text-zinc-950"
+                      className="text-lg font-semibold text-zinc-50"
                       href={`/contracts/${renewal.id}`}
                     >
                       {renewal.customer}
                     </a>
                     <StatusPill>{renewal.priority}</StatusPill>
                   </div>
-                  <p className="mt-2 text-sm text-zinc-500">
+                  <p className="mt-2 text-sm text-zinc-400">
                     {renewal.city} - {renewal.equipment}
                   </p>
                   <p className="relance-script mt-4 text-sm leading-6">
@@ -323,10 +376,10 @@ export default async function RelancesPage() {
       <section className="relance-section mt-6">
         <div className="relance-section-header flex flex-wrap items-start justify-between gap-4">
           <div>
-            <h3 className="text-base font-semibold text-zinc-950">
+            <h3 className="text-base font-semibold text-zinc-50">
               Journal des relances
             </h3>
-            <p className="mt-1 text-sm text-zinc-500">
+            <p className="mt-1 text-sm text-zinc-400">
               Historique commercial pret pour le suivi, les stats et les
               automatisations.
             </p>
@@ -344,7 +397,7 @@ export default async function RelancesPage() {
         <div className="overflow-x-auto">
           <table className="w-full min-w-[860px] text-left text-sm">
             <thead>
-              <tr className="dashboard-table-head text-xs uppercase tracking-wide text-zinc-500">
+              <tr className="dashboard-table-head text-xs uppercase tracking-wide text-zinc-400">
                 <th className="px-4 py-3 font-semibold">Client</th>
                 <th className="px-4 py-3 font-semibold">Canal</th>
                 <th className="px-4 py-3 font-semibold">Action</th>
@@ -354,24 +407,24 @@ export default async function RelancesPage() {
                 <th className="px-4 py-3 font-semibold">Decision</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-zinc-100">
+            <tbody className="divide-y divide-zinc-800/80">
               {actions.length ? (
                 actions.map((action) => (
                   <tr className="dashboard-table-row" key={action.id}>
                     <td className="px-4 py-4">
                       <a
-                        className="font-semibold text-emerald-700"
+                        className="font-semibold text-emerald-300"
                         href={`/contracts/${action.contractId}`}
                       >
                         {action.customer}
                       </a>
                     </td>
-                    <td className="px-4 py-4 font-medium">{action.channel}</td>
-                    <td className="max-w-md px-4 py-4 text-zinc-600">
+                    <td className="px-4 py-4 font-medium text-zinc-100">{action.channel}</td>
+                    <td className="max-w-md px-4 py-4 text-zinc-300">
                       {action.message}
                     </td>
-                    <td className="px-4 py-4 text-zinc-600">{action.dueAt}</td>
-                    <td className="px-4 py-4 text-zinc-600">{action.outcome}</td>
+                    <td className="px-4 py-4 text-zinc-300">{action.dueAt}</td>
+                    <td className="px-4 py-4 text-zinc-300">{action.outcome}</td>
                     <td className="px-4 py-4">
                       <StatusPill>{action.status}</StatusPill>
                     </td>
@@ -385,7 +438,7 @@ export default async function RelancesPage() {
                 ))
               ) : (
                 <tr>
-                  <td className="px-4 py-6 text-sm text-zinc-500" colSpan={7}>
+                  <td className="px-4 py-6 text-sm text-zinc-400" colSpan={7}>
                     Aucune relance journalisee pour le moment. Cliquez sur
                     Journaliser dans la file commerciale.
                   </td>

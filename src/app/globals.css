@@ -2631,6 +2631,7 @@ body .hover\:bg-zinc-100:hover {
   }
 }
 
+.relance-command-panel,
 .relance-stat-card,
 .relance-section,
 .relance-deal-card,
@@ -2642,6 +2643,87 @@ body .hover\:bg-zinc-100:hover {
   border-radius: 0.5rem;
   box-shadow: 0 18px 44px rgba(0, 0, 0, 0.2);
   position: relative;
+}
+
+.relance-command-panel {
+  align-items: stretch;
+  border-radius: 0.75rem;
+  display: grid;
+  gap: 1rem;
+  overflow: hidden;
+  padding: 1rem;
+}
+
+.relance-command-panel::before {
+  background: linear-gradient(90deg, #fb7185, #f59e0b 44%, #34d399);
+  content: "";
+  height: 3px;
+  inset: 0 0 auto;
+  position: absolute;
+}
+
+.relance-command-brief p {
+  color: #f59e0b;
+  font-size: 0.74rem;
+  font-weight: 850;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.relance-command-brief h2 {
+  color: #f8fafc;
+  font-size: clamp(1.35rem, 2vw, 2rem);
+  font-weight: 950;
+  margin-top: 0.35rem;
+}
+
+.relance-command-brief span {
+  color: #a1a1aa;
+  display: block;
+  line-height: 1.6;
+  margin-top: 0.45rem;
+}
+
+.relance-command-decision {
+  background: rgba(9, 9, 11, 0.54);
+  border: 1px solid rgba(82, 82, 91, 0.74);
+  border-radius: 0.65rem;
+  display: grid;
+  gap: 0.65rem;
+  min-width: 13rem;
+  padding: 0.85rem;
+}
+
+.relance-command-decision[data-tone="emerald"] {
+  border-color: rgba(52, 211, 153, 0.28);
+}
+
+.relance-command-decision[data-tone="amber"] {
+  border-color: rgba(245, 158, 11, 0.28);
+}
+
+.relance-command-decision[data-tone="rose"] {
+  border-color: rgba(251, 113, 133, 0.28);
+}
+
+.relance-command-decision small {
+  color: #94a3b8;
+  font-size: 0.72rem;
+  font-weight: 850;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.relance-command-decision strong {
+  color: #f8fafc;
+  font-size: 1.35rem;
+  font-weight: 950;
+}
+
+.relance-command-decision span {
+  color: #a1a1aa;
+  font-size: 0.84rem;
+  line-height: 1.45;
 }
 
 .relance-stat-card {
@@ -2932,6 +3014,12 @@ body .hover\:bg-zinc-100:hover {
   font-size: 0.82rem;
   line-height: 1.55;
   margin-top: 0.5rem;
+}
+
+@media (min-width: 900px) {
+  .relance-command-panel {
+    grid-template-columns: minmax(0, 1fr) minmax(15rem, 0.34fr);
+  }
 }
 
 .contract-portfolio-command,
