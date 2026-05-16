@@ -6243,6 +6243,101 @@ body .hover\:bg-zinc-100:hover {
   font-size: 1.3rem;
 }
 
+.launch-recommended-decision {
+  background:
+    linear-gradient(135deg, rgba(15, 23, 42, 0.92), rgba(9, 9, 11, 0.72)),
+    rgba(9, 9, 11, 0.9);
+  border-bottom: 1px solid rgba(63, 63, 70, 0.85);
+  display: grid;
+  gap: 1rem;
+  padding: 1rem;
+  position: relative;
+}
+
+.launch-recommended-decision::before {
+  background: #38bdf8;
+  border-radius: 999px;
+  content: "";
+  inset: 1rem auto 1rem 1rem;
+  position: absolute;
+  width: 0.22rem;
+}
+
+.launch-recommended-decision[data-decision="live-ok"]::before {
+  background: #34d399;
+}
+
+.launch-recommended-decision[data-decision="live-pause"]::before {
+  background: #f59e0b;
+}
+
+.launch-recommended-decision[data-decision="rollback"]::before {
+  background: #fb7185;
+}
+
+.launch-recommended-copy,
+.launch-recommended-note {
+  margin-left: 1rem;
+}
+
+.launch-recommended-copy span,
+.launch-recommended-note span {
+  color: #94a3b8;
+  display: block;
+  font-size: 0.72rem;
+  font-weight: 850;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.launch-recommended-copy strong {
+  color: #f8fafc;
+  display: block;
+  font-size: 2.45rem;
+  font-weight: 950;
+  line-height: 1;
+  margin-top: 0.45rem;
+}
+
+.launch-recommended-copy p,
+.launch-recommended-note p,
+.launch-recommended-note small {
+  color: #cbd5e1;
+  font-size: 0.88rem;
+  line-height: 1.58;
+  margin-top: 0.55rem;
+}
+
+.launch-recommended-note {
+  background: rgba(24, 24, 27, 0.74);
+  border: 1px solid rgba(82, 82, 91, 0.78);
+  border-radius: 0.75rem;
+  padding: 1rem;
+}
+
+.launch-recommended-note div {
+  display: grid;
+  gap: 0.42rem;
+  margin: 0.8rem 0;
+}
+
+.launch-recommended-note small {
+  margin-top: 0;
+  padding-left: 1rem;
+  position: relative;
+}
+
+.launch-recommended-note small::before {
+  background: #34d399;
+  border-radius: 999px;
+  content: "";
+  height: 0.34rem;
+  left: 0;
+  position: absolute;
+  top: 0.48rem;
+  width: 0.34rem;
+}
+
 .launch-architect-body {
   border-bottom: 1px solid rgba(63, 63, 70, 0.85);
   padding: 1rem;
@@ -6302,6 +6397,13 @@ body .hover\:bg-zinc-100:hover {
 
 .launch-decision-note[data-decision="rollback"] {
   border-top-color: #fb7185;
+}
+
+.launch-decision-note[data-selected="true"] {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.012)),
+    rgba(24, 24, 27, 0.9);
+  border-color: rgba(148, 163, 184, 0.34);
 }
 
 .launch-decision-note div {
@@ -6501,7 +6603,8 @@ body .hover\:bg-zinc-100:hover {
   }
 
   .launch-architect-header,
-  .launch-architect-body {
+  .launch-architect-body,
+  .launch-recommended-decision {
     grid-template-columns: minmax(0, 1fr) minmax(20rem, 0.74fr);
   }
 

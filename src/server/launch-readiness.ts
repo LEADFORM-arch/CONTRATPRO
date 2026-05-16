@@ -60,6 +60,7 @@ export type ProductionArchitectSummary = {
   headline: string;
   nextMove: string;
   primaryMetric: string;
+  recommendedDecision: ProductionArchitectDecision;
   secondaryMetric: string;
   signals: ProductionArchitectSignal[];
   thesis: string;
@@ -317,49 +318,54 @@ export function getProductionArchitectSummary(): ProductionArchitectSummary {
         ? "lancement pilote possible seulement avec surveillance et points ouverts ecrits"
         : "bloquants critiques encore presents avant vrais clients";
 
+  const decisions: ProductionArchitectDecision[] = [
+    {
+      checklist: [
+        "CI locale et GitHub vertes.",
+        "Supabase RLS OK + backup connu.",
+        "Smokes public et authentifie valides.",
+      ],
+      decision: "live-ok",
+      label: "LIVE OK",
+      note:
+        "Decision: LIVE OK. ContratPro peut ouvrir un pilote client controle: CI verte, Supabase RLS OK, Vercel configure, providers critiques verifies et rollback documente.",
+      trigger: "Aucun bloquant critique",
+    },
+    {
+      checklist: [
+        "Un ou plusieurs signaux restent en warning.",
+        "Le pilote peut continuer sans encaissement risque.",
+        "Le prochain controle est date et attribue.",
+      ],
+      decision: "live-pause",
+      label: "LIVE PAUSE",
+      note:
+        "Decision: LIVE PAUSE. ContratPro reste exploitable en pilote accompagne, mais la vente large attend la fermeture des warnings Vercel, providers, cron ou smoke authentifie.",
+      trigger: "Lancement controle seulement",
+    },
+    {
+      checklist: [
+        "Un bloquant critique touche auth, RLS, billing ou provider.",
+        "La preuve de rollback n'est pas disponible.",
+        "Aucun nouveau pilote n'est invite.",
+      ],
+      decision: "rollback",
+      label: "ROLLBACK",
+      note:
+        "Decision: ROLLBACK. Ne pas inviter de pilote payant: bloquant critique sur securite, base, provider ou deploiement. Revenir au deployment stable puis reprendre la checklist live.",
+      trigger: "Risque production",
+    },
+  ];
+  const recommendedDecision =
+    decisions.find((decision) => decision.label === decisionLabel) ?? decisions[1];
+
   return {
     controlLinks: productionControlLinks,
-    decisions: [
-      {
-        checklist: [
-          "CI locale et GitHub vertes.",
-          "Supabase RLS OK + backup connu.",
-          "Smokes public et authentifie valides.",
-        ],
-        decision: "live-ok",
-        label: "LIVE OK",
-        note:
-          "Decision: LIVE OK. ContratPro peut ouvrir un pilote client controle: CI verte, Supabase RLS OK, Vercel configure, providers critiques verifies et rollback documente.",
-        trigger: "Aucun bloquant critique",
-      },
-      {
-        checklist: [
-          "Un ou plusieurs signaux restent en warning.",
-          "Le pilote peut continuer sans encaissement risque.",
-          "Le prochain controle est date et attribue.",
-        ],
-        decision: "live-pause",
-        label: "LIVE PAUSE",
-        note:
-          "Decision: LIVE PAUSE. ContratPro reste exploitable en pilote accompagne, mais la vente large attend la fermeture des warnings Vercel, providers, cron ou smoke authentifie.",
-        trigger: "Lancement controle seulement",
-      },
-      {
-        checklist: [
-          "Un bloquant critique touche auth, RLS, billing ou provider.",
-          "La preuve de rollback n'est pas disponible.",
-          "Aucun nouveau pilote n'est invite.",
-        ],
-        decision: "rollback",
-        label: "ROLLBACK",
-        note:
-          "Decision: ROLLBACK. Ne pas inviter de pilote payant: bloquant critique sur securite, base, provider ou deploiement. Revenir au deployment stable puis reprendre la checklist live.",
-        trigger: "Risque production",
-      },
-    ],
+    decisions,
     headline: "Architecte IA production",
     nextMove: `Decision conseillee: ${decisionLabel}. Raison: ${decisionReason}.`,
     primaryMetric: `${readiness.score}/100`,
+    recommendedDecision,
     secondaryMetric: `${readiness.blockers.length} bloquant(s)`,
     signals,
     thesis:

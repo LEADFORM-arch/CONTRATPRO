@@ -105,6 +105,24 @@ export default async function LaunchPage() {
           </div>
         </div>
 
+        <div className="launch-recommended-decision" data-decision={productionArchitect.recommendedDecision.decision}>
+          <div className="launch-recommended-copy">
+            <span>Decision recommandee maintenant</span>
+            <strong>{productionArchitect.recommendedDecision.label}</strong>
+            <p>{productionArchitect.nextMove}</p>
+          </div>
+          <div className="launch-recommended-note">
+            <span>{productionArchitect.recommendedDecision.trigger}</span>
+            <p>{productionArchitect.recommendedDecision.note}</p>
+            <div>
+              {productionArchitect.recommendedDecision.checklist.map((item) => (
+                <small key={item}>{item}</small>
+              ))}
+            </div>
+            <LaunchDecisionCopyButton note={productionArchitect.recommendedDecision.note} />
+          </div>
+        </div>
+
         <div className="launch-architect-body">
           <div className="launch-control-links">
             {productionArchitect.controlLinks.map((link) => (
@@ -129,12 +147,17 @@ export default async function LaunchPage() {
 
         <div className="launch-decision-strip">
           <div>
-            <span>Prochaine decision</span>
-            <strong>{productionArchitect.nextMove}</strong>
+            <span>Seuils de bascule</span>
+            <strong>Garder une note claire pour chaque issue possible.</strong>
           </div>
           <div className="launch-decision-note-grid">
             {productionArchitect.decisions.map((decision) => (
-              <article className="launch-decision-note" data-decision={decision.decision} key={decision.label}>
+              <article
+                className="launch-decision-note"
+                data-decision={decision.decision}
+                data-selected={decision.decision === productionArchitect.recommendedDecision.decision ? "true" : "false"}
+                key={decision.label}
+              >
                 <span>{decision.trigger}</span>
                 <strong>{decision.label}</strong>
                 <p>{decision.note}</p>
