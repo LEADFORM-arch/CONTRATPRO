@@ -51,6 +51,7 @@ Executer :
 
 ```bash
 npm run deploy:preflight
+npx vercel env ls | npm run vercel:live-audit --silent
 ```
 
 Variables obligatoires cote production :

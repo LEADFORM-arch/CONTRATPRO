@@ -519,6 +519,7 @@ describe("production guardrails", () => {
       "\"node\": \"24.x\"",
       "\"ci:verify\"",
       "\"deploy:preflight\"",
+      "\"vercel:live-audit\"",
       "\"deploy:smoke\"",
       "\"deploy:smoke:auth\"",
       "\"deploy:smoke:journey\"",
@@ -561,6 +562,22 @@ describe("production guardrails", () => {
       "https://yotafzxcpyyrkkpeyfpp.supabase.co",
     ], "vercel preflight");
 
+    assertIncludes(read("scripts/vercel-live-audit.mjs"), [
+      "Environment Variables found",
+      "npx vercel env ls",
+      ".vercel-env.txt",
+      "CONTRATPRO_REQUIRE_BILLING",
+      "CONTRATPRO_ORG_ID",
+      "org_demo",
+      "GOCARDLESS_ENVIRONMENT",
+      "GOCARDLESS_WEBHOOK_ENDPOINT_SECRET",
+      "STRIPE_PRICE_ID_STARTER",
+      "STRIPE_PRICE_ID_BUSINESS",
+      "VERCEL_AUTOMATION_BYPASS_SECRET",
+      "LIVE PAUSE",
+      "LIVE OK",
+    ], "vercel live audit");
+
     assertIncludes(read("scripts/deployment-smoke-test.mjs"), [
       "CONTRATPRO_DEPLOYMENT_URL",
       "getDeploymentProtectionHeaders",
@@ -578,6 +595,7 @@ describe("production guardrails", () => {
       "https://vercel.com/contratpro",
       "Node.js 24.x",
       "npm run deploy:preflight",
+      "npx vercel env ls | npm run vercel:live-audit --silent",
       "npm run deploy:smoke",
       "https://supabase.com/dashboard/project/yotafzxcpyyrkkpeyfpp",
       "supabase/verify_rls.sql",

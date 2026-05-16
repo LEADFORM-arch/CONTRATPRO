@@ -111,9 +111,15 @@ En local :
 ```powershell
 npm run ci:verify
 npm run deploy:preflight
+npx vercel env ls | npm run vercel:live-audit --silent
 ```
 
 Dans GitHub, attendre que `ContratPro CI` passe au vert.
+
+`vercel:live-audit` controle les variables vraiment presentes dans Vercel
+Production : auth, RLS, billing obligatoire, organisation non-demo, Supabase,
+Resend, Stripe multi-paliers, GoCardless live, cron et bypass de smoke si la
+Deployment Protection reste active.
 
 ## 5. Premier deploiement
 

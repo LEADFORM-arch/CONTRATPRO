@@ -468,11 +468,15 @@ Commandes de controle :
 
 ```powershell
 npm run deploy:preflight
+npx vercel env ls | npm run vercel:live-audit --silent
 npm run deploy:smoke -- https://votre-deploiement.vercel.app
 npm run deploy:smoke:journey -- https://votre-deploiement.vercel.app
 ```
 
 `deploy:preflight` verifie la preparation du repo avant import Vercel.
+`vercel:live-audit` lit les variables Vercel Production et sort les blocages
+`LIVE PAUSE` : billing desactive, org demo, GoCardless sandbox, price_id
+manquants, webhook absent ou smoke protege sans bypass.
 `deploy:smoke` controle les routes publiques critiques apres le premier
 deploiement. `deploy:smoke:journey` rejoue le parcours client authentifie sans
 creer de donnees.
