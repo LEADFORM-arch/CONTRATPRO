@@ -8542,3 +8542,136 @@ a:focus-visible {
   outline: 2px solid #047857;
   outline-offset: 2px;
 }
+
+.prospection-skill-cockpit {
+  background:
+    radial-gradient(circle at 0% 0%, rgba(56, 189, 248, 0.13), transparent 32%),
+    radial-gradient(circle at 100% 0%, rgba(52, 211, 153, 0.1), transparent 30%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.048), rgba(255, 255, 255, 0.016)),
+    #101216;
+  border-color: rgba(255, 255, 255, 0.085);
+  box-shadow: 0 24px 68px rgba(0, 0, 0, 0.24);
+}
+
+.skill-cockpit-header {
+  align-items: start;
+  display: flex;
+  gap: 1rem;
+  justify-content: space-between;
+}
+
+.skill-module-grid,
+.skill-copy-grid,
+.skill-kpi-rail {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.skill-module-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.skill-copy-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.skill-kpi-rail {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.skill-module-card,
+.skill-script-card,
+.skill-kpi-item {
+  background: rgba(255, 255, 255, 0.032);
+  border: 1px solid rgba(255, 255, 255, 0.075);
+  border-radius: 0.65rem;
+}
+
+.skill-module-card,
+.skill-kpi-item {
+  padding: 0.9rem;
+}
+
+.skill-script-card {
+  min-width: 0;
+  padding: 1rem;
+}
+
+.skill-script-card pre {
+  background: rgba(4, 6, 8, 0.58);
+  border: 1px solid rgba(56, 189, 248, 0.13);
+  border-radius: 0.5rem;
+  color: #d4d4d8;
+  font-size: 0.78rem;
+  line-height: 1.55;
+  margin-top: 0.9rem;
+  max-height: 18rem;
+  overflow: auto;
+  padding: 0.85rem;
+  white-space: pre-wrap;
+}
+
+.prospection-copy-button {
+  background:
+    linear-gradient(135deg, rgba(52, 211, 153, 0.16), rgba(56, 189, 248, 0.08)),
+    rgba(6, 78, 59, 0.24);
+  border: 1px solid rgba(52, 211, 153, 0.28);
+  border-radius: 0.5rem;
+  color: #bbf7d0;
+  font-size: 0.82rem;
+  font-weight: 800;
+  padding: 0.55rem 0.75rem;
+  transition: border-color 160ms ease, color 160ms ease, transform 160ms ease;
+  white-space: nowrap;
+}
+
+.prospection-copy-button:hover {
+  border-color: rgba(56, 189, 248, 0.42);
+  color: #ecfeff;
+  transform: translateY(-1px);
+}
+
+.prospection-copy-button:focus-visible {
+  outline: 3px solid rgba(56, 189, 248, 0.2);
+  outline-offset: 2px;
+}
+
+.skill-kpi-item strong,
+.skill-kpi-item span {
+  display: block;
+}
+
+.skill-kpi-item strong {
+  color: #67e8f9;
+  font-size: 0.74rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.skill-kpi-item span {
+  color: #d4d4d8;
+  font-size: 0.84rem;
+  line-height: 1.45;
+  margin-top: 0.35rem;
+}
+
+@media (max-width: 1024px) {
+  .skill-module-grid,
+  .skill-copy-grid,
+  .skill-kpi-rail {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 640px) {
+  .skill-cockpit-header {
+    flex-direction: column;
+  }
+
+  .skill-module-grid,
+  .skill-copy-grid,
+  .skill-kpi-rail {
+    grid-template-columns: 1fr;
+  }
+}

@@ -5,12 +5,88 @@ import {
   getProspectionLeads,
 } from "@/server/contratpro-data";
 
+import { ProspectionCopyButton } from "./ProspectionCopyButton";
+
+type SkillModule = {
+  cadence: string;
+  evidence: string;
+  name: string;
+  output: string;
+};
+
+const facebookSkillModules: SkillModule[] = [
+  {
+    cadence: "Avant de publier",
+    evidence: "Page claire, bio CVC, CTA vers demo",
+    name: "Page Facebook",
+    output: "Verifier nom, bio, mots-cles et post epingle.",
+  },
+  {
+    cadence: "3 fois / semaine",
+    evidence: "Douleur concrete puis une seule action",
+    name: "Posts terrain",
+    output: "Formats probleme, chiffre, legal et question.",
+  },
+  {
+    cadence: "5 a 10 DMs / jour",
+    evidence: "Message court, personnalise, sans lien au premier contact",
+    name: "DM fondateur",
+    output: "Froid, chaud, Excel, relance ou closing.",
+  },
+  {
+    cadence: "Chaque vendredi",
+    evidence: "CPL, reponses, demos et objections notees",
+    name: "KPI 90 jours",
+    output: "Garder, iterer ou couper chaque angle.",
+  },
+];
+
+const facebookSkillCadence = [
+  ["Lundi 6h30", "Post probleme -> solution sur contrats oublies."],
+  ["Mercredi 12h15", "Question d'engagement sans CTA produit."],
+  ["Vendredi 19h00", "Post preuve ou chiffre avec lien demo trace."],
+  ["Chaque jour", "5 DMs cibles: commentaire, like, Excel, relance, closing."],
+] as const;
+
+const facebookSkillKpis = [
+  ["Taux reponse DM", "15-25%", "Changer accroche si < 10%"],
+  ["Clics demo", "3-5%", "Revoir CTA si < 2%"],
+  ["Demos bookees", "2 / semaine", "Prioriser les leads score 80+"],
+  ["Decision", "90 jours", "Vendre, iterer ou couper"],
+] as const;
+
+const facebookDmScript = `Salut [Prenom], j'ai vu ton commentaire sur les relances et les contrats d'entretien.
+
+Quand tout est dans Excel ou dans la tete, un renouvellement peut passer sans bruit et le client part ailleurs.
+
+Je travaille sur ContratPro pour aider les chauffagistes a voir ces contrats avant qu'ils expirent.
+
+Tu sais combien de contrats tu as pu perdre comme ca sur les 12 derniers mois ?`;
+
+function buildFacebookPostScript(demoUrl: string) {
+  return `Il a rappele son client pour l'entretien annuel.
+Le client avait deja pris quelqu'un d'autre.
+
+Son contrat avait expire 4 mois plus tot.
+Personne ne l'avait relance.
+180 EUR de revenu recurrent. Parti.
+
+Avec ContratPro, les contrats a renouveler remontent avant l'echeance, avec la prochaine action a faire.
+Le chauffagiste garde son portefeuille vivant au lieu de le decouvrir trop tard.
+
+Essai pilote: ${demoUrl}
+
+#chauffagiste #contratentretien #CVCpro #artisan #chauffage`;
+}
+
 export default async function AdminProspectionDashboardPage() {
   const admin = await requireAdminUser("/admin/prospection");
   const [leads, settings] = await Promise.all([
     getProspectionLeads(),
     getFacebookSettings(),
   ]);
+  const demoUrl = settings.demoUrl || "https://contratpro.fr/demo";
+  const facebookPostScript = buildFacebookPostScript(demoUrl);
   const hotLeads = leads.filter((lead) => lead.score >= 80);
   const inboundDemoLeads = leads.filter((lead) => lead.source === "PUBLIC_DEMO");
   const toQualify = leads.filter((lead) => lead.rawStatus === "TO_QUALIFY");
@@ -126,7 +202,89 @@ export default async function AdminProspectionDashboardPage() {
           demonstrations.
         </p>
       </section>
+      <section className="prospection-skill-cockpit mt-5 rounded-lg border p-4" data-od-id="facebook-prospection-skill">
+        <div className="skill-cockpit-header">
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-wide text-cyan-300">
+              Skill Codex admin
+            </p>
+            <h3 className="mt-1 text-lg font-semibold text-zinc-50">
+              Architecte IA prospection Facebook
+            </h3>
+            <p className="mt-2 max-w-3xl text-sm leading-6 text-zinc-400">
+              Le skill que tu as ajoute devient un playbook fondateur: page,
+              posts, DMs, calendrier et KPIs pour trouver les premiers
+              chauffagistes sans attendre Resend ni GoCardless.
+            </p>
+          </div>
+          <StatusPill>4 modules prets</StatusPill>
+        </div>
 
+        <div className="skill-module-grid mt-4">
+          {facebookSkillModules.map((module) => (
+            <article className="skill-module-card" key={module.name}>
+              <p className="text-xs font-semibold uppercase tracking-wide text-zinc-500">
+                {module.cadence}
+              </p>
+              <h4 className="mt-2 font-semibold text-zinc-50">{module.name}</h4>
+              <p className="mt-2 text-sm leading-5 text-zinc-400">{module.output}</p>
+              <p className="mt-3 text-xs leading-5 text-emerald-300">
+                Preuve: {module.evidence}
+              </p>
+            </article>
+          ))}
+        </div>
+
+        <div className="skill-copy-grid mt-4">
+          <article className="skill-script-card">
+            <div className="flex items-start justify-between gap-3">
+              <div>
+                <p className="text-xs font-semibold uppercase tracking-wide text-emerald-300">
+                  DM froid
+                </p>
+                <h4 className="mt-1 font-semibold text-zinc-50">
+                  Premier message Facebook
+                </h4>
+              </div>
+              <ProspectionCopyButton label="Copier DM" text={facebookDmScript} />
+            </div>
+            <pre>{facebookDmScript}</pre>
+          </article>
+
+          <article className="skill-script-card">
+            <div className="flex items-start justify-between gap-3">
+              <div>
+                <p className="text-xs font-semibold uppercase tracking-wide text-emerald-300">
+                  Post probleme
+                </p>
+                <h4 className="mt-1 font-semibold text-zinc-50">
+                  Publication prete a tracer
+                </h4>
+              </div>
+              <ProspectionCopyButton label="Copier post" text={facebookPostScript} />
+            </div>
+            <pre>{facebookPostScript}</pre>
+          </article>
+        </div>
+
+        <div className="skill-kpi-rail mt-4">
+          {facebookSkillCadence.map(([slot, action]) => (
+            <div className="skill-kpi-item" key={slot}>
+              <strong>{slot}</strong>
+              <span>{action}</span>
+            </div>
+          ))}
+        </div>
+
+        <div className="skill-kpi-rail mt-3">
+          {facebookSkillKpis.map(([metric, target, warning]) => (
+            <div className="skill-kpi-item" key={metric}>
+              <strong>{metric}</strong>
+              <span>{target} - {warning}</span>
+            </div>
+          ))}
+        </div>
+      </section>
       <div className="mt-5 grid gap-3 md:grid-cols-4">
         {[
           ["Leads", leads.length, "Total pipeline", "cyan"],

@@ -102,6 +102,11 @@ describe("production guardrails", () => {
       "Ce qui genere les meilleurs leads",
       "attributionStats",
       "Score moyen",
+      "Architecte IA prospection Facebook",
+      "facebookSkillModules",
+      "facebookDmScript",
+      "ProspectionCopyButton",
+      "data-od-id=\"facebook-prospection-skill\"",
     ], "admin sales command queue");
 
     assertIncludes(read("src/server/contratpro-data.ts"), [
@@ -145,6 +150,9 @@ describe("production guardrails", () => {
       ".campaign-link-output",
       ".attribution-performance-card",
       ".attribution-mini-stat",
+      ".prospection-skill-cockpit",
+      ".skill-module-card",
+      ".prospection-copy-button",
     ], "sales cockpit styles");
 
     const shell = read("src/components/layout/AppShell.tsx");
