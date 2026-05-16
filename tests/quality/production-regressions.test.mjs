@@ -739,6 +739,8 @@ describe("production guardrails", () => {
       "STRIPE_SECRET_KEY",
       "CONTRATPRO_REQUIRE_BILLING",
       "GOCARDLESS_ENVIRONMENT",
+      "pilote sans encaissement automatique",
+      "expediteur a verifier plus tard",
       "admincairn/CONTRATPRO",
       "getProductionActivationPlan",
       "getProductionArchitectSummary",

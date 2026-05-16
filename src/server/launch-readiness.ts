@@ -149,6 +149,8 @@ export function getLaunchReadiness() {
     .join("/");
   const billingRequired = env("CONTRATPRO_REQUIRE_BILLING") === "true";
   const goCardlessLive = env("GOCARDLESS_ENVIRONMENT") === "live";
+  const stripeConfigured = has("STRIPE_SECRET_KEY") && has("STRIPE_WEBHOOK_SECRET") && hasStripePrices();
+  const resendConfigured = has("RESEND_API_KEY") && has("RESEND_FROM_EMAIL");
 
   const sections: LaunchSection[] = [
     {
@@ -209,12 +211,15 @@ export function getLaunchReadiness() {
       items: [
         item({
           action: "Ajouter STRIPE_SECRET_KEY, STRIPE_WEBHOOK_SECRET et les price_id Starter/Pro/Business.",
-          detail: hasStripePrices()
+          detail: stripeConfigured
             ? "Stripe configure avec les trois paliers."
-            : "Stripe incomplet: abonnement multi-paliers non encaissable.",
+            : billingRequired
+              ? "Stripe incomplet: abonnement multi-paliers non encaissable."
+              : "Stripe incomplet: pilote sans encaissement automatique.",
           label: "Stripe Billing",
           owner: "Revenus",
-          ready: has("STRIPE_SECRET_KEY") && has("STRIPE_WEBHOOK_SECRET") && hasStripePrices(),
+          ready: stripeConfigured,
+          statusWhenMissing: billingRequired ? "critical" : "warning",
         }),
         item({
           action: "Passer CONTRATPRO_REQUIRE_BILLING=true apres validation Stripe.",
@@ -239,10 +244,15 @@ export function getLaunchReadiness() {
         }),
         item({
           action: "Configurer RESEND_FROM_EMAIL sur un domaine verifie.",
-          detail: has("RESEND_API_KEY") ? "API Resend presente." : "Resend absent.",
+          detail: resendConfigured
+            ? "Resend configure avec expediteur verifie."
+            : has("RESEND_API_KEY")
+              ? "API Resend presente, expediteur a verifier plus tard."
+              : "Resend a configurer avant les emails live.",
           label: "Emails documents",
           owner: "Support",
-          ready: has("RESEND_API_KEY"),
+          ready: resendConfigured,
+          statusWhenMissing: "warning",
         }),
         item({
           action: "Verifier le cron quotidien dans Vercel.",
