@@ -1226,6 +1226,14 @@ describe("production guardrails", () => {
       "Creer un paiement",
     ], "payments cash command");
 
+    assertIncludes(read("src/app/(dashboard)/invoices/page.tsx"), [
+      "data-od-id=\"invoice-billing-command\"",
+      "Commande facturation",
+      "Action prioritaire",
+      "Relancer la facture",
+      "Creer une facture",
+    ], "invoices billing command");
+
     assertIncludes(read("src/app/globals.css"), [
       ".activation-empty-state",
       ".activation-empty-actions",
@@ -1233,6 +1241,8 @@ describe("production guardrails", () => {
       ".contract-portfolio-decision",
       ".payment-command-panel",
       ".payment-command-decision",
+      ".invoice-command-panel",
+      ".invoice-command-decision",
     ], "activation empty state styles");
   });
 });

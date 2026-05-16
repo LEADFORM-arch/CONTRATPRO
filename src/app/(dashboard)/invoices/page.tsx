@@ -16,12 +16,37 @@ export default async function InvoicesPage() {
     (sum, invoice) => sum + invoice.amountTtc,
     0,
   );
+  const overdueAmount = overdueInvoices.reduce(
+    (sum, invoice) => sum + invoice.amountTtc,
+    0,
+  );
   const paidAmount = paidInvoices.reduce(
     (sum, invoice) => sum + invoice.amountTtc,
     0,
   );
   const paidRate =
     invoices.length > 0 ? Math.round((paidInvoices.length / invoices.length) * 100) : 0;
+  const priorityInvoice = overdueInvoices[0] ?? openInvoices[0] ?? invoices[0];
+  const invoiceCommand = overdueInvoices.length
+    ? {
+        action: "Relancer la facture",
+        detail: `${overdueInvoices.length} retard(s), ${formatEuro(overdueAmount)} a recuperer.`,
+        label: "Retard a traiter",
+        tone: "rose" as const,
+      }
+    : openInvoices.length
+      ? {
+          action: "Envoyer ou suivre",
+          detail: `${openInvoices.length} facture(s), ${formatEuro(openAmount)} encore ouvert.`,
+          label: "Solde ouvert",
+          tone: "amber" as const,
+        }
+      : {
+          action: "Creer la prochaine facture",
+          detail: "Aucune facture ouverte. Continuez a transformer les contrats actifs en documents facturables.",
+          label: "Facturation stable",
+          tone: "emerald" as const,
+        };
 
   return (
     <AppShell activePath="/invoices">
@@ -39,19 +64,41 @@ export default async function InvoicesPage() {
         title="Factures contrats CVC"
       />
 
+      <section className="invoice-command-panel mt-6" data-od-id="invoice-billing-command">
+        <div className="invoice-command-brief">
+          <p>Commande facturation</p>
+          <h2>{invoiceCommand.label}</h2>
+          <span>{invoiceCommand.detail}</span>
+        </div>
+        <div className="invoice-command-decision" data-tone={invoiceCommand.tone}>
+          <small>Action prioritaire</small>
+          <strong>{invoiceCommand.action}</strong>
+          {priorityInvoice ? (
+            <span>
+              {priorityInvoice.number} - {priorityInvoice.customer} - {formatEuro(priorityInvoice.amountTtc)}
+            </span>
+          ) : (
+            <span>Creer une premiere facture pour alimenter le registre.</span>
+          )}
+          <a className="premium-action rounded-md text-sm font-semibold" href={priorityInvoice ? `/invoices/${priorityInvoice.id}` : "/invoices/new"}>
+            Ouvrir le dossier
+          </a>
+        </div>
+      </section>
+
       <div className="mt-6 grid gap-3 md:grid-cols-4">
         {[
           ["Factures", invoices.length, "Documents emis", "cyan"],
           ["A encaisser", formatEuro(openAmount), "Solde ouvert", "amber"],
           ["Encaisse", formatEuro(paidAmount), `${paidRate}% regle`, "emerald"],
-          ["Retards", overdueInvoices.length, "A traiter", "rose"],
+          ["Retards", formatEuro(overdueAmount), `${overdueInvoices.length} facture(s)`, "rose"],
         ].map(([label, value, helper, tone]) => (
           <article
             className="invoice-stat-card"
             data-tone={tone}
             key={label}
           >
-            <p className="text-xs font-medium uppercase tracking-wide text-zinc-500">
+            <p className="text-xs font-medium uppercase tracking-wide text-zinc-400">
               {label}
             </p>
             <strong className="mt-3 block text-3xl font-semibold text-zinc-50">
