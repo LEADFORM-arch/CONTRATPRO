@@ -1,5 +1,6 @@
 import {
   containsDashboardErrorBoundary,
+  getDeploymentProtectionHeaders,
   getSessionCookie,
   getSmokeConfig,
   read,
@@ -11,11 +12,12 @@ async function loginAndGetCookie() {
   let response;
   try {
     response = await fetch(`${baseUrl}/api/auth/login`, {
-      method: "POST",
-      headers: {
-        "content-type": "application/json",
-        "user-agent": "ContratPro customer journey smoke test",
-      },
+    method: "POST",
+    headers: {
+      ...getDeploymentProtectionHeaders(),
+      "content-type": "application/json",
+      "user-agent": "ContratPro customer journey smoke test",
+    },
       body: JSON.stringify({ email, password }),
       redirect: "manual",
     });
@@ -110,6 +112,7 @@ const results = [];
 
 const me = await fetch(`${baseUrl}/api/auth/me`, {
   headers: {
+    ...getDeploymentProtectionHeaders(),
     cookie,
     "user-agent": "ContratPro customer journey smoke test",
   },
@@ -126,6 +129,7 @@ for (const check of journeyChecks) {
   try {
     const response = await fetch(url, {
       headers: {
+        ...getDeploymentProtectionHeaders(),
         cookie,
         "user-agent": "ContratPro customer journey smoke test",
       },

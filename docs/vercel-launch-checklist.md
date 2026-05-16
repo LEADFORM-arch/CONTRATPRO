@@ -135,6 +135,17 @@ Lancer :
 npm run deploy:smoke -- https://votre-deploiement.vercel.app
 ```
 
+Si Vercel Deployment Protection est active, definir aussi le secret
+d'automation dans le terminal de controle :
+
+```powershell
+$env:VERCEL_AUTOMATION_BYPASS_SECRET="..."
+```
+
+Les scripts de smoke ajoutent alors le header `x-vercel-protection-bypass`
+sur chaque requete. Sans ce secret, un deploiement protege retourne `401` meme
+si l'application Next.js fonctionne.
+
 Routes controlees :
 
 ```text

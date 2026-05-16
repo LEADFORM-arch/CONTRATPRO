@@ -477,6 +477,10 @@ npm run deploy:smoke:journey -- https://votre-deploiement.vercel.app
 deploiement. `deploy:smoke:journey` rejoue le parcours client authentifie sans
 creer de donnees.
 
+Si Vercel Deployment Protection est active, renseigner
+`VERCEL_AUTOMATION_BYPASS_SECRET` dans le terminal de smoke. Les scripts ajoutent
+alors `x-vercel-protection-bypass` aux requetes de controle.
+
 ## Priorite 17 - Environnement local et smoke test authentifie
 
 Si `vercel env pull` remplace les secrets locaux par `[]`, restaurer `.env.local`

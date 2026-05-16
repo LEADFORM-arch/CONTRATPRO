@@ -1,3 +1,7 @@
+import { getDeploymentProtectionHeaders, loadLocalEnv } from "./smoke-test-helpers.mjs";
+
+loadLocalEnv();
+
 const rawBaseUrl = process.argv[2] ?? process.env.CONTRATPRO_DEPLOYMENT_URL;
 
 if (!rawBaseUrl) {
@@ -28,7 +32,10 @@ for (const item of checks) {
   const url = `${baseUrl}${item.path}`;
   try {
     const response = await fetch(url, {
-      headers: { "user-agent": "ContratPro smoke test" },
+      headers: {
+        ...getDeploymentProtectionHeaders(),
+        "user-agent": "ContratPro smoke test",
+      },
       redirect: "manual",
     });
     const body = await response.text();

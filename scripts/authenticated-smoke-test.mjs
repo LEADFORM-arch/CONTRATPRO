@@ -1,5 +1,6 @@
 import {
   containsDashboardErrorBoundary,
+  getDeploymentProtectionHeaders,
   getSessionCookie,
   getSmokeConfig,
   read,
@@ -12,6 +13,7 @@ try {
   login = await fetch(`${baseUrl}/api/auth/login`, {
     method: "POST",
     headers: {
+      ...getDeploymentProtectionHeaders(),
       "content-type": "application/json",
       "user-agent": "ContratPro authenticated smoke test",
     },
@@ -41,6 +43,7 @@ if (!cookie.includes("contratpro-access-token")) {
 
 const me = await fetch(`${baseUrl}/api/auth/me`, {
   headers: {
+    ...getDeploymentProtectionHeaders(),
     cookie,
     "user-agent": "ContratPro authenticated smoke test",
   },
@@ -55,6 +58,7 @@ if (!me.ok || !meBody.includes(email)) {
 
 const onboarding = await fetch(`${baseUrl}/onboarding`, {
   headers: {
+    ...getDeploymentProtectionHeaders(),
     cookie,
     "user-agent": "ContratPro authenticated smoke test",
   },

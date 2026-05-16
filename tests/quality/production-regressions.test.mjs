@@ -563,6 +563,7 @@ describe("production guardrails", () => {
 
     assertIncludes(read("scripts/deployment-smoke-test.mjs"), [
       "CONTRATPRO_DEPLOYMENT_URL",
+      "getDeploymentProtectionHeaders",
       "/api/health",
       "/login",
       "/simulateur",
@@ -613,6 +614,8 @@ describe("production guardrails", () => {
       "NEXT_PUBLIC_APP_URL",
       "http://localhost:3000",
       "CONTRATPRO_SMOKE_EMAIL",
+      "VERCEL_AUTOMATION_BYPASS_SECRET",
+      "x-vercel-protection-bypass",
       "Les identifiants smoke sont encore des valeurs d'exemple.",
       "ton-domaine.fr",
       "containsDashboardErrorBoundary",
@@ -621,6 +624,7 @@ describe("production guardrails", () => {
 
     assertIncludes(read("scripts/authenticated-smoke-test.mjs"), [
       "getSmokeConfig",
+      "getDeploymentProtectionHeaders",
       "containsDashboardErrorBoundary",
       "impossible de joindre",
       "Demarrez le serveur avec npm run dev",
@@ -631,6 +635,7 @@ describe("production guardrails", () => {
 
     assertIncludes(read("scripts/customer-journey-smoke-test.mjs"), [
       "getSmokeConfig",
+      "getDeploymentProtectionHeaders",
       "containsDashboardErrorBoundary",
       "impossible de joindre",
       "Demarrez le serveur avec npm run dev",

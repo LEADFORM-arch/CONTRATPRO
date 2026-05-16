@@ -86,6 +86,19 @@ export function getSmokeConfig(commandName) {
   };
 }
 
+export function getDeploymentProtectionHeaders() {
+  loadLocalEnv();
+
+  const bypassSecret = process.env.VERCEL_AUTOMATION_BYPASS_SECRET?.trim();
+  if (!bypassSecret || ["[]", "{}", "\"\"", "''"].includes(bypassSecret)) {
+    return {};
+  }
+
+  return {
+    "x-vercel-protection-bypass": stripQuotes(bypassSecret),
+  };
+}
+
 export async function read(response) {
   return response.text().catch(() => "");
 }

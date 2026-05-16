@@ -115,6 +115,12 @@ npm run deploy:smoke -- https://votre-domaine.fr
 npm run deploy:smoke:auth -- https://votre-domaine.fr
 ```
 
+Si le domaine ou le deployment Vercel est protege, ajouter
+`VERCEL_AUTOMATION_BYPASS_SECRET` au terminal de smoke. Les scripts envoient le
+header `x-vercel-protection-bypass`, conformement a la protection automation de
+Vercel. Un `401` sur toutes les routes publiques, y compris `/api/health`,
+signale une protection Vercel, pas forcement une panne applicative.
+
 Parcours minimum :
 
 - `/api/health`
