@@ -4,8 +4,11 @@ import type { LaunchStatus } from "@/server/launch-readiness";
 import {
   getLaunchReadiness,
   getPilotReadinessPlan,
+  getProductionArchitectSummary,
   getProductionActivationPlan,
 } from "@/server/launch-readiness";
+
+import { LaunchDecisionCopyButton } from "./LaunchDecisionCopyButton";
 
 const statusLabels: Record<LaunchStatus, string> = {
   critical: "Bloquant",
@@ -29,6 +32,7 @@ function formatDate(value: string) {
 export default async function LaunchPage() {
   const admin = await requireAdminUser("/admin/launch");
   const readiness = getLaunchReadiness();
+  const productionArchitect = getProductionArchitectSummary();
   const pilotPlan = getPilotReadinessPlan();
   const activationPlan = getProductionActivationPlan();
 
@@ -78,6 +82,70 @@ export default async function LaunchPage() {
               <span>URL</span>
               <strong>{readiness.appUrl ? "Configuree" : "Absente"}</strong>
             </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="launch-architect mt-6 rounded-lg border shadow-sm" data-od-id="production-ai-architect">
+        <div className="launch-architect-header">
+          <div>
+            <p className="text-sm font-semibold text-cyan-300">{productionArchitect.headline}</p>
+            <h3>Decider le live avec preuves, pas avec optimisme.</h3>
+            <p>{productionArchitect.thesis}</p>
+          </div>
+          <div className="launch-architect-metrics">
+            <div>
+              <span>Score</span>
+              <strong>{productionArchitect.primaryMetric}</strong>
+            </div>
+            <div>
+              <span>Risque</span>
+              <strong>{productionArchitect.secondaryMetric}</strong>
+            </div>
+          </div>
+        </div>
+
+        <div className="launch-architect-body">
+          <div className="launch-control-links">
+            {productionArchitect.controlLinks.map((link) => (
+              <a href={link.href} key={link.label} rel="noreferrer" target="_blank">
+                <span>{link.detail}</span>
+                <strong>{link.label}</strong>
+                <p>{link.proof}</p>
+              </a>
+            ))}
+          </div>
+
+          <div className="launch-signal-grid">
+            {productionArchitect.signals.map((signal) => (
+              <article className="launch-signal-card" data-status={signal.status} key={signal.label}>
+                <span>{signal.label}</span>
+                <strong>{signal.value}</strong>
+                <p>{signal.action}</p>
+              </article>
+            ))}
+          </div>
+        </div>
+
+        <div className="launch-decision-strip">
+          <div>
+            <span>Prochaine decision</span>
+            <strong>{productionArchitect.nextMove}</strong>
+          </div>
+          <div className="launch-decision-note-grid">
+            {productionArchitect.decisions.map((decision) => (
+              <article className="launch-decision-note" data-decision={decision.decision} key={decision.label}>
+                <span>{decision.trigger}</span>
+                <strong>{decision.label}</strong>
+                <p>{decision.note}</p>
+                <div>
+                  {decision.checklist.map((item) => (
+                    <small key={item}>{item}</small>
+                  ))}
+                </div>
+                <LaunchDecisionCopyButton note={decision.note} />
+              </article>
+            ))}
           </div>
         </div>
       </section>

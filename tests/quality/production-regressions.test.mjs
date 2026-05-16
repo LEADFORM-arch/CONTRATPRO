@@ -718,6 +718,14 @@ describe("production guardrails", () => {
       "GOCARDLESS_ENVIRONMENT",
       "admincairn/CONTRATPRO",
       "getProductionActivationPlan",
+      "getProductionArchitectSummary",
+      "productionControlLinks",
+      "https://supabase.com/dashboard/project/yotafzxcpyyrkkpeyfpp",
+      "https://vercel.com/contratpro?repo=https%3A%2F%2Fgithub.com%2Fadmincairn%2FCONTRATPRO",
+      "Architecte IA production",
+      "LIVE OK",
+      "LIVE PAUSE",
+      "ROLLBACK",
       "ProductionActivationStep",
       "getPilotReadinessPlan",
       "Decision go/no-go",
@@ -728,15 +736,30 @@ describe("production guardrails", () => {
       "getLaunchReadiness",
       "getPilotReadinessPlan",
       "getProductionActivationPlan",
+      "getProductionArchitectSummary",
       "Readiness commerciale",
+      "data-od-id=\"production-ai-architect\"",
+      "Decider le live avec preuves",
       "Activation production live",
       "data-od-id=\"production-live-activation\"",
       "Bloquants avant vente forte",
       "Plan pilote terrain",
     ], "launch admin page");
 
+    assertIncludes(read("src/app/(dashboard)/admin/launch/LaunchDecisionCopyButton.tsx"), [
+      "navigator.clipboard.writeText",
+      "launch-decision-copy",
+      "Copier la decision",
+      "Copie",
+    ], "launch decision copy button");
+
     assertIncludes(read("src/app/globals.css"), [
       ".launch-command",
+      ".launch-architect",
+      ".launch-control-links",
+      ".launch-signal-card",
+      ".launch-decision-note",
+      ".launch-decision-copy",
       ".launch-activation",
       ".launch-activation-card",
       ".launch-check-row",
@@ -811,10 +834,21 @@ describe("production guardrails", () => {
       "Objections a traiter",
       "Fiche de sortie pilote",
       "PilotDecisionCopyButton",
+      "PilotExitNoteBuilder",
       "Decision premium apres rendez-vous",
       "Decision attendue",
       "Vendre / Iterer / Stop",
     ], "pilot admin page");
+
+    assertIncludes(read("src/app/(dashboard)/admin/pilots/PilotExitNoteBuilder.tsx"), [
+      "pilot-exit-builder",
+      "pilot-exit-note-builder",
+      "Nom pilote",
+      "Preuve observee",
+      "Objection bloquante",
+      "Copier la note personnalisee",
+      "navigator.clipboard.writeText",
+    ], "pilot exit note builder");
 
     assertIncludes(read("src/app/(dashboard)/admin/pilots/PilotDecisionCopyButton.tsx"), [
       "navigator.clipboard.writeText",
@@ -836,6 +870,8 @@ describe("production guardrails", () => {
       ".pilot-script-step",
       ".pilot-objection-grid",
       ".pilot-objection-card",
+      ".pilot-exit-builder",
+      ".pilot-exit-note",
       ".pilot-decision-note-grid",
       ".pilot-decision-note",
       ".pilot-decision-copy",

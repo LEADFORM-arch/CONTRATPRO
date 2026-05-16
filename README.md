@@ -159,6 +159,10 @@ live, smoke tests et rollback. Le cockpit `/admin/launch` affiche aussi la
 sequence "Activation production live" pour eviter tout lancement client sans
 preuves operationnelles.
 
+Le meme cockpit contient maintenant un panneau "Architecte IA production" :
+liens de controle Supabase/Vercel/GitHub, signaux live, decision conseillee et
+notes copiables `LIVE OK`, `LIVE PAUSE` ou `ROLLBACK`.
+
 ## Priorite 6 - Cron relances quotidiennes
 
 Variable a ajouter dans `.env.local` :

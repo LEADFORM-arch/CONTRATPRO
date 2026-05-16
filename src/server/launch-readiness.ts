@@ -32,6 +32,60 @@ export type ProductionActivationStep = {
   risk: "low" | "medium" | "high";
 };
 
+export type ProductionControlLink = {
+  detail: string;
+  href: string;
+  label: string;
+  proof: string;
+};
+
+export type ProductionArchitectSignal = {
+  action: string;
+  label: string;
+  status: LaunchStatus;
+  value: string;
+};
+
+export type ProductionArchitectDecision = {
+  checklist: string[];
+  decision: "live-ok" | "live-pause" | "rollback";
+  label: string;
+  note: string;
+  trigger: string;
+};
+
+export type ProductionArchitectSummary = {
+  controlLinks: ProductionControlLink[];
+  decisions: ProductionArchitectDecision[];
+  headline: string;
+  nextMove: string;
+  primaryMetric: string;
+  secondaryMetric: string;
+  signals: ProductionArchitectSignal[];
+  thesis: string;
+};
+
+export const productionControlLinks: ProductionControlLink[] = [
+  {
+    detail: "Projet Supabase officiel",
+    href: "https://supabase.com/dashboard/project/yotafzxcpyyrkkpeyfpp",
+    label: "Supabase RLS + backup",
+    proof: "verify_rls.sql en OK, backup connu, service role jamais expose.",
+  },
+  {
+    detail: "Import/deploiement Vercel",
+    href: "https://vercel.com/contratpro?repo=https%3A%2F%2Fgithub.com%2Fadmincairn%2FCONTRATPRO",
+    label: "Vercel production",
+    proof: "Build vert, variables production presentes, cron visible.",
+  },
+  {
+    detail: "Depot source officiel",
+    href: "https://github.com/admincairn/CONTRATPRO",
+    label: "GitHub release",
+    proof: "Commit note, CI verte, rollback sur deployment precedent.",
+  },
+];
+
 function env(name: string) {
   const value = process.env[name]?.trim();
   if (!value || ["[]", "{}", "\"\"", "''"].includes(value)) {
@@ -217,6 +271,99 @@ export function getLaunchReadiness() {
     score,
     sections,
     status,
+  };
+}
+
+export function getProductionArchitectSummary(): ProductionArchitectSummary {
+  const readiness = getLaunchReadiness();
+  const stripeReady = has("STRIPE_SECRET_KEY") && has("STRIPE_WEBHOOK_SECRET") && hasStripePrices();
+  const sepaReady = has("GOCARDLESS_ACCESS_TOKEN") && env("GOCARDLESS_ENVIRONMENT") === "live";
+  const emailReady = has("RESEND_API_KEY") && has("RESEND_FROM_EMAIL");
+  const cronReady = has("CRON_SECRET") || has("CONTRATPRO_CRON_SECRET");
+
+  const signals: ProductionArchitectSignal[] = [
+    {
+      action: "Executer supabase/verify_rls.sql et garder la capture OK.",
+      label: "Supabase tenant",
+      status: isRlsExpected() ? "ready" : "critical",
+      value: isRlsExpected() ? "RLS attendu" : "RLS non confirme",
+    },
+    {
+      action: "Verifier les variables Vercel et deploy:preflight avant domaine final.",
+      label: "Vercel secrets",
+      status: readiness.blockers.length ? "critical" : readiness.status,
+      value: readiness.appUrl ? "URL configuree" : "URL absente",
+    },
+    {
+      action: "Brancher Stripe live, Resend domaine et GoCardless live avant vente large.",
+      label: "Providers cash-flow",
+      status: stripeReady && sepaReady && emailReady ? "ready" : "warning",
+      value: `${[stripeReady, sepaReady, emailReady].filter(Boolean).length}/3 prets`,
+    },
+    {
+      action: "Confirmer cron, smoke authentifie et URL Vercel precedente.",
+      label: "Rollback pilote",
+      status: cronReady ? "ready" : "warning",
+      value: cronReady ? "Cron protege" : "Cron a verrouiller",
+    },
+  ];
+
+  const decisionLabel =
+    readiness.status === "ready" ? "LIVE OK" : readiness.status === "warning" ? "LIVE PAUSE" : "ROLLBACK";
+  const decisionReason =
+    readiness.status === "ready"
+      ? "score go-live suffisant, aucun bloquant critique et providers controles"
+      : readiness.status === "warning"
+        ? "lancement pilote possible seulement avec surveillance et points ouverts ecrits"
+        : "bloquants critiques encore presents avant vrais clients";
+
+  return {
+    controlLinks: productionControlLinks,
+    decisions: [
+      {
+        checklist: [
+          "CI locale et GitHub vertes.",
+          "Supabase RLS OK + backup connu.",
+          "Smokes public et authentifie valides.",
+        ],
+        decision: "live-ok",
+        label: "LIVE OK",
+        note:
+          "Decision: LIVE OK. ContratPro peut ouvrir un pilote client controle: CI verte, Supabase RLS OK, Vercel configure, providers critiques verifies et rollback documente.",
+        trigger: "Aucun bloquant critique",
+      },
+      {
+        checklist: [
+          "Un ou plusieurs signaux restent en warning.",
+          "Le pilote peut continuer sans encaissement risque.",
+          "Le prochain controle est date et attribue.",
+        ],
+        decision: "live-pause",
+        label: "LIVE PAUSE",
+        note:
+          "Decision: LIVE PAUSE. ContratPro reste exploitable en pilote accompagne, mais la vente large attend la fermeture des warnings Vercel, providers, cron ou smoke authentifie.",
+        trigger: "Lancement controle seulement",
+      },
+      {
+        checklist: [
+          "Un bloquant critique touche auth, RLS, billing ou provider.",
+          "La preuve de rollback n'est pas disponible.",
+          "Aucun nouveau pilote n'est invite.",
+        ],
+        decision: "rollback",
+        label: "ROLLBACK",
+        note:
+          "Decision: ROLLBACK. Ne pas inviter de pilote payant: bloquant critique sur securite, base, provider ou deploiement. Revenir au deployment stable puis reprendre la checklist live.",
+        trigger: "Risque production",
+      },
+    ],
+    headline: "Architecte IA production",
+    nextMove: `Decision conseillee: ${decisionLabel}. Raison: ${decisionReason}.`,
+    primaryMetric: `${readiness.score}/100`,
+    secondaryMetric: `${readiness.blockers.length} bloquant(s)`,
+    signals,
+    thesis:
+      "Ne pas confondre deploiement et mise en vente. Le live n'est autorise que si Supabase isole, Vercel deploie, les providers encaissent proprement et le rollback est arme.",
   };
 }
 

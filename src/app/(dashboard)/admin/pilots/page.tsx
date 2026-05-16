@@ -3,6 +3,7 @@ import { requireAdminUser } from "@/server/admin";
 import { getPilotScorecard } from "@/server/pilot-scorecard";
 
 import { PilotDecisionCopyButton } from "./PilotDecisionCopyButton";
+import { PilotExitNoteBuilder } from "./PilotExitNoteBuilder";
 
 export default async function AdminPilotsPage() {
   const admin = await requireAdminUser("/admin/pilots");
@@ -206,6 +207,7 @@ export default async function AdminPilotsPage() {
           </div>
           <StatusPill>3 issues</StatusPill>
         </div>
+        <PilotExitNoteBuilder />
         <div className="pilot-decision-note-grid">
           {scorecard.decisionNotes.map((decision) => (
             <article className="pilot-decision-note" data-decision={decision.decision} key={decision.label}>

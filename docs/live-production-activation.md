@@ -41,6 +41,12 @@ Bloquant si une politique RLS echoue.
 
 ## 3. Variables Vercel production
 
+Dashboard Vercel :
+
+```text
+https://vercel.com/contratpro?repo=https%3A%2F%2Fgithub.com%2Fadmincairn%2FCONTRATPRO
+```
+
 Executer :
 
 ```bash
@@ -138,3 +144,7 @@ LIVE OK / LIVE PAUSE / ROLLBACK
 
 Ne choisir `LIVE OK` que si smoke public, smoke authentifie, RLS et webhooks
 critiques sont verifies.
+
+Le panneau `/admin/launch` "Architecte IA production" centralise les liens de
+controle Supabase, Vercel et GitHub, puis produit une note copiable pour figer
+la decision avant d'inviter un pilote payant.
