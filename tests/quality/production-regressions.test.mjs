@@ -1218,11 +1218,21 @@ describe("production guardrails", () => {
       "Importer contrats",
     ], "renewals empty state actions");
 
+    assertIncludes(read("src/app/(dashboard)/payments/page.tsx"), [
+      "data-od-id=\"payment-cash-command\"",
+      "Commande cash-flow",
+      "Action prioritaire",
+      "Corriger le rejet",
+      "Creer un paiement",
+    ], "payments cash command");
+
     assertIncludes(read("src/app/globals.css"), [
       ".activation-empty-state",
       ".activation-empty-actions",
       ".contract-portfolio-command",
       ".contract-portfolio-decision",
+      ".payment-command-panel",
+      ".payment-command-decision",
     ], "activation empty state styles");
   });
 });

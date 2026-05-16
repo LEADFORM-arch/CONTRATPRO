@@ -28,8 +28,30 @@ export default async function PaymentsPage() {
     (sum, payment) => sum + payment.amount,
     0,
   );
+  const amountFailed = failed.reduce((sum, payment) => sum + payment.amount, 0);
   const collectionRate =
     payments.length > 0 ? Math.round((confirmed.length / payments.length) * 100) : 0;
+  const nextPayment = failed[0] ?? pending[0] ?? payments[0];
+  const cashCommand = failed.length
+    ? {
+        action: "Corriger le rejet",
+        detail: `${failed.length} rejet(s), ${formatEuro(amountFailed)} a recuperer avant perte client.`,
+        label: "Incident cash-flow",
+        tone: "rose" as const,
+      }
+    : pending.length
+      ? {
+          action: "Soumettre les prelevements",
+          detail: `${pending.length} paiement(s), ${formatEuro(amountToCollect)} en cours d'encaissement.`,
+          label: "Cash a encaisser",
+          tone: "amber" as const,
+        }
+      : {
+          action: "Controler les mandats",
+          detail: "Aucun incident actif. Gardez les mandats alignes avec les contrats a renouveler.",
+          label: "Encaissement stable",
+          tone: "emerald" as const,
+        };
 
   return (
     <AppShell activePath="/payments">
@@ -47,9 +69,31 @@ export default async function PaymentsPage() {
         title="Paiements et mandats SEPA"
       />
 
+      <section className="payment-command-panel mt-6" data-od-id="payment-cash-command">
+        <div className="payment-command-brief">
+          <p>Commande cash-flow</p>
+          <h2>{cashCommand.label}</h2>
+          <span>{cashCommand.detail}</span>
+        </div>
+        <div className="payment-command-decision" data-tone={cashCommand.tone}>
+          <small>Action prioritaire</small>
+          <strong>{cashCommand.action}</strong>
+          {nextPayment ? (
+            <span>
+              {nextPayment.customer} - {formatEuro(nextPayment.amount)} - {nextPayment.status}
+            </span>
+          ) : (
+            <span>Creer un premier paiement pour alimenter le cockpit.</span>
+          )}
+          <a className="premium-action rounded-md text-sm font-semibold" href={nextPayment?.contractId ? `/contracts/${nextPayment.contractId}` : "/payments/new"}>
+            Ouvrir le dossier
+          </a>
+        </div>
+      </section>
+
       <div className="mt-6 grid gap-3 md:grid-cols-4">
         <article className="payment-stat-card" data-tone="cyan">
-          <p className="text-xs font-medium uppercase tracking-wide text-zinc-500">
+          <p className="text-xs font-medium uppercase tracking-wide text-zinc-400">
             Paiements suivis
           </p>
           <strong className="mt-3 block text-3xl font-semibold text-zinc-50">
@@ -58,7 +102,7 @@ export default async function PaymentsPage() {
           <p className="mt-2 text-sm text-zinc-400">Echeances en portefeuille</p>
         </article>
         <article className="payment-stat-card" data-tone="amber">
-          <p className="text-xs font-medium uppercase tracking-wide text-zinc-500">
+          <p className="text-xs font-medium uppercase tracking-wide text-zinc-400">
             A encaisser
           </p>
           <strong className="mt-3 block text-3xl font-semibold text-zinc-50">
@@ -67,7 +111,7 @@ export default async function PaymentsPage() {
           <p className="mt-2 text-sm text-zinc-400">Prelevements en cours</p>
         </article>
         <article className="payment-stat-card" data-tone="emerald">
-          <p className="text-xs font-medium uppercase tracking-wide text-zinc-500">
+          <p className="text-xs font-medium uppercase tracking-wide text-zinc-400">
             Confirme
           </p>
           <strong className="mt-3 block text-3xl font-semibold text-zinc-50">
@@ -78,13 +122,13 @@ export default async function PaymentsPage() {
           </p>
         </article>
         <article className="payment-stat-card" data-tone="rose">
-          <p className="text-xs font-medium uppercase tracking-wide text-zinc-500">
+          <p className="text-xs font-medium uppercase tracking-wide text-zinc-400">
             Rejets
           </p>
           <strong className="mt-3 block text-3xl font-semibold text-zinc-50">
             {failed.length}
           </strong>
-          <p className="mt-2 text-sm text-zinc-400">Relances a securiser</p>
+          <p className="mt-2 text-sm text-zinc-400">{formatEuro(amountFailed)} a recuperer</p>
         </article>
       </div>
 
