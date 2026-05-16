@@ -151,6 +151,16 @@ centralise la scorecard a utiliser pendant chaque rendez-vous. Cette page
 embarque un bloc "Architecte IA pilote" qui force la decision premium :
 vendre, iterer ou stopper avant d'ajouter une nouvelle feature.
 
+## Skill admin - Prospection Facebook
+
+Le dossier `docs/skill-prospection-facebook/` contient le mode d'emploi complet
+du skill de prospection admin : routine quotidienne, templates copier-coller,
+prompts Codex, cadence editoriale et scorecard KPI 90 jours.
+
+Le cockpit `/admin/prospection` expose aussi le panneau "Architecte IA prospection Facebook"
+pour copier les premiers DMs/posts et piloter les actions sans attendre Resend
+ni GoCardless.
+
 ## Priorite 5d - Activation production live
 
 Le runbook `docs/live-production-activation.md` formalise le passage live :

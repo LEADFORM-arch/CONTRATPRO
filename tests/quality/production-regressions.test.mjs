@@ -109,6 +109,49 @@ describe("production guardrails", () => {
       "data-od-id=\"facebook-prospection-skill\"",
     ], "admin sales command queue");
 
+    assert.ok(
+      existsSync(pathOf("docs/skill-prospection-facebook/README.md")),
+      "prospection skill manual should exist",
+    );
+
+    assertIncludes(read("docs/skill-prospection-facebook/README.md"), [
+      "/admin/prospection",
+      "Architecte IA prospection Facebook",
+      "mode-emploi.md",
+      "templates-copier-coller.md",
+      "kpi-scorecard.md",
+    ], "prospection skill manual");
+
+    assertIncludes(read("docs/skill-prospection-facebook/mode-emploi.md"), [
+      "Routine quotidienne",
+      "Garder l'angle",
+      "Couper si",
+    ], "prospection skill operating guide");
+
+    assertIncludes(read("docs/skill-prospection-facebook/templates-copier-coller.md"), [
+      "DM froid",
+      "Post probleme -> solution",
+      "Message apres reponse positive",
+    ], "prospection skill templates");
+
+    assertIncludes(read("docs/skill-prospection-facebook/prompts-codex.md"), [
+      "Generer un DM froid",
+      "Construire une semaine editoriale",
+      "Analyser une semaine",
+    ], "prospection skill codex prompts");
+
+    assertIncludes(read("docs/skill-prospection-facebook/kpi-scorecard.md"), [
+      "KPI scorecard 90 jours",
+      "Lecture Architecte IA",
+      "Decision : vendre / iterer / couper",
+    ], "prospection skill KPI scorecard");
+
+    assertIncludes(read("README.md"), [
+      "docs/skill-prospection-facebook/",
+      "Skill admin - Prospection Facebook",
+      "Architecte IA prospection Facebook",
+    ], "prospection skill README");
+
     assertIncludes(read("src/server/contratpro-data.ts"), [
       "source_url",
       "leadAttributionLabel",
