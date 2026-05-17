@@ -894,6 +894,30 @@ describe("production guardrails", () => {
     ], "dashboard error styles");
   });
 
+  it("keeps client security and payment trust readable without exposing provider keys", () => {
+    assertIncludes(read("src/app/(dashboard)/settings/security/page.tsx"), [
+      "Securite et paiements",
+      "client-security-trust",
+      "Cles API masquees",
+      "Comment circule un paiement SEPA",
+      "Vous n'avez pas a creer de compte technique GoCardless",
+      "L'encaissement SEPA live reste soumis a validation juridique",
+      "Auditabilite",
+      "Diagnostic admin",
+      "currentAdmin ?",
+      "Variables serveur",
+    ], "client security trust page");
+
+    assertIncludes(read("src/app/globals.css"), [
+      ".trust-command",
+      ".trust-pillar-grid",
+      ".payment-trust-panel",
+      ".payment-assurance-panel",
+      ".trust-audit-panel",
+      ".admin-security-diagnostics",
+    ], "client security trust styles");
+  });
+
   it("keeps founder go-live readiness visible before commercial launch", () => {
     assertIncludes(read("src/server/launch-readiness.ts"), [
       "STRIPE_SECRET_KEY",

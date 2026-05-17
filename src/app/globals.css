@@ -1952,6 +1952,9 @@ body .hover\:bg-zinc-100:hover {
   .home-final-cta,
   .simulator-next-step,
   .simulator-proof-grid,
+  .trust-command,
+  .trust-pillar-grid,
+  .trust-audit-grid,
   .pilot-handoff-grid,
   .seo-source-grid,
   .seo-check-grid,
@@ -6071,6 +6074,219 @@ body .hover\:bg-zinc-100:hover {
   border: 1px solid rgba(255, 255, 255, 0.07);
   border-radius: 0.375rem;
   padding: 0.75rem;
+}
+
+.trust-command,
+.payment-trust-panel,
+.payment-assurance-panel,
+.trust-audit-panel,
+.admin-security-diagnostics {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.038), rgba(255, 255, 255, 0.014)),
+    #111316;
+  border-color: rgba(255, 255, 255, 0.08);
+  box-shadow: 0 18px 44px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+  position: relative;
+}
+
+.trust-command {
+  align-items: stretch;
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: minmax(0, 1fr) minmax(15rem, 0.34fr);
+}
+
+.trust-command::before,
+.payment-trust-panel::before,
+.payment-assurance-panel::before,
+.trust-audit-panel::before,
+.admin-security-diagnostics::before {
+  background: linear-gradient(90deg, #34d399, #38bdf8 55%, #f59e0b);
+  content: "";
+  height: 3px;
+  inset: 0 0 auto;
+  position: absolute;
+}
+
+.trust-command-copy h3,
+.payment-trust-panel h3,
+.payment-assurance-panel h3,
+.trust-audit-panel h3,
+.admin-security-diagnostics h3 {
+  color: #f4f4f5;
+  font-size: 1.05rem;
+  font-weight: 800;
+  line-height: 1.3;
+}
+
+.trust-command-copy h3 {
+  font-size: 1.55rem;
+  margin-top: 0.45rem;
+  max-width: 54rem;
+}
+
+.trust-command-copy p:last-child {
+  color: #d4d4d8;
+  font-size: 0.94rem;
+  line-height: 1.65;
+  margin-top: 0.75rem;
+  max-width: 56rem;
+}
+
+.trust-command-status {
+  background:
+    linear-gradient(135deg, rgba(52, 211, 153, 0.1), rgba(56, 189, 248, 0.055)),
+    rgba(4, 6, 8, 0.44);
+  border: 1px solid rgba(52, 211, 153, 0.18);
+  border-radius: 0.65rem;
+  display: grid;
+  gap: 0.35rem;
+  padding: 1rem;
+}
+
+.trust-command-status span,
+.trust-command-status strong,
+.trust-command-status em {
+  display: block;
+}
+
+.trust-command-status span {
+  color: #67e8f9;
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.trust-command-status strong {
+  color: #f4f4f5;
+  font-size: 1.15rem;
+}
+
+.trust-command-status em {
+  color: #bbf7d0;
+  font-size: 0.82rem;
+  font-style: normal;
+}
+
+.trust-pillar-grid {
+  display: grid;
+  gap: 0.9rem;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.trust-pillar-card {
+  background: rgba(4, 6, 8, 0.42);
+  border: 1px solid rgba(255, 255, 255, 0.075);
+  border-radius: 0.65rem;
+  padding: 1rem;
+}
+
+.trust-pillar-card span {
+  color: #67e8f9;
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.trust-pillar-card h3 {
+  color: #f4f4f5;
+  font-size: 1rem;
+  font-weight: 800;
+  margin-top: 0.55rem;
+}
+
+.trust-pillar-card p {
+  color: #d4d4d8;
+  font-size: 0.84rem;
+  line-height: 1.55;
+  margin-top: 0.5rem;
+}
+
+.trust-section-header {
+  align-items: flex-start;
+  display: flex;
+  gap: 1rem;
+  justify-content: space-between;
+}
+
+.payment-flow {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.payment-flow-step {
+  align-items: flex-start;
+  background: rgba(0, 0, 0, 0.18);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 0.55rem;
+  display: flex;
+  gap: 0.8rem;
+  padding: 0.85rem;
+}
+
+.payment-flow-step > strong {
+  align-items: center;
+  background: rgba(52, 211, 153, 0.12);
+  border: 1px solid rgba(52, 211, 153, 0.2);
+  border-radius: 999px;
+  color: #86efac;
+  display: inline-flex;
+  flex: 0 0 auto;
+  font-size: 0.78rem;
+  height: 1.8rem;
+  justify-content: center;
+  width: 1.8rem;
+}
+
+.payment-flow-step span {
+  color: #f4f4f5;
+  display: block;
+  font-size: 0.92rem;
+  font-weight: 800;
+}
+
+.payment-flow-step p,
+.payment-assurance-panel p,
+.trust-audit-grid span {
+  color: #d4d4d8;
+  font-size: 0.84rem;
+  line-height: 1.55;
+  margin-top: 0.25rem;
+}
+
+.assurance-list {
+  display: grid;
+  gap: 0.7rem;
+}
+
+.assurance-list p {
+  background: rgba(245, 158, 11, 0.075);
+  border: 1px solid rgba(245, 158, 11, 0.14);
+  border-radius: 0.5rem;
+  margin: 0;
+  padding: 0.75rem;
+}
+
+.trust-audit-grid {
+  display: grid;
+  gap: 0.75rem;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.trust-audit-grid article {
+  background: rgba(15, 23, 42, 0.32);
+  border: 1px solid rgba(56, 189, 248, 0.1);
+  border-radius: 0.5rem;
+  padding: 0.8rem;
+}
+
+.trust-audit-grid strong {
+  color: #f4f4f5;
+  display: block;
+  font-size: 0.9rem;
 }
 
 .activation-empty-state {

@@ -1,5 +1,5 @@
 import { AppShell, PageHeader, StatusPill } from "@/components/layout/AppShell";
-import { getCurrentAdminUser, getAdminEmails } from "@/server/admin";
+import { getAdminEmails, getCurrentAdminUser } from "@/server/admin";
 import { getCurrentUser } from "@/server/auth";
 import {
   getCurrentOrganizationId,
@@ -10,58 +10,55 @@ import {
 
 import { LogoutButton } from "./LogoutButton";
 
-const checklist = [
+const trustPillars = [
   {
-    label: "Schema initial",
-    detail: "supabase/schema.sql execute",
-    status: "Fait",
+    detail:
+      "Chaque entreprise travaille dans son propre espace. Les clients, contrats, factures, attestations et paiements restent rattaches a votre organisation.",
+    label: "Espace entreprise isole",
+    proof: "Organisation dediee",
   },
   {
-    label: "Seeds demo",
-    detail: "supabase/seed.sql execute pour la validation locale",
-    status: "Fait",
+    detail:
+      "Les documents envoyes et les actions sensibles sont historises afin de garder une preuve exploitable en cas de question client.",
+    label: "Documents tracables",
+    proof: "Historique d'envoi",
   },
   {
-    label: "Relances",
-    detail: "supabase/renewal_actions.sql execute",
-    status: "A verifier",
+    detail:
+      "Les paiements SEPA passent par une integration serveur. Les cles provider ne sont jamais affichees dans votre espace client.",
+    label: "Cles API masquees",
+    proof: "Serveur uniquement",
   },
   {
-    label: "Acquisition interne",
-    detail: "supabase/prospection.sql execute",
-    status: "A verifier",
-  },
-  {
-    label: "Documents",
-    detail: "supabase/document_sends.sql execute pour historiser les envois",
-    status: "A verifier",
-  },
-  {
-    label: "Encaissement SEPA",
-    detail: "supabase/payment_events.sql execute pour tracer GoCardless",
-    status: "A verifier",
-  },
-  {
-    label: "Billing ContratPro",
-    detail: "supabase/billing.sql execute pour Stripe",
-    status: "A verifier",
-  },
-  {
-    label: "Notifications",
-    detail: "supabase/notifications.sql execute pour les alertes internes",
-    status: "A verifier",
-  },
-  {
-    label: "Imports",
-    detail: "supabase/import_logs.sql execute pour tracer les imports Excel/CSV",
-    status: "A verifier",
-  },
-  {
-    label: "RLS multi-tenant",
-    detail: "supabase/rls.sql execute apres les scripts metier",
-    status: "A faire",
+    detail:
+      "Les incidents de paiement, webhooks et notifications internes sont journalises pour eviter qu'un rejet SEPA reste invisible.",
+    label: "Surveillance active",
+    proof: "Journal paiement",
   },
 ];
+
+const paymentFlow = [
+  ["1", "Contrat", "Le contrat annuel porte le montant, l'echeance et le mode de paiement."],
+  ["2", "Mandat", "Le mandat SEPA relie le client final au contrat de maintenance."],
+  ["3", "Soumission", "ContratPro soumet le paiement au provider depuis le serveur."],
+  ["4", "Suivi", "Chaque retour provider alimente le journal et les alertes."],
+];
+
+const clientAssurances = [
+  "Vous n'avez pas a creer de compte technique GoCardless, Resend ou Stripe pour utiliser ContratPro.",
+  "Les identifiants provider sont configures cote ContratPro et ne sont jamais exposes dans l'interface.",
+  "Les fonds et les statuts de paiement doivent rester auditables via les journaux separes.",
+  "L'encaissement SEPA live reste soumis a validation juridique et activation controlee.",
+];
+
+const adminChecklist = [
+  ["Schema initial", "supabase/schema.sql execute", "Fait"],
+  ["Documents", "supabase/document_sends.sql execute pour historiser les envois", "A verifier"],
+  ["Encaissement SEPA", "supabase/payment_events.sql execute pour tracer GoCardless", "A verifier"],
+  ["Billing ContratPro", "supabase/billing.sql execute pour Stripe", "A verifier"],
+  ["Notifications", "supabase/notifications.sql execute pour les alertes internes", "A verifier"],
+  ["RLS multi-tenant", "supabase/rls.sql execute puis verify_rls.sql", "A faire"],
+] as const;
 
 export default async function SecuritySettingsPage() {
   const userPromise = getCurrentUser();
@@ -71,11 +68,10 @@ export default async function SecuritySettingsPage() {
   const demoTenant = isDemoTenant();
   const localVercelEnv = process.env.VERCEL_ENV ?? "";
   const localNodeEnv = process.env.NODE_ENV ?? "";
-  const envGuardReady =
-    organizationId !== "org_demo" && localVercelEnv !== "production";
   const currentUser = await userPromise;
   const currentAdmin = await getCurrentAdminUser();
   const adminEmails = [...getAdminEmails()].join(", ");
+  const envGuardReady = organizationId !== "org_demo" && localVercelEnv !== "production";
 
   return (
     <AppShell activePath="/settings/security" showInternalTools={Boolean(currentAdmin)}>
@@ -88,194 +84,215 @@ export default async function SecuritySettingsPage() {
             Identite entreprise
           </a>
         }
-        description="Controlez le tenant courant, le mode demo, les scripts Supabase a executer et les garde-fous avant production."
-        eyebrow="Production"
-        title="Securite, documents et multi-tenant"
+        description="Comprendre comment ContratPro protege vos contrats, vos documents et vos paiements recurrents sans exposer de cles techniques."
+        eyebrow="Confiance"
+        title="Securite et paiements"
       />
 
-      <div className="mt-6 grid gap-4 md:grid-cols-4">
-        {[
-          ["Organisation", organizationId],
-          ["Mode demo", demoTenant ? "Actif" : "Desactive"],
-          ["Auth requise", authEnforced ? "Oui" : "Non"],
-          ["Admin", currentAdmin ? "Oui" : "Non"],
-        ].map(([label, value], index) => (
-          <article
-            className="security-stat-card"
-            data-tone={["cyan", "amber", "emerald", "rose"][index]}
-            key={label}
-          >
-            <p className="text-xs font-medium uppercase tracking-wide text-zinc-500">
-              {label}
-            </p>
-            <strong className="mt-3 block break-all text-xl font-semibold text-zinc-50">
-              {value}
-            </strong>
-          </article>
-        ))}
-      </div>
-
-      <section
-        className="security-env-guard mt-6 rounded-lg border p-4"
-        data-ready={envGuardReady}
-      >
-        <div>
+      <section className="trust-command mt-6 rounded-lg border p-5" data-od-id="client-security-trust">
+        <div className="trust-command-copy">
           <p className="text-xs font-semibold uppercase tracking-wide text-emerald-300">
-            Garde-fou environnement
+            Synthese dirigeant
           </p>
-          <h3 className="mt-1 text-base font-semibold text-zinc-50">
-            Local sain avant demonstration
-          </h3>
-          <p className="mt-2 text-sm leading-6 text-zinc-400">
-            `npm run dev` execute `npm run env:guard` avant Next.js. Il bloque
-            un demarrage local si `.env.local` contient `VERCEL_ENV=production`
-            ou un tenant `org_demo`.
+          <h3>Vos contrats restent dans un espace isole. Les providers restent cote ContratPro.</h3>
+          <p>
+            Le chauffagiste utilise le produit, pas l'infrastructure. Les emails,
+            documents et paiements sont operes par le serveur ContratPro, avec
+            journaux et alertes pour garder une trace claire.
           </p>
         </div>
-        <dl className="mt-4 grid gap-3 text-sm md:grid-cols-3">
-          <div>
-            <dt className="text-zinc-500">VERCEL_ENV local</dt>
-            <dd className="font-semibold text-zinc-50">
-              {localVercelEnv || "Non defini"}
-            </dd>
-          </div>
-          <div>
-            <dt className="text-zinc-500">NODE_ENV</dt>
-            <dd className="font-semibold text-zinc-50">{localNodeEnv || "-"}</dd>
-          </div>
-          <div>
-            <dt className="text-zinc-500">Commande</dt>
-            <dd className="font-semibold text-zinc-50">npm run env:guard</dd>
-          </div>
-        </dl>
+        <div className="trust-command-status">
+          <span>Mode actuel</span>
+          <strong>{demoTenant ? "Demo controlee" : "Espace entreprise"}</strong>
+          <em>{authEnforced ? "Connexion requise" : "Mode demonstration local"}</em>
+        </div>
       </section>
 
-      <section className="mt-6 grid gap-6 lg:grid-cols-[1fr_360px]">
-        <article className="settings-panel rounded-lg border p-5 shadow-sm">
-          <h3 className="text-base font-semibold text-zinc-50">
-            Checklist production
-          </h3>
-          <div className="facebook-groups mt-4 divide-y rounded-lg border">
-            {checklist.map((item) => (
-              <div
-                className="facebook-group-row flex items-center justify-between gap-4 px-4 py-3"
-                key={item.label}
-              >
+      <section className="trust-pillar-grid mt-5">
+        {trustPillars.map((item) => (
+          <article className="trust-pillar-card" key={item.label}>
+            <span>{item.proof}</span>
+            <h3>{item.label}</h3>
+            <p>{item.detail}</p>
+          </article>
+        ))}
+      </section>
+
+      <section className="mt-5 grid gap-5 xl:grid-cols-[1.05fr_0.95fr]">
+        <article className="payment-trust-panel rounded-lg border p-5">
+          <div className="trust-section-header">
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-wide text-cyan-300">
+                Paiements recurrents
+              </p>
+              <h3>Comment circule un paiement SEPA</h3>
+            </div>
+            <StatusPill>Controle serveur</StatusPill>
+          </div>
+          <div className="payment-flow mt-4">
+            {paymentFlow.map(([step, label, detail]) => (
+              <div className="payment-flow-step" key={step}>
+                <strong>{step}</strong>
                 <div>
-                  <p className="font-medium text-zinc-50">{item.label}</p>
-                  <p className="mt-1 text-sm text-zinc-500">{item.detail}</p>
+                  <span>{label}</span>
+                  <p>{detail}</p>
                 </div>
-                <StatusPill>{item.status}</StatusPill>
               </div>
             ))}
           </div>
         </article>
 
-        <aside className="settings-side-panel rounded-lg border p-5 shadow-sm">
-          <div className="flex items-start justify-between gap-3">
-            <div>
-              <h3 className="text-base font-semibold text-zinc-50">Session</h3>
-              <p className="mt-1 text-sm text-zinc-500">
-                {currentUser?.email ?? "Aucun utilisateur connecte"}
-              </p>
-            </div>
-            {currentUser ? (
-              <LogoutButton />
-            ) : (
-              <a
-                className="premium-secondary-action rounded-md px-3 py-2 text-sm font-semibold"
-                href="/login"
-              >
-                Connexion
-              </a>
-            )}
+        <aside className="payment-assurance-panel rounded-lg border p-5">
+          <p className="text-xs font-semibold uppercase tracking-wide text-amber-300">
+            Important
+          </p>
+          <h3>Ce qui est cache au client, ce qui reste a valider</h3>
+          <div className="assurance-list mt-4">
+            {clientAssurances.map((item) => (
+              <p key={item}>{item}</p>
+            ))}
           </div>
-
-          <h3 className="mt-6 text-base font-semibold text-zinc-50">
-            Variables recommandees
-          </h3>
-          <dl className="mt-4 space-y-3 text-sm">
-            <div>
-              <dt className="text-zinc-500">CONTRATPRO_ORG_ID</dt>
-              <dd className="font-semibold text-zinc-50">
-                Tenant courant cote serveur
-              </dd>
-            </div>
-            <div>
-              <dt className="text-zinc-500">CONTRATPRO_REQUIRE_AUTH</dt>
-              <dd className="font-semibold text-zinc-50">true en production</dd>
-            </div>
-            <div>
-              <dt className="text-zinc-500">CONTRATPRO_RLS_ENABLED</dt>
-              <dd className="font-semibold text-zinc-50">true apres rls.sql</dd>
-            </div>
-            <div>
-              <dt className="text-zinc-500">CONTRATPRO_ADMIN_EMAILS</dt>
-              <dd className="font-semibold text-zinc-50">{adminEmails}</dd>
-            </div>
-            <div>
-              <dt className="text-zinc-500">CONTRATPRO_NOTIFICATION_EMAILS</dt>
-              <dd className="font-semibold text-zinc-50">
-                Destinataires alertes internes
-              </dd>
-            </div>
-            <div>
-              <dt className="text-zinc-500">SUPABASE_SERVICE_ROLE_KEY</dt>
-              <dd className="font-semibold text-zinc-50">Serveur uniquement</dd>
-            </div>
-            <div>
-              <dt className="text-zinc-500">RESEND_API_KEY</dt>
-              <dd className="font-semibold text-zinc-50">
-                Requis pour envoyer factures et attestations
-              </dd>
-            </div>
-            <div>
-              <dt className="text-zinc-500">RESEND_FROM_EMAIL</dt>
-              <dd className="font-semibold text-zinc-50">
-                Expediteur documents client
-              </dd>
-            </div>
-            <div>
-              <dt className="text-zinc-500">GOCARDLESS_ACCESS_TOKEN</dt>
-              <dd className="font-semibold text-zinc-50">
-                Requis pour soumettre les prelevements
-              </dd>
-            </div>
-            <div>
-              <dt className="text-zinc-500">GOCARDLESS_ENVIRONMENT</dt>
-              <dd className="font-semibold text-zinc-50">
-                sandbox en test, live en production
-              </dd>
-            </div>
-            <div>
-              <dt className="text-zinc-500">GOCARDLESS_WEBHOOK_ENDPOINT_SECRET</dt>
-              <dd className="font-semibold text-zinc-50">
-                Requis pour verifier les webhooks
-              </dd>
-            </div>
-          </dl>
         </aside>
       </section>
 
-      <section className="settings-panel mt-6 rounded-lg border p-5 shadow-sm">
-        <h3 className="text-base font-semibold text-zinc-50">
-          Ordre SQL recommande
-        </h3>
-        <pre className="mt-4 overflow-x-auto rounded-md bg-zinc-950 p-4 text-xs leading-6 text-zinc-100">
+      <section className="trust-audit-panel mt-5 rounded-lg border p-5">
+        <div className="trust-section-header">
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-wide text-emerald-300">
+              Auditabilite
+            </p>
+            <h3>Les preuves disponibles dans ContratPro</h3>
+          </div>
+          <StatusPill>Journaux separes</StatusPill>
+        </div>
+        <div className="trust-audit-grid mt-4">
+          {[
+            ["Documents", "Historique des factures et attestations envoyees."],
+            ["Paiements", "Evenements provider, statuts et motifs de rejet."],
+            ["Notifications", "Alertes internes sur incidents critiques."],
+            ["Imports", "Simulation et execution des fichiers clients."],
+          ].map(([label, detail]) => (
+            <article key={label}>
+              <strong>{label}</strong>
+              <span>{detail}</span>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      {currentAdmin ? (
+        <section className="admin-security-diagnostics mt-6 rounded-lg border p-5">
+          <div className="trust-section-header">
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-wide text-rose-300">
+                Diagnostic admin
+              </p>
+              <h3>Garde-fous techniques avant production</h3>
+            </div>
+            <StatusPill>{rlsExpected ? "RLS attendue" : "RLS non forcee"}</StatusPill>
+          </div>
+
+          <div className="mt-4 grid gap-3 md:grid-cols-4">
+            {[
+              ["Organisation", organizationId, "cyan"],
+              ["Mode demo", demoTenant ? "Actif" : "Desactive", "amber"],
+              ["Auth requise", authEnforced ? "Oui" : "Non", "emerald"],
+              ["Env local", envGuardReady ? "Sain" : "A verifier", "rose"],
+            ].map(([label, value, tone]) => (
+              <article className="security-stat-card" data-tone={tone} key={label}>
+                <p className="text-xs font-medium uppercase tracking-wide text-zinc-500">
+                  {label}
+                </p>
+                <strong className="mt-3 block break-all text-xl font-semibold text-zinc-50">
+                  {value}
+                </strong>
+              </article>
+            ))}
+          </div>
+
+          <div className="mt-5 grid gap-5 lg:grid-cols-[1fr_360px]">
+            <article className="settings-panel rounded-lg border p-5 shadow-sm">
+              <h3 className="text-base font-semibold text-zinc-50">
+                Checklist production
+              </h3>
+              <div className="facebook-groups mt-4 divide-y rounded-lg border">
+                {adminChecklist.map(([label, detail, status]) => (
+                  <div
+                    className="facebook-group-row flex items-center justify-between gap-4 px-4 py-3"
+                    key={label}
+                  >
+                    <div>
+                      <p className="font-medium text-zinc-50">{label}</p>
+                      <p className="mt-1 text-sm text-zinc-500">{detail}</p>
+                    </div>
+                    <StatusPill>{status}</StatusPill>
+                  </div>
+                ))}
+              </div>
+            </article>
+
+            <aside className="settings-side-panel rounded-lg border p-5 shadow-sm">
+              <div className="flex items-start justify-between gap-3">
+                <div>
+                  <h3 className="text-base font-semibold text-zinc-50">Session</h3>
+                  <p className="mt-1 text-sm text-zinc-500">
+                    {currentUser?.email ?? "Aucun utilisateur connecte"}
+                  </p>
+                </div>
+                {currentUser ? (
+                  <LogoutButton />
+                ) : (
+                  <a
+                    className="premium-secondary-action rounded-md px-3 py-2 text-sm font-semibold"
+                    href="/login"
+                  >
+                    Connexion
+                  </a>
+                )}
+              </div>
+
+              <h3 className="mt-6 text-base font-semibold text-zinc-50">
+                Variables serveur
+              </h3>
+              <dl className="mt-4 space-y-3 text-sm">
+                {[
+                  ["CONTRATPRO_ADMIN_EMAILS", adminEmails],
+                  ["CONTRATPRO_REQUIRE_AUTH", "true en production"],
+                  ["CONTRATPRO_RLS_ENABLED", "true apres rls.sql"],
+                  ["RESEND_API_KEY", "Serveur uniquement"],
+                  ["GOCARDLESS_ACCESS_TOKEN", "Serveur uniquement"],
+                  ["GOCARDLESS_WEBHOOK_ENDPOINT_SECRET", "Signature webhook"],
+                  ["STRIPE_WEBHOOK_SECRET", "Signature Stripe"],
+                ].map(([label, detail]) => (
+                  <div key={label}>
+                    <dt className="text-zinc-500">{label}</dt>
+                    <dd className="font-semibold text-zinc-50">{detail}</dd>
+                  </div>
+                ))}
+              </dl>
+            </aside>
+          </div>
+
+          <section className="settings-panel mt-5 rounded-lg border p-5 shadow-sm">
+            <h3 className="text-base font-semibold text-zinc-50">
+              Ordre SQL recommande
+            </h3>
+            <pre className="mt-4 overflow-x-auto rounded-md bg-zinc-950 p-4 text-xs leading-6 text-zinc-100">
 {`1. supabase/schema.sql
 2. supabase/seed.sql
 3. supabase/renewal_actions.sql
-4. supabase/prospection.sql   -- acquisition interne fondateur
-5. supabase/document_sends.sql -- historique documents
-6. supabase/payment_events.sql -- journal provider SEPA
-7. supabase/billing.sql        -- abonnement Stripe
-8. supabase/notifications.sql  -- alertes internes
-9. supabase/import_logs.sql    -- historique imports Excel/CSV
-10. supabase/invoices_seed.sql -- optionnel
-11. supabase/rls.sql           -- dernier, pour verrouiller
-12. supabase/verify_rls.sql    -- toutes les lignes doivent etre OK`}
-        </pre>
-      </section>
+4. supabase/prospection.sql
+5. supabase/document_sends.sql
+6. supabase/payment_events.sql
+7. supabase/billing.sql
+8. supabase/notifications.sql
+9. supabase/import_logs.sql
+10. supabase/rls.sql
+11. supabase/verify_rls.sql`}
+            </pre>
+          </section>
+        </section>
+      ) : null}
     </AppShell>
   );
 }
