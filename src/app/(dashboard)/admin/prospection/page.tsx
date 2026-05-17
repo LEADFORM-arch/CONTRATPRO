@@ -175,6 +175,12 @@ export default async function AdminProspectionDashboardPage() {
           <div className="flex flex-wrap gap-2">
             <a
               className="premium-secondary-action rounded-md px-4 py-2 text-sm font-semibold"
+              href="/admin/prospection/guide"
+            >
+              Mode d'emploi skill
+            </a>
+            <a
+              className="premium-secondary-action rounded-md px-4 py-2 text-sm font-semibold"
               href="/settings/facebook"
             >
               Reglages Facebook
@@ -217,7 +223,15 @@ export default async function AdminProspectionDashboardPage() {
               chauffagistes sans attendre Resend ni GoCardless.
             </p>
           </div>
-          <StatusPill>4 modules prets</StatusPill>
+          <div className="flex flex-wrap items-center gap-2">
+            <a
+              className="premium-secondary-action rounded-md px-3 py-2 text-sm font-semibold"
+              href="/admin/prospection/guide"
+            >
+              Ouvrir guide
+            </a>
+            <StatusPill>4 modules prets</StatusPill>
+          </div>
         </div>
 
         <div className="skill-module-grid mt-4">

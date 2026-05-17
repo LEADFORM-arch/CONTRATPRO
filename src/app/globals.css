@@ -8636,6 +8636,112 @@ a:focus-visible {
   outline-offset: 2px;
 }
 
+.prospection-guide-hero {
+  align-items: start;
+  background:
+    radial-gradient(circle at 0% 0%, rgba(56, 189, 248, 0.14), transparent 30%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.018)),
+    #101216;
+  border-color: rgba(255, 255, 255, 0.085);
+  display: flex;
+  gap: 1rem;
+  justify-content: space-between;
+}
+
+.prospection-guide-decision {
+  background:
+    linear-gradient(135deg, rgba(52, 211, 153, 0.14), rgba(56, 189, 248, 0.08)),
+    rgba(6, 78, 59, 0.18);
+  border: 1px solid rgba(52, 211, 153, 0.22);
+  border-radius: 0.65rem;
+  min-width: 16rem;
+  padding: 1rem;
+}
+
+.prospection-guide-decision strong,
+.prospection-guide-decision span {
+  display: block;
+}
+
+.prospection-guide-decision strong {
+  color: #bbf7d0;
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.prospection-guide-decision span {
+  color: #f4f4f5;
+  font-size: 1.15rem;
+  font-weight: 800;
+  margin-top: 0.4rem;
+}
+
+.prospection-guide-panel {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.042), rgba(255, 255, 255, 0.016)),
+    #0f1115;
+  border-color: rgba(255, 255, 255, 0.075);
+}
+
+.prospection-guide-routine,
+.prospection-guide-grid,
+.prospection-guide-scorecard {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.prospection-guide-routine {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.prospection-guide-grid,
+.prospection-guide-scorecard {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.prospection-guide-step,
+.prospection-guide-card,
+.prospection-guide-score {
+  background: rgba(255, 255, 255, 0.032);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 0.65rem;
+  padding: 0.9rem;
+}
+
+.prospection-guide-step strong,
+.prospection-guide-card p,
+.prospection-guide-score p {
+  color: #67e8f9;
+  display: block;
+  font-size: 0.74rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.prospection-guide-step span,
+.prospection-guide-card strong,
+.prospection-guide-score strong {
+  color: #f4f4f5;
+  display: block;
+  font-size: 0.95rem;
+  font-weight: 800;
+  line-height: 1.35;
+  margin-top: 0.45rem;
+}
+
+.prospection-guide-step p,
+.prospection-guide-card span,
+.prospection-guide-score span {
+  color: #a1a1aa;
+  display: block;
+  font-size: 0.84rem;
+  line-height: 1.5;
+  margin-top: 0.55rem;
+}
+
 .skill-kpi-item strong,
 .skill-kpi-item span {
   display: block;
@@ -8659,19 +8765,31 @@ a:focus-visible {
 @media (max-width: 1024px) {
   .skill-module-grid,
   .skill-copy-grid,
-  .skill-kpi-rail {
+  .skill-kpi-rail,
+  .prospection-guide-routine,
+  .prospection-guide-grid,
+  .prospection-guide-scorecard {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
 @media (max-width: 640px) {
-  .skill-cockpit-header {
+  .skill-cockpit-header,
+  .prospection-guide-hero {
     flex-direction: column;
   }
 
   .skill-module-grid,
   .skill-copy-grid,
-  .skill-kpi-rail {
+  .skill-kpi-rail,
+  .prospection-guide-routine,
+  .prospection-guide-grid,
+  .prospection-guide-scorecard {
     grid-template-columns: 1fr;
+  }
+
+  .prospection-guide-decision {
+    min-width: 0;
+    width: 100%;
   }
 }

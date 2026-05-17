@@ -75,6 +75,7 @@ describe("production guardrails", () => {
       "src/app/(dashboard)/admin/ops/page.tsx",
       "src/app/(dashboard)/admin/pilots/page.tsx",
       "src/app/(dashboard)/admin/prospection/page.tsx",
+      "src/app/(dashboard)/admin/prospection/guide/page.tsx",
       "src/app/(dashboard)/prospection/page.tsx",
       "src/app/(dashboard)/settings/facebook/page.tsx",
     ];
@@ -107,7 +108,21 @@ describe("production guardrails", () => {
       "facebookDmScript",
       "ProspectionCopyButton",
       "data-od-id=\"facebook-prospection-skill\"",
+      "/admin/prospection/guide",
+      "Mode d'emploi skill",
+      "Ouvrir guide",
     ], "admin sales command queue");
+
+    assertIncludes(read("src/app/(dashboard)/admin/prospection/guide/page.tsx"), [
+      "Guide prospection Facebook",
+      "requireAdminUser",
+      "Architecte IA acquisition",
+      "Routine quotidienne",
+      "KPI scorecard 90 jours",
+      "ProspectionCopyButton",
+      "promptAnalyse",
+      "Decision: vendre / iterer / couper",
+    ], "admin prospection skill guide page");
 
     assert.ok(
       existsSync(pathOf("docs/skill-prospection-facebook/README.md")),
@@ -196,6 +211,9 @@ describe("production guardrails", () => {
       ".prospection-skill-cockpit",
       ".skill-module-card",
       ".prospection-copy-button",
+      ".prospection-guide-hero",
+      ".prospection-guide-panel",
+      ".prospection-guide-scorecard",
     ], "sales cockpit styles");
 
     const shell = read("src/components/layout/AppShell.tsx");
@@ -205,6 +223,7 @@ describe("production guardrails", () => {
       "/admin/pilots",
       "/admin/notifications",
       "/admin/ops",
+      "/admin/prospection/guide",
       "/settings/facebook",
     ], "app shell founder navigation");
   });
