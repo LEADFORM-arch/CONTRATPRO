@@ -1,0 +1,2069 @@
+<!DOCTYPE html>
+<!-- saved from url=(0073)file:///C:/Users/pc/Downloads/contratpro-facebook-strategie.html#critique -->
+<html lang="fr"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ContratPro — Stratégie Facebook Complète</title>
+<style>
+  :root {
+    --noir: #0d0f12;
+    --zinc: #1a1d23;
+    --zinc-light: #252930;
+    --acier: #2e3a4e;
+    --cyan: #00b4c8;
+    --vert: #00c97a;
+    --ambre: #f59e0b;
+    --rouge: #ef4444;
+    --blanc: #f0f4f8;
+    --gris: #8b98a8;
+    --gris-light: #c4cdd6;
+    --border: rgba(0,180,200,0.18);
+    --font-titre: 'Courier New', 'Lucida Console', monospace;
+    --font-body: 'Segoe UI', system-ui, sans-serif;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--noir);
+    color: var(--blanc);
+    font-family: var(--font-body);
+    font-size: 15px;
+    line-height: 1.7;
+  }
+
+  /* NAV */
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(13,15,18,0.96);
+    border-bottom: 1px solid var(--border);
+    padding: 0 2rem;
+    display: flex;
+    align-items: center;
+    gap: 0;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  nav::-webkit-scrollbar { display: none; }
+  .nav-logo {
+    font-family: var(--font-titre);
+    font-size: 13px;
+    color: var(--cyan);
+    letter-spacing: 2px;
+    padding: 1rem 1.5rem 1rem 0;
+    border-right: 1px solid var(--border);
+    margin-right: 1rem;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  nav a {
+    color: var(--gris);
+    text-decoration: none;
+    font-size: 12px;
+    letter-spacing: 0.5px;
+    padding: 1rem 0.8rem;
+    transition: color 0.2s;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  nav a:hover { color: var(--cyan); }
+
+  /* HERO */
+  .hero {
+    background: var(--zinc);
+    border-bottom: 1px solid var(--border);
+    padding: 4rem 2rem 3rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: 
+      repeating-linear-gradient(90deg, rgba(0,180,200,0.03) 0px, rgba(0,180,200,0.03) 1px, transparent 1px, transparent 80px),
+      repeating-linear-gradient(0deg, rgba(0,180,200,0.03) 0px, rgba(0,180,200,0.03) 1px, transparent 1px, transparent 80px);
+    pointer-events: none;
+  }
+  .hero-badge {
+    display: inline-block;
+    font-family: var(--font-titre);
+    font-size: 11px;
+    letter-spacing: 3px;
+    color: var(--cyan);
+    border: 1px solid var(--cyan);
+    padding: 4px 14px;
+    margin-bottom: 1.5rem;
+    text-transform: uppercase;
+  }
+  .hero h1 {
+    font-family: var(--font-titre);
+    font-size: clamp(1.6rem, 4vw, 2.8rem);
+    font-weight: normal;
+    letter-spacing: -1px;
+    color: var(--blanc);
+    margin-bottom: 0.5rem;
+  }
+  .hero h1 span { color: var(--cyan); }
+  .hero-sub {
+    color: var(--gris);
+    font-size: 14px;
+    margin-top: 1rem;
+    letter-spacing: 1px;
+  }
+  .version-badges {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    margin-top: 2rem;
+    flex-wrap: wrap;
+  }
+  .v-badge {
+    font-size: 12px;
+    padding: 6px 16px;
+    border-radius: 2px;
+    font-family: var(--font-titre);
+    letter-spacing: 1px;
+  }
+  .v1 { background: rgba(139,152,168,0.15); border: 1px solid var(--gris); color: var(--gris); }
+  .v2 { background: rgba(0,201,122,0.12); border: 1px solid var(--vert); color: var(--vert); }
+  .vcrit { background: rgba(245,158,11,0.12); border: 1px solid var(--ambre); color: var(--ambre); }
+
+  /* LAYOUT */
+  .container {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 3rem 2rem;
+  }
+
+  /* SECTIONS */
+  .section {
+    margin-bottom: 5rem;
+    padding-bottom: 5rem;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+
+  .section-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 1.5rem;
+    margin-bottom: 2.5rem;
+  }
+  .section-num {
+    font-family: var(--font-titre);
+    font-size: 11px;
+    color: var(--cyan);
+    letter-spacing: 2px;
+    background: rgba(0,180,200,0.08);
+    border: 1px solid var(--border);
+    padding: 6px 10px;
+    flex-shrink: 0;
+    margin-top: 4px;
+  }
+  .section-title {
+    font-family: var(--font-titre);
+    font-size: 1.4rem;
+    font-weight: normal;
+    color: var(--blanc);
+    letter-spacing: -0.5px;
+  }
+  .section-title span { color: var(--cyan); }
+  .section-desc {
+    color: var(--gris);
+    font-size: 13px;
+    margin-top: 4px;
+  }
+
+  /* DIRECTION CRÉATIVE */
+  .direction-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+  }
+  .direction-item {
+    background: var(--zinc);
+    padding: 1.5rem;
+  }
+  .direction-item h4 {
+    font-family: var(--font-titre);
+    font-size: 11px;
+    letter-spacing: 2px;
+    color: var(--cyan);
+    margin-bottom: 0.8rem;
+    text-transform: uppercase;
+  }
+  .direction-item p {
+    color: var(--gris-light);
+    font-size: 14px;
+    line-height: 1.6;
+  }
+
+  /* CARDS */
+  .card {
+    background: var(--zinc);
+    border: 1px solid rgba(255,255,255,0.07);
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+  }
+  .card.accent-cyan { border-left: 3px solid var(--cyan); }
+  .card.accent-vert { border-left: 3px solid var(--vert); }
+  .card.accent-ambre { border-left: 3px solid var(--ambre); }
+  .card.accent-rouge { border-left: 3px solid var(--rouge); }
+
+  .card h3 {
+    font-family: var(--font-titre);
+    font-size: 13px;
+    letter-spacing: 1px;
+    color: var(--cyan);
+    margin-bottom: 0.8rem;
+    text-transform: uppercase;
+  }
+  .card h4 {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--blanc);
+    margin-bottom: 0.5rem;
+  }
+  .card p, .card li {
+    color: var(--gris-light);
+    font-size: 14px;
+    line-height: 1.65;
+  }
+  .card ul { list-style: none; }
+  .card ul li::before { content: '→ '; color: var(--cyan); }
+  .card ul li { margin-bottom: 4px; }
+
+  /* LABELS */
+  .label {
+    display: inline-block;
+    font-size: 11px;
+    font-family: var(--font-titre);
+    letter-spacing: 1px;
+    padding: 3px 10px;
+    border-radius: 2px;
+    margin-bottom: 0.6rem;
+    text-transform: uppercase;
+  }
+  .label-cyan { background: rgba(0,180,200,0.12); color: var(--cyan); border: 1px solid rgba(0,180,200,0.3); }
+  .label-vert { background: rgba(0,201,122,0.12); color: var(--vert); border: 1px solid rgba(0,201,122,0.3); }
+  .label-ambre { background: rgba(245,158,11,0.12); color: var(--ambre); border: 1px solid rgba(245,158,11,0.3); }
+  .label-rouge { background: rgba(239,68,68,0.12); color: var(--rouge); border: 1px solid rgba(239,68,68,0.3); }
+  .label-gris { background: rgba(139,152,168,0.12); color: var(--gris-light); border: 1px solid rgba(139,152,168,0.3); }
+
+  /* POST CARD */
+  .post-card {
+    background: var(--zinc);
+    border: 1px solid rgba(255,255,255,0.07);
+    margin-bottom: 1.5rem;
+    overflow: hidden;
+  }
+  .post-header {
+    background: var(--zinc-light);
+    padding: 0.8rem 1.2rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+  }
+  .post-num {
+    font-family: var(--font-titre);
+    font-size: 10px;
+    color: var(--cyan);
+    letter-spacing: 2px;
+  }
+  .post-type {
+    font-size: 11px;
+    font-family: var(--font-titre);
+    color: var(--gris);
+    margin-left: auto;
+  }
+  .post-body {
+    padding: 1.2rem;
+  }
+  .post-text {
+    background: var(--noir);
+    border: 1px solid rgba(255,255,255,0.05);
+    padding: 1rem 1.2rem;
+    font-size: 14px;
+    color: var(--blanc);
+    line-height: 1.7;
+    white-space: pre-wrap;
+    margin-bottom: 1rem;
+    font-family: var(--font-body);
+  }
+  .post-meta {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 0.8rem;
+  }
+  .post-meta-item {
+    background: var(--zinc-light);
+    padding: 0.6rem 1rem;
+    font-size: 12px;
+  }
+  .post-meta-label {
+    color: var(--gris);
+    font-family: var(--font-titre);
+    font-size: 10px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 3px;
+  }
+  .post-meta-value {
+    color: var(--gris-light);
+  }
+
+  /* BANDEAU CONCEPTS */
+  .bandeau-card {
+    background: var(--zinc);
+    border: 1px solid rgba(255,255,255,0.07);
+    margin-bottom: 2rem;
+    overflow: hidden;
+  }
+  .bandeau-preview {
+    height: 180px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-titre);
+    position: relative;
+    overflow: hidden;
+  }
+  .bandeau-preview.concept1 {
+    background: linear-gradient(135deg, #0a0e14 0%, #0d1a2e 50%, #0a1520 100%);
+    border-bottom: 1px solid rgba(0,180,200,0.2);
+  }
+  .bandeau-preview.concept2 {
+    background: linear-gradient(135deg, #0d0f0d 0%, #0f1a0f 50%, #0d1208 100%);
+    border-bottom: 1px solid rgba(0,201,122,0.2);
+  }
+  .bandeau-preview.concept3 {
+    background: linear-gradient(135deg, #100e08 0%, #1a1408 50%, #0e0d00 100%);
+    border-bottom: 1px solid rgba(245,158,11,0.2);
+  }
+  .bandeau-text-overlay {
+    text-align: center;
+    z-index: 2;
+    padding: 1rem 2rem;
+  }
+  .bandeau-grid-bg {
+    position: absolute;
+    inset: 0;
+    background-image: 
+      linear-gradient(rgba(0,180,200,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,180,200,0.04) 1px, transparent 1px);
+    background-size: 40px 40px;
+  }
+  .bandeau-grid-bg.green-grid {
+    background-image: 
+      linear-gradient(rgba(0,201,122,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,201,122,0.04) 1px, transparent 1px);
+  }
+  .bandeau-grid-bg.amber-grid {
+    background-image: 
+      linear-gradient(rgba(245,158,11,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(245,158,11,0.04) 1px, transparent 1px);
+  }
+  .bandeau-body {
+    padding: 1.5rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+  }
+  @media (max-width: 600px) { .bandeau-body { grid-template-columns: 1fr; } }
+
+  /* CALENDRIER */
+  .cal-week {
+    background: var(--zinc);
+    border: 1px solid rgba(255,255,255,0.07);
+    margin-bottom: 1.5rem;
+    overflow: hidden;
+  }
+  .cal-week-header {
+    background: var(--zinc-light);
+    padding: 0.7rem 1.2rem;
+    font-family: var(--font-titre);
+    font-size: 11px;
+    color: var(--cyan);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+  }
+  .cal-day {
+    padding: 1rem 1.2rem;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    display: grid;
+    grid-template-columns: 80px 1fr auto;
+    gap: 1rem;
+    align-items: start;
+  }
+  .cal-day:last-child { border-bottom: none; }
+  .cal-jour {
+    font-family: var(--font-titre);
+    font-size: 11px;
+    color: var(--gris);
+    letter-spacing: 1px;
+    padding-top: 3px;
+  }
+  .cal-content h5 {
+    font-size: 14px;
+    color: var(--blanc);
+    font-weight: 500;
+    margin-bottom: 3px;
+  }
+  .cal-content p {
+    font-size: 12px;
+    color: var(--gris);
+  }
+  .cal-heure {
+    font-family: var(--font-titre);
+    font-size: 11px;
+    color: var(--ambre);
+    letter-spacing: 1px;
+    white-space: nowrap;
+  }
+
+  /* MESSENGER */
+  .dm-card {
+    background: var(--zinc);
+    border: 1px solid rgba(255,255,255,0.07);
+    margin-bottom: 1.5rem;
+    overflow: hidden;
+  }
+  .dm-header {
+    background: var(--zinc-light);
+    padding: 0.8rem 1.2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+  }
+  .dm-title {
+    font-family: var(--font-titre);
+    font-size: 11px;
+    color: var(--cyan);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+  .dm-body {
+    padding: 1.2rem;
+  }
+  .bubble {
+    background: var(--noir);
+    border: 1px solid rgba(255,255,255,0.05);
+    border-radius: 4px 12px 12px 4px;
+    padding: 0.8rem 1rem;
+    font-size: 14px;
+    color: var(--gris-light);
+    line-height: 1.6;
+    max-width: 90%;
+    white-space: pre-wrap;
+    font-style: italic;
+  }
+
+  /* CHECKLIST */
+  .checklist {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+  }
+  .check-item {
+    background: var(--zinc);
+    padding: 1rem 1.2rem;
+    display: flex;
+    gap: 0.8rem;
+    align-items: flex-start;
+  }
+  .check-box {
+    width: 18px;
+    height: 18px;
+    border: 1px solid var(--gris);
+    flex-shrink: 0;
+    margin-top: 3px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    color: var(--vert);
+  }
+  .check-text {
+    font-size: 13px;
+    color: var(--gris-light);
+  }
+  .check-text strong {
+    color: var(--blanc);
+    display: block;
+    font-size: 14px;
+    margin-bottom: 2px;
+  }
+
+  /* CRITIQUE */
+  .critique-section {
+    background: rgba(245,158,11,0.04);
+    border: 1px solid rgba(245,158,11,0.25);
+    padding: 2rem;
+    margin-bottom: 3rem;
+  }
+  .critique-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+  .critique-icon {
+    font-size: 2rem;
+    line-height: 1;
+  }
+  .critique-title {
+    font-family: var(--font-titre);
+    font-size: 1.1rem;
+    color: var(--ambre);
+    letter-spacing: -0.5px;
+  }
+  .critique-list {
+    list-style: none;
+    display: grid;
+    gap: 0.8rem;
+  }
+  .critique-list li {
+    display: flex;
+    gap: 0.8rem;
+    align-items: flex-start;
+    font-size: 14px;
+    color: var(--gris-light);
+  }
+  .critique-list li::before {
+    content: '⚠';
+    color: var(--ambre);
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+  .critique-list li strong {
+    color: var(--blanc);
+  }
+
+  /* V2 BANNER */
+  .v2-banner {
+    background: rgba(0,201,122,0.06);
+    border: 1px solid rgba(0,201,122,0.3);
+    padding: 1.2rem 1.5rem;
+    margin-bottom: 2rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  .v2-banner-label {
+    font-family: var(--font-titre);
+    font-size: 11px;
+    color: var(--vert);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+  .v2-banner p {
+    font-size: 13px;
+    color: var(--gris-light);
+  }
+
+  /* TABLES */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    margin-bottom: 1.5rem;
+  }
+  th {
+    font-family: var(--font-titre);
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    color: var(--gris);
+    text-transform: uppercase;
+    padding: 0.6rem 1rem;
+    text-align: left;
+    background: var(--zinc-light);
+    border-bottom: 1px solid rgba(255,255,255,0.07);
+  }
+  td {
+    padding: 0.7rem 1rem;
+    color: var(--gris-light);
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    vertical-align: top;
+  }
+  tr:hover td { background: rgba(255,255,255,0.02); }
+
+  /* DIVIDER */
+  .divider {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin: 3rem 0;
+    color: var(--gris);
+    font-family: var(--font-titre);
+    font-size: 11px;
+    letter-spacing: 2px;
+  }
+  .divider::before, .divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  /* FOOTER */
+  footer {
+    background: var(--zinc);
+    border-top: 1px solid var(--border);
+    padding: 2rem;
+    text-align: center;
+    color: var(--gris);
+    font-size: 12px;
+    font-family: var(--font-titre);
+    letter-spacing: 1px;
+  }
+
+  /* PROFIL MOCKUP */
+  .profil-opts {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    margin-bottom: 1.5rem;
+  }
+  .profil-opt {
+    background: var(--zinc);
+    padding: 1.5rem;
+    text-align: center;
+  }
+  .profil-circle {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    margin: 0 auto 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-titre);
+    font-size: 1.4rem;
+    font-weight: bold;
+  }
+  .profil-opt p {
+    font-size: 12px;
+    color: var(--gris);
+    line-height: 1.5;
+  }
+
+  /* PROMPT BOX */
+  .prompt-box {
+    background: #0a0c10;
+    border: 1px solid rgba(0,180,200,0.15);
+    border-left: 3px solid var(--cyan);
+    padding: 1rem 1.2rem;
+    font-family: var(--font-titre);
+    font-size: 12px;
+    color: rgba(0,180,200,0.8);
+    line-height: 1.6;
+    white-space: pre-wrap;
+    margin-top: 0.8rem;
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 768px) {
+    .cal-day { grid-template-columns: 60px 1fr; }
+    .cal-heure { grid-column: 2; }
+    nav { padding: 0 1rem; }
+    .container { padding: 2rem 1rem; }
+    .profil-opts { grid-template-columns: 1fr; }
+    .bandeau-body { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">CONTRATPRO</div>
+  <a href="file:///C:/Users/pc/Downloads/contratpro-facebook-strategie.html#direction">Direction</a>
+  <a href="file:///C:/Users/pc/Downloads/contratpro-facebook-strategie.html#identite">Identité</a>
+  <a href="file:///C:/Users/pc/Downloads/contratpro-facebook-strategie.html#bandeau">Bandeau</a>
+  <a href="file:///C:/Users/pc/Downloads/contratpro-facebook-strategie.html#profil">Profil</a>
+  <a href="file:///C:/Users/pc/Downloads/contratpro-facebook-strategie.html#posts">Posts</a>
+  <a href="file:///C:/Users/pc/Downloads/contratpro-facebook-strategie.html#calendrier">Calendrier</a>
+  <a href="file:///C:/Users/pc/Downloads/contratpro-facebook-strategie.html#messenger">Messenger</a>
+  <a href="file:///C:/Users/pc/Downloads/contratpro-facebook-strategie.html#strategie">Stratégie</a>
+  <a href="file:///C:/Users/pc/Downloads/contratpro-facebook-strategie.html#checklist">Checklist</a>
+  <a href="file:///C:/Users/pc/Downloads/contratpro-facebook-strategie.html#critique">Critique V2</a>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-badge">Livrable Stratégique</div>
+  <h1>ContratPro — <span>Facebook Complet</span></h1>
+  <p style="color: var(--gris-light); margin-top: 1rem; font-size: 15px;">Identité · Bandeau · 12 Posts · Calendrier 4 semaines · Scripts Messenger · Stratégie</p>
+  <div class="version-badges">
+    <span class="v-badge v1">V1 — Première version</span>
+    <span class="v-badge vcrit">Critique DC</span>
+    <span class="v-badge v2">V2 — Version corrigée</span>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- SECTION 0 — DIRECTION CRÉATIVE -->
+<!-- ============================================================ -->
+<div class="container" id="direction">
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">00</div>
+      <div>
+        <div class="section-title">Direction <span>Créative Globale</span></div>
+        <div class="section-desc">Positionnement, ambiance, colonne vertébrale éditoriale</div>
+      </div>
+    </div>
+
+    <div class="direction-grid">
+      <div class="direction-item">
+        <h4>Positionnement</h4>
+        <p>ContratPro n'est pas un logiciel. C'est le tableau de bord d'un chauffagiste qui ne veut plus perdre un seul contrat, une seule échéance, un seul euro de revenu récurrent. Le message de base : "Vous avez signé ces contrats. Maintenant, assurez-vous d'en tirer chaque centime."</p>
+      </div>
+      <div class="direction-item">
+        <h4>Ambiance visuelle</h4>
+        <p>Cockpit de pilotage industriel. Nuit opérationnelle. Écran de diagnostic. Atelier propre et maîtrisé. Aucun flou, aucune abstraction. Chaque image doit montrer quelque chose de concret : une liste de contrats, une alerte d'échéance, une attestation à envoyer.</p>
+      </div>
+      <div class="direction-item">
+        <h4>Palette</h4>
+        <p>Noir zinc (#0d0f12) comme fond dominant. Bleu acier (#2e3a4e) pour les surfaces. Cyan diagnostic (#00b4c8) pour les actions clés. Vert validation (#00c97a) pour les contrats OK. Ambre alerte (#f59e0b) pour les échéances à venir. Rouge (#ef4444) pour les contrats perdus/impayés.</p>
+      </div>
+      <div class="direction-item">
+        <h4>Ton éditorial</h4>
+        <p>Direct, technique, respectueux. On parle à des professionnels aguerris qui en ont assez qu'on leur vende du vent. Pas de "solution innovante". Pas de "plateforme". Pas de "révolutionnez votre activité". On dit : "Vos contrats qui ne partent plus en oubli. Vos relances qui partent toutes seules."</p>
+      </div>
+      <div class="direction-item">
+        <h4>Colonne vertébrale</h4>
+        <p>Chaque post répond à UNE douleur terrain réelle : le contrat oublié, la relance non faite, l'attestation en retard, le client parti ailleurs, l'administratif le dimanche soir. On nomme la douleur, on la chiffre si possible, on montre la sortie.</p>
+      </div>
+      <div class="direction-item">
+        <h4>Ce qu'on n'est pas</h4>
+        <p>Pas startup. Pas SaaS généraliste. Pas app mobile gadget. Pas "pour tous les artisans". ContratPro est fait pour les CVC, et ça se voit à chaque phrase. Un chauffagiste doit se reconnaître en 3 secondes : "Ça, c'est pour moi."</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 1 — IDENTITÉ -->
+  <!-- ============================================================ -->
+  <div class="section" id="identite">
+    <div class="section-header">
+      <div class="section-num">01</div>
+      <div>
+        <div class="section-title">Identité <span>Complète de la Page</span></div>
+        <div class="section-desc">Tous les champs Facebook prêts à copier-coller</div>
+      </div>
+    </div>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem; margin-bottom: 2rem;">
+      <div class="card accent-cyan">
+        <h3>Nom de page</h3>
+        <p style="font-size: 1.1rem; color: var(--blanc); font-weight: 600;">ContratPro — Gestion des contrats CVC</p>
+      </div>
+      <div class="card accent-cyan">
+        <h3>@Username conseillé</h3>
+        <p style="font-size: 1.1rem; color: var(--blanc); font-weight: 600;">@ContratProCVC</p>
+        <p style="margin-top: 0.4rem; font-size: 12px;">Alternatif : @ContratPro.fr</p>
+      </div>
+      <div class="card accent-cyan">
+        <h3>Catégorie Facebook</h3>
+        <p style="font-size: 1rem; color: var(--blanc);">Logiciel · Entreprise de services · Technologie</p>
+      </div>
+    </div>
+
+    <div class="card accent-vert" style="margin-bottom: 1rem;">
+      <h3>Bio courte (255 caractères max)</h3>
+      <p style="background: var(--noir); padding: 1rem; margin-top: 0.5rem; font-size: 14px; color: var(--blanc); font-style: italic; line-height: 1.7;">
+        Vos contrats d'entretien chaudières, PAC et clim sous contrôle. Relances automatiques, attestations, renouvellements. Plus un contrat hors radar. Fait pour les chauffagistes et entreprises CVC.
+      </p>
+    </div>
+
+    <div class="card accent-vert" style="margin-bottom: 1rem;">
+      <h3>Description longue (À propos)</h3>
+      <p style="background: var(--noir); padding: 1rem; margin-top: 0.5rem; font-size: 14px; color: var(--blanc); line-height: 1.8;">
+        Combien de contrats d'entretien avez-vous perdus cette année faute de relance ? Combien d'attestations sont parties en retard ? Combien de renouvellements ont glissé sur l'agenda papier avant de finir à la corbeille ?<br><br>
+
+        ContratPro est conçu pour les chauffagistes indépendants et les TPE CVC qui veulent transformer leur portefeuille de contrats en revenu récurrent prévisible — sans y passer leurs soirées.<br><br>
+
+        ✔ Suivi de tous vos contrats chaudières gaz, fioul, PAC air/eau, clim réversible et VMC<br>
+        ✔ Relances automatiques avant chaque échéance<br>
+        ✔ Attestations d'entretien générées et envoyées<br>
+        ✔ Renouvellements suivis, factures intégrées<br>
+        ✔ Tableau de bord parc client en temps réel<br><br>
+
+        Vous avez signé ces contrats. ContratPro s'assure que vous en tirez chaque euro.
+      </p>
+    </div>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem;">
+      <div class="card accent-ambre">
+        <h3>Bouton CTA recommandé</h3>
+        <p>"En savoir plus" → <strong style="color: var(--blanc);">lien vers page démo</strong></p>
+        <p style="margin-top: 0.5rem;">Ou "Obtenir un devis" si tunnel de conversion direct.</p>
+      </div>
+      <div class="card accent-ambre">
+        <h3>Message Messenger automatique</h3>
+        <p style="background: var(--noir); padding: 0.8rem; margin-top: 0.5rem; font-style: italic; font-size: 13px; color: var(--gris-light); line-height: 1.6;">
+          Bonjour, merci de votre message. ContratPro est dédié aux chauffagistes et entreprises CVC. Nous revenons vers vous sous 24h pour une présentation rapide — ou réservez directement un créneau sur [lien agenda].
+        </p>
+      </div>
+      <div class="card accent-ambre">
+        <h3>Réponse hors horaires</h3>
+        <p style="background: var(--noir); padding: 0.8rem; margin-top: 0.5rem; font-style: italic; font-size: 13px; color: var(--gris-light); line-height: 1.6;">
+          Bonne soirée ! Votre message est bien reçu. Nous traitons toutes les demandes CVC en priorité. Réponse garantie demain matin. En attendant : [lien vers démo ou FAQ].
+        </p>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top: 1rem;">
+      <h3>10 mots-clés métier à intégrer partout</h3>
+      <div style="display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.5rem;">
+        <span class="label label-cyan">contrat d'entretien</span>
+        <span class="label label-cyan">attestation chaudière</span>
+        <span class="label label-cyan">parc client CVC</span>
+        <span class="label label-cyan">renouvellement contrat</span>
+        <span class="label label-cyan">relance automatique</span>
+        <span class="label label-cyan">revenu récurrent</span>
+        <span class="label label-cyan">PAC air/eau</span>
+        <span class="label label-cyan">chauffagiste indépendant</span>
+        <span class="label label-cyan">échéance entretien</span>
+        <span class="label label-cyan">portefeuille contrats</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 2 — BANDEAU -->
+  <!-- ============================================================ -->
+  <div class="section" id="bandeau">
+    <div class="section-header">
+      <div class="section-num">02</div>
+      <div>
+        <div class="section-title">Bandeau Facebook <span>Premium</span></div>
+        <div class="section-desc">3 concepts · Desktop 820×312 · Mobile 640×360</div>
+      </div>
+    </div>
+
+    <!-- CONCEPT 1 -->
+    <div class="bandeau-card">
+      <div class="bandeau-preview concept1">
+        <div class="bandeau-grid-bg"></div>
+        <div class="bandeau-text-overlay">
+          <div style="font-size: 10px; letter-spacing: 4px; color: var(--cyan); margin-bottom: 8px;">CONTRATPRO · TABLEAU DE BORD CVC</div>
+          <div style="font-size: 1.6rem; color: var(--blanc); letter-spacing: -1px;">Vos contrats. Sous contrôle.<br><span style="color: var(--cyan);">Toujours.</span></div>
+          <div style="display: flex; gap: 1rem; justify-content: center; margin-top: 12px;">
+            <div style="font-size: 10px; color: rgba(0,201,122,0.8); letter-spacing: 1px;">● 312 contrats actifs</div>
+            <div style="font-size: 10px; color: rgba(245,158,11,0.8); letter-spacing: 1px;">⚠ 4 échéances ce mois</div>
+            <div style="font-size: 10px; color: rgba(0,180,200,0.8); letter-spacing: 1px;">↑ 96% taux renouvellement</div>
+          </div>
+        </div>
+      </div>
+      <div class="bandeau-body">
+        <div>
+          <div class="label label-cyan">Concept 1 — Cockpit Premium</div>
+          <p style="font-size: 13px; color: var(--gris-light); margin-top: 0.5rem;"><strong style="color: var(--blanc);">Intention :</strong> Projeter l'image d'un outil de pilotage professionnel. Inspirer confiance et contrôle. La page ressemble à un tableau de bord, pas à une vitrine marketing.</p>
+          <p style="font-size: 13px; color: var(--gris-light); margin-top: 0.5rem;"><strong style="color: var(--blanc);">Texte exact :</strong> "Vos contrats. Sous contrôle. Toujours." + 3 KPIs fictifs réalistes en bas de bandeau.</p>
+          <p style="font-size: 13px; color: var(--gris-light); margin-top: 0.5rem;"><strong style="color: var(--blanc);">Palette :</strong> Fond #0a0e14, grille cyan 4% opacité, texte blanc technique, accents cyan/vert/ambre.</p>
+        </div>
+        <div>
+          <div class="label label-gris">Prompt IA</div>
+          <div class="prompt-box">Ultra-dark industrial dashboard UI, CVC heating system control panel, professional monitoring screen showing contract list with status indicators, cyan diagnostic readouts on deep navy background, French HVAC maintenance software interface, no people, no gradients, technical precision aesthetic, 820x312px banner</div>
+          <div style="margin-top: 0.8rem; font-size: 12px; color: var(--gris);">Canva : fond #0a0e14, police Courier New ou Space Mono, grille SVG en overlay.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CONCEPT 2 -->
+    <div class="bandeau-card">
+      <div class="bandeau-preview concept2">
+        <div class="bandeau-grid-bg green-grid"></div>
+        <div class="bandeau-text-overlay">
+          <div style="font-size: 10px; letter-spacing: 4px; color: var(--vert); margin-bottom: 8px;">LE TERRAIN. LE CONTRAT. LE REVENU.</div>
+          <div style="font-size: 1.5rem; color: var(--blanc); letter-spacing: -1px;">Chauffagiste.<br><span style="color: var(--vert);">Pas secrétaire.</span></div>
+          <div style="font-size: 11px; color: rgba(255,255,255,0.5); margin-top: 10px;">ContratPro gère l'administratif. Vous, vous gérez les chaudières.</div>
+        </div>
+      </div>
+      <div class="bandeau-body">
+        <div>
+          <div class="label label-vert">Concept 2 — Terrain chauffagiste</div>
+          <p style="font-size: 13px; color: var(--gris-light); margin-top: 0.5rem;"><strong style="color: var(--blanc);">Intention :</strong> Créer une connexion émotionnelle immédiate. "Chauffagiste, pas secrétaire" — phrase qui libère. Le chauffagiste se reconnaît en 2 secondes.</p>
+          <p style="font-size: 13px; color: var(--gris-light); margin-top: 0.5rem;"><strong style="color: var(--blanc);">Éléments visuels :</strong> Photo floue d'intervention terrain en fond (technicien sur PAC, vue de dos), overlay vert sombre, texte ultra-propre au premier plan.</p>
+          <p style="font-size: 13px; color: var(--gris-light); margin-top: 0.5rem;"><strong style="color: var(--blanc);">Palette :</strong> Fond #0d1810 + photo overlay 80%, vert validation, blanc pur.</p>
+        </div>
+        <div>
+          <div class="label label-gris">Prompt IA</div>
+          <div class="prompt-box">HVAC technician working on heat pump installation, rear view, professional workwear, equipment and tools visible, dark moody lighting, green tinted industrial atmosphere, no face shown, French heating maintenance professional, cinematic quality, very dark background, 820x312px</div>
+          <div style="margin-top: 0.8rem; font-size: 12px; color: var(--gris);">Canva : importer photo, ajouter overlay couleur #0d1810 à 75%, texte Space Mono ou Courier.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CONCEPT 3 -->
+    <div class="bandeau-card">
+      <div class="bandeau-preview concept3">
+        <div class="bandeau-grid-bg amber-grid"></div>
+        <div class="bandeau-text-overlay">
+          <div style="font-size: 10px; letter-spacing: 4px; color: var(--ambre); margin-bottom: 8px;">CONTRATS D'ENTRETIEN · REVENU RÉCURRENT</div>
+          <div style="font-size: 1.5rem; color: var(--blanc); letter-spacing: -1px;">Ces contrats que vous avez signés.<br><span style="color: var(--ambre);">Rentrez-en chaque euro.</span></div>
+          <div style="font-size: 11px; color: rgba(255,255,255,0.45); margin-top: 10px;">Relances · Attestations · Renouvellements · Zéro oubli</div>
+        </div>
+      </div>
+      <div class="bandeau-body">
+        <div>
+          <div class="label label-ambre">Concept 3 — Revenu récurrent</div>
+          <p style="font-size: 13px; color: var(--gris-light); margin-top: 0.5rem;"><strong style="color: var(--blanc);">Intention :</strong> Parler cash-flow. Le chauffagiste pense à la trésorerie, pas à "la gestion documentaire". "Ces contrats que vous avez signés — rentrez-en chaque euro" pointe directement la douleur de l'argent laissé sur la table.</p>
+          <p style="font-size: 13px; color: var(--gris-light); margin-top: 0.5rem;"><strong style="color: var(--blanc);">Éléments visuels :</strong> Graphique de revenus récurrents stylisé, liste de contrats avec statuts, fond nuit ambre.</p>
+          <p style="font-size: 13px; color: var(--gris-light); margin-top: 0.5rem;"><strong style="color: var(--blanc);">Palette :</strong> Fond #100e08, ambre alerte, blanc technique.</p>
+        </div>
+        <div>
+          <div class="label label-gris">Prompt IA</div>
+          <div class="prompt-box">Dark amber night interface showing maintenance contract management dashboard, list of HVAC service contracts with renewal dates, revenue recurring graph in warm amber tones, professional French heating business software, no people, industrial premium aesthetic, contract documents visible, 820x312px banner format</div>
+          <div style="margin-top: 0.8rem; font-size: 12px; color: var(--gris);">Figma : rectangle fond + courbe SVG revenue + liste contrats mockup en composants.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 3 — PHOTO DE PROFIL -->
+  <!-- ============================================================ -->
+  <div class="section" id="profil">
+    <div class="section-header">
+      <div class="section-num">03</div>
+      <div>
+        <div class="section-title">Photo de <span>Profil</span></div>
+        <div class="section-desc">3 options · Lisibilité mobile prioritaire · 180×180px minimum</div>
+      </div>
+    </div>
+
+    <div class="profil-opts">
+      <div class="profil-opt">
+        <div class="profil-circle" style="background: #0a0e14; border: 2px solid #00b4c8; color: #00b4c8;">CP</div>
+        <div class="label label-cyan" style="font-size: 10px;">Option A — Monogramme</div>
+        <p>CP en Courier New bold, blanc sur fond zinc #0d0f12, cerclé d'un trait cyan fin. Lisible à 20px. Sobre et premium.</p>
+        <div class="prompt-box" style="margin-top: 0.8rem; font-size: 11px; text-align: left;">Minimalist monogram "CP", heavy serif or monospace font, white letters on near-black background #0d0f12, thin cyan circular border, no gradients, ultra clean, profile picture format 180x180px</div>
+      </div>
+      <div class="profil-opt">
+        <div class="profil-circle" style="background: #0d1520; border: 2px solid #00b4c8;">
+          <svg width="44" height="44" viewBox="0 0 44 44" fill="none">
+            <rect x="6" y="8" width="22" height="28" rx="2" stroke="#00b4c8" stroke-width="1.5" fill="none"></rect>
+            <line x1="10" y1="14" x2="24" y2="14" stroke="#00b4c8" stroke-width="1"></line>
+            <line x1="10" y1="18" x2="24" y2="18" stroke="#00b4c8" stroke-width="1"></line>
+            <line x1="10" y1="22" x2="19" y2="22" stroke="#00b4c8" stroke-width="1"></line>
+            <circle cx="33" cy="31" r="7" stroke="#00c97a" stroke-width="1.5" fill="none"></circle>
+            <path d="M30 31l2 2 4-4" stroke="#00c97a" stroke-width="1.5" stroke-linecap="round"></path>
+          </svg>
+        </div>
+        <div class="label label-vert" style="font-size: 10px;">Option B — Pictogramme contrat</div>
+        <p>Fichier contrat + validation check. Icône épurée, deux couleurs max. Identifie immédiatement l'outil de gestion.</p>
+        <div class="prompt-box" style="margin-top: 0.8rem; font-size: 11px; text-align: left;">Minimal line icon: document/contract with checkmark, HVAC heating theme subtle, cyan and green on dark navy background, professional logo style, no text, clean vector, 180x180px</div>
+      </div>
+      <div class="profil-opt">
+        <div class="profil-circle" style="background: #0d0f12; border: 2px solid #f59e0b;">
+          <svg width="44" height="44" viewBox="0 0 44 44" fill="none">
+            <path d="M22 6 L38 32 L6 32 Z" stroke="#f59e0b" stroke-width="1.5" fill="none" stroke-linejoin="round"></path>
+            <line x1="22" y1="16" x2="22" y2="24" stroke="#f59e0b" stroke-width="1.5" stroke-linecap="round"></line>
+            <circle cx="22" cy="28" r="1.2" fill="#f59e0b"></circle>
+            <text x="8" y="42" fill="#00b4c8" font-size="8" font-family="Courier New" letter-spacing="1">CVC</text>
+          </svg>
+        </div>
+        <div class="label label-ambre" style="font-size: 10px;">Option C — Alerte PAC</div>
+        <p>Triangle alerte + acronyme CVC. Signal visuel fort. Évoque immédiatement la surveillance, l'alerte échéance, le diagnostic.</p>
+        <div class="prompt-box" style="margin-top: 0.8rem; font-size: 11px; text-align: left;">Warning triangle alert icon with "CVC" text below, amber and cyan colors, dark background, HVAC monitoring system aesthetic, technical precision, no gradients, bold line work, 180x180px logo</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Recommandation finale</h3>
+      <p><strong style="color: var(--blanc);">Option A (monogramme CP)</strong> pour le lancement — maximum de lisibilité sur mobile, mémorisation rapide, déclinable sur tous supports. Passer à l'option B dès qu'un vrai logo est créé.</p>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 4 — POST ÉPINGLÉ -->
+  <!-- ============================================================ -->
+  <div class="section" id="posts">
+    <div class="section-header">
+      <div class="section-num">04</div>
+      <div>
+        <div class="section-title">Post <span>Épinglé de Lancement</span></div>
+        <div class="section-desc">2 variantes · Prêtes à copier-coller</div>
+      </div>
+    </div>
+
+    <div class="post-card">
+      <div class="post-header">
+        <span class="post-num">ÉPINGLÉ 01</span>
+        <span class="label label-cyan" style="font-size: 10px;">Version principale</span>
+        <span class="post-type">Lancement · Branding</span>
+      </div>
+      <div class="post-body">
+        <div class="post-text">🔧 Combien de contrats d'entretien avez-vous perdus cette année sans même vous en rendre compte ?
+
+Un client qui n'a pas eu sa relance en avril. Un autre dont l'attestation chaudière est arrivée en retard. Un troisième qui a appelé la concurrence parce que vous n'aviez pas rappelé avant le mois de septembre.
+
+Ce n'est pas de la négligence. C'est de la charge administrative que votre agenda papier ou votre fichier Excel ne peut plus absorber seul.
+
+ContratPro, c'est le tableau de bord qu'on a construit pour les chauffagistes et entreprises CVC qui ne veulent plus laisser sortir un seul contrat du radar.
+
+✅ Suivi de tout votre parc client — chaudières gaz, fioul, PAC air/eau, clim réversible, VMC
+✅ Relances automatiques avant chaque échéance
+✅ Attestations d'entretien générées en un clic
+✅ Renouvellements trackés, factures intégrées
+✅ Tableau de bord : vous savez exactement ce qui est en ordre et ce qui ne l'est pas
+
+Pas de module inutile. Pas d'interface pour des métiers qui ne sont pas les vôtres. Un outil fait pour votre métier, point.
+
+Démo gratuite disponible — 20 minutes, on vous montre exactement comment ça marche sur votre cas.
+
+👉 Réservez un créneau en commentaire ou en DM.
+
+#chauffagiste #CVC #contratsEntretien #chauffage #PAC #climatisation #gestionContrats #revenuRécurrent #TPEartisan #chauffagisteFrance</div>
+        <div class="post-meta">
+          <div class="post-meta-item">
+            <div class="post-meta-label">CTA</div>
+            <div class="post-meta-value">Commenter "DÉMO" ou DM direct</div>
+          </div>
+          <div class="post-meta-item">
+            <div class="post-meta-label">Visuel recommandé</div>
+            <div class="post-meta-value">Dashboard ContratPro (capture d'écran ou mockup)</div>
+          </div>
+          <div class="post-meta-item">
+            <div class="post-meta-label">Moment idéal</div>
+            <div class="post-meta-value">Lundi 6h30 ou 12h15</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="post-card">
+      <div class="post-header">
+        <span class="post-num">ÉPINGLÉ 02</span>
+        <span class="label label-ambre" style="font-size: 10px;">Variante directe</span>
+        <span class="post-type">Lancement · Impact</span>
+      </div>
+      <div class="post-body">
+        <div class="post-text">Un contrat d'entretien oublié = 150 à 300€ qui ne rentrent pas.
+
+Multipliez ça par les 5, 10 ou 15 contrats qui glissent chaque année dans votre fichier Excel ou votre agenda. Vous commencez à voir le problème.
+
+ContratPro suit vos contrats CVC à votre place. Relances, attestations, renouvellements — rien ne sort du radar.
+
+Démo en 20 minutes. Réservez en commentaire.
+
+#chauffagiste #CVC #contratsEntretien #gestionContrats</div>
+        <div class="post-meta">
+          <div class="post-meta-item">
+            <div class="post-meta-label">Format</div>
+            <div class="post-meta-value">Court · Impact immédiat · Chiffre en accroche</div>
+          </div>
+          <div class="post-meta-item">
+            <div class="post-meta-label">Audience</div>
+            <div class="post-meta-value">Dirigeants terrain pressés</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- SECTION 5 — PACK 12 POSTS -->
+    <!-- ============================================================ -->
+    <div class="divider">PACK 12 POSTS FACEBOOK</div>
+
+    <!-- POST 1 -->
+    <div class="post-card">
+      <div class="post-header">
+        <span class="post-num">POST 01</span>
+        <span class="label label-rouge" style="font-size: 10px;">Problème → Solution</span>
+        <span class="post-type">Douleur : contrat oublié</span>
+      </div>
+      <div class="post-body">
+        <div class="post-text">C'est arrivé à presque tous les chauffagistes qu'on connaît.
+
+Un client rappelle en septembre pour son entretien annuel. Vous regardez votre fichier Excel. Le contrat est là — signé en mars de l'année dernière. Mais personne n'a relancé. Le client a pris rendez-vous avec un concurrent en juillet.
+
+Vous venez de perdre un contrat d'entretien. Et probablement le client avec.
+
+Chez ContratPro, chaque contrat a une date d'échéance. Quand ça approche, le client reçoit une relance. Pas vous qui devez y penser — le système.
+
+Ça coûte combien, un contrat perdu chez vous ?
+
+#chauffagiste #contratsEntretien #CVC #gestionCVC</div>
+        <div class="post-meta">
+          <div class="post-meta-item"><div class="post-meta-label">Objectif</div><div class="post-meta-value">Reconnaissance douleur · Engagement</div></div>
+          <div class="post-meta-item"><div class="post-meta-label">Visuel</div><div class="post-meta-value">Alerte rouge "contrat expiré" sur fond zinc</div></div>
+          <div class="post-meta-item"><div class="post-meta-label">KPI</div><div class="post-meta-value">Commentaires + partages (identification)</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- POST 2 -->
+    <div class="post-card">
+      <div class="post-header">
+        <span class="post-num">POST 02</span>
+        <span class="label label-rouge" style="font-size: 10px;">Problème → Solution</span>
+        <span class="post-type">Douleur : attestation en retard</span>
+      </div>
+      <div class="post-body">
+        <div class="post-text">L'attestation d'entretien chaudière gaz, c'est une obligation légale. Et c'est souvent la dernière chose qu'on pense à envoyer après une visite.
+
+Résultat : des clients qui relancent pour l'avoir, des dossiers incomplets, et une image professionnelle qui prend un coup.
+
+ContratPro génère l'attestation à la fin de chaque intervention. Vous validez, elle part au client. Dossier complet, responsabilité couverte.
+
+La conformité, ça ne s'improvise pas le dimanche soir.
+
+#attestationEntretien #chaudièreGaz #chauffagiste #CVC #entretienObligatoire</div>
+        <div class="post-meta">
+          <div class="post-meta-item"><div class="post-meta-label">Objectif</div><div class="post-meta-value">Confiance + légitimité légale</div></div>
+          <div class="post-meta-item"><div class="post-meta-label">Visuel</div><div class="post-meta-value">Aperçu attestation PDF avec tampon vert "envoyée"</div></div>
+          <div class="post-meta-item"><div class="post-meta-label">KPI</div><div class="post-meta-value">Portée organique · Sauvegardes</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- POST 3 -->
+    <div class="post-card">
+      <div class="post-header">
+        <span class="post-num">POST 03</span>
+        <span class="label label-rouge" style="font-size: 10px;">Problème → Solution</span>
+        <span class="post-type">Douleur : administratif le soir</span>
+      </div>
+      <div class="post-body">
+        <div class="post-text">Le chauffagiste fait ses factures le dimanche soir.
+
+C'est devenu une blague dans le métier, mais ce n'est pas drôle quand c'est votre dimanche. Relances à taper manuellement, contrats à retrouver dans l'Excel, clients à appeler pour les renouvellements — tout ça après une semaine de tournées.
+
+ContratPro centralise tout. Le lundi matin, vous ouvrez votre tableau de bord : vous savez exactement qui contacter, quels contrats renouveler ce mois, quelles attestations sont en attente.
+
+Le dimanche soir reste à votre famille.
+
+#chauffagiste #artisanCVC #gestionAdministrative #TPEartisan #contratsEntretien</div>
+        <div class="post-meta">
+          <div class="post-meta-item"><div class="post-meta-label">Objectif</div><div class="post-meta-value">Empathie terrain · Partage émotionnel</div></div>
+          <div class="post-meta-item"><div class="post-meta-label">Visuel</div><div class="post-meta-value">Bureau nuit, ordinateur allumé, Excel visible, ambiance fatiguée</div></div>
+          <div class="post-meta-item"><div class="post-meta-label">KPI</div><div class="post-meta-value">Partages · Réactions "ça me parle"</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- POST 4 -->
+    <div class="post-card">
+      <div class="post-header">
+        <span class="post-num">POST 04</span>
+        <span class="label label-ambre" style="font-size: 10px;">Chiffre choc</span>
+        <span class="post-type">Impact financier</span>
+      </div>
+      <div class="post-body">
+        <div class="post-text">Un chauffagiste avec 80 contrats d'entretien perd en moyenne entre 8 et 12 contrats par an.
+
+Pas parce que les clients partent — parce qu'on ne les a pas relancés à temps.
+
+À 220€ le contrat annuel moyen, c'est entre 1 760€ et 2 640€ qui ne rentrent pas. Chaque année. Sans s'en rendre compte.
+
+C'est l'objet de votre van, recalculé en contrats oubliés.
+
+#chauffagiste #revenurécurrent #CVC #contratsEntretien #gestionCVC</div>
+        <div class="post-meta">
+          <div class="post-meta-item"><div class="post-meta-label">Objectif</div><div class="post-meta-value">Prise de conscience financière</div></div>
+          <div class="post-meta-item"><div class="post-meta-label">Visuel</div><div class="post-meta-value">Infographie sombre : "8 contrats perdus = 1 760€" avec pictogramme contrat</div></div>
+          <div class="post-meta-item"><div class="post-meta-label">KPI</div><div class="post-meta-value">Sauvegardes + partages + DM entrants</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- POST 5 -->
+    <div class="post-card">
+      <div class="post-header">
+        <span class="post-num">POST 05</span>
+        <span class="label label-ambre" style="font-size: 10px;">Chiffre choc</span>
+        <span class="post-type">Temps perdu</span>
+      </div>
+      <div class="post-body">
+        <div class="post-text">Combien d'heures par mois passez-vous à gérer vos contrats d'entretien manuellement ?
+
+Relances téléphoniques. Recherche dans Excel. Vérification des attestations envoyées. Rappels sur agenda papier. Factures de renouvellement à refaire.
+
+Pour un portefeuille de 100 contrats : entre 8 et 15 heures par mois selon les artisans qu'on a interrogés.
+
+À 60€/h de valeur technicien, c'est entre 480€ et 900€ de temps que vous ne facturez pas.
+
+ContratPro ramène ça à moins d'1 heure.
+
+#chauffagiste #productivité #CVC #gestionContrats #artisan</div>
+        <div class="post-meta">
+          <div class="post-meta-item"><div class="post-meta-label">Objectif</div><div class="post-meta-value">ROI immédiat · Décision rationnelle</div></div>
+          <div class="post-meta-item"><div class="post-meta-label">Visuel</div><div class="post-meta-value">Minuterie + tableau coût/temps sur fond sombre</div></div>
+          <div class="post-meta-item"><div class="post-meta-label">KPI</div><div class="post-meta-value">Clics CTA + DM "comment ça marche"</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- POST 6 -->
+    <div class="post-card">
+      <div class="post-header">
+        <span class="post-num">POST 06</span>
+        <span class="label label-vert" style="font-size: 10px;">Question engagement</span>
+        <span class="post-type">Sondage terrain</span>
+      </div>
+      <div class="post-body">
+        <div class="post-text">Question rapide pour les chauffagistes :
+
+Comment gérez-vous vos contrats d'entretien aujourd'hui ?
+
+A) Excel ou fichier texte
+B) Agenda papier / mémo
+C) Logiciel métier (Praxedo, Libel, autre)
+D) De tête et à la relance client
+
+Pas de jugement — on cherche vraiment à comprendre comment les pros du CVC s'organisent.
+
+👇 Répondez en commentaire.
+
+#chauffagiste #CVC #sondage #artisanCVC #gestionContrats</div>
+        <div class="post-meta">
+          <div class="post-meta-item"><div class="post-meta-label">Objectif</div><div class="post-meta-value">Engagement + segmentation audience</div></div>
+          <div class="post-meta-item"><div class="post-meta-label">Action post-pub</div><div class="post-meta-value">DM à chaque répondant A/B avec script adapté</div></div>
+          <div class="post-meta-item"><div class="post-meta-label">KPI</div><div class="post-meta-value">Nombre de commentaires · Taux réponse</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- POST 7 -->
+    <div class="post-card">
+      <div class="post-header">
+        <span class="post-num">POST 07</span>
+        <span class="label label-vert" style="font-size: 10px;">Question engagement</span>
+        <span class="post-type">Douleur partagée</span>
+      </div>
+      <div class="post-body">
+        <div class="post-text">Ça vous est déjà arrivé ?
+
+Un client vous appelle pour l'entretien annuel de sa chaudière. Vous cherchez son dossier. Vous ne retrouvez plus si vous avez envoyé son attestation l'année dernière.
+
+Répondez 👇 avec "OUI" si c'est déjà arrivé dans votre activité.
+
+(Et si vous voulez savoir comment on règle ce problème, dites-le aussi.)
+
+#chauffagiste #attestationChaudière #CVC #organisationPro</div>
+        <div class="post-meta">
+          <div class="post-meta-item"><div class="post-meta-label">Objectif</div><div class="post-meta-value">Identification rapide + volume commentaires</div></div>
+          <div class="post-meta-item"><div class="post-meta-label">Action post-pub</div><div class="post-meta-value">DM à chaque "OUI" — script DM après commentaire</div></div>
+          <div class="post-meta-item"><div class="post-meta-label">KPI</div><div class="post-meta-value">OUI dans les commentaires · DMs entrants</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- POST 8 -->
+    <div class="post-card">
+      <div class="post-header">
+        <span class="post-num">POST 08</span>
+        <span class="label label-cyan" style="font-size: 10px;">Légal / Attestation</span>
+        <span class="post-type">Contenu réglementaire</span>
+      </div>
+      <div class="post-body">
+        <div class="post-text">Rappel réglementaire pour les chauffagistes :
+
+L'entretien annuel des chaudières gaz est obligatoire pour les logements. L'attestation d'entretien doit être remise au propriétaire dans les 15 jours suivant l'intervention.
+
+En cas de contrôle ou de sinistre, l'absence d'attestation peut engager votre responsabilité.
+
+Ce n'est pas une formalité. C'est une protection pour vous et votre client.
+
+ContratPro génère l'attestation dès que vous clôturez l'intervention. Elle part au client sans que vous ayez à y penser.
+
+Questions sur les obligations d'entretien ? Posez-les en commentaire.
+
+#attestationEntretien #chaudièreGaz #entretienObligatoire #chauffagiste #réglementationCVC #RGE</div>
+        <div class="post-meta">
+          <div class="post-meta-item"><div class="post-meta-label">Objectif</div><div class="post-meta-value">Autorité métier · Confiance · SEO Facebook</div></div>
+          <div class="post-meta-item"><div class="post-meta-label">Visuel</div><div class="post-meta-value">Texte réglementaire stylisé sur fond zinc avec encadré "Obligation légale"</div></div>
+          <div class="post-meta-item"><div class="post-meta-label">KPI</div><div class="post-meta-value">Sauvegardes · Portée organique · Questions</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- POST 9 -->
+    <div class="post-card">
+      <div class="post-header">
+        <span class="post-num">POST 09</span>
+        <span class="label label-cyan" style="font-size: 10px;">Légal / PAC</span>
+        <span class="post-type">Contenu éducatif</span>
+      </div>
+      <div class="post-body">
+        <div class="post-text">PAC air/eau et clim réversible : qu'est-ce qui est obligatoire ?
+
+Pour les systèmes de climatisation et pompes à chaleur au-dessus de 12 kW, une inspection réglementaire est requise tous les 5 ans maximum.
+
+Pour les installations RGE, le dossier client doit être complet et traçable.
+
+Beaucoup d'artisans CVC n'ont pas encore mis leur parc PAC à jour dans un outil de suivi. En cas de contrôle Qualibat ou RGE, c'est un risque.
+
+ContratPro suit votre parc PAC comme votre parc chaudières : contrats, visites, dossiers clients, attestations.
+
+Vous êtes à jour sur votre parc PAC ?
+
+#PAC #pompeàChaleur #CVC #RGE #Qualibat #chauffagiste #climatisationRéversible</div>
+        <div class="post-meta">
+          <div class="post-meta-item"><div class="post-meta-label">Objectif</div><div class="post-meta-value">Élargissement audience PAC + crédibilité</div></div>
+          <div class="post-meta-item"><div class="post-meta-label">Visuel</div><div class="post-meta-value">Schéma technique PAC air/eau stylisé avec indicateurs de contrôle</div></div>
+          <div class="post-meta-item"><div class="post-meta-label">KPI</div><div class="post-meta-value">Questions techniques · Portée CVC élargie</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- POST 10 — EXCEL VS CONTRATPRO -->
+    <div class="post-card">
+      <div class="post-header">
+        <span class="post-num">POST 10</span>
+        <span class="label label-gris" style="font-size: 10px;">Comparatif</span>
+        <span class="post-type">Excel vs ContratPro</span>
+      </div>
+      <div class="post-body">
+        <div class="post-text">Excel pour gérer ses contrats d'entretien. On comprend pourquoi.
+
+C'est gratuit, c'est connu, ça marche pour 10 contrats. Peut-être pour 30.
+
+Mais à 80 contrats, voilà ce qui se passe concrètement :
+
+❌ Pas de relance automatique → vous oubliez ou vous faites ça manuellement un dimanche
+❌ Pas d'alerte d'échéance → vous découvrez les contrats expirés rétrospectivement
+❌ Pas d'attestation intégrée → document à générer séparément, risque d'oubli
+❌ Pas de vue parc client → impossible de voir en un coup d'œil ce qui est en ordre
+❌ Pas de facturation liée → relance et facturation gérés dans deux outils différents
+
+Avec ContratPro :
+
+✅ Relances automatiques avant chaque échéance
+✅ Alertes configurables par type de contrat
+✅ Attestations générées depuis l'intervention
+✅ Tableau de bord parc client en temps réel
+✅ Facturation intégrée au contrat
+
+Excel a rendu service. Mais il ne peut pas remplacer un outil fait pour ce métier.
+
+#chauffagiste #Excel #CVC #gestionContrats #contratsEntretien #digitalisation</div>
+        <div class="post-meta">
+          <div class="post-meta-item"><div class="post-meta-label">Objectif</div><div class="post-meta-value">Conversion · Remise en question outil actuel</div></div>
+          <div class="post-meta-item"><div class="post-meta-label">Visuel</div><div class="post-meta-value">Tableau comparatif Excel / ContratPro côte à côte sur fond sombre</div></div>
+          <div class="post-meta-item"><div class="post-meta-label">KPI</div><div class="post-meta-value">Clics · DM "c'est quoi le tarif" · Démos demandées</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- POST 11 — COULISSES -->
+    <div class="post-card">
+      <div class="post-header">
+        <span class="post-num">POST 11</span>
+        <span class="label label-gris" style="font-size: 10px;">Coulisses fondateur</span>
+        <span class="post-type">Authenticité · Confiance</span>
+      </div>
+      <div class="post-body">
+        <div class="post-text">Pourquoi ContratPro existe.
+
+On a passé plusieurs mois à s'asseoir avec des chauffagistes et des entreprises CVC. Pas pour leur vendre quelque chose — pour comprendre comment ils travaillaient vraiment.
+
+Ce qu'on a entendu, c'est toujours à peu près la même chose : "Les contrats, je les gère à peu près. Mais je sais qu'il y en a qui glissent."
+
+"À peu près" en gestion de contrats, ça coûte cher. Pas brutalement — progressivement. Un contrat par-ci, une relance ratée par-là. Et à la fin de l'année, on ne sait pas exactement combien on a perdu.
+
+ContratPro, c'est l'outil qu'on aurait aimé pouvoir leur donner dès ce premier café.
+
+Si vous êtes chauffagiste ou dirigeant d'une TPE CVC et que vous voulez qu'on vous montre ce que ça change concrètement — réservez une démo. On n'est pas là pour vous convaincre, on est là pour vous montrer.
+
+#ContratPro #chauffagiste #CVC #fondateur #gestionContrats</div>
+        <div class="post-meta">
+          <div class="post-meta-item"><div class="post-meta-label">Objectif</div><div class="post-meta-value">Humanisation · Confiance · Mémorisation marque</div></div>
+          <div class="post-meta-item"><div class="post-meta-label">Visuel</div><div class="post-meta-value">Photo fondateur (bureau propre, pas costume) ou carnet de notes terrain</div></div>
+          <div class="post-meta-item"><div class="post-meta-label">KPI</div><div class="post-meta-value">Commentaires personnels · Portée organique</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- POST 12 — OFFRE PILOTE -->
+    <div class="post-card">
+      <div class="post-header">
+        <span class="post-num">POST 12</span>
+        <span class="label label-vert" style="font-size: 10px;">Offre pilote</span>
+        <span class="post-type">Conversion directe</span>
+      </div>
+      <div class="post-body">
+        <div class="post-text">On cherche 10 entreprises CVC pilotes.
+
+Voilà ce qu'on propose : vous testez ContratPro sur votre vrai portefeuille de contrats pendant 60 jours, avec un accès complet et une prise en main accompagnée.
+
+En échange : vous nous donnez votre retour terrain honnête — ce qui marche, ce qui ne marche pas, ce dont vous avez besoin.
+
+Profil recherché :
+— Chauffagiste indépendant ou TPE CVC de 1 à 10 techniciens
+— France
+— Au moins 30 contrats d'entretien actifs (chaudières, PAC, clim)
+— Aujourd'hui sur Excel, agenda ou outil généraliste
+
+Si vous vous reconnaissez, envoyez-nous un DM ou commentez "PILOTE".
+
+On ne prend pas 100 entreprises. On prend 10 — pour bien les accompagner.
+
+#chauffagiste #CVC #pilote #contratsEntretien #PAC #offre #TPEartisan</div>
+        <div class="post-meta">
+          <div class="post-meta-item"><div class="post-meta-label">Objectif</div><div class="post-meta-value">Leads qualifiés directs · Urgence · Exclusivité</div></div>
+          <div class="post-meta-item"><div class="post-meta-label">Visuel</div><div class="post-meta-value">"10 PILOTES" en grand + critères sur fond zinc · Badge "Candidature ouverte"</div></div>
+          <div class="post-meta-item"><div class="post-meta-label">KPI</div><div class="post-meta-value">Candidatures reçues · DM "PILOTE" · Démos planifiées</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 6 — MINIATURES -->
+  <!-- ============================================================ -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">06</div>
+      <div>
+        <div class="section-title">Miniatures <span>Visuelles — 8 Concepts</span></div>
+        <div class="section-desc">Format 1080×1080 + 1080×1350 · Prêts Canva/Figma</div>
+      </div>
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Titre court</th>
+          <th>Composition</th>
+          <th>Accent couleur</th>
+          <th>Prompt IA résumé</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="label label-rouge" style="font-size: 10px;">M01</span></td>
+          <td style="color: var(--blanc); font-weight: 500;">CONTRAT EXPIRÉ</td>
+          <td>Date en rouge barré, fond noir zinc, texte "Relancé ?" en ambre</td>
+          <td>Rouge #ef4444 + Ambre</td>
+          <td>Dark industrial UI card showing expired maintenance contract alert, red warning indicator, date passed, French HVAC software aesthetic</td>
+        </tr>
+        <tr>
+          <td><span class="label label-vert" style="font-size: 10px;">M02</span></td>
+          <td style="color: var(--blanc); font-weight: 500;">ATTESTATION ENVOYÉE</td>
+          <td>Document PDF avec tampon vert "ENVOYÉE", fond zinc, heure d'envoi</td>
+          <td>Vert validation #00c97a</td>
+          <td>Professional PDF document with green "sent" stamp, attestation maintenance chaudière, dark background, completion status</td>
+        </tr>
+        <tr>
+          <td><span class="label label-ambre" style="font-size: 10px;">M03</span></td>
+          <td style="color: var(--blanc); font-weight: 500;">4 ÉCHÉANCES CE MOIS</td>
+          <td>Compteur ambre "4" en grand, liste des 4 clients dessous, fond nuit</td>
+          <td>Ambre #f59e0b dominant</td>
+          <td>Dashboard alert showing "4 contracts due this month", client list, amber monitoring interface, HVAC maintenance tracker</td>
+        </tr>
+        <tr>
+          <td><span class="label label-cyan" style="font-size: 10px;">M04</span></td>
+          <td style="color: var(--blanc); font-weight: 500;">96% RENOUVELÉS</td>
+          <td>Graphique barre vertical vert, stat "96%" dominant, fond zinc</td>
+          <td>Cyan + Vert</td>
+          <td>KPI card showing 96% contract renewal rate, minimal bar chart, dark professional dashboard, HVAC business metrics</td>
+        </tr>
+        <tr>
+          <td><span class="label label-rouge" style="font-size: 10px;">M05</span></td>
+          <td style="color: var(--blanc); font-weight: 500;">EXCEL NE RELANCE PAS</td>
+          <td>Logo Excel barré en rouge, flèche vers interface ContratPro</td>
+          <td>Rouge + Cyan comparatif</td>
+          <td>Excel spreadsheet with red X overlay vs clean contract management UI, before/after comparison, dark background</td>
+        </tr>
+        <tr>
+          <td><span class="label label-gris" style="font-size: 10px;">M06</span></td>
+          <td style="color: var(--blanc); font-weight: 500;">1 760€ PERDUS</td>
+          <td>Chiffre en très grand blanc, sous-titre "par an sur 80 contrats"</td>
+          <td>Blanc pur + zinc</td>
+          <td>Bold typographic design "€1,760 lost per year", minimal dark background, impact financial statement for HVAC contractors</td>
+        </tr>
+        <tr>
+          <td><span class="label label-vert" style="font-size: 10px;">M07</span></td>
+          <td style="color: var(--blanc); font-weight: 500;">PARC CLIENT 360°</td>
+          <td>Grille de contrats avec statuts colorés (vert/ambre/rouge), vue cockpit</td>
+          <td>Tri-couleur statuts</td>
+          <td>HVAC contract portfolio dashboard grid, status indicators green/amber/red, client names and contract dates, dark cockpit UI</td>
+        </tr>
+        <tr>
+          <td><span class="label label-ambre" style="font-size: 10px;">M08</span></td>
+          <td style="color: var(--blanc); font-weight: 500;">DIMANCHE SOIR = TERRAIN</td>
+          <td>Texte fort "Le dimanche soir appartient à votre famille." fond nuit pur</td>
+          <td>Blanc sur noir intégral</td>
+          <td>Bold white text on pure black background "Sunday evenings belong to your family", minimal typographic impact poster, French artisan heating</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 7 — CALENDRIER ÉDITORIAL -->
+  <!-- ============================================================ -->
+  <div class="section" id="calendrier">
+    <div class="section-header">
+      <div class="section-num">07</div>
+      <div>
+        <div class="section-title">Calendrier Éditorial <span>4 Semaines</span></div>
+        <div class="section-desc">3 posts/semaine · Horaires optimisés CVC : 6h30 / 12h15 / 19h00</div>
+      </div>
+    </div>
+
+    <div class="cal-week">
+      <div class="cal-week-header">SEMAINE 1 — Lancement · Poser le problème</div>
+      <div class="cal-day">
+        <div class="cal-jour">LUN 01</div>
+        <div class="cal-content">
+          <h5>Post épinglé de lancement (Post 01 ou variante directe)</h5>
+          <p>Objectif : Première impression. Ancrer le positionnement. Accroche sur le contrat oublié.</p>
+        </div>
+        <div class="cal-heure">6H30</div>
+      </div>
+      <div class="cal-day">
+        <div class="cal-jour">MER 03</div>
+        <div class="cal-content">
+          <h5>Post chiffre choc — "1 760€ perdus par an" (Post 04)</h5>
+          <p>Objectif : Prise de conscience financière. Maximiser les sauvegardes.</p>
+        </div>
+        <div class="cal-heure">12H15</div>
+      </div>
+      <div class="cal-day">
+        <div class="cal-jour">VEN 05</div>
+        <div class="cal-content">
+          <h5>Question engagement — "Comment gérez-vous vos contrats ?" (Post 06)</h5>
+          <p>Objectif : Génération de commentaires. Segmentation audience. DMs à préparer pour le week-end.</p>
+        </div>
+        <div class="cal-heure">19H00</div>
+      </div>
+    </div>
+
+    <div class="cal-week">
+      <div class="cal-week-header">SEMAINE 2 — Légitimité · Contenu métier</div>
+      <div class="cal-day">
+        <div class="cal-jour">LUN 08</div>
+        <div class="cal-content">
+          <h5>Post légal — Obligations attestation chaudière gaz (Post 08)</h5>
+          <p>Objectif : Autorité métier. Portée organique maximale. Contenu à forte valeur pratique.</p>
+        </div>
+        <div class="cal-heure">6H30</div>
+      </div>
+      <div class="cal-day">
+        <div class="cal-jour">MER 10</div>
+        <div class="cal-content">
+          <h5>Problème → Solution — L'attestation en retard (Post 02)</h5>
+          <p>Objectif : Connexion douleur → outil. Retargeting des profils qui ont vu le post légal.</p>
+        </div>
+        <div class="cal-heure">12H15</div>
+      </div>
+      <div class="cal-day">
+        <div class="cal-jour">VEN 12</div>
+        <div class="cal-content">
+          <h5>Question engagement — "Ça vous est arrivé ?" (Post 07)</h5>
+          <p>Objectif : Volume commentaires "OUI". Identifier leads chauds. DM à envoyer dans la foulée.</p>
+        </div>
+        <div class="cal-heure">19H00</div>
+      </div>
+    </div>
+
+    <div class="cal-week">
+      <div class="cal-week-header">SEMAINE 3 — Comparaison · Réassurance</div>
+      <div class="cal-day">
+        <div class="cal-jour">LUN 15</div>
+        <div class="cal-content">
+          <h5>Comparatif Excel vs ContratPro (Post 10)</h5>
+          <p>Objectif : Conversion active. Cibler ceux qui ont répondu "Excel" au sondage semaine 1.</p>
+        </div>
+        <div class="cal-heure">6H30</div>
+      </div>
+      <div class="cal-day">
+        <div class="cal-jour">MER 17</div>
+        <div class="cal-content">
+          <h5>Chiffre choc — Temps perdu par mois (Post 05)</h5>
+          <p>Objectif : ROI rationnel. Argument complémentaire au financier de S1.</p>
+        </div>
+        <div class="cal-heure">12H15</div>
+      </div>
+      <div class="cal-day">
+        <div class="cal-jour">VEN 19</div>
+        <div class="cal-content">
+          <h5>Coulisses fondateur (Post 11)</h5>
+          <p>Objectif : Humanisation. Mémorisation longue durée. Commentaires personnels = leads qualifiés.</p>
+        </div>
+        <div class="cal-heure">19H00</div>
+      </div>
+    </div>
+
+    <div class="cal-week">
+      <div class="cal-week-header">SEMAINE 4 — Conversion · Offre pilote</div>
+      <div class="cal-day">
+        <div class="cal-jour">LUN 22</div>
+        <div class="cal-content">
+          <h5>Problème → Solution — L'administratif du dimanche soir (Post 03)</h5>
+          <p>Objectif : Engagement émotionnel fort. Dernier levier empathique avant l'offre.</p>
+        </div>
+        <div class="cal-heure">6H30</div>
+      </div>
+      <div class="cal-day">
+        <div class="cal-jour">MER 24</div>
+        <div class="cal-content">
+          <h5>Post légal PAC / clim réversible (Post 09)</h5>
+          <p>Objectif : Audience PAC et RGE. Élargissement du parc cible.</p>
+        </div>
+        <div class="cal-heure">12H15</div>
+      </div>
+      <div class="cal-day">
+        <div class="cal-jour">VEN 26</div>
+        <div class="cal-content">
+          <h5>Offre pilote — 10 entreprises CVC (Post 12)</h5>
+          <p>Objectif : Conversion directe. Leads qualifiés. Urgence limitée à 10 places.</p>
+        </div>
+        <div class="cal-heure">19H00</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 8 — MESSENGER -->
+  <!-- ============================================================ -->
+  <div class="section" id="messenger">
+    <div class="section-header">
+      <div class="section-num">08</div>
+      <div>
+        <div class="section-title">Scripts <span>Messenger</span></div>
+        <div class="section-desc">6 scripts · Max 5 phrases · Pas de lien dans le premier DM</div>
+      </div>
+    </div>
+
+    <div class="dm-card">
+      <div class="dm-header">
+        <span class="dm-title">DM Froid — Premier contact</span>
+        <span class="label label-gris" style="font-size: 10px;">Prospection</span>
+      </div>
+      <div class="dm-body">
+        <div class="bubble">Bonjour [Prénom], je vois que tu travailles dans le CVC — on a développé un outil pour suivre les contrats d'entretien et éviter les relances oubliées. Est-ce que la gestion de ton portefeuille de contrats c'est quelque chose qui te prend du temps en ce moment ?</div>
+      </div>
+    </div>
+
+    <div class="dm-card">
+      <div class="dm-header">
+        <span class="dm-title">DM Après Like</span>
+        <span class="label label-cyan" style="font-size: 10px;">Warm lead</span>
+      </div>
+      <div class="dm-body">
+        <div class="bubble">Bonjour [Prénom], merci pour le like sur notre post. La question du contrat oublié, c'est quelque chose que tu rencontres dans ton activité ? On a quelques chauffagistes avec qui on travaille dessus — je serais curieux de savoir comment tu gères ça de ton côté.</div>
+      </div>
+    </div>
+
+    <div class="dm-card">
+      <div class="dm-header">
+        <span class="dm-title">DM Après Commentaire</span>
+        <span class="label label-vert" style="font-size: 10px;">Lead chaud</span>
+      </div>
+      <div class="dm-body">
+        <div class="bubble">Bonjour [Prénom], merci pour ton commentaire. Quand tu dis "OUI, ça m'arrive" — tu gères ton parc de contrats comment en ce moment, Excel ou un autre outil ? Je te demande parce qu'on a une solution qui s'adapte exactement à ce cas, et avant de t'envoyer quoi que ce soit, je veux m'assurer que ça colle vraiment à ta situation.</div>
+      </div>
+    </div>
+
+    <div class="dm-card">
+      <div class="dm-header">
+        <span class="dm-title">DM Excel — Post comparatif</span>
+        <span class="label label-ambre" style="font-size: 10px;">Conversion</span>
+      </div>
+      <div class="dm-body">
+        <div class="bubble">Bonjour [Prénom], tu as répondu "Excel" à notre sondage — on est plusieurs à être passés par là. Le problème avec Excel c'est qu'il stocke mais ne relance pas. Tu as un moment cette semaine pour qu'on te montre en 20 minutes ce que ça change concrètement ? Pas de présentation commerciale — juste l'outil, ton cas.</div>
+      </div>
+    </div>
+
+    <div class="dm-card">
+      <div class="dm-header">
+        <span class="dm-title">Relance J+7</span>
+        <span class="label label-gris" style="font-size: 10px;">Suivi</span>
+      </div>
+      <div class="dm-body">
+        <div class="bubble">Bonjour [Prénom], je reviens vers toi — on n'avait pas pu aller plus loin la semaine dernière. La question des contrats d'entretien, tu as avancé dessus ou c'est encore sur la pile ? Si t'as 20 minutes cette semaine, je peux te montrer comment ça marche sur un parc similaire au tien.</div>
+      </div>
+    </div>
+
+    <div class="dm-card">
+      <div class="dm-header">
+        <span class="dm-title">Proposition Démo</span>
+        <span class="label label-vert" style="font-size: 10px;">Close</span>
+      </div>
+      <div class="dm-body">
+        <div class="bubble">Parfait — je t'envoie un lien pour réserver 20 minutes directement sur mon agenda : [lien]. On travaille sur ton cas concret : tu me donnes une idée de ton parc (nombre de contrats, type — chaudières, PAC, clim), et je te montre exactement comment ContratPro le gère. Pas de blabla, juste l'outil.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 9 — STRATÉGIE -->
+  <!-- ============================================================ -->
+  <div class="section" id="strategie">
+    <div class="section-header">
+      <div class="section-num">09</div>
+      <div>
+        <div class="section-title">Stratégie de <span>Page Facebook</span></div>
+        <div class="section-desc">Routine quotidienne · Mesures · Arbitrages</div>
+      </div>
+    </div>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem; margin-bottom: 2rem;">
+      <div class="card accent-cyan">
+        <h3>Routine quotidienne (20 min)</h3>
+        <ul>
+          <li>5 min : Répondre aux commentaires et DMs entrants</li>
+          <li>5 min : Envoyer les DMs planifiés (après likes/commentaires de la veille)</li>
+          <li>5 min : Vérifier les stats du dernier post (portée, engagement, DMs)</li>
+          <li>5 min : Interagir sur 3-5 posts de chauffagistes (commenter, pas liker bêtement)</li>
+        </ul>
+      </div>
+      <div class="card accent-vert">
+        <h3>Routine hebdomadaire</h3>
+        <ul>
+          <li>Publier 3 posts aux horaires prévus (6h30 / 12h15 / 19h00)</li>
+          <li>Identifier les 5 profils les plus engagés de la semaine → DM</li>
+          <li>Analyser le post le plus performant → comprendre pourquoi</li>
+          <li>Ajuster le post du vendredi si les deux premiers n'ont pas performé</li>
+          <li>Archiver les réponses DM utiles pour améliorer les scripts</li>
+        </ul>
+      </div>
+      <div class="card accent-ambre">
+        <h3>Ce qu'on mesure</h3>
+        <ul>
+          <li>Portée organique par post (objectif : 500+ dès S2)</li>
+          <li>Taux d'engagement (likes + commentaires + partages / portée)</li>
+          <li>Volume de DMs entrants par semaine</li>
+          <li>Démos planifiées depuis Facebook</li>
+          <li>Conversions : démo → essai pilote</li>
+        </ul>
+      </div>
+    </div>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem;">
+      <div class="card">
+        <h3>Quand garder un angle</h3>
+        <p>Un type de post génère 2× plus d'engagement que les autres → reproduire avec une variante différente dans les 2 semaines. Un post génère des DMs entrants spontanés → c'est un format à industrialiser immédiatement.</p>
+      </div>
+      <div class="card">
+        <h3>Quand itérer</h3>
+        <p>Un post fait moins de 100 vues organiques après 48h → analyser l'accroche (les 2 premières lignes sont décisives). Si 3 posts consécutifs du même type ne performent pas → changer l'angle, pas juste les mots.</p>
+      </div>
+      <div class="card">
+        <h3>Transformer un commentaire en lead</h3>
+        <p>1. Répondre publiquement au commentaire (visibilité). 2. Envoyer un DM dans l'heure qui suit : "J'ai vu ton commentaire..." 3. Qualifier en 2 questions max (parc, outil actuel). 4. Proposer la démo directement si qualifié. Pas d'étape intermédiaire.</p>
+      </div>
+      <div class="card">
+        <h3>Éviter le shadow ban / spam</h3>
+        <p>Ne jamais envoyer le même message DM mot pour mot à plusieurs personnes. Espacer les DMs de prospection à froid : max 10/jour. Ne pas mettre de lien dans le premier DM. Varier les accroches tous les 3 messages. Ne jamais acheter de likes ou de followers.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 10 — CHECKLIST -->
+  <!-- ============================================================ -->
+  <div class="section" id="checklist">
+    <div class="section-header">
+      <div class="section-num">10</div>
+      <div>
+        <div class="section-title">Checklist <span>Lancement</span></div>
+        <div class="section-desc">Avant de publier le premier post</div>
+      </div>
+    </div>
+
+    <div class="checklist">
+      <div class="check-item">
+        <div class="check-box">✓</div>
+        <div class="check-text"><strong>Page créée et configurée</strong>Nom, @username, catégorie, bio courte, description longue, bouton CTA</div>
+      </div>
+      <div class="check-item">
+        <div class="check-box">✓</div>
+        <div class="check-text"><strong>Bandeau Facebook en place</strong>Concept choisi, dimensions vérifiées (820×312 desktop, aperçu mobile testé)</div>
+      </div>
+      <div class="check-item">
+        <div class="check-box">✓</div>
+        <div class="check-text"><strong>Photo de profil uploadée</strong>Lisible à 40px, fond transparent ou zinc, format carré</div>
+      </div>
+      <div class="check-item">
+        <div class="check-box">✓</div>
+        <div class="check-text"><strong>Post épinglé rédigé et planifié</strong>Accroche testée, CTA clair, visuel miniature prêt</div>
+      </div>
+      <div class="check-item">
+        <div class="check-box">✓</div>
+        <div class="check-text"><strong>3 premiers posts prêts et planifiés</strong>S1 complète dans Facebook Creator Studio ou Metricool</div>
+      </div>
+      <div class="check-item">
+        <div class="check-box">✓</div>
+        <div class="check-text"><strong>Liens UTM configurés</strong>utm_source=facebook&amp;utm_medium=page&amp;utm_campaign=lancement sur tous les liens</div>
+      </div>
+      <div class="check-item">
+        <div class="check-box">✓</div>
+        <div class="check-text"><strong>Réponses Messenger configurées</strong>Message automatique + réponse hors horaires activés dans les paramètres</div>
+      </div>
+      <div class="check-item">
+        <div class="check-box">✓</div>
+        <div class="check-text"><strong>Scripts DM prêts</strong>6 scripts dans un doc à portée, organisés par situation</div>
+      </div>
+      <div class="check-item">
+        <div class="check-box">✓</div>
+        <div class="check-text"><strong>KPIs S1 définis</strong>Portée cible, nb DMs entrants, nb démos planifiées — consignés avant publication</div>
+      </div>
+      <div class="check-item">
+        <div class="check-box">✓</div>
+        <div class="check-text"><strong>Tableau de suivi créé</strong>Spreadsheet : date / post / portée / engagement / DMs / démos / notes</div>
+      </div>
+      <div class="check-item">
+        <div class="check-box">✓</div>
+        <div class="check-text"><strong>Routine quotidienne 20 min planifiée</strong>Bloc calendaire réservé chaque matin ou midi</div>
+      </div>
+      <div class="check-item">
+        <div class="check-box">✓</div>
+        <div class="check-text"><strong>Pixel Facebook installé</strong>Sur le site ContratPro pour tracker les visites depuis les posts</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- SECTION CRITIQUE + V2 -->
+<!-- ============================================================ -->
+<div style="background: var(--zinc); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);">
+  <div class="container" id="critique">
+    
+    <div class="divider">CRITIQUE DIRECTEUR DE CRÉATION</div>
+
+    <div class="critique-section">
+      <div class="critique-header">
+        <div class="critique-icon">⚠</div>
+        <div>
+          <div class="critique-title">Ce qui ne passe pas la barre du premium terrain</div>
+          <p style="color: var(--gris); font-size: 13px; margin-top: 4px;">Audit V1 par le directeur de création — 8 points à corriger</p>
+        </div>
+      </div>
+
+      <ul class="critique-list">
+        <li><strong>La bio courte est trop descriptive, pas assez percutante.</strong> "Vos contrats d'entretien chaudières, PAC et clim sous contrôle" — c'est une liste de features, pas une promesse qui accroche. Un chauffagiste qui lit ça le matin ne ressent rien. Il faut une phrase qui lui fait mal avant de lui montrer la sortie.</li>
+        <li><strong>Le post épinglé V1 fait "logiciel généraliste".</strong> Les emojis ✅ en liste de fonctionnalités — c'est le format SaaS classique. Tout le monde fait ça. Un chauffagiste de 52 ans qui pilote 4 techniciens l'a déjà vu 40 fois. Il zappe.</li>
+        <li><strong>Le post 11 "coulisses fondateur" est trop poli.</strong> "On a passé plusieurs mois à s'asseoir avec des chauffagistes" — c'est du langage de startup. Un vrai fondateur qui parle à des artisans dit "on est allés sur le terrain" pas "on a passé plusieurs mois à s'asseoir". Trop corporate dans la formulation.</li>
+        <li><strong>Le script DM froid est encore trop générique.</strong> "Est-ce que la gestion de ton portefeuille de contrats c'est quelque chose qui te prend du temps ?" — cette question ne montre pas qu'on connaît le métier. Elle pourrait être envoyée par n'importe quel vendeur SaaS. Il faut montrer qu'on connaît CVC d'emblée.</li>
+        <li><strong>Les prompts IA des bandeaux ne sont pas assez spécifiques au CVC français.</strong> "French HVAC maintenance software" reste abstrait. Les générateurs IA produiront du générique américain. Il faut ancrer : chaudière murale gaz, régulateur, platine de commande, van blanc d'artisan.</li>
+        <li><strong>La checklist est complète mais trop plate.</strong> Toutes les cases ont le même poids visuel. Un lancement a des priorités absolues (post épinglé, bandeau) et des priorités secondaires (pixel). Cette hiérarchie n'apparaît pas.</li>
+        <li><strong>Le comparatif Excel / ContratPro (Post 10) utilise trop de ❌✅.</strong> C'est le format de comparison le plus galvaudé du web. Un directeur technique CVC ne se reconnaît pas dans ces tableaux de marketing. Il faut une narration terrain, pas un tableau de features.</li>
+        <li><strong>Les hashtags sont corrects mais manquent d'un hashtag communautaire fort.</strong> #chauffagiste et #CVC, oui — mais il manque des hashtags très précis qui touchent la vraie communauté : #chauffagisteFrance #GECVC #maintenanceChauffage.</li>
+      </ul>
+    </div>
+
+    <!-- V2 CORRECTIONS -->
+    <div class="v2-banner">
+      <div class="v2-banner-label">VERSION CORRIGÉE V2</div>
+      <p>Éléments réécrits pour être plus terrain, plus chauffagiste, moins SaaS. Chaque correction répond à un point de la critique ci-dessus.</p>
+    </div>
+
+    <!-- BIO V2 -->
+    <div class="card accent-vert" style="margin-bottom: 1.5rem;">
+      <h3>Bio courte — V2 (correction #1)</h3>
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+        <div>
+          <div class="label label-rouge" style="font-size: 10px;">V1 — trop descriptive</div>
+          <p style="background: var(--noir); padding: 0.8rem; font-size: 13px; color: var(--gris); font-style: italic; margin-top: 0.5rem;">Vos contrats d'entretien chaudières, PAC et clim sous contrôle. Relances automatiques, attestations, renouvellements. Plus un contrat hors radar. Fait pour les chauffagistes et entreprises CVC.</p>
+        </div>
+        <div>
+          <div class="label label-vert" style="font-size: 10px;">V2 — terrain et percutante</div>
+          <p style="background: var(--noir); padding: 0.8rem; font-size: 13px; color: var(--blanc); font-style: italic; margin-top: 0.5rem;">Combien de contrats d'entretien avez-vous perdus cette année sans le savoir ? ContratPro suit votre parc CVC à votre place — relances, attestations, renouvellements. Aucune échéance ne sort du radar. Pour chauffagistes et TPE CVC.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- POST ÉPINGLÉ V2 -->
+    <div class="post-card" style="margin-bottom: 1.5rem;">
+      <div class="post-header">
+        <span class="post-num">POST ÉPINGLÉ — V2</span>
+        <span class="label label-vert" style="font-size: 10px;">Correction #2 — Moins SaaS, plus terrain</span>
+      </div>
+      <div class="post-body">
+        <div class="post-text">Votre parc de contrats, c'est votre chiffre d'affaires récurrent. Ce que vous avez signé l'hiver dernier devrait vous payer aussi cet hiver.
+
+Mais entre l'Excel qui ne relance pas, l'attestation qu'on a oublié d'envoyer et le client qui n'a pas eu de nouvelle depuis 11 mois — une partie de cet argent part ailleurs.
+
+On a construit ContratPro pour que ça n'arrive plus.
+
+Pas un logiciel de gestion généraliste. Un outil pensé pour les chauffagistes, les entreprises CVC, ceux qui ont un parc de chaudières gaz, de PAC air/eau, de clim réversible à entretenir chaque année.
+
+Concrètement : chaque contrat a une échéance. ContratPro la surveille. Quand c'est le moment, la relance part. L'attestation se génère. Le renouvellement se trace.
+
+Vous, vous restez sur le terrain.
+
+On propose une démo de 20 minutes sur votre cas — pas une présentation générique, une démo avec votre type de parc. Répondez "DÉMO" en commentaire ou passez en DM.
+
+#chauffagiste #CVC #contratsEntretien #chauffagisteFrance #PAC #maintenanceChauffage #revenurécurrent #gestionCVC #GECVC</div>
+        <div class="post-meta">
+          <div class="post-meta-item"><div class="post-meta-label">Ce qui change</div><div class="post-meta-value">Pas d'emojis ✅ en liste. Narration continue. Ton artisan-à-artisan. Moins de features, plus de vécu.</div></div>
+          <div class="post-meta-item"><div class="post-meta-label">Structure</div><div class="post-meta-value">Douleur → Cause → Solution → Preuve → CTA · Zéro liste à puce marketing</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- POST COULISSES V2 -->
+    <div class="post-card" style="margin-bottom: 1.5rem;">
+      <div class="post-header">
+        <span class="post-num">POST COULISSES — V2</span>
+        <span class="label label-vert" style="font-size: 10px;">Correction #3 — Moins startup, plus terrain</span>
+      </div>
+      <div class="post-body">
+        <div class="post-text">Pourquoi ContratPro existe — version honnête.
+
+On est allés sur le terrain. Ateliers, bureaux de chauffagistes, entrepôts de TPE CVC. On a regardé comment ça marchait vraiment.
+
+Ce qu'on a vu : un Excel ouvert en arrière-plan, un agenda papier sur le coin du bureau, un téléphone qui sonne pendant qu'on essaie de retrouver le dossier d'un client. Et le soir, les relances qu'on n'a pas faites dans la journée.
+
+Ce n'est pas un problème d'organisation. C'est un problème d'outil. L'Excel n'a pas été conçu pour ça. Praxedo non plus. Et les outils généralistes, ils ne savent pas ce que c'est qu'une attestation d'entretien chaudière gaz ou un suivi de PAC air/eau.
+
+Alors on a construit l'outil qu'on n'avait pas trouvé.
+
+Si vous voulez voir ce que ça donne sur un vrai parc CVC — réservez 20 minutes. Pas de présentation. L'outil, votre cas, les questions que vous avez.
+
+#chauffagiste #ContratPro #CVC #fondateur #terrain #gestionCVC</div>
+        <div class="post-meta">
+          <div class="post-meta-item"><div class="post-meta-label">Ce qui change</div><div class="post-meta-value">"On est allés sur le terrain" vs "plusieurs mois à s'asseoir". Vocabulaire artisan, pas consultant.</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- DM FROID V2 -->
+    <div class="dm-card" style="margin-bottom: 1.5rem;">
+      <div class="dm-header">
+        <span class="dm-title">DM Froid — V2 (correction #4)</span>
+        <span class="label label-vert" style="font-size: 10px;">Moins générique, plus CVC-spécifique</span>
+      </div>
+      <div class="dm-body">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+          <div>
+            <div class="label label-rouge" style="font-size: 10px; margin-bottom: 0.5rem;">V1 — Générique</div>
+            <div class="bubble" style="font-size: 13px;">Bonjour [Prénom], je vois que tu travailles dans le CVC — on a développé un outil pour suivre les contrats d'entretien et éviter les relances oubliées. Est-ce que la gestion de ton portefeuille de contrats c'est quelque chose qui te prend du temps en ce moment ?</div>
+          </div>
+          <div>
+            <div class="label label-vert" style="font-size: 10px; margin-bottom: 0.5rem;">V2 — Ancré métier</div>
+            <div class="bubble" style="font-size: 13px;">Bonjour [Prénom], j'ai vu que tu es dans le CVC — chaudières, PAC ou les deux ? On travaille avec des chauffagistes sur la gestion de leur parc de contrats d'entretien, surtout les relances et attestations qui partent en retard. C'est quelque chose que tu gères encore sur Excel ou agenda ?</div>
+          </div>
+        </div>
+        <p style="margin-top: 1rem; font-size: 12px; color: var(--gris);">Ce qui change : on nomme le métier précisément (chaudières, PAC), on montre qu'on connaît les termes (attestations), on qualifie d'emblée l'outil actuel. Le prospect sent qu'on parle à lui, pas à "un artisan" générique.</p>
+      </div>
+    </div>
+
+    <!-- PROMPTS IA V2 -->
+    <div class="card accent-cyan" style="margin-bottom: 1.5rem;">
+      <h3>Prompts IA bandeaux — V2 (correction #5)</h3>
+      <p style="margin-bottom: 1rem; font-size: 13px; color: var(--gris-light);">Les prompts V1 étaient trop génériques. Voici les versions ancrées dans le CVC français :</p>
+      <div class="prompt-box" style="margin-bottom: 0.8rem;">
+CONCEPT 1 COCKPIT V2 : Ultra dark industrial control room aesthetic, French residential heating system monitoring dashboard, wall-mounted boiler control panel (chaudière murale gaz), digital diagnostic screen showing maintenance contract list with amber alerts, cyan status indicators, Saunier Duval / Atlantic / Vaillant style equipment in background, professional HVAC technician workspace at night, no people, technical precision, 820x312px
+      </div>
+      <div class="prompt-box" style="margin-bottom: 0.8rem;">
+CONCEPT 2 TERRAIN V2 : French HVAC technician (chauffagiste) rear view, working on wall-mounted gas boiler installation (chaudière murale), white professional van (Renault Trafic or Peugeot Expert) visible in background, French residential building, dark green industrial atmosphere, professional workwear with tools, no face, cinematic quality, very dark muted tones, 820x312px
+      </div>
+      <div class="prompt-box">
+CONCEPT 3 REVENU V2 : French maintenance contract documents (contrats d'entretien chauffage) fanned out, handwritten signature visible, amber light source, dark warm background, some documents showing "ATTESTATION ENTRETIEN" header, calendar dates visible, professional artisan workspace, no digital screens, physical documents aesthetic, 820x312px
+      </div>
+    </div>
+
+    <!-- POST EXCEL V2 -->
+    <div class="post-card" style="margin-bottom: 1.5rem;">
+      <div class="post-header">
+        <span class="post-num">POST EXCEL — V2</span>
+        <span class="label label-vert" style="font-size: 10px;">Correction #7 — Narration terrain vs tableau de features</span>
+      </div>
+      <div class="post-body">
+        <div class="post-text">L'Excel des contrats d'entretien. Tous les chauffagistes en ont un.
+
+Il y a la colonne "Nom client", la colonne "Type d'équipement", la colonne "Date du dernier entretien". Peut-être une colonne "Relance faite" avec des "oui" et des "non" pas toujours à jour.
+
+Et au fond du fichier, les lignes qu'on n'a pas touchées depuis novembre.
+
+L'Excel ne vous envoie pas de rappel le 1er mars pour dire que M. Dupont a son contrat qui arrive à échéance dans 15 jours. Il ne génère pas l'attestation à la fin de la visite. Il ne sait pas si la facture de renouvellement a été payée.
+
+Il stocke. Il ne pilote pas.
+
+ContratPro, c'est le pilotage. Vous ouvrez votre tableau de bord le lundi matin : vous voyez exactement quels contrats sont à renouveler ce mois, qui n'a pas encore reçu son attestation, et quels impayés sont en attente.
+
+Vous avez 10 minutes ce mois pour voir la différence sur votre propre parc ?
+
+#chauffagiste #Excel #CVC #gestionCVC #contratsEntretien #maintenanceChauffage</div>
+        <div class="post-meta">
+          <div class="post-meta-item"><div class="post-meta-label">Ce qui change</div><div class="post-meta-value">Narration terrain avec l'Excel qu'ils ont vraiment (colonnes, lignes). Pas de ❌✅ comparatif. La critique de l'Excel est intérieure, pas un argument de vente.</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CHECKLIST V2 PRIORISÉE -->
+    <div class="card accent-ambre" style="margin-bottom: 2rem;">
+      <h3>Checklist V2 — Priorisée (correction #6)</h3>
+      <p style="margin-bottom: 1rem; font-size: 13px; color: var(--gris-light);">Les éléments bloquants sont séparés du reste. Un lancement sans bandeau ou sans post épinglé est une erreur — sans pixel, c'est juste un manque à combler rapidement.</p>
+      <div style="margin-bottom: 1rem;">
+        <div class="label label-rouge" style="margin-bottom: 0.8rem;">PRIORITÉ ABSOLUE — Bloquant</div>
+        <div style="display: grid; gap: 0.4rem;">
+          <div style="background: rgba(239,68,68,0.07); border: 1px solid rgba(239,68,68,0.2); padding: 0.7rem 1rem; font-size: 13px; color: var(--gris-light);">☐ Bandeau Facebook configuré et testé sur mobile</div>
+          <div style="background: rgba(239,68,68,0.07); border: 1px solid rgba(239,68,68,0.2); padding: 0.7rem 1rem; font-size: 13px; color: var(--gris-light);">☐ Photo de profil lisible à 40px</div>
+          <div style="background: rgba(239,68,68,0.07); border: 1px solid rgba(239,68,68,0.2); padding: 0.7rem 1rem; font-size: 13px; color: var(--gris-light);">☐ Post épinglé publié et épinglé</div>
+          <div style="background: rgba(239,68,68,0.07); border: 1px solid rgba(239,68,68,0.2); padding: 0.7rem 1rem; font-size: 13px; color: var(--gris-light);">☐ 3 posts S1 planifiés aux horaires CVC</div>
+          <div style="background: rgba(239,68,68,0.07); border: 1px solid rgba(239,68,68,0.2); padding: 0.7rem 1rem; font-size: 13px; color: var(--gris-light);">☐ Scripts DM prêts et organisés</div>
+        </div>
+      </div>
+      <div>
+        <div class="label label-ambre" style="margin-bottom: 0.8rem;">PRIORITÉ SECONDAIRE — Dans les 7 jours</div>
+        <div style="display: grid; gap: 0.4rem;">
+          <div style="background: rgba(245,158,11,0.05); border: 1px solid rgba(245,158,11,0.15); padding: 0.7rem 1rem; font-size: 13px; color: var(--gris-light);">☐ Liens UTM sur tous les liens sortants</div>
+          <div style="background: rgba(245,158,11,0.05); border: 1px solid rgba(245,158,11,0.15); padding: 0.7rem 1rem; font-size: 13px; color: var(--gris-light);">☐ Pixel Facebook installé sur le site</div>
+          <div style="background: rgba(245,158,11,0.05); border: 1px solid rgba(245,158,11,0.15); padding: 0.7rem 1rem; font-size: 13px; color: var(--gris-light);">☐ Message automatique Messenger configuré</div>
+          <div style="background: rgba(245,158,11,0.05); border: 1px solid rgba(245,158,11,0.15); padding: 0.7rem 1rem; font-size: 13px; color: var(--gris-light);">☐ Tableau de suivi KPIs créé</div>
+          <div style="background: rgba(245,158,11,0.05); border: 1px solid rgba(245,158,11,0.15); padding: 0.7rem 1rem; font-size: 13px; color: var(--gris-light);">☐ Routine quotidienne 20 min planifiée au calendrier</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- HASHTAG V2 -->
+    <div class="card accent-cyan">
+      <h3>Set de hashtags V2 — complet et communautaire (correction #8)</h3>
+      <p style="margin-bottom: 1rem; font-size: 13px; color: var(--gris-light);">Ajouter systématiquement ces hashtags de niche CVC français aux hashtags génériques :</p>
+      <div style="display: flex; flex-wrap: wrap; gap: 0.5rem;">
+        <span class="label label-cyan">#chauffagisteFrance</span>
+        <span class="label label-cyan">#GECVC</span>
+        <span class="label label-cyan">#maintenanceChauffage</span>
+        <span class="label label-cyan">#artisanCVC</span>
+        <span class="label label-cyan">#entretienChaudière</span>
+        <span class="label label-cyan">#chauffagiste</span>
+        <span class="label label-cyan">#CVC</span>
+        <span class="label label-cyan">#contratsEntretien</span>
+        <span class="label label-cyan">#PAC</span>
+        <span class="label label-cyan">#pompeAChaleur</span>
+        <span class="label label-cyan">#climatisationRéversible</span>
+        <span class="label label-cyan">#revenurécurrent</span>
+        <span class="label label-cyan">#gestionCVC</span>
+        <span class="label label-cyan">#TPEartisan</span>
+        <span class="label label-cyan">#RGE</span>
+        <span class="label label-cyan">#attestationEntretien</span>
+        <span class="label label-cyan">#chauffage</span>
+        <span class="label label-cyan">#ContratPro</span>
+      </div>
+      <p style="margin-top: 1rem; font-size: 12px; color: var(--gris);">Règle : 5 hashtags max par post (Facebook pénalise les posts avec trop de hashtags). Choisir les 5 les plus pertinents à l'angle du post.</p>
+    </div>
+
+  </div>
+</div>
+
+<footer>
+  CONTRATPRO · STRATÉGIE FACEBOOK COMPLÈTE · V1 + CRITIQUE DC + V2 CORRIGÉE
+</footer>
+
+
+
+</body></html>

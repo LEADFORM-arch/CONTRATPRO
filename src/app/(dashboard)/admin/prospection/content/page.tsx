@@ -168,6 +168,14 @@ export default async function ProspectionContentLibraryPage() {
               Guide skill
             </a>
             <a
+              className="premium-secondary-action rounded-md px-4 py-2 text-sm font-semibold"
+              href="/facebook/contratpro-strategie-facebook.html"
+              rel="noreferrer"
+              target="_blank"
+            >
+              Strategie Claude
+            </a>
+            <a
               className="premium-action rounded-md px-4 py-2 text-sm font-semibold"
               href="/settings/facebook"
             >
@@ -196,7 +204,7 @@ export default async function ProspectionContentLibraryPage() {
         </div>
         <div className="content-library-next">
           <strong>Prochaine action</strong>
-          <span>Importer le kit Claude puis publier J0</span>
+          <span>Ouvrir la strategie Claude, extraire la V2, puis publier J0</span>
         </div>
       </section>
 
@@ -224,6 +232,10 @@ export default async function ProspectionContentLibraryPage() {
         </div>
         <div className="content-intake-grid mt-4">
           {[
+            [
+              "Strategie Claude",
+              "Artifact complet archive dans /facebook/contratpro-strategie-facebook.html.",
+            ],
             ["Bandeau", "Desktop + mobile, texte lisible, jargon CVC."],
             ["Identite page", "Bio, description, CTA, Messenger, mots-cles."],
             ["Posts", "12 posts classes par angle, KPI et CTA."],

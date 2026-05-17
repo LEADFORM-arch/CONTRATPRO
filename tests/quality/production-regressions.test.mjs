@@ -172,11 +172,26 @@ describe("production guardrails", () => {
       "contentAssets",
       "Architecte IA contenus",
       "Reception kit Claude",
+      "Strategie Claude",
+      "/facebook/contratpro-strategie-facebook.html",
       "Post epingle lancement",
       "Prompt visuel",
       "ProspectionCopyButton",
       "Liens UTM",
     ], "admin Facebook content library page");
+
+    assert.ok(
+      existsSync(pathOf("public/facebook/contratpro-strategie-facebook.html")),
+      "Claude Facebook strategy artifact should be published as a static reference",
+    );
+
+    assertIncludes(read("public/facebook/contratpro-strategie-facebook.html"), [
+      "ContratPro",
+      "Facebook Complet",
+      "Critique DC",
+      "V2",
+      "Version corrig",
+    ], "Claude Facebook strategy artifact");
 
     assertIncludes(read("src/app/(dashboard)/admin/prospection/guide/page.tsx"), [
       "Guide prospection Facebook",
@@ -196,6 +211,7 @@ describe("production guardrails", () => {
 
     assertIncludes(read("docs/skill-prospection-facebook/README.md"), [
       "/admin/prospection",
+      "/facebook/contratpro-strategie-facebook.html",
       "Architecte IA prospection Facebook",
       "mode-emploi.md",
       "templates-copier-coller.md",
