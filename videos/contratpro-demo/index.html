@@ -1,0 +1,521 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      html,
+      body {
+        background: #05070a;
+        color: #f4f4f5;
+        font-family: Inter, Arial, sans-serif;
+        height: 1080px;
+        overflow: hidden;
+        width: 1920px;
+      }
+
+      #root {
+        background:
+          radial-gradient(circle at 82% 12%, rgba(56, 189, 248, 0.16), transparent 28%),
+          radial-gradient(circle at 18% 88%, rgba(52, 211, 153, 0.13), transparent 25%),
+          #05070a;
+        height: 1080px;
+        overflow: hidden;
+        position: relative;
+        width: 1920px;
+      }
+
+      .scene {
+        height: 100%;
+        overflow: hidden;
+        position: relative;
+        width: 100%;
+      }
+
+      .scene-content {
+        display: grid;
+        gap: 54px;
+        grid-template-columns: minmax(0, 0.82fr) minmax(0, 1.18fr);
+        height: 100%;
+        padding: 86px 92px;
+        position: relative;
+        width: 100%;
+        z-index: 2;
+      }
+
+      .scene-content.center {
+        align-items: center;
+      }
+
+      .scene-content.split-stack {
+        grid-template-columns: minmax(0, 0.72fr) minmax(0, 1.28fr);
+      }
+
+      .copy {
+        align-self: center;
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+        min-width: 0;
+      }
+
+      .eyebrow {
+        color: #34d399;
+        font-size: 22px;
+        font-weight: 900;
+        text-transform: uppercase;
+      }
+
+      h1,
+      h2 {
+        color: #f4f4f5;
+        font-weight: 950;
+        letter-spacing: 0;
+        line-height: 0.95;
+      }
+
+      h1 {
+        font-size: 92px;
+        max-width: 700px;
+      }
+
+      h2 {
+        font-size: 74px;
+        max-width: 660px;
+      }
+
+      .lead {
+        color: #d4d4d8;
+        font-size: 30px;
+        line-height: 1.36;
+        max-width: 680px;
+      }
+
+      .proof-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+      }
+
+      .proof-pill {
+        background: rgba(15, 23, 42, 0.72);
+        border: 1px solid rgba(56, 189, 248, 0.22);
+        border-radius: 999px;
+        color: #bae6fd;
+        font-size: 20px;
+        font-weight: 800;
+        padding: 11px 17px;
+      }
+
+      .decision-note {
+        background: rgba(4, 6, 8, 0.66);
+        border: 1px solid rgba(52, 211, 153, 0.24);
+        border-radius: 14px;
+        display: grid;
+        gap: 8px;
+        max-width: 620px;
+        padding: 22px 24px;
+      }
+
+      .decision-note span {
+        color: #67e8f9;
+        font-size: 18px;
+        font-weight: 900;
+        text-transform: uppercase;
+      }
+
+      .decision-note strong {
+        color: #f4f4f5;
+        font-size: 28px;
+        line-height: 1.18;
+      }
+
+      .shot-frame {
+        align-self: center;
+        background: #0f172a;
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        border-radius: 24px;
+        box-shadow: 0 28px 90px rgba(0, 0, 0, 0.48);
+        overflow: hidden;
+        padding: 14px;
+        position: relative;
+      }
+
+      .shot-frame::before {
+        background:
+          radial-gradient(circle at 16px 14px, #ef4444 0 5px, transparent 6px),
+          radial-gradient(circle at 36px 14px, #f59e0b 0 5px, transparent 6px),
+          radial-gradient(circle at 56px 14px, #34d399 0 5px, transparent 6px);
+        content: "";
+        display: block;
+        height: 30px;
+      }
+
+      .shot-frame img {
+        border-radius: 14px;
+        display: block;
+        height: auto;
+        width: 100%;
+      }
+
+      .shot-frame.primary {
+        transform: rotate(-1deg);
+      }
+
+      .shot-frame.secondary {
+        transform: rotate(1deg);
+      }
+
+      .shot-grid {
+        align-self: center;
+        display: grid;
+        gap: 22px;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .shot-grid .shot-frame {
+        padding: 10px;
+      }
+
+      .metric-strip {
+        display: grid;
+        gap: 14px;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        margin-top: 10px;
+        max-width: 680px;
+      }
+
+      .metric {
+        background: rgba(15, 23, 42, 0.58);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 12px;
+        padding: 18px;
+      }
+
+      .metric strong {
+        color: #f4f4f5;
+        display: block;
+        font-size: 38px;
+        font-variant-numeric: tabular-nums;
+        line-height: 1;
+      }
+
+      .metric span {
+        color: #a1a1aa;
+        display: block;
+        font-size: 17px;
+        font-weight: 800;
+        margin-top: 8px;
+        text-transform: uppercase;
+      }
+
+      .final-content {
+        align-items: center;
+        display: grid;
+        gap: 42px;
+        height: 100%;
+        justify-items: center;
+        padding: 98px 140px;
+        text-align: center;
+        width: 100%;
+      }
+
+      .final-content h2 {
+        font-size: 96px;
+        max-width: 1120px;
+      }
+
+      .final-content .lead {
+        max-width: 960px;
+      }
+
+      .cta {
+        background:
+          linear-gradient(135deg, rgba(52, 211, 153, 0.26), rgba(56, 189, 248, 0.16)),
+          rgba(6, 78, 59, 0.42);
+        border: 1px solid rgba(52, 211, 153, 0.38);
+        border-radius: 14px;
+        color: #ecfeff;
+        font-size: 28px;
+        font-weight: 950;
+        padding: 22px 34px;
+      }
+
+      .caption {
+        bottom: 36px;
+        color: #71717a;
+        font-size: 18px;
+        font-weight: 800;
+        left: 92px;
+        position: absolute;
+        text-transform: uppercase;
+        z-index: 3;
+      }
+
+      .scan-line {
+        background: linear-gradient(90deg, transparent, rgba(56, 189, 248, 0.4), transparent);
+        height: 100%;
+        left: 0;
+        opacity: 0.45;
+        position: absolute;
+        top: 0;
+        width: 220px;
+      }
+
+      .transition {
+        background: #05070a;
+        height: 100%;
+        overflow: hidden;
+        position: relative;
+        width: 100%;
+        z-index: 20;
+      }
+
+      .transition::after {
+        background: linear-gradient(90deg, transparent, rgba(52, 211, 153, 0.34), transparent);
+        content: "";
+        height: 100%;
+        left: 50%;
+        position: absolute;
+        top: 0;
+        width: 260px;
+      }
+    </style>
+  </head>
+  <body>
+    <div
+      id="root"
+      data-composition-id="main"
+      data-start="0"
+      data-duration="43"
+      data-width="1920"
+      data-height="1080"
+    >
+      <section id="scene-1" class="scene clip" data-start="0" data-duration="6" data-track-index="1">
+        <div class="scene-content center">
+          <div class="copy">
+            <p class="eyebrow">ContratPro SaaS CVC</p>
+            <h1>Securisez les contrats avant qu'ils ne fuient.</h1>
+            <p class="lead">
+              Un cockpit dirigeant pour transformer Excel, les echeances et les relances en revenu recurrent visible.
+            </p>
+            <div class="metric-strip">
+              <div class="metric"><strong>78</strong><span>Score securite</span></div>
+              <div class="metric"><strong>2</strong><span>Actions cash</span></div>
+              <div class="metric"><strong>100%</strong><span>SEPA a activer</span></div>
+            </div>
+          </div>
+          <figure class="shot-frame primary">
+            <img src="assets/screenshots/cockpit.png" alt="Cockpit dirigeant ContratPro" />
+          </figure>
+        </div>
+        <div class="caption">Capture reelle du cockpit ContratPro</div>
+      </section>
+
+      <div id="transition-1" class="transition clip" data-start="5.65" data-duration="0.7" data-track-index="9">
+        <div class="scan-line"></div>
+      </div>
+
+      <section id="scene-2" class="scene clip" data-start="6" data-duration="6" data-track-index="1">
+        <div class="scene-content center">
+          <div class="copy">
+            <p class="eyebrow">Architecte IA de croissance</p>
+            <h2>Les renouvellements sont tries par urgence commerciale.</h2>
+            <p class="lead">
+              L'agent priorise le contrat a proteger, propose le message et garde la validation humaine.
+            </p>
+            <div class="decision-note">
+              <span>Decision</span>
+              <strong>Relancer uniquement quand le signal est rentable.</strong>
+            </div>
+          </div>
+          <figure class="shot-frame secondary">
+            <img src="assets/screenshots/relances.png" alt="Relances ContratPro" />
+          </figure>
+        </div>
+        <div class="caption">Relances renouvellement et file commerciale</div>
+      </section>
+
+      <div id="transition-2" class="transition clip" data-start="11.65" data-duration="0.7" data-track-index="9">
+        <div class="scan-line"></div>
+      </div>
+
+      <section id="scene-3" class="scene clip" data-start="12" data-duration="6" data-track-index="1">
+        <div class="scene-content split-stack center">
+          <div class="copy">
+            <p class="eyebrow">Import accompagne</p>
+            <h2>Le fichier client devient un portefeuille exploitable.</h2>
+            <p class="lead">
+              Simulation CSV/XLSX, doublons visibles, contrats prepares: le pilote demarre sans bricolage.
+            </p>
+            <div class="proof-row">
+              <span class="proof-pill">Dry-run obligatoire</span>
+              <span class="proof-pill">Contrats actifs</span>
+              <span class="proof-pill">Echeances visibles</span>
+            </div>
+          </div>
+          <div class="shot-grid">
+            <figure class="shot-frame primary">
+              <img src="assets/screenshots/import.png" alt="Import ContratPro" />
+            </figure>
+            <figure class="shot-frame secondary">
+              <img src="assets/screenshots/contracts.png" alt="Contrats ContratPro" />
+            </figure>
+          </div>
+        </div>
+        <div class="caption">Du fichier Excel au portefeuille contrats</div>
+      </section>
+
+      <div id="transition-3" class="transition clip" data-start="17.65" data-duration="0.7" data-track-index="9">
+        <div class="scan-line"></div>
+      </div>
+
+      <section id="scene-4" class="scene clip" data-start="18" data-duration="6" data-track-index="1">
+        <div class="scene-content center">
+          <div class="copy">
+            <p class="eyebrow">Activation premium</p>
+            <h2>Chaque client sait quoi faire avant le go-live.</h2>
+            <p class="lead">
+              L'onboarding transforme le flou en jalons: entreprise, clients, contrats, documents, SEPA et securite.
+            </p>
+            <div class="decision-note">
+              <span>Action prioritaire</span>
+              <strong>Ouvrir uniquement la prochaine etape utile.</strong>
+            </div>
+          </div>
+          <figure class="shot-frame primary">
+            <img src="assets/screenshots/onboarding.png" alt="Onboarding ContratPro" />
+          </figure>
+        </div>
+        <div class="caption">Activation client guidee par l'Architecte IA</div>
+      </section>
+
+      <div id="transition-4" class="transition clip" data-start="23.65" data-duration="0.7" data-track-index="9">
+        <div class="scan-line"></div>
+      </div>
+
+      <section id="scene-5" class="scene clip" data-start="24" data-duration="6" data-track-index="1">
+        <div class="scene-content split-stack center">
+          <div class="copy">
+            <p class="eyebrow">Factures et cash-flow</p>
+            <h2>La preuve documentaire reste reliee au paiement.</h2>
+            <p class="lead">
+              Factures, historiques, paiements SEPA et rejets restent visibles dans le meme cycle de revenu recurrent.
+            </p>
+            <div class="proof-row">
+              <span class="proof-pill">Facturer</span>
+              <span class="proof-pill">Suivre</span>
+              <span class="proof-pill">Activer SEPA</span>
+            </div>
+          </div>
+          <div class="shot-grid">
+            <figure class="shot-frame secondary">
+              <img src="assets/screenshots/invoices.png" alt="Factures ContratPro" />
+            </figure>
+            <figure class="shot-frame primary">
+              <img src="assets/screenshots/payments.png" alt="Paiements ContratPro" />
+            </figure>
+          </div>
+        </div>
+        <div class="caption">Documents, factures et paiements recurrents</div>
+      </section>
+
+      <div id="transition-5" class="transition clip" data-start="29.65" data-duration="0.7" data-track-index="9">
+        <div class="scan-line"></div>
+      </div>
+
+      <section id="scene-6" class="scene clip" data-start="30" data-duration="6" data-track-index="1">
+        <div class="scene-content center">
+          <div class="copy">
+            <p class="eyebrow">Demo pilote chauffagiste</p>
+            <h2>En 15 minutes, le dirigeant voit le cash qui dort.</h2>
+            <p class="lead">
+              ContratPro ne promet pas un logiciel de plus. Il montre quels contrats securiser maintenant.
+            </p>
+            <div class="decision-note">
+              <span>Script de demo</span>
+              <strong>Partir du portefeuille reel, pas d'une presentation abstraite.</strong>
+            </div>
+          </div>
+          <figure class="shot-frame secondary">
+            <img src="assets/screenshots/cockpit.png" alt="Vue executive ContratPro" />
+          </figure>
+        </div>
+        <div class="caption">Pilotage fondateur pour vendre avec preuves</div>
+      </section>
+
+      <div id="transition-6" class="transition clip" data-start="35.65" data-duration="0.7" data-track-index="9">
+        <div class="scan-line"></div>
+      </div>
+
+      <section id="scene-7" class="scene clip" data-start="36" data-duration="7" data-track-index="1">
+        <div class="final-content">
+          <p class="eyebrow">ContratPro</p>
+          <h2>Le cockpit CVC pour contrats, relances, documents et cash-flow.</h2>
+          <p class="lead">
+            Pour les chauffagistes qui veulent arreter de laisser les renouvellements dormir dans Excel.
+          </p>
+          <div class="cta">Programmer une demo pilote</div>
+        </div>
+      </section>
+    </div>
+
+    <script>
+      window.__timelines = window.__timelines || {};
+      const tl = gsap.timeline({ paused: true });
+
+      const scenes = [
+        ["#scene-1", 0],
+        ["#scene-2", 6],
+        ["#scene-3", 12],
+        ["#scene-4", 18],
+        ["#scene-5", 24],
+        ["#scene-6", 30],
+        ["#scene-7", 36],
+      ];
+
+      scenes.forEach(([selector, start]) => {
+        tl.from(`${selector} .eyebrow`, { y: 32, opacity: 0, duration: 0.56, ease: "power3.out" }, start + 0.18);
+        tl.from(`${selector} h1, ${selector} h2`, { x: -46, opacity: 0, duration: 0.7, ease: "expo.out" }, start + 0.36);
+        tl.from(`${selector} .lead`, { y: 34, opacity: 0, duration: 0.58, ease: "back.out(1.3)" }, start + 0.72);
+        tl.from(`${selector} .metric, ${selector} .proof-pill, ${selector} .decision-note, ${selector} .cta`, {
+          y: 28,
+          opacity: 0,
+          scale: 0.97,
+          duration: 0.48,
+          ease: "power2.out",
+          stagger: 0.08,
+        }, start + 1.02);
+        tl.from(`${selector} .shot-frame`, {
+          y: 44,
+          opacity: 0,
+          scale: 0.965,
+          rotation: 0,
+          duration: 0.76,
+          ease: "circ.out",
+          stagger: 0.12,
+        }, start + 0.52);
+        tl.from(`${selector} .caption`, { opacity: 0, x: -24, duration: 0.42, ease: "sine.out" }, start + 1.18);
+      });
+
+      ["#transition-1", "#transition-2", "#transition-3", "#transition-4", "#transition-5", "#transition-6"].forEach(
+        (selector, index) => {
+          const start = 5.65 + index * 6;
+          tl.fromTo(selector, { xPercent: -105 }, { xPercent: 105, duration: 0.7, ease: "power2.inOut" }, start);
+          tl.fromTo(`${selector} .scan-line`, { x: -180 }, { x: 1940, duration: 0.7, ease: "power2.inOut" }, start);
+        },
+      );
+
+      tl.to("#scene-7 .final-content", { opacity: 0, scale: 0.985, duration: 0.55, ease: "power2.in" }, 42.25);
+
+      window.__timelines["main"] = tl;
+    </script>
+  </body>
+</html>
