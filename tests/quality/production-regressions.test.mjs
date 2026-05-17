@@ -341,6 +341,7 @@ describe("production guardrails", () => {
       "src/app/api/billing/portal/route.ts",
       "src/app/api/certificates/[id]/send/route.ts",
       "src/app/api/certificates/[id]/pdf/route.ts",
+      "src/app/api/contracts/quick/route.ts",
       "src/app/api/contracts/route.ts",
       "src/app/api/import/clients/route.ts",
       "src/app/api/import/praxedo/route.ts",
@@ -1480,9 +1481,42 @@ describe("production guardrails", () => {
       "Architecte IA portefeuille",
       "A securiser",
       "Prochaine action",
+      "/contracts/quick",
+      "Contrat rapide",
       "Creer mon premier contrat",
       "Importer depuis Excel",
     ], "contracts empty state actions");
+
+    assertIncludes(read("src/app/(dashboard)/contracts/quick/page.tsx"), [
+      "Premier contrat en 5 minutes",
+      "Formulaire complet",
+      "QuickContractForm",
+      "5-7 champs",
+    ], "quick contract page");
+
+    assertIncludes(read("src/app/(dashboard)/contracts/quick/QuickContractForm.tsx"), [
+      "/api/contracts/quick",
+      "customerName",
+      "equipmentType",
+      "priceTtc",
+      "Creer facture",
+      "Preparer SEPA plus tard",
+    ], "quick contract form");
+
+    assertIncludes(read("src/app/api/contracts/quick/route.ts"), [
+      "requireApiUser",
+      "insertSupabaseRow",
+      "\"customers\"",
+      "\"installations\"",
+      "\"contracts\"",
+      "payment_method: \"SEPA\"",
+    ], "quick contract API");
+
+    assertIncludes(read("src/app/(dashboard)/invoices/new/page.tsx"), [
+      "searchParams",
+      "contractId",
+      "initialContractId",
+    ], "invoice contract preselection");
 
     assertIncludes(read("src/app/(dashboard)/relances/page.tsx"), [
       "Les relances apparaissent",
@@ -1508,6 +1542,8 @@ describe("production guardrails", () => {
     assertIncludes(read("src/app/globals.css"), [
       ".activation-empty-state",
       ".activation-empty-actions",
+      ".quick-contract-shell",
+      ".quick-contract-success",
       ".contract-portfolio-command",
       ".contract-portfolio-decision",
       ".payment-command-panel",

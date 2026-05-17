@@ -53,7 +53,7 @@ export function AppShell({
 
           <a
             className="premium-secondary-action mt-6 block rounded-md px-3 py-2 text-center text-sm font-medium"
-            href="/contracts/new"
+            href="/contracts/quick"
           >
             + Nouveau contrat
           </a>

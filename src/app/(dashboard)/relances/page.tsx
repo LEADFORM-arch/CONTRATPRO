@@ -135,7 +135,7 @@ export default async function RelancesPage() {
     <AppShell activePath="/relances">
       <PageHeader
         action={
-          <a className="premium-action rounded-md text-sm font-semibold" href="/contracts/new">
+          <a className="premium-action rounded-md text-sm font-semibold" href="/contracts/quick">
             Nouveau contrat
           </a>
         }
@@ -160,7 +160,7 @@ export default async function RelancesPage() {
           ) : (
             <span>Importer ou creer un contrat actif pour alimenter la file.</span>
           )}
-          <a className="premium-action rounded-md text-sm font-semibold" href={topRenewal ? `/contracts/${topRenewal.id}` : "/contracts/new"}>
+          <a className="premium-action rounded-md text-sm font-semibold" href={topRenewal ? `/contracts/${topRenewal.id}` : "/contracts/quick"}>
             Ouvrir le dossier
           </a>
         </div>
@@ -357,7 +357,7 @@ export default async function RelancesPage() {
         ) : (
           <div className="p-4">
             <ActivationEmptyState
-              actionHref="/contracts/new"
+              actionHref="/contracts/quick"
               actionLabel="Creer un contrat actif"
               eyebrow="Relance automatique"
               proofPoints={[

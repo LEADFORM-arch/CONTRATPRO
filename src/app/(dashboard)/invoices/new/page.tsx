@@ -7,7 +7,12 @@ function isoDateInput(date: Date) {
   return date.toISOString().slice(0, 10);
 }
 
-export default async function NewInvoicePage() {
+type NewInvoicePageProps = {
+  searchParams?: Promise<{ contractId?: string }>;
+};
+
+export default async function NewInvoicePage({ searchParams }: NewInvoicePageProps) {
+  const params = await searchParams;
   const contracts = await getInvoiceContractOptions();
   const today = new Date();
   const dueDate = new Date(today);
@@ -32,6 +37,7 @@ export default async function NewInvoicePage() {
         contracts={contracts}
         defaultDueDate={isoDateInput(dueDate)}
         defaultIssueDate={isoDateInput(today)}
+        initialContractId={params?.contractId}
       />
     </AppShell>
   );

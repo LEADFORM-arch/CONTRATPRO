@@ -15,6 +15,7 @@ type InvoiceFormProps = {
   contracts: ContractOption[];
   defaultDueDate: string;
   defaultIssueDate: string;
+  initialContractId?: string;
 };
 
 type SubmitState =
@@ -37,11 +38,14 @@ export function InvoiceForm({
   contracts,
   defaultDueDate,
   defaultIssueDate,
+  initialContractId,
 }: InvoiceFormProps) {
   const router = useRouter();
-  const [selectedContractId, setSelectedContractId] = useState(contracts[0]?.id ?? "");
-  const [amountTtc, setAmountTtc] = useState(String(contracts[0]?.amountTtc ?? ""));
-  const [vatRate, setVatRate] = useState(String(contracts[0]?.vatRate ?? 10));
+  const initialContract =
+    contracts.find((contract) => contract.id === initialContractId) ?? contracts[0];
+  const [selectedContractId, setSelectedContractId] = useState(initialContract?.id ?? "");
+  const [amountTtc, setAmountTtc] = useState(String(initialContract?.amountTtc ?? ""));
+  const [vatRate, setVatRate] = useState(String(initialContract?.vatRate ?? 10));
   const [submitState, setSubmitState] = useState<SubmitState>({
     status: "idle",
     message: "",

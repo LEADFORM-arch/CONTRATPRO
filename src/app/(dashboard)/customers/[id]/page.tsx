@@ -111,7 +111,7 @@ export default async function CustomerDetailPage({
           </div>
           <a
             className="premium-inline-action rounded-md px-3 py-2 text-sm font-semibold"
-            href="/contracts/new"
+            href="/contracts/quick"
           >
             Ajouter contrat
           </a>

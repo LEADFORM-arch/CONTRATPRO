@@ -414,7 +414,7 @@ async function DashboardHome() {
             <a className="premium-secondary-action rounded-md px-4 py-2 text-sm font-medium" href="/relances">
               Voir relances
             </a>
-            <a className="premium-action rounded-md text-sm font-semibold" href="/contracts/new">
+            <a className="premium-action rounded-md text-sm font-semibold" href="/contracts/quick">
               Nouveau contrat
             </a>
           </div>
@@ -438,7 +438,7 @@ async function DashboardHome() {
             <a className="premium-action rounded-md text-sm font-semibold" href="/import">
               Importer mes contrats
             </a>
-            <a className="premium-secondary-action rounded-md px-4 py-2 text-sm font-semibold" href="/contracts/new">
+            <a className="premium-secondary-action rounded-md px-4 py-2 text-sm font-semibold" href="/contracts/quick">
               Creer un contrat
             </a>
           </div>

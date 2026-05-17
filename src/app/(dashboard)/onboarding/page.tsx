@@ -156,7 +156,7 @@ export default async function OnboardingPage() {
     {
       title: "Contrats actifs",
       description: "Rattacher equipements, echeances et prix annuels.",
-      href: "/contracts/new",
+      href: "/contracts/quick",
       accent: "amber",
       done: contracts.length > 0,
       impact: "Tableau de bord et relances deviennent exploitables.",

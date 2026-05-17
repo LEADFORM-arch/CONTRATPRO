@@ -70,7 +70,7 @@ export default async function ContractsPage() {
           }
         : {
             action: "Controler",
-            href: "/contracts/new",
+            href: "/contracts/quick",
             label: "Portefeuille stable",
             proof: "Aucun contrat prioritaire detecte dans la liste actuelle.",
             tone: "emerald" as const,
@@ -80,9 +80,17 @@ export default async function ContractsPage() {
     <AppShell activePath="/contracts">
       <PageHeader
         action={
-          <a className="premium-action rounded-md text-sm font-semibold" href="/contracts/new">
-            Creer contrat
-          </a>
+          <div className="flex flex-wrap gap-2">
+            <a className="premium-action rounded-md text-sm font-semibold" href="/contracts/quick">
+              Contrat rapide
+            </a>
+            <a
+              className="premium-secondary-action rounded-md px-4 py-2 text-sm font-semibold"
+              href="/contracts/new"
+            >
+              Formulaire complet
+            </a>
+          </div>
         }
         description="Suivez les contrats annuels, les dates anniversaires, les modes de paiement et les relances a declencher."
         eyebrow="Gestion contrats"
@@ -207,7 +215,7 @@ export default async function ContractsPage() {
         ) : (
           <div className="p-4">
             <ActivationEmptyState
-              actionHref="/contracts/new"
+              actionHref="/contracts/quick"
               actionLabel="Creer mon premier contrat"
               eyebrow="Revenu recurrent"
               proofPoints={[
