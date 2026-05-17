@@ -185,13 +185,19 @@ describe("production guardrails", () => {
       "Claude Facebook strategy artifact should be published as a static reference",
     );
 
-    assertIncludes(read("public/facebook/contratpro-strategie-facebook.html"), [
+    const facebookStrategyArtifact = read("public/facebook/contratpro-strategie-facebook.html");
+
+    assertIncludes(facebookStrategyArtifact, [
       "ContratPro",
       "Facebook Complet",
       "Critique DC",
       "V2",
       "Version corrig",
     ], "Claude Facebook strategy artifact");
+    assert.ok(
+      !facebookStrategyArtifact.includes("file:///"),
+      "Claude Facebook strategy artifact should not include local file links",
+    );
 
     assertIncludes(read("src/app/(dashboard)/admin/prospection/guide/page.tsx"), [
       "Guide prospection Facebook",
