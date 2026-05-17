@@ -175,6 +175,12 @@ export default async function AdminProspectionDashboardPage() {
           <div className="flex flex-wrap gap-2">
             <a
               className="premium-secondary-action rounded-md px-4 py-2 text-sm font-semibold"
+              href="/admin/prospection/content"
+            >
+              Bibliotheque contenus
+            </a>
+            <a
+              className="premium-secondary-action rounded-md px-4 py-2 text-sm font-semibold"
               href="/admin/prospection/guide"
             >
               Mode d'emploi skill
@@ -224,6 +230,12 @@ export default async function AdminProspectionDashboardPage() {
             </p>
           </div>
           <div className="flex flex-wrap items-center gap-2">
+            <a
+              className="premium-secondary-action rounded-md px-3 py-2 text-sm font-semibold"
+              href="/admin/prospection/content"
+            >
+              Ouvrir contenus
+            </a>
             <a
               className="premium-secondary-action rounded-md px-3 py-2 text-sm font-semibold"
               href="/admin/prospection/guide"

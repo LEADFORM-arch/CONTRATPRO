@@ -95,6 +95,12 @@ export default async function ProspectionSkillGuidePage() {
           <div className="flex flex-wrap gap-2">
             <a
               className="premium-secondary-action rounded-md px-4 py-2 text-sm font-semibold"
+              href="/admin/prospection/content"
+            >
+              Bibliotheque contenus
+            </a>
+            <a
+              className="premium-secondary-action rounded-md px-4 py-2 text-sm font-semibold"
               href="/admin/prospection"
             >
               Retour dashboard

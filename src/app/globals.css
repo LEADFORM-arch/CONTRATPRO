@@ -8802,6 +8802,170 @@ a:focus-visible {
   grid-template-columns: repeat(4, minmax(0, 1fr));
 }
 
+.content-library-hero {
+  align-items: start;
+  background:
+    radial-gradient(circle at 0% 0%, rgba(56, 189, 248, 0.13), transparent 30%),
+    radial-gradient(circle at 100% 0%, rgba(245, 158, 11, 0.08), transparent 28%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.048), rgba(255, 255, 255, 0.016)),
+    #101216;
+  border-color: rgba(255, 255, 255, 0.085);
+  display: flex;
+  gap: 1rem;
+  justify-content: space-between;
+}
+
+.content-library-next,
+.content-library-panel,
+.content-asset-card {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.016)),
+    #0f1115;
+  border-color: rgba(255, 255, 255, 0.075);
+}
+
+.content-library-next {
+  border: 1px solid rgba(56, 189, 248, 0.16);
+  border-radius: 0.65rem;
+  min-width: 18rem;
+  padding: 1rem;
+}
+
+.content-library-next strong,
+.content-library-next span {
+  display: block;
+}
+
+.content-library-next strong {
+  color: #67e8f9;
+  font-size: 0.74rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.content-library-next span {
+  color: #f4f4f5;
+  font-size: 1.05rem;
+  font-weight: 800;
+  line-height: 1.35;
+  margin-top: 0.4rem;
+}
+
+.content-status-strip,
+.content-intake-grid,
+.content-asset-body {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.content-status-strip {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.content-intake-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.content-asset-body {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.content-status-card,
+.content-intake-card,
+.content-copy-block,
+.content-next-action {
+  background: rgba(255, 255, 255, 0.032);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 0.65rem;
+  padding: 0.9rem;
+}
+
+.content-status-card p,
+.content-status-card strong,
+.content-status-card span,
+.content-intake-card strong,
+.content-intake-card span,
+.content-next-action strong,
+.content-next-action span {
+  display: block;
+}
+
+.content-status-card p,
+.content-intake-card strong,
+.content-next-action strong {
+  color: #a1a1aa;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.content-status-card strong {
+  color: #f4f4f5;
+  font-size: 2rem;
+  font-weight: 900;
+  margin-top: 0.4rem;
+}
+
+.content-status-card span,
+.content-intake-card span,
+.content-next-action span {
+  color: #d4d4d8;
+  font-size: 0.86rem;
+  line-height: 1.5;
+  margin-top: 0.35rem;
+}
+
+.content-status-card[data-status="Pret"],
+.content-status-pill[data-status="Pret"] {
+  border-color: rgba(52, 211, 153, 0.22);
+}
+
+.content-status-card[data-status="Publie"],
+.content-status-pill[data-status="Publie"] {
+  border-color: rgba(56, 189, 248, 0.22);
+}
+
+.content-status-card[data-status="Teste"],
+.content-status-pill[data-status="Teste"] {
+  border-color: rgba(245, 158, 11, 0.24);
+}
+
+.content-asset-header {
+  align-items: start;
+  display: flex;
+  gap: 1rem;
+  justify-content: space-between;
+}
+
+.content-status-pill {
+  background: rgba(255, 255, 255, 0.035);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 999px;
+  color: #d4d4d8;
+  flex: none;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  padding: 0.35rem 0.6rem;
+  text-transform: uppercase;
+}
+
+.content-copy-block pre {
+  background: rgba(4, 6, 8, 0.58);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 0.5rem;
+  color: #d4d4d8;
+  font-size: 0.78rem;
+  line-height: 1.55;
+  margin-top: 0.9rem;
+  max-height: 18rem;
+  overflow: auto;
+  padding: 0.85rem;
+  white-space: pre-wrap;
+}
+
 .prospection-guide-step,
 .prospection-guide-card,
 .prospection-guide-score {
@@ -8869,14 +9033,19 @@ a:focus-visible {
   .skill-kpi-rail,
   .prospection-guide-routine,
   .prospection-guide-grid,
-  .prospection-guide-scorecard {
+  .prospection-guide-scorecard,
+  .content-status-strip,
+  .content-intake-grid,
+  .content-asset-body {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
 @media (max-width: 640px) {
   .skill-cockpit-header,
-  .prospection-guide-hero {
+  .prospection-guide-hero,
+  .content-library-hero,
+  .content-asset-header {
     flex-direction: column;
   }
 
@@ -8885,11 +9054,15 @@ a:focus-visible {
   .skill-kpi-rail,
   .prospection-guide-routine,
   .prospection-guide-grid,
-  .prospection-guide-scorecard {
+  .prospection-guide-scorecard,
+  .content-status-strip,
+  .content-intake-grid,
+  .content-asset-body {
     grid-template-columns: 1fr;
   }
 
-  .prospection-guide-decision {
+  .prospection-guide-decision,
+  .content-library-next {
     min-width: 0;
     width: 100%;
   }

@@ -74,6 +74,7 @@ describe("production guardrails", () => {
       "src/app/(dashboard)/admin/notifications/page.tsx",
       "src/app/(dashboard)/admin/ops/page.tsx",
       "src/app/(dashboard)/admin/pilots/page.tsx",
+      "src/app/(dashboard)/admin/prospection/content/page.tsx",
       "src/app/(dashboard)/admin/prospection/page.tsx",
       "src/app/(dashboard)/admin/prospection/guide/page.tsx",
       "src/app/(dashboard)/prospection/page.tsx",
@@ -123,9 +124,24 @@ describe("production guardrails", () => {
       "ProspectionCopyButton",
       "data-od-id=\"facebook-prospection-skill\"",
       "/admin/prospection/guide",
+      "/admin/prospection/content",
+      "Bibliotheque contenus",
       "Mode d'emploi skill",
       "Ouvrir guide",
+      "Ouvrir contenus",
     ], "admin sales command queue");
+
+    assertIncludes(read("src/app/(dashboard)/admin/prospection/content/page.tsx"), [
+      "Bibliotheque contenus Facebook",
+      "requireAdminUser",
+      "contentAssets",
+      "Architecte IA contenus",
+      "Reception kit Claude",
+      "Post epingle lancement",
+      "Prompt visuel",
+      "ProspectionCopyButton",
+      "Liens UTM",
+    ], "admin Facebook content library page");
 
     assertIncludes(read("src/app/(dashboard)/admin/prospection/guide/page.tsx"), [
       "Guide prospection Facebook",
@@ -232,6 +248,10 @@ describe("production guardrails", () => {
       ".lead-dm-copy-button",
       ".lead-dm-table-action",
       ".lead-founder-action",
+      ".content-library-hero",
+      ".content-status-strip",
+      ".content-asset-card",
+      ".content-copy-block",
     ], "sales cockpit styles");
 
     const shell = read("src/components/layout/AppShell.tsx");
@@ -242,6 +262,7 @@ describe("production guardrails", () => {
       "/admin/notifications",
       "/admin/ops",
       "/admin/prospection/guide",
+      "/admin/prospection/content",
       "/settings/facebook",
     ], "app shell founder navigation");
   });

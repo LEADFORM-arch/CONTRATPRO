@@ -26,6 +26,7 @@ const internalNavItems = [
   { href: "/admin/notifications", label: "Notifications" },
   { href: "/admin/prospection", label: "Dashboard acquisition" },
   { href: "/admin/prospection/guide", label: "Guide skill FB" },
+  { href: "/admin/prospection/content", label: "Contenus FB" },
   { href: "/prospection", label: "Pipeline leads" },
   { href: "/settings/facebook", label: "Canal Facebook" },
 ];
