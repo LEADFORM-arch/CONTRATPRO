@@ -113,14 +113,117 @@ function latestCommercialLog(lead: ProspectionLead) {
   };
   const dateMatch = latest.match(/Suivi commercial ([^|]+)/);
   const date = dateMatch?.[1]?.trim();
+  const dateValue = date ? new Date(date) : null;
+  const daysElapsed =
+    dateValue && !Number.isNaN(dateValue.getTime())
+      ? Math.max(
+          0,
+          Math.floor((Date.now() - dateValue.getTime()) / (1000 * 60 * 60 * 24)),
+        )
+      : null;
 
   return {
     action: valueOf("action"),
     channel: valueOf("canal"),
     date: date ? new Date(date).toLocaleDateString("fr-FR") : "-",
+    dateIso: date ?? "",
+    daysElapsed,
     objection: valueOf("objection"),
     relance: valueOf("relance"),
     scenario: valueOf("scenario"),
+  };
+}
+
+function relanceDelayDays(relance: string) {
+  const match = relance.match(/J\+(\d+)/i);
+  return match ? Number(match[1]) : 2;
+}
+
+function leadFollowUpSignal(lead: ProspectionLead) {
+  const latestLog = latestCommercialLog(lead);
+
+  if (["WON", "LOST"].includes(lead.rawStatus)) {
+    return null;
+  }
+
+  if (!latestLog) {
+    if (lead.score >= 80 || ["CONTACTED", "REPLIED", "DEMO_SCHEDULED"].includes(lead.rawStatus)) {
+      return {
+        decision: "Tracer le dernier contact",
+        detail: "Aucune action journalisee: reprendre le fil avant de relancer.",
+        lead,
+        latestLog,
+        priority: 1,
+        reason: "Suivi manquant",
+        tone: "watch",
+      };
+    }
+
+    return null;
+  }
+
+  const delay = relanceDelayDays(latestLog.relance);
+  const elapsed = latestLog.daysElapsed ?? 0;
+
+  if (elapsed >= delay) {
+    return {
+      decision: "Relancer maintenant",
+      detail: `${elapsed} jour(s) depuis le dernier suivi pour une cadence ${latestLog.relance}.`,
+      lead,
+      latestLog,
+      priority: 3,
+      reason: "Relance due",
+      tone: "due",
+    };
+  }
+
+  if (elapsed + 1 >= delay) {
+    return {
+      decision: "Preparer la relance",
+      detail: `Relance ${latestLog.relance} a preparer: dernier suivi il y a ${elapsed} jour(s).`,
+      lead,
+      latestLog,
+      priority: 2,
+      reason: "A surveiller",
+      tone: "soon",
+    };
+  }
+
+  return {
+    decision: "Laisser respirer",
+    detail: `Dernier contact recent: relance prevue ${latestLog.relance}.`,
+    lead,
+    latestLog,
+    priority: 0,
+    reason: "Cadence saine",
+    tone: "calm",
+  };
+}
+
+function followUpArchitectSummary(queue: NonNullable<ReturnType<typeof leadFollowUpSignal>>[]) {
+  const due = queue.filter((item) => item.tone === "due");
+  const missing = queue.filter((item) => item.tone === "watch");
+
+  if (due.length) {
+    return {
+      decision: "Relancer sans attendre",
+      evidence: `${due.length} compte(s) ont depasse la cadence prevue.`,
+      move: "Copier le DM de relance, envoyer, puis journaliser l'objection ou le creneau obtenu.",
+    };
+  }
+
+  if (missing.length) {
+    return {
+      decision: "Reprendre le fil commercial",
+      evidence: `${missing.length} compte(s) chauds n'ont pas encore de suivi journalise.`,
+      move: "Tracer le dernier contact avant toute nouvelle relance.",
+    };
+  }
+
+  return {
+    decision: "Cadence sous controle",
+    evidence: "Aucune relance urgente dans la file prioritaire.",
+    move: "Continuer les nouveaux DMs et surveiller les reponses chaudes.",
   };
 }
 
@@ -216,6 +319,12 @@ export default async function ProspectionPage() {
     .filter((lead) => !["WON", "LOST"].includes(lead.rawStatus))
     .sort((a, b) => b.score - a.score)
     .slice(0, 4);
+  const followUpQueue = leads
+    .map(leadFollowUpSignal)
+    .filter((item): item is NonNullable<typeof item> => item !== null)
+    .sort((a, b) => b.priority - a.priority || b.lead.score - a.lead.score)
+    .slice(0, 5);
+  const followUpSummary = followUpArchitectSummary(followUpQueue);
 
   return (
     <AppShell activePath="/prospection" showInternalTools>
@@ -390,6 +499,70 @@ export default async function ProspectionPage() {
                 </div>
               ))}
             </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="lead-followup-command mt-5 rounded-lg border p-4" data-od-id="lead-followup-architect">
+        <div className="sales-command-header">
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-wide text-cyan-300">
+              Architecte IA relance
+            </p>
+            <h3 className="mt-1 text-lg font-semibold text-zinc-50">
+              File de relance commerciale
+            </h3>
+          </div>
+          <StatusPill>{followUpQueue.length} comptes suivis</StatusPill>
+        </div>
+
+        <div className="lead-followup-layout mt-4">
+          <article className="lead-followup-decision">
+            <p>Decision du jour</p>
+            <strong>{followUpSummary.decision}</strong>
+            <span>{followUpSummary.evidence}</span>
+            <em>{followUpSummary.move}</em>
+          </article>
+
+          <div className="lead-followup-list">
+            {followUpQueue.length ? (
+              followUpQueue.map((item) => {
+                const dmScript = buildLeadDmScript(item.lead);
+
+                return (
+                  <article className="lead-followup-card" data-tone={item.tone} key={item.lead.id}>
+                    <div>
+                      <div className="lead-followup-card-header">
+                        <span>{item.reason}</span>
+                        <strong>{item.lead.score}/100</strong>
+                      </div>
+                      <h4>{item.lead.company}</h4>
+                      <p>{item.decision}</p>
+                      <small>{item.detail}</small>
+                      {item.latestLog ? (
+                        <em>
+                          Dernier canal: {item.latestLog.channel} | Objection:{" "}
+                          {item.latestLog.objection}
+                        </em>
+                      ) : null}
+                    </div>
+                    <LeadDmCopyButton script={dmScript} />
+                  </article>
+                );
+              })
+            ) : (
+              <article className="lead-followup-card" data-tone="calm">
+                <div>
+                  <div className="lead-followup-card-header">
+                    <span>File vide</span>
+                    <strong>OK</strong>
+                  </div>
+                  <h4>Aucune relance a traiter</h4>
+                  <p>Les leads chauds n'ont pas de retard commercial visible.</p>
+                  <small>Continue la prospection Facebook et les demandes demo.</small>
+                </div>
+              </article>
+            )}
           </div>
         </div>
       </section>

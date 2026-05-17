@@ -88,6 +88,11 @@ describe("production guardrails", () => {
     assertIncludes(read("src/app/(dashboard)/prospection/page.tsx"), [
       "Command center",
       "File d'appel fondateur",
+      "Architecte IA relance",
+      "File de relance commerciale",
+      "leadFollowUpSignal",
+      "followUpArchitectSummary",
+      "data-od-id=\"lead-followup-architect\"",
       "lead-stage-board",
       "PUBLIC_DEMO",
       "Cree le {lead.createdAt}",
@@ -248,6 +253,10 @@ describe("production guardrails", () => {
 
     assertIncludes(read("src/app/globals.css"), [
       ".sales-command",
+      ".lead-followup-command",
+      ".lead-followup-layout",
+      ".lead-followup-decision",
+      ".lead-followup-card",
       ".lead-stage-board",
       ".founder-queue-card",
       ".campaign-link-panel",
