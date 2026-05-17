@@ -46,6 +46,56 @@ function leadDmScenario(lead: ProspectionLead) {
   return "froid";
 }
 
+function leadFounderAction(lead: ProspectionLead) {
+  const scenario = leadDmScenario(lead);
+
+  if (scenario === "reponse") {
+    return {
+      decision: "Proposer deux creneaux demo",
+      nextMove: "Copier le DM, envoyer, puis passer le lead en Demo si un creneau est choisi.",
+      proof: "Le prospect a deja repondu.",
+    };
+  }
+
+  if (scenario === "relance") {
+    return {
+      decision: "Relancer une seule fois",
+      nextMove: "Copier le DM de relance. Sans reponse, garder l'objection ou couper le lead.",
+      proof: "Le lead a deja ete contacte.",
+    };
+  }
+
+  if (scenario === "demo") {
+    return {
+      decision: "Qualifier le contexte demo",
+      nextMove: "Copier le DM, obtenir le contexte metier, puis preparer une demo sur contrats.",
+      proof: "Le lead vient du formulaire ou d'une demo planifiee.",
+    };
+  }
+
+  if (scenario === "excel") {
+    return {
+      decision: "Tester la douleur Excel",
+      nextMove: "Copier le DM, demander le volume clients, puis qualifier le parc contrats.",
+      proof: "Le signal parle d'Excel ou d'organisation fichier.",
+    };
+  }
+
+  if (scenario === "chaud") {
+    return {
+      decision: "Contacter maintenant",
+      nextMove: "Copier le DM, envoyer aujourd'hui, puis marquer Contacte dans le pipeline.",
+      proof: "Score 80+ ou signal commercial fort.",
+    };
+  }
+
+  return {
+    decision: "Ouvrir sans vendre",
+    nextMove: "Copier le DM, attendre une reponse, puis ne relancer qu'avec un signal clair.",
+    proof: "Lead encore froid ou peu qualifie.",
+  };
+}
+
 function buildLeadDmScript(lead: ProspectionLead) {
   const name = firstName(lead.contact);
   const scenario = leadDmScenario(lead);
@@ -216,6 +266,7 @@ export default async function ProspectionPage() {
               priorityQueue.map((lead, index) => {
                 const dmScript = buildLeadDmScript(lead);
                 const scenario = leadDmScenario(lead);
+                const founderAction = leadFounderAction(lead);
 
                 return (
                   <article className="sales-priority-card" key={lead.id}>
@@ -247,6 +298,12 @@ export default async function ProspectionPage() {
                           </div>
                           <LeadDmCopyButton script={dmScript} />
                         </div>
+                      </div>
+                      <div className="lead-founder-action mt-2">
+                        <p>Action apres envoi</p>
+                        <strong>{founderAction.decision}</strong>
+                        <span>{founderAction.nextMove}</span>
+                        <em>Preuve: {founderAction.proof}</em>
                       </div>
                     </div>
                     <span className="prospection-score" data-hot={lead.score >= 80}>

@@ -5300,6 +5300,52 @@ body .hover\:bg-zinc-100:hover {
   text-transform: uppercase;
 }
 
+.lead-founder-action {
+  background:
+    linear-gradient(135deg, rgba(245, 158, 11, 0.075), rgba(52, 211, 153, 0.035)),
+    rgba(4, 6, 8, 0.34);
+  border: 1px solid rgba(245, 158, 11, 0.14);
+  border-radius: 0.55rem;
+  padding: 0.75rem;
+}
+
+.lead-founder-action p,
+.lead-founder-action strong,
+.lead-founder-action span,
+.lead-founder-action em {
+  display: block;
+}
+
+.lead-founder-action p {
+  color: #fbbf24;
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.lead-founder-action strong {
+  color: #f4f4f5;
+  font-size: 0.92rem;
+  font-weight: 800;
+  margin-top: 0.35rem;
+}
+
+.lead-founder-action span {
+  color: #d4d4d8;
+  font-size: 0.84rem;
+  line-height: 1.45;
+  margin-top: 0.35rem;
+}
+
+.lead-founder-action em {
+  color: #fde68a;
+  font-size: 0.74rem;
+  font-style: normal;
+  line-height: 1.45;
+  margin-top: 0.45rem;
+}
+
 .lead-status-button {
   background: rgba(255, 255, 255, 0.035);
   border-color: rgba(255, 255, 255, 0.08);

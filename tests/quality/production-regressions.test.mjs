@@ -94,6 +94,8 @@ describe("production guardrails", () => {
       "LeadDmCopyButton",
       "buildLeadDmScript",
       "leadDmScenario",
+      "leadFounderAction",
+      "Action apres envoi",
       "DM skill",
       "/admin/prospection/guide",
     ], "founder sales pipeline cockpit");
@@ -229,6 +231,7 @@ describe("production guardrails", () => {
       ".lead-dm-panel",
       ".lead-dm-copy-button",
       ".lead-dm-table-action",
+      ".lead-founder-action",
     ], "sales cockpit styles");
 
     const shell = read("src/components/layout/AppShell.tsx");
