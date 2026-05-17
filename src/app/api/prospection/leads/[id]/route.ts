@@ -48,15 +48,21 @@ export async function PATCH(request: Request, context: LeadRouteContext) {
       );
     }
 
+    const updates: Record<string, string | null> = {
+      status,
+      last_touch_at: new Date().toISOString(),
+      next_action: text(body.nextAction),
+      updated_at: new Date().toISOString(),
+    };
+
+    if ("notes" in body) {
+      updates.notes = text(body.notes);
+    }
+
     const rows = await updateSupabaseRows<{ id: string }>(
       "prospection_leads",
       `id=eq.${encodeURIComponent(id)}`,
-      {
-        status,
-        last_touch_at: new Date().toISOString(),
-        next_action: text(body.nextAction),
-        updated_at: new Date().toISOString(),
-      },
+      updates,
     );
 
     if (!rows.length) {

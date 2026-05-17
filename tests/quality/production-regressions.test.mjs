@@ -93,10 +93,13 @@ describe("production guardrails", () => {
       "Cree le {lead.createdAt}",
       "Attribution: {lead.attribution}",
       "LeadDmCopyButton",
+      "LeadCommercialLogForm",
       "buildLeadDmScript",
+      "latestCommercialLog",
       "leadDmScenario",
       "leadFounderAction",
       "Action apres envoi",
+      "Dernier suivi",
       "DM skill",
       "/admin/prospection/guide",
     ], "founder sales pipeline cockpit");
@@ -107,6 +110,20 @@ describe("production guardrails", () => {
       "lead-dm-copy-button",
       "DM copie",
     ], "lead DM copy button");
+
+    assertIncludes(read("src/app/(dashboard)/prospection/LeadCommercialLogForm.tsx"), [
+      "\"use client\"",
+      "Journaliser action",
+      "Suivi commercial",
+      "objection",
+      "router.refresh",
+    ], "lead commercial action log form");
+
+    assertIncludes(read("src/app/api/prospection/leads/[id]/route.ts"), [
+      "updates.notes = text(body.notes)",
+      "last_touch_at",
+      "next_action",
+    ], "lead PATCH commercial log fields");
 
     assertIncludes(read("src/app/(dashboard)/admin/prospection/page.tsx"), [
       "Priorite fondateur",
@@ -248,6 +265,9 @@ describe("production guardrails", () => {
       ".lead-dm-copy-button",
       ".lead-dm-table-action",
       ".lead-founder-action",
+      ".lead-log-form",
+      ".lead-latest-log",
+      ".lead-table-log",
       ".content-library-hero",
       ".content-status-strip",
       ".content-asset-card",

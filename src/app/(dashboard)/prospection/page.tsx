@@ -2,6 +2,7 @@ import { AppShell, PageHeader, StatusPill } from "@/components/layout/AppShell";
 import { requireAdminUser } from "@/server/admin";
 import { getProspectionLeads } from "@/server/contratpro-data";
 
+import { LeadCommercialLogForm } from "./LeadCommercialLogForm";
 import { LeadDmCopyButton } from "./LeadDmCopyButton";
 import { LeadForm } from "./LeadForm";
 import { LeadStatusControls } from "./LeadStatusControls";
@@ -93,6 +94,33 @@ function leadFounderAction(lead: ProspectionLead) {
     decision: "Ouvrir sans vendre",
     nextMove: "Copier le DM, attendre une reponse, puis ne relancer qu'avec un signal clair.",
     proof: "Lead encore froid ou peu qualifie.",
+  };
+}
+
+function latestCommercialLog(lead: ProspectionLead) {
+  const latest = lead.notes
+    .split("\n")
+    .filter((line) => line.includes("Suivi commercial"))
+    .reverse()[0];
+
+  if (!latest) {
+    return null;
+  }
+
+  const valueOf = (key: string) => {
+    const match = latest.match(new RegExp(`${key}=([^|]+)`));
+    return match?.[1]?.trim() || "-";
+  };
+  const dateMatch = latest.match(/Suivi commercial ([^|]+)/);
+  const date = dateMatch?.[1]?.trim();
+
+  return {
+    action: valueOf("action"),
+    channel: valueOf("canal"),
+    date: date ? new Date(date).toLocaleDateString("fr-FR") : "-",
+    objection: valueOf("objection"),
+    relance: valueOf("relance"),
+    scenario: valueOf("scenario"),
   };
 }
 
@@ -267,6 +295,7 @@ export default async function ProspectionPage() {
                 const dmScript = buildLeadDmScript(lead);
                 const scenario = leadDmScenario(lead);
                 const founderAction = leadFounderAction(lead);
+                const latestLog = latestCommercialLog(lead);
 
                 return (
                   <article className="sales-priority-card" key={lead.id}>
@@ -305,6 +334,25 @@ export default async function ProspectionPage() {
                         <span>{founderAction.nextMove}</span>
                         <em>Preuve: {founderAction.proof}</em>
                       </div>
+                      {latestLog ? (
+                        <div className="lead-latest-log mt-2">
+                          <p>Dernier suivi</p>
+                          <strong>
+                            {latestLog.channel} - {latestLog.scenario} - {latestLog.date}
+                          </strong>
+                          <span>
+                            Relance: {latestLog.relance} | Objection: {latestLog.objection}
+                          </span>
+                          <em>{latestLog.action}</em>
+                        </div>
+                      ) : null}
+                      <LeadCommercialLogForm
+                        currentNotes={lead.notes}
+                        currentStatus={lead.rawStatus}
+                        defaultNextAction={lead.nextAction}
+                        defaultScenario={scenario}
+                        leadId={lead.id}
+                      />
                     </div>
                     <span className="prospection-score" data-hot={lead.score >= 80}>
                       {lead.score}<span>/100</span>
@@ -413,6 +461,7 @@ export default async function ProspectionPage() {
               {leads.map((lead) => {
                 const dmScript = buildLeadDmScript(lead);
                 const scenario = leadDmScenario(lead);
+                const latestLog = latestCommercialLog(lead);
 
                 return (
                   <tr className="prospection-table-row" key={lead.id}>
@@ -455,6 +504,13 @@ export default async function ProspectionPage() {
                         <span>{scenario}</span>
                         <LeadDmCopyButton script={dmScript} />
                       </div>
+                      {latestLog ? (
+                        <div className="lead-table-log mt-2">
+                          <strong>{latestLog.channel}</strong>
+                          <span>Relance {latestLog.relance}</span>
+                          <em>Objection: {latestLog.objection}</em>
+                        </div>
+                      ) : null}
                     </td>
                     <td className="px-4 py-4">
                       <LeadStatusControls
