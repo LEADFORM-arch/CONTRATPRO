@@ -91,7 +91,19 @@ describe("production guardrails", () => {
       "PUBLIC_DEMO",
       "Cree le {lead.createdAt}",
       "Attribution: {lead.attribution}",
+      "LeadDmCopyButton",
+      "buildLeadDmScript",
+      "leadDmScenario",
+      "DM skill",
+      "/admin/prospection/guide",
     ], "founder sales pipeline cockpit");
+
+    assertIncludes(read("src/app/(dashboard)/prospection/LeadDmCopyButton.tsx"), [
+      "\"use client\"",
+      "navigator.clipboard.writeText",
+      "lead-dm-copy-button",
+      "DM copie",
+    ], "lead DM copy button");
 
     assertIncludes(read("src/app/(dashboard)/admin/prospection/page.tsx"), [
       "Priorite fondateur",
@@ -214,6 +226,9 @@ describe("production guardrails", () => {
       ".prospection-guide-hero",
       ".prospection-guide-panel",
       ".prospection-guide-scorecard",
+      ".lead-dm-panel",
+      ".lead-dm-copy-button",
+      ".lead-dm-table-action",
     ], "sales cockpit styles");
 
     const shell = read("src/components/layout/AppShell.tsx");

@@ -5245,6 +5245,61 @@ body .hover\:bg-zinc-100:hover {
   font-size: 0.82rem;
 }
 
+.lead-dm-panel {
+  background:
+    linear-gradient(135deg, rgba(56, 189, 248, 0.08), rgba(52, 211, 153, 0.045)),
+    rgba(4, 6, 8, 0.36);
+  border: 1px solid rgba(56, 189, 248, 0.14);
+  border-radius: 0.55rem;
+  padding: 0.75rem;
+}
+
+.lead-dm-copy-button {
+  background:
+    linear-gradient(135deg, rgba(52, 211, 153, 0.14), rgba(56, 189, 248, 0.08)),
+    rgba(6, 78, 59, 0.2);
+  border: 1px solid rgba(52, 211, 153, 0.26);
+  border-radius: 0.5rem;
+  color: #bbf7d0;
+  font-size: 0.75rem;
+  font-weight: 800;
+  min-height: 2rem;
+  padding: 0.45rem 0.65rem;
+  transition: border-color 160ms ease, color 160ms ease, transform 160ms ease;
+  white-space: nowrap;
+}
+
+.lead-dm-copy-button:hover {
+  border-color: rgba(56, 189, 248, 0.38);
+  color: #ecfeff;
+  transform: translateY(-1px);
+}
+
+.lead-dm-copy-button:focus-visible {
+  outline: 3px solid rgba(56, 189, 248, 0.2);
+  outline-offset: 2px;
+}
+
+.lead-dm-table-action {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  min-width: 9rem;
+}
+
+.lead-dm-table-action span {
+  background: rgba(56, 189, 248, 0.08);
+  border: 1px solid rgba(56, 189, 248, 0.14);
+  border-radius: 999px;
+  color: #67e8f9;
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  padding: 0.25rem 0.5rem;
+  text-transform: uppercase;
+}
+
 .lead-status-button {
   background: rgba(255, 255, 255, 0.035);
   border-color: rgba(255, 255, 255, 0.08);
