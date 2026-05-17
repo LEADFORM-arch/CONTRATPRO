@@ -6,6 +6,7 @@ import { LeadCommercialLogForm } from "./LeadCommercialLogForm";
 import { LeadDmCopyButton } from "./LeadDmCopyButton";
 import { LeadForm } from "./LeadForm";
 import { LeadStatusControls } from "./LeadStatusControls";
+import { PilotBriefCopyButton } from "./PilotBriefCopyButton";
 
 type ProspectionLead = Awaited<ReturnType<typeof getProspectionLeads>>[number];
 
@@ -227,6 +228,100 @@ function followUpArchitectSummary(queue: NonNullable<ReturnType<typeof leadFollo
   };
 }
 
+function pilotReadinessSignal(lead: ProspectionLead) {
+  const latestLog = latestCommercialLog(lead);
+  const hasObjection = Boolean(latestLog?.objection && latestLog.objection !== "-");
+
+  if (lead.rawStatus === "DEMO_SCHEDULED") {
+    return {
+      checklist: [
+        "Confirmer le nombre de contrats d'entretien actifs.",
+        "Demander le fichier Excel ou la methode de suivi actuelle.",
+        "Preparer une demo sur renouvellements, documents et relances.",
+      ],
+      decision: "Preparer la demo pilote",
+      lead,
+      latestLog,
+      note: "Le rendez-vous existe deja: transformer la demo en diagnostic cash-flow CVC.",
+      proof: "Demo planifiee",
+      score: 100,
+      tone: "sell",
+    };
+  }
+
+  if (lead.rawStatus === "REPLIED" || lead.score >= 85) {
+    return {
+      checklist: [
+        "Obtenir un creneau de 15 minutes.",
+        "Qualifier Excel, agenda ou logiciel metier actuel.",
+        "Isoler une objection avant de parler prix.",
+      ],
+      decision: "Proposer un creneau pilote",
+      lead,
+      latestLog,
+      note: "Signal commercial assez fort pour sortir du DM et passer en rendez-vous.",
+      proof: lead.rawStatus === "REPLIED" ? "Reponse prospect" : "Score 85+",
+      score: 85,
+      tone: "sell",
+    };
+  }
+
+  if (hasObjection || lead.rawStatus === "CONTACTED") {
+    return {
+      checklist: [
+        "Clarifier l'objection avant toute proposition.",
+        "Reformuler la douleur: contrat oublie, Excel, relance, cash-flow.",
+        "Relancer une seule fois avec une question courte.",
+      ],
+      decision: "Qualifier avant pilote",
+      lead,
+      latestLog,
+      note: "Le compte merite un suivi, mais pas encore une demo forte.",
+      proof: hasObjection ? `Objection: ${latestLog?.objection}` : "Lead contacte",
+      score: 65,
+      tone: "iterate",
+    };
+  }
+
+  return {
+    checklist: [
+      "Ne pas forcer la demo sans reponse.",
+      "Chercher un signal metier plus precis.",
+      "Garder le lead en prospection froide.",
+    ],
+    decision: "Rester en prospection",
+    lead,
+    latestLog,
+    note: "Le signal ne justifie pas encore un rendez-vous pilote.",
+    proof: "Signal faible",
+    score: 35,
+    tone: "stop",
+  };
+}
+
+function buildPilotBrief(item: ReturnType<typeof pilotReadinessSignal>) {
+  const latest = item.latestLog
+    ? `Dernier suivi: ${item.latestLog.channel}, scenario ${item.latestLog.scenario}, objection ${item.latestLog.objection}.`
+    : "Dernier suivi: a journaliser avant rendez-vous.";
+
+  return `Fiche passage demo/pilote - ${item.lead.company}
+
+Decision: ${item.decision}
+Preuve: ${item.proof}
+Contact: ${item.lead.contact} - ${item.lead.phone} - ${item.lead.email}
+Contexte: ${item.lead.specialty} - ${item.lead.city} - score ${item.lead.score}/100
+${latest}
+
+Angle rendez-vous:
+${item.note}
+
+Checklist:
+- ${item.checklist.join("\n- ")}
+
+Prochaine action:
+${item.lead.nextAction}`;
+}
+
 function buildLeadDmScript(lead: ProspectionLead) {
   const name = firstName(lead.contact);
   const scenario = leadDmScenario(lead);
@@ -325,6 +420,11 @@ export default async function ProspectionPage() {
     .sort((a, b) => b.priority - a.priority || b.lead.score - a.lead.score)
     .slice(0, 5);
   const followUpSummary = followUpArchitectSummary(followUpQueue);
+  const pilotQueue = leads
+    .filter((lead) => !["WON", "LOST"].includes(lead.rawStatus))
+    .map(pilotReadinessSignal)
+    .sort((a, b) => b.score - a.score || b.lead.score - a.lead.score)
+    .slice(0, 3);
 
   return (
     <AppShell activePath="/prospection" showInternalTools>
@@ -594,6 +694,52 @@ export default async function ProspectionPage() {
             </div>
           </article>
         ))}
+      </section>
+
+      <section className="pilot-handoff-command mt-5 rounded-lg border p-4" data-od-id="pilot-handoff-command">
+        <div className="sales-command-header">
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-wide text-emerald-300">
+              Architecte IA demo pilote
+            </p>
+            <h3 className="mt-1 text-lg font-semibold text-zinc-50">
+              Passage lead vers rendez-vous
+            </h3>
+          </div>
+          <StatusPill>{pilotQueue.length} fiches pretes</StatusPill>
+        </div>
+
+        <div className="pilot-handoff-grid mt-4">
+          {pilotQueue.map((item) => {
+            const brief = buildPilotBrief(item);
+
+            return (
+              <article className="pilot-handoff-card" data-tone={item.tone} key={item.lead.id}>
+                <div className="pilot-handoff-card-head">
+                  <span>{item.proof}</span>
+                  <strong>{item.lead.score}/100</strong>
+                </div>
+                <h4>{item.lead.company}</h4>
+                <p>{item.decision}</p>
+                <em>{item.note}</em>
+                <div className="pilot-handoff-proof">
+                  <span>Dernier suivi</span>
+                  <strong>
+                    {item.latestLog
+                      ? `${item.latestLog.channel} - ${item.latestLog.objection}`
+                      : "A journaliser"}
+                  </strong>
+                </div>
+                <ul>
+                  {item.checklist.map((step) => (
+                    <li key={step}>{step}</li>
+                  ))}
+                </ul>
+                <PilotBriefCopyButton brief={brief} />
+              </article>
+            );
+          })}
+        </div>
       </section>
 
       <section className="mt-6">

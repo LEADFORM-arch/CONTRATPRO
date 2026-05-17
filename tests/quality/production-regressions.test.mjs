@@ -99,12 +99,18 @@ describe("production guardrails", () => {
       "Attribution: {lead.attribution}",
       "LeadDmCopyButton",
       "LeadCommercialLogForm",
+      "PilotBriefCopyButton",
       "buildLeadDmScript",
       "latestCommercialLog",
       "leadDmScenario",
       "leadFounderAction",
+      "pilotReadinessSignal",
+      "buildPilotBrief",
       "Action apres envoi",
       "Dernier suivi",
+      "Architecte IA demo pilote",
+      "Passage lead vers rendez-vous",
+      "data-od-id=\"pilot-handoff-command\"",
       "DM skill",
       "/admin/prospection/guide",
     ], "founder sales pipeline cockpit");
@@ -123,6 +129,13 @@ describe("production guardrails", () => {
       "objection",
       "router.refresh",
     ], "lead commercial action log form");
+
+    assertIncludes(read("src/app/(dashboard)/prospection/PilotBriefCopyButton.tsx"), [
+      "\"use client\"",
+      "navigator.clipboard.writeText",
+      "pilot-brief-copy-button",
+      "Fiche copiee",
+    ], "pilot brief copy button");
 
     assertIncludes(read("src/app/api/prospection/leads/[id]/route.ts"), [
       "updates.notes = text(body.notes)",
@@ -257,6 +270,10 @@ describe("production guardrails", () => {
       ".lead-followup-layout",
       ".lead-followup-decision",
       ".lead-followup-card",
+      ".pilot-handoff-command",
+      ".pilot-handoff-grid",
+      ".pilot-handoff-card",
+      ".pilot-brief-copy-button",
       ".lead-stage-board",
       ".founder-queue-card",
       ".campaign-link-panel",
