@@ -114,7 +114,11 @@ export async function POST(request: Request, context: RouteContext) {
       );
     }
 
-    const useCompanyOnly = Boolean(customer.company_name?.trim());
+    const useCompanyOnly = Boolean(
+      customer.company_name?.trim() &&
+        !customer.first_name?.trim() &&
+        !customer.last_name?.trim(),
+    );
     const flow = await createGoCardlessMandateAuthorisationFlow({
       appBaseUrl: appBaseUrl(request),
       contractId: id,

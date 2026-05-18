@@ -30,29 +30,29 @@ export default function QuickContractPage() {
             </a>
           </div>
         }
-        description="Creez le client, la chaudiere ou PAC et le contrat annuel dans un seul flux court, puis facturez ou preparez le SEPA plus tard."
-        eyebrow="Contrat rapide"
-        title="Premier contrat en 5 minutes"
+        description="Avancez par groupes numerotes: client, equipement, contrat, paiement, puis validation. Le chauffagiste ne voit pas les details techniques GoCardless."
+        eyebrow="Contrat guide"
+        title="Creer un contrat avec paiement"
       />
 
       <div className="contract-form-intro quick-contract-intro mt-6">
         <div>
           <p className="text-sm font-medium text-emerald-700">
-            Parcours terrain
+            Parcours terrain numerote
           </p>
           <h3 className="mt-2 text-2xl font-semibold text-zinc-950">
-            Capturer le revenu avant de completer le dossier.
+            Un contrat comme sur papier, puis le paiement en plus.
           </h3>
           <p className="mt-2 max-w-2xl text-sm leading-6 text-zinc-500">
-            Pour M. Martin, l'objectif n'est pas de tout documenter maintenant:
-            c'est de rendre le contrat actif, facturable et visible dans les
-            relances.
+            Le chauffagiste suit les chiffres dans l'ordre naturel. ContratPro
+            cree le client, l'equipement, le contrat et, si besoin, le lien de
+            signature SEPA.
           </p>
         </div>
         <div className="contract-form-intro-grid">
-          <span>5-7 champs</span>
-          <span>Contrat actif</span>
-          <span>Facture suivante</span>
+          <span>1 Client</span>
+          <span>4 Paiement</span>
+          <span>5 Validation</span>
         </div>
       </div>
 

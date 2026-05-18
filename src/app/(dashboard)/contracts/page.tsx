@@ -82,7 +82,7 @@ export default async function ContractsPage() {
         action={
           <div className="flex flex-wrap gap-2">
             <a className="premium-action rounded-md text-sm font-semibold" href="/contracts/quick">
-              Contrat rapide
+              Contrat guide
             </a>
             <a
               className="premium-secondary-action rounded-md px-4 py-2 text-sm font-semibold"

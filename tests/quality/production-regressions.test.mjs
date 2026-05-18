@@ -1507,25 +1507,33 @@ describe("production guardrails", () => {
       "A securiser",
       "Prochaine action",
       "/contracts/quick",
-      "Contrat rapide",
+      "Contrat guide",
       "Creer mon premier contrat",
       "Importer depuis Excel",
     ], "contracts empty state actions");
 
     assertIncludes(read("src/app/(dashboard)/contracts/quick/page.tsx"), [
-      "Premier contrat en 5 minutes",
+      "Creer un contrat avec paiement",
       "Formulaire complet",
       "QuickContractForm",
-      "5-7 champs",
+      "Parcours terrain numerote",
+      "1 Client",
+      "5 Validation",
     ], "quick contract page");
 
     assertIncludes(read("src/app/(dashboard)/contracts/quick/QuickContractForm.tsx"), [
       "/api/contracts/quick",
+      "/api/contracts/${payload.id}/mandate/authorisation",
       "customerName",
+      "contactFirstName",
+      "customerAddress",
       "equipmentType",
       "priceTtc",
+      "paymentMethod",
+      "Creer et faire signer",
+      "Prelevement SEPA",
+      "5 Validation",
       "Creer facture",
-      "Preparer SEPA plus tard",
     ], "quick contract form");
 
     assertIncludes(read("src/app/(dashboard)/contracts/[id]/page.tsx"), [
@@ -1591,7 +1599,10 @@ describe("production guardrails", () => {
       "\"customers\"",
       "\"installations\"",
       "\"contracts\"",
-      "payment_method: \"SEPA\"",
+      "payment_method: paymentMethod",
+      "customerAddress",
+      "durationMonths",
+      "Prelevement SEPA a faire signer",
     ], "quick contract API");
 
     assertIncludes(read("src/app/(dashboard)/invoices/new/page.tsx"), [
@@ -1625,6 +1636,9 @@ describe("production guardrails", () => {
       ".activation-empty-state",
       ".activation-empty-actions",
       ".quick-contract-shell",
+      ".quick-contract-group",
+      ".quick-payment-options",
+      ".quick-contract-summary",
       ".quick-contract-success",
       ".contract-next-action",
       ".contract-next-action-card",

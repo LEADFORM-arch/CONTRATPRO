@@ -17,6 +17,8 @@ const equipmentTypes = new Set([
   "OTHER",
 ]);
 
+const paymentMethods = new Set(["BANK_TRANSFER", "CHECK", "SEPA"]);
+
 function text(value: unknown) {
   return typeof value === "string" && value.trim() ? value.trim() : null;
 }
@@ -44,6 +46,12 @@ function isoDate(value: unknown, fallback: Date) {
   return Number.isNaN(date.getTime()) ? fallback.toISOString() : date.toISOString();
 }
 
+function addMonths(date: Date, months: number) {
+  const next = new Date(date);
+  next.setMonth(next.getMonth() + months);
+  return next;
+}
+
 function roundCurrency(value: number) {
   return Math.round(value * 100) / 100;
 }
@@ -60,6 +68,7 @@ export async function POST(request: Request) {
     const customerEmail = text(body.customerEmail);
     const priceTtc = numberValue(body.priceTtc);
     const vatRate = numberValue(body.vatRate) ?? 20;
+    const paymentMethod = enumValue(body.paymentMethod, paymentMethods, "SEPA");
     const today = new Date();
     const nextYear = new Date(today);
     nextYear.setFullYear(today.getFullYear() + 1);
@@ -77,11 +86,13 @@ export async function POST(request: Request) {
     const customer = await insertSupabaseRow<{ id: string }>("customers", {
       organization_id: await getResolvedOrganizationId(),
       company_name: customerName,
-      first_name: null,
-      last_name: null,
+      first_name: text(body.contactFirstName),
+      last_name: text(body.contactLastName),
       email: customerEmail,
       phone: text(body.customerPhone),
+      address: text(body.customerAddress),
       city: text(body.customerCity),
+      zip_code: text(body.customerZipCode),
       notes: "Cree depuis le contrat rapide.",
     });
 
@@ -92,13 +103,18 @@ export async function POST(request: Request) {
       customer_id: customer.id,
       type: enumValue(body.equipmentType, equipmentTypes, "BOILER_GAS"),
       brand: text(body.brand),
+      serial_number: text(body.serialNumber),
       model: text(body.model),
+      power_kw: numberValue(body.powerKw),
       location: text(body.location),
       notes: equipmentLabel ? `Contrat rapide: ${equipmentLabel}` : "Contrat rapide.",
     });
 
-    const startDate = isoDate(body.startDate, today);
-    const endDate = isoDate(body.endDate, nextYear);
+    const startDate = isoDate(body.visibleStartDate || body.startDate, today);
+    const start = new Date(startDate);
+    const durationMonths = numberValue(body.durationMonths) ?? 12;
+    const endDate = addMonths(start, durationMonths).toISOString();
+    const notes = text(body.contractNotes);
     const contract = await insertSupabaseRow<{ id: string }>("contracts", {
       installation_id: installation.id,
       status: "ACTIVE",
@@ -108,10 +124,13 @@ export async function POST(request: Request) {
       vat_rate: vatRate,
       price_ttc: roundCurrency(priceTtc),
       billing_cycle: "ANNUAL",
-      payment_method: "SEPA",
+      payment_method: paymentMethod,
       auto_renew: true,
       notes:
-        "Contrat cree en mode rapide. Mandat SEPA a preparer quand GoCardless est actif.",
+        notes ||
+        (paymentMethod === "SEPA"
+          ? "Contrat cree en mode guide. Prelevement SEPA a faire signer."
+          : "Contrat cree en mode guide. Paiement manuel a suivre."),
     });
 
     return NextResponse.json(
