@@ -229,6 +229,7 @@ describe("production guardrails", () => {
       "GOCARDLESS_ENVIRONMENT=sandbox",
       "/contracts/quick",
       "Creer lien GoCardless",
+      "mandate_request_mandate",
       "Actif GoCardless",
       "/payments/new",
       "/api/webhooks/gocardless",
@@ -415,6 +416,10 @@ describe("production guardrails", () => {
     assertIncludes(read("src/app/api/webhooks/gocardless/route.ts"), [
       "verifyGoCardlessSignature",
       "Webhook-Signature",
+      "handleBillingRequestEvent",
+      "handleMandateEvent",
+      "mandate_request_mandate",
+      "retrieveGoCardlessBillingRequest",
     ], "gocardless webhook");
 
     assertIncludes(read("src/app/api/webhooks/stripe/route.ts"), [
@@ -1545,6 +1550,7 @@ describe("production guardrails", () => {
     assertIncludes(read("src/server/sepa-provider.ts"), [
       "/billing_requests",
       "/billing_request_flows",
+      "retrieveGoCardlessBillingRequest",
       "sepa_core",
       "authorisationUrl",
       "contratpro_contract_id",

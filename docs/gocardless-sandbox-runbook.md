@@ -26,14 +26,17 @@ test fournis ou acceptes par GoCardless.
 4. Dans `Mandat SEPA`, cliquer `Creer lien GoCardless`.
 5. Ouvrir le lien sandbox et finaliser le parcours mandate GoCardless heberge.
 6. Le mandat passe en suivi `Envoye GoCardless`.
-7. Quand GoCardless fournit les identifiants sandbox ou via webhook, verifier :
+7. Le webhook `/api/webhooks/gocardless` doit ensuite rattacher
+   automatiquement le `mandate_request_mandate` au contrat et suivre les
+   evenements `mandates` (`submitted`, `active`, `failed`, `cancelled`).
+8. Quand GoCardless fournit les identifiants sandbox ou via webhook, verifier :
    - `ID client GoCardless` ;
    - `ID mandat GoCardless` ;
    - `Statut mandat` = `Actif GoCardless`.
-8. Ouvrir `/payments/new`.
-9. Programmer un paiement.
-10. Dans `/payments`, cliquer `Soumettre SEPA`.
-11. Verifier que `gc_payment_id` apparait et qu'un evenement est visible dans
+9. Ouvrir `/payments/new`.
+10. Programmer un paiement.
+11. Dans `/payments`, cliquer `Soumettre SEPA`.
+12. Verifier que `gc_payment_id` apparait et qu'un evenement est visible dans
    `payment_events`.
 
 Le collage manuel des identifiants reste disponible en secours sandbox, mais le

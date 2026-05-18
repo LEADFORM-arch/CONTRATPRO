@@ -11,8 +11,14 @@ type GoCardlessEvent = {
   };
   id?: string;
   links?: {
+    billing_request?: string;
+    customer?: string;
+    mandate?: string;
+    mandate_request_mandate?: string;
+    new_mandate?: string;
     payment?: string;
   };
+  metadata?: Record<string, string>;
   resource_type?: string;
 };
 
@@ -54,6 +60,32 @@ export function paymentStatusFromGoCardlessAction(action?: string) {
     failed: "FAILED",
     paid_out: "PAID_OUT",
     submitted: "SUBMITTED",
+  };
+  return action ? statuses[action] ?? null : null;
+}
+
+export function mandateStatusFromGoCardlessAction(action?: string) {
+  const statuses: Record<string, string> = {
+    active: "ACTIVE",
+    cancelled: "CANCELLED",
+    created: "PENDING_SUBMISSION",
+    expired: "EXPIRED",
+    failed: "FAILED",
+    pending_submission: "PENDING_SUBMISSION",
+    replaced: "ACTIVE",
+    submitted: "SUBMITTED",
+  };
+  return action ? statuses[action] ?? null : null;
+}
+
+export function billingRequestMandateStatusFromAction(action?: string) {
+  const statuses: Record<string, string> = {
+    bank_authorisation_denied: "FAILED",
+    bank_authorisation_expired: "FAILED",
+    bank_authorisation_failed: "FAILED",
+    cancelled: "CANCELLED",
+    failed: "FAILED",
+    fulfilled: "SUBMITTED",
   };
   return action ? statuses[action] ?? null : null;
 }

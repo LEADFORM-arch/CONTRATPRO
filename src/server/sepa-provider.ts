@@ -92,6 +92,33 @@ async function goCardlessPost<T>(path: string, body: unknown) {
   return data as T;
 }
 
+async function goCardlessGet<T>(path: string) {
+  const config = providerConfig();
+  const response = await fetch(`${config.baseUrl}${path}`, {
+    method: "GET",
+    signal: AbortSignal.timeout(15000),
+    headers: {
+      Authorization: `Bearer ${config.accessToken}`,
+      "Content-Type": "application/json",
+      "GoCardless-Version": config.version,
+    },
+  });
+
+  const data = (await response.json().catch(() => null)) as
+    | (T & GoCardlessErrorPayload)
+    | null;
+
+  if (!response.ok) {
+    const message =
+      data?.error?.message ||
+      data?.error?.errors?.[0]?.message ||
+      "GoCardless a refuse la lecture.";
+    throw new SepaProviderError(message, response.status);
+  }
+
+  return data as T;
+}
+
 function cleanObject<T extends Record<string, unknown>>(value: T) {
   return Object.fromEntries(
     Object.entries(value).filter(([, entry]) => {
@@ -216,4 +243,20 @@ export async function createGoCardlessMandateAuthorisationFlow(
     expiresAt: flow.billing_request_flows?.expires_at ?? "",
     flowId,
   };
+}
+
+export async function retrieveGoCardlessBillingRequest(id: string) {
+  const data = await goCardlessGet<{
+    billing_requests?: {
+      id?: string;
+      links?: {
+        customer?: string;
+        mandate_request_mandate?: string;
+      };
+      metadata?: Record<string, string>;
+      status?: string;
+    };
+  }>(`/billing_requests/${encodeURIComponent(id)}`);
+
+  return data.billing_requests ?? null;
 }
