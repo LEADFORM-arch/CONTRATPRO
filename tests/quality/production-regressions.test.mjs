@@ -341,6 +341,7 @@ describe("production guardrails", () => {
       "src/app/api/billing/portal/route.ts",
       "src/app/api/certificates/[id]/send/route.ts",
       "src/app/api/certificates/[id]/pdf/route.ts",
+      "src/app/api/contracts/[id]/mandate/route.ts",
       "src/app/api/contracts/quick/route.ts",
       "src/app/api/contracts/route.ts",
       "src/app/api/import/clients/route.ts",
@@ -1505,12 +1506,35 @@ describe("production guardrails", () => {
 
     assertIncludes(read("src/app/(dashboard)/contracts/[id]/page.tsx"), [
       "data-od-id=\"contract-next-action\"",
+      "MandateSetupForm",
       "Creer facture",
       "/invoices/new?contractId=",
       "Preparer SEPA",
       "GoCardless",
       "Programmer paiement",
     ], "contract detail next actions");
+
+    assertIncludes(read("src/app/(dashboard)/contracts/[id]/MandateSetupForm.tsx"), [
+      "/api/contracts/${contractId}/mandate",
+      "gcCustomerId",
+      "gcMandateId",
+      "Actif GoCardless",
+      "Enregistrer mandat",
+    ], "contract mandate setup form");
+
+    assertIncludes(read("src/app/api/contracts/[id]/mandate/route.ts"), [
+      "requireApiUser",
+      "sepa_mandates",
+      "gc_customer_id",
+      "gc_mandate_id",
+      "Renseignez l'identifiant mandat GoCardless",
+    ], "contract mandate setup API");
+
+    assertIncludes(read("src/app/(dashboard)/payments/new/PaymentForm.tsx"), [
+      "Aucun mandat SEPA actif disponible",
+      "Creer un mandat depuis un contrat",
+      "/contracts",
+    ], "payment empty mandate action");
 
     assertIncludes(read("src/app/api/contracts/quick/route.ts"), [
       "requireApiUser",
@@ -1555,6 +1579,7 @@ describe("production guardrails", () => {
       ".quick-contract-success",
       ".contract-next-action",
       ".contract-next-action-card",
+      ".contract-mandate-form",
       ".contract-portfolio-command",
       ".contract-portfolio-decision",
       ".payment-command-panel",

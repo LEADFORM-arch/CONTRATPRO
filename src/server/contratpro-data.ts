@@ -414,6 +414,7 @@ type SupabaseContractDetailRow = {
   sepa_mandates?: MaybeArray<{
     id: string;
     status: string;
+    gc_customer_id: string | null;
     gc_mandate_id: string | null;
     signed_at: string | null;
     sepa_payments?: Array<{
@@ -820,7 +821,7 @@ export async function getRenewalActions() {
 
 export async function getContractDetail(id: string) {
   const rows = await supabaseRequest<SupabaseContractDetailRow[]>(
-    `/contracts?id=eq.${encodeURIComponent(id)}&select=id,status,start_date,end_date,price_ht,vat_rate,price_ttc,billing_cycle,payment_method,notes,installations(id,type,brand,model,serial_number,power_kw,location,customers(id,company_name,first_name,last_name,email,phone,address,city,zip_code)),interventions(id,performed_at,technician,status,report,next_visit_date),certificates(id,issued_at,sent_to_customer,legal_reference,file_name),sepa_mandates(id,status,gc_mandate_id,signed_at,sepa_payments(id,amount,status,charge_date,description))`,
+    `/contracts?id=eq.${encodeURIComponent(id)}&select=id,status,start_date,end_date,price_ht,vat_rate,price_ttc,billing_cycle,payment_method,notes,installations(id,type,brand,model,serial_number,power_kw,location,customers(id,company_name,first_name,last_name,email,phone,address,city,zip_code)),interventions(id,performed_at,technician,status,report,next_visit_date),certificates(id,issued_at,sent_to_customer,legal_reference,file_name),sepa_mandates(id,status,gc_customer_id,gc_mandate_id,signed_at,sepa_payments(id,amount,status,charge_date,description))`,
   );
   const row = rows?.[0];
 
@@ -919,6 +920,7 @@ export async function getContractDetail(id: string) {
       ? {
           id: mandate.id,
           status: mandate.status,
+          customerProviderId: mandate.gc_customer_id ?? "-",
           providerId: mandate.gc_mandate_id ?? "-",
           signedAt: formatDate(mandate.signed_at),
         }

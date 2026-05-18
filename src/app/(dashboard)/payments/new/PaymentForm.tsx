@@ -144,6 +144,14 @@ export function PaymentForm({ defaultChargeDate, mandates }: PaymentFormProps) {
               ? "Le paiement reste interne tant que le prestataire SEPA n'est pas branche."
               : "Aucun mandat SEPA actif disponible.")}
         </p>
+        {!mandates.length ? (
+          <a
+            className="premium-secondary-action rounded-md px-4 py-2 text-sm font-semibold"
+            href="/contracts"
+          >
+            Creer un mandat depuis un contrat
+          </a>
+        ) : null}
         <button
           className="rounded-md bg-emerald-700 px-4 py-2 text-sm font-semibold text-white shadow-sm disabled:cursor-not-allowed disabled:bg-zinc-400"
           disabled={disabled}

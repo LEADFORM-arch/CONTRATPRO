@@ -4,6 +4,8 @@ import { AppShell, PageHeader, StatusPill } from "@/components/layout/AppShell";
 import { formatEuro } from "@/lib/mock-data";
 import { getContractDetail } from "@/server/contratpro-data";
 
+import { MandateSetupForm } from "./MandateSetupForm";
+
 type ContractDetailPageProps = {
   params: Promise<{ id: string }>;
 };
@@ -270,6 +272,12 @@ export default async function ContractDetailPage({
                 {contract.mandate ? "Programmer paiement" : "Preparer SEPA"}
               </a>
             </div>
+            <MandateSetupForm
+              contractId={contract.id}
+              customerProviderId={contract.mandate?.customerProviderId}
+              mandateProviderId={contract.mandate?.providerId}
+              status={contract.mandate?.status}
+            />
             <div className="mt-3 divide-y divide-zinc-100">
               {contract.payments.length ? (
                 contract.payments.map((payment) => (
