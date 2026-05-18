@@ -6736,6 +6736,7 @@ body .hover\:bg-zinc-100:hover {
 .ops-hero,
 .ops-panel,
 .ops-cron-panel,
+.ops-gocardless-panel,
 .ops-demo-panel,
 .ops-smoke-panel,
 .ops-metric-card {
@@ -6751,6 +6752,7 @@ body .hover\:bg-zinc-100:hover {
 .ops-hero::before,
 .ops-panel::before,
 .ops-cron-panel::before,
+.ops-gocardless-panel::before,
 .ops-demo-panel::before,
 .ops-smoke-panel::before,
 .ops-metric-card::before {
@@ -6877,6 +6879,10 @@ body .hover\:bg-zinc-100:hover {
 
 .ops-cron-panel::before {
   background: linear-gradient(90deg, #38bdf8, #34d399 62%, #f59e0b);
+}
+
+.ops-gocardless-panel::before {
+  background: linear-gradient(90deg, #34d399, #38bdf8 50%, #0f766e);
 }
 
 .ops-demo-panel::before {

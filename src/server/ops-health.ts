@@ -1,4 +1,5 @@
 import { getAdminEmails } from "@/server/admin";
+import { checkGoCardlessProvider } from "@/server/sepa-provider";
 import { serviceSelect } from "@/server/supabase-service";
 import { isAuthEnforced, isRlsExpected } from "@/server/tenant";
 
@@ -255,6 +256,54 @@ function buildSmokeRunbook(): OpsSmokeAction[] {
   ];
 }
 
+function buildGoCardlessRunbook({
+  providerProbe,
+  paymentEvents,
+}: {
+  paymentEvents: SafeRows<TimestampRow>;
+  providerProbe: { detail: string; ok: boolean };
+}): OpsRunbookAction[] {
+  const tokenReady = hasEnv("GOCARDLESS_ACCESS_TOKEN");
+  const webhookReady = hasEnv("GOCARDLESS_WEBHOOK_ENDPOINT_SECRET");
+  const sandboxReady = process.env.GOCARDLESS_ENVIRONMENT === "sandbox";
+  const versionReady = hasEnv("GOCARDLESS_VERSION");
+
+  return [
+    {
+      command: "Vercel env: GoCardless sandbox",
+      detail: "Controle token, environnement sandbox, version API et secret webhook.",
+      label: "Variables SEPA",
+      proof: sandboxReady
+        ? "GOCARDLESS_ENVIRONMENT=sandbox et secrets presents."
+        : "GOCARDLESS_ENVIRONMENT doit rester sandbox tant que le pilote live n'est pas valide.",
+      status: tokenReady && webhookReady && sandboxReady && versionReady ? "ready" : "critical",
+    },
+    {
+      command: "GET /creditors sur api-sandbox.gocardless.com",
+      detail: "Verifie que le token sandbox parle vraiment a GoCardless.",
+      label: "API provider",
+      proof: providerProbe.detail,
+      status: providerProbe.ok ? "ready" : "critical",
+    },
+    {
+      command: "/contracts/quick -> fiche contrat -> Creer lien GoCardless",
+      detail: "Cree une Billing Request et un Flow heberge pour signer le mandat.",
+      label: "Lien mandat",
+      proof: "Le bouton doit renvoyer une URL GoCardless sandbox ouvrable.",
+      status: tokenReady && providerProbe.ok ? "ready" : "warning",
+    },
+    {
+      command: "Webhook /api/webhooks/gocardless",
+      detail: "Suit les retours billing_requests, mandates et payments.",
+      label: "Retour provider",
+      proof: paymentEvents.rows.length
+        ? "Evenements paiement GoCardless deja visibles."
+        : "Aucun paiement provider encore journalise: tester un mandat puis un paiement sandbox.",
+      status: webhookReady && !paymentEvents.error ? "ready" : "warning",
+    },
+  ];
+}
+
 function buildDemoChecklist({
   billingSubscriptions,
   documentSends,
@@ -370,6 +419,7 @@ export async function getOpsHealth() {
     billingSubscriptions,
     billingEvents,
     internalNotifications,
+    goCardlessProbe,
   ] = await Promise.all([
     safeSelect<TimestampRow>("organizations", "select=id,created_at&order=created_at.desc&limit=10"),
     safeSelect<TimestampRow>("document_sends", "select=id,status,created_at,sent_at&order=created_at.desc&limit=10"),
@@ -378,6 +428,7 @@ export async function getOpsHealth() {
     safeSelect<TimestampRow>("billing_subscriptions", "select=organization_id,status,created_at,updated_at&order=updated_at.desc&limit=10"),
     safeSelect<TimestampRow>("billing_events", "select=id,status,created_at&order=created_at.desc&limit=10"),
     safeSelect<TimestampRow>("internal_notifications", "select=id,status,created_at&order=created_at.desc&limit=10"),
+    checkGoCardlessProvider(),
   ]);
 
   const metrics: OpsMetric[] = [
@@ -414,6 +465,10 @@ export async function getOpsHealth() {
       renewalActions,
     }),
     generatedAt: new Date().toISOString(),
+    goCardlessRunbook: buildGoCardlessRunbook({
+      paymentEvents,
+      providerProbe: goCardlessProbe,
+    }),
     metrics,
     recent: [
       recentItem("Dernier document", documentSends, "Aucun document envoye"),

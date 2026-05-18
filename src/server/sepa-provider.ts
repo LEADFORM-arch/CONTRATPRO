@@ -260,3 +260,30 @@ export async function retrieveGoCardlessBillingRequest(id: string) {
 
   return data.billing_requests ?? null;
 }
+
+export async function checkGoCardlessProvider() {
+  try {
+    const data = await goCardlessGet<{
+      creditors?: Array<{
+        id?: string;
+        name?: string;
+      }>;
+    }>("/creditors?limit=1");
+    const creditor = data.creditors?.[0];
+
+    return {
+      detail: creditor?.id
+        ? `Compte sandbox joignable, creditor ${creditor.id.slice(0, 6)}...`
+        : "API sandbox joignable, aucun creditor retourne sur ce token.",
+      ok: true,
+    };
+  } catch (error) {
+    return {
+      detail:
+        error instanceof Error
+          ? error.message
+          : "GoCardless sandbox ne repond pas au controle provider.",
+      ok: false,
+    };
+  }
+}

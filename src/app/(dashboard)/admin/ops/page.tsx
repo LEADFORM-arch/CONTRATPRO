@@ -122,6 +122,32 @@ export default async function OpsPage() {
         </div>
       </section>
 
+      <section className="ops-gocardless-panel mt-6 rounded-lg border shadow-sm" data-od-id="ops-gocardless-runbook">
+        <div className="ops-panel-header">
+          <div>
+            <p className="text-sm font-semibold text-emerald-300">Cash-flow SEPA</p>
+            <h3 className="mt-1 text-lg font-bold text-zinc-50">GoCardless sandbox sous controle</h3>
+          </div>
+          <span className="ops-muted-pill">Mandat puis paiement</span>
+        </div>
+        <div className="ops-cron-grid">
+          {health.goCardlessRunbook.map((item) => (
+            <article className="ops-cron-card" data-status={item.status} key={item.label}>
+              <div className="ops-cron-top">
+                <strong>{item.label}</strong>
+                <span>{statusLabels[item.status]}</span>
+              </div>
+              <p>{item.detail}</p>
+              <div className="ops-command-copy">
+                <code>{item.command}</code>
+                <OpsCommandCopyButton command={item.command} />
+              </div>
+              <small>{item.proof}</small>
+            </article>
+          ))}
+        </div>
+      </section>
+
       <section className="ops-demo-panel mt-6 rounded-lg border shadow-sm" data-od-id="ops-demo-checklist">
         <div className="ops-panel-header">
           <div>
