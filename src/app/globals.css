@@ -3732,15 +3732,56 @@ body .hover\:bg-zinc-100:hover {
   max-width: 72rem;
 }
 
+.quick-contract-intro::after {
+  background:
+    linear-gradient(90deg, rgba(52, 211, 153, 0.16), rgba(56, 189, 248, 0.09)),
+    #0b0d10;
+  border: 1px solid rgba(52, 211, 153, 0.16);
+  border-radius: 0.6rem;
+  content: "Contrat + paiement";
+  color: #bbf7d0;
+  font-size: 0.75rem;
+  font-weight: 900;
+  letter-spacing: 0.04em;
+  padding: 0.65rem 0.8rem;
+  text-transform: uppercase;
+}
+
+.quick-contract-intro-eyebrow {
+  color: #34d399;
+  font-size: 0.78rem;
+  font-weight: 850;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.quick-contract-intro h3 {
+  color: #f4f4f5;
+  font-size: 1.55rem;
+  font-weight: 820;
+  letter-spacing: 0;
+  line-height: 1.15;
+  margin-top: 0.5rem;
+}
+
+.quick-contract-intro-copy {
+  color: #a1a1aa;
+  font-size: 0.9rem;
+  line-height: 1.65;
+  margin-top: 0.55rem;
+  max-width: 42rem;
+}
+
 .quick-contract-shell {
   display: grid;
-  gap: 1rem;
-  max-width: 72rem;
+  gap: 1.1rem;
+  max-width: 76rem;
 }
 
 @media (min-width: 1024px) {
   .quick-contract-shell {
-    grid-template-columns: minmax(0, 1fr) 20rem;
+    align-items: start;
+    grid-template-columns: minmax(0, 1fr) 23rem;
   }
 }
 
@@ -3748,25 +3789,35 @@ body .hover\:bg-zinc-100:hover {
 .quick-contract-side,
 .quick-contract-success {
   background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.018)),
-    #111316;
-  border: 1px solid #262a31;
-  border-radius: 0.5rem;
-  box-shadow: 0 18px 44px rgba(0, 0, 0, 0.18);
+    linear-gradient(180deg, rgba(255, 255, 255, 0.052), rgba(255, 255, 255, 0.016)),
+    #101215;
+  border: 1px solid rgba(82, 82, 91, 0.58);
+  border-radius: 0.7rem;
+  box-shadow: 0 22px 58px rgba(0, 0, 0, 0.28);
   overflow: hidden;
 }
 
 .quick-contract-main {
   min-width: 0;
+  position: relative;
+}
+
+.quick-contract-main::before {
+  background: linear-gradient(90deg, #34d399, #38bdf8 55%, rgba(245, 158, 11, 0.75));
+  content: "";
+  height: 3px;
+  inset: 0 0 auto;
+  position: absolute;
 }
 
 .quick-contract-strip {
   background:
-    linear-gradient(135deg, rgba(16, 185, 129, 0.075), rgba(56, 189, 248, 0.045)),
-    rgba(255, 255, 255, 0.016);
-  border-bottom: 1px solid #262a31;
+    linear-gradient(135deg, rgba(16, 185, 129, 0.09), rgba(56, 189, 248, 0.055)),
+    #0b0d10;
+  border-bottom: 1px solid rgba(82, 82, 91, 0.58);
   display: grid;
   gap: 1px;
+  padding-top: 3px;
 }
 
 @media (min-width: 640px) {
@@ -3776,11 +3827,11 @@ body .hover\:bg-zinc-100:hover {
 }
 
 .quick-contract-strip span {
-  color: #d4d4d8;
-  font-size: 0.75rem;
+  color: #e4e4e7;
+  font-size: 0.72rem;
   font-weight: 800;
-  letter-spacing: 0.03em;
-  padding: 0.8rem 1rem;
+  letter-spacing: 0.045em;
+  padding: 0.9rem 1rem;
   text-transform: uppercase;
 }
 
@@ -3796,10 +3847,11 @@ body .hover\:bg-zinc-100:hover {
 }
 
 .quick-contract-group {
-  border-bottom: 1px solid #262a31;
+  border-bottom: 1px solid rgba(63, 63, 70, 0.72);
   display: grid;
-  gap: 1rem;
-  padding: 1rem;
+  gap: 0.9rem;
+  padding: 1.15rem;
+  position: relative;
 }
 
 .quick-contract-group:last-child {
@@ -3816,10 +3868,10 @@ body .hover\:bg-zinc-100:hover {
   align-items: center;
   align-self: start;
   background:
-    linear-gradient(135deg, rgba(52, 211, 153, 0.16), rgba(56, 189, 248, 0.1)),
+    linear-gradient(135deg, rgba(52, 211, 153, 0.18), rgba(56, 189, 248, 0.11)),
     #0b0d10;
   border: 1px solid rgba(52, 211, 153, 0.26);
-  border-radius: 0.5rem;
+  border-radius: 0.55rem;
   color: #bbf7d0;
   display: inline-flex;
   font-size: 1.15rem;
@@ -3827,6 +3879,27 @@ body .hover\:bg-zinc-100:hover {
   height: 2.5rem;
   justify-content: center;
   width: 2.5rem;
+}
+
+.quick-contract-group[data-state="ready"] .quick-contract-group-number,
+.quick-contract-group[data-state="sepa"] .quick-contract-group-number {
+  background:
+    linear-gradient(135deg, rgba(16, 185, 129, 0.24), rgba(56, 189, 248, 0.13)),
+    #08110f;
+  border-color: rgba(52, 211, 153, 0.42);
+  color: #dcfce7;
+}
+
+.quick-contract-group[data-state="manual"] .quick-contract-group-number {
+  background: rgba(245, 158, 11, 0.11);
+  border-color: rgba(245, 158, 11, 0.28);
+  color: #fde68a;
+}
+
+.quick-contract-group[data-state="review"] .quick-contract-group-number {
+  background: rgba(56, 189, 248, 0.1);
+  border-color: rgba(56, 189, 248, 0.3);
+  color: #cffafe;
 }
 
 .quick-contract-group-body {
@@ -3839,13 +3912,13 @@ body .hover\:bg-zinc-100:hover {
   flex-wrap: wrap;
   gap: 0.35rem 0.8rem;
   justify-content: space-between;
-  margin-bottom: 0.9rem;
+  margin-bottom: 0.85rem;
 }
 
 .quick-contract-group-title h3 {
   color: #f4f4f5;
-  font-size: 1rem;
-  font-weight: 800;
+  font-size: 1.04rem;
+  font-weight: 850;
 }
 
 .quick-contract-group-title p {
@@ -3867,13 +3940,24 @@ body .hover\:bg-zinc-100:hover {
 }
 
 .quick-payment-option {
-  background: #0b0d10;
-  border: 1px solid #262a31;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.032), rgba(255, 255, 255, 0.008)),
+    #0b0d10;
+  border: 1px solid rgba(63, 63, 70, 0.82);
   border-radius: 0.5rem;
   cursor: pointer;
   display: grid;
   gap: 0.25rem;
   padding: 0.8rem;
+  transition:
+    background-color 160ms ease,
+    border-color 160ms ease,
+    transform 160ms ease;
+}
+
+.quick-payment-option:hover {
+  border-color: rgba(56, 189, 248, 0.28);
+  transform: translateY(-1px);
 }
 
 .quick-payment-option:has(input:checked) {
@@ -3901,7 +3985,7 @@ body .hover\:bg-zinc-100:hover {
 
 .quick-contract-human-status {
   background: rgba(255, 255, 255, 0.025);
-  border: 1px solid #262a31;
+  border: 1px solid rgba(63, 63, 70, 0.82);
   border-radius: 0.5rem;
   margin-top: 0.85rem;
   padding: 0.85rem;
@@ -3931,8 +4015,10 @@ body .hover\:bg-zinc-100:hover {
 }
 
 .quick-contract-summary div {
-  background: #0b0d10;
-  border: 1px solid #262a31;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.008)),
+    #0b0d10;
+  border: 1px solid rgba(63, 63, 70, 0.82);
   border-radius: 0.5rem;
   display: grid;
   gap: 0.3rem;
@@ -3942,6 +4028,13 @@ body .hover\:bg-zinc-100:hover {
 .quick-contract-side {
   align-self: start;
   padding: 1rem;
+}
+
+@media (min-width: 1024px) {
+  .quick-contract-side {
+    position: sticky;
+    top: 1rem;
+  }
 }
 
 .quick-contract-side p {
@@ -3954,31 +4047,50 @@ body .hover\:bg-zinc-100:hover {
 
 .quick-contract-side h3 {
   color: #f4f4f5;
-  font-size: 1.15rem;
+  font-size: 1.22rem;
   font-weight: 750;
   line-height: 1.25;
   margin-top: 0.65rem;
 }
 
-.quick-contract-side ul {
-  color: #a1a1aa;
+.quick-contract-side-summary {
   display: grid;
-  font-size: 0.875rem;
-  gap: 0.65rem;
-  line-height: 1.45;
-  list-style: none;
   margin-top: 1rem;
+  gap: 0.65rem;
 }
 
-.quick-contract-side li {
-  border-left: 2px solid rgba(52, 211, 153, 0.32);
-  padding-left: 0.7rem;
+.quick-contract-side-summary div {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.008)),
+    #0b0d10;
+  border: 1px solid rgba(63, 63, 70, 0.82);
+  border-radius: 0.5rem;
+  display: grid;
+  gap: 0.28rem;
+  padding: 0.75rem;
+}
+
+.quick-contract-side-summary span {
+  color: #71717a;
+  font-size: 0.7rem;
+  font-weight: 850;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.quick-contract-side-summary strong {
+  color: #f4f4f5;
+  font-size: 0.9rem;
+  line-height: 1.35;
+  overflow-wrap: anywhere;
 }
 
 .quick-contract-sepa-note {
-  background: rgba(245, 158, 11, 0.08);
+  background:
+    linear-gradient(135deg, rgba(245, 158, 11, 0.09), rgba(52, 211, 153, 0.055)),
+    #0b0d10;
   border: 1px solid rgba(245, 158, 11, 0.22);
-  border-radius: 0.45rem;
+  border-radius: 0.55rem;
   display: grid;
   gap: 0.35rem;
   margin-top: 1rem;

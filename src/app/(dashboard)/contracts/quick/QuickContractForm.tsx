@@ -92,6 +92,12 @@ export function QuickContractForm({
             : "Cheque",
     };
   }, [snapshot]);
+  const groupStates = {
+    client: snapshot.customerName ? "ready" : "pending",
+    contract: snapshot.priceTtc ? "ready" : "pending",
+    equipment: snapshot.brand || snapshot.model ? "ready" : "pending",
+    payment: snapshot.paymentMethod === "SEPA" ? "sepa" : "manual",
+  };
 
   function refreshSnapshot(form: HTMLFormElement) {
     setSnapshot({
@@ -189,6 +195,7 @@ export function QuickContractForm({
   return (
     <form
       className="quick-contract-shell mt-6"
+      onChange={(event) => refreshSnapshot(event.currentTarget)}
       onInput={(event) => refreshSnapshot(event.currentTarget)}
       onSubmit={handleSubmit}
     >
@@ -204,7 +211,7 @@ export function QuickContractForm({
           <span>5 Validation</span>
         </div>
 
-        <section className="quick-contract-group">
+        <section className="quick-contract-group" data-state={groupStates.client}>
           <div className="quick-contract-group-number">1</div>
           <div className="quick-contract-group-body">
             <div className="quick-contract-group-title">
@@ -292,7 +299,7 @@ export function QuickContractForm({
           </div>
         </section>
 
-        <section className="quick-contract-group">
+        <section className="quick-contract-group" data-state={groupStates.equipment}>
           <div className="quick-contract-group-number">2</div>
           <div className="quick-contract-group-body">
             <div className="quick-contract-group-title">
@@ -336,7 +343,7 @@ export function QuickContractForm({
           </div>
         </section>
 
-        <section className="quick-contract-group">
+        <section className="quick-contract-group" data-state={groupStates.contract}>
           <div className="quick-contract-group-number">3</div>
           <div className="quick-contract-group-body">
             <div className="quick-contract-group-title">
@@ -387,7 +394,7 @@ export function QuickContractForm({
           </div>
         </section>
 
-        <section className="quick-contract-group">
+        <section className="quick-contract-group" data-state={groupStates.payment}>
           <div className="quick-contract-group-number">4</div>
           <div className="quick-contract-group-body">
             <div className="quick-contract-group-title">
@@ -422,7 +429,7 @@ export function QuickContractForm({
           </div>
         </section>
 
-        <section className="quick-contract-group">
+        <section className="quick-contract-group" data-state="review">
           <div className="quick-contract-group-number">5</div>
           <div className="quick-contract-group-body">
             <div className="quick-contract-group-title">
@@ -454,11 +461,24 @@ export function QuickContractForm({
       <aside className="quick-contract-side">
         <p>Nouveau contrat guide</p>
         <h3>Comme une fiche papier, mais exploitable tout de suite.</h3>
-        <ul>
-          <li>Les chiffres indiquent l'ordre naturel de saisie.</li>
-          <li>Les champs techniques GoCardless restent caches.</li>
-          <li>Le lien de prelevement peut etre cree juste apres le contrat.</li>
-        </ul>
+        <div className="quick-contract-side-summary" aria-label="Resume du contrat">
+          <div>
+            <span>Client</span>
+            <strong>{summary.contact}</strong>
+          </div>
+          <div>
+            <span>Equipement</span>
+            <strong>{summary.equipment}</strong>
+          </div>
+          <div>
+            <span>Contrat</span>
+            <strong>{summary.contract}</strong>
+          </div>
+          <div>
+            <span>Paiement</span>
+            <strong>{summary.payment}</strong>
+          </div>
+        </div>
         <div className="quick-contract-sepa-note">
           <span>Statut client</span>
           <strong>{sepaSelected ? "Prelevement a faire signer" : "Paiement manuel"}</strong>

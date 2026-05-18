@@ -37,13 +37,13 @@ export default function QuickContractPage() {
 
       <div className="contract-form-intro quick-contract-intro mt-6">
         <div>
-          <p className="text-sm font-medium text-emerald-700">
+          <p className="quick-contract-intro-eyebrow">
             Parcours terrain numerote
           </p>
-          <h3 className="mt-2 text-2xl font-semibold text-zinc-950">
+          <h3>
             Un contrat comme sur papier, puis le paiement en plus.
           </h3>
-          <p className="mt-2 max-w-2xl text-sm leading-6 text-zinc-500">
+          <p className="quick-contract-intro-copy">
             Le chauffagiste suit les chiffres dans l'ordre naturel. ContratPro
             cree le client, l'equipement, le contrat et, si besoin, le lien de
             signature SEPA.
