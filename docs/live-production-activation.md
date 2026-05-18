@@ -27,7 +27,7 @@ Preuve attendue :
 Dashboard officiel :
 
 ```text
-https://supabase.com/dashboard/project/yotafzxcpyyrkkpeyfpp
+https://supabase.com/dashboard/project/<project-ref>
 ```
 
 Actions :

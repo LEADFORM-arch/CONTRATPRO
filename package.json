@@ -26,7 +26,7 @@
     "stripe:create-test-billing": "node scripts/stripe-create-test-billing.mjs",
     "ci:verify": "npm run type-check && npm run test:quality && npm run security:audit && npm run production:audit && npm run deploy:preflight && npm run build",
     "db:generate": "prisma generate",
-    "db:push": "prisma db push"
+    "db:push": "node scripts/refuse-prisma-push.mjs"
   },
   "dependencies": {
     "@prisma/client": "^7.8.0",

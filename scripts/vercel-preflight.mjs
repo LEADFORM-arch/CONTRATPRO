@@ -67,11 +67,11 @@ check(
 check(
   "Supabase production cible",
   includesAll(read(".env.production.example"), [
-    "https://yotafzxcpyyrkkpeyfpp.supabase.co",
+    "https://your-project-ref.supabase.co",
     "SUPABASE_SERVICE_ROLE_KEY",
     "NEXT_PUBLIC_SUPABASE_ANON_KEY",
   ]),
-  "le template production doit pointer vers le projet Supabase ContratPro",
+  "le template production doit utiliser un placeholder Supabase public",
 );
 
 check(
@@ -95,8 +95,8 @@ check(
       "https://vercel.com/contratpro",
       "Node.js 24.x",
       "npm run deploy:smoke",
-      "https://supabase.com/dashboard/project/yotafzxcpyyrkkpeyfpp",
-      "https://yotafzxcpyyrkkpeyfpp.supabase.co",
+      "https://supabase.com/dashboard/project/<project-ref>",
+      "https://<project-ref>.supabase.co",
       "https://dashboard.stripe.com/acct_1TVFyGBJsOV2aVH0/test/dashboard",
     ]),
   "la mise en ligne doit avoir une checklist dediee",

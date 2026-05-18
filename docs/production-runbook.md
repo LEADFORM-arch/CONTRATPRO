@@ -19,8 +19,8 @@ https://vercel.com/contratpro
 Projet Supabase de reference :
 
 ```text
-https://supabase.com/dashboard/project/yotafzxcpyyrkkpeyfpp
-https://yotafzxcpyyrkkpeyfpp.supabase.co
+https://supabase.com/dashboard/project/<project-ref>
+https://<project-ref>.supabase.co
 ```
 
 Compte Stripe test de reference :
@@ -159,8 +159,8 @@ Preuves attendues :
 ## 7. Backup et restauration Supabase
 
 Avant chaque mise en production commerciale, verifier que les backups Supabase
-du projet `yotafzxcpyyrkkpeyfpp` sont actifs depuis le dashboard officiel :
-https://supabase.com/dashboard/project/yotafzxcpyyrkkpeyfpp
+du projet de production sont actifs depuis le dashboard officiel :
+`https://supabase.com/dashboard/project/<project-ref>`
 
 Cadence minimale pour les pilotes :
 

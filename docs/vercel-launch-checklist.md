@@ -20,8 +20,8 @@ https://vercel.com/contratpro
 Projet Supabase de reference :
 
 ```text
-https://supabase.com/dashboard/project/yotafzxcpyyrkkpeyfpp
-https://yotafzxcpyyrkkpeyfpp.supabase.co
+https://supabase.com/dashboard/project/<project-ref>
+https://<project-ref>.supabase.co
 ```
 
 Compte Stripe test de reference :
@@ -73,7 +73,7 @@ Copier les variables de `.env.production.example` dans Vercel Project Settings.
 Projet Supabase cible :
 
 ```text
-https://yotafzxcpyyrkkpeyfpp.supabase.co
+https://<project-ref>.supabase.co
 ```
 
 Variables a remplir avec de vraies valeurs :

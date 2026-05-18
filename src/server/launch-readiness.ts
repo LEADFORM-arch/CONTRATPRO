@@ -66,10 +66,25 @@ export type ProductionArchitectSummary = {
   thesis: string;
 };
 
+function env(name: string) {
+  const value = process.env[name]?.trim();
+  if (!value || ["[]", "{}", "\"\"", "''"].includes(value)) {
+    return "";
+  }
+  return value.replace(/^["']|["']$/g, "");
+}
+
+function supabaseDashboardHref() {
+  const projectRef = env("SUPABASE_PROJECT_REF");
+  return projectRef
+    ? `https://supabase.com/dashboard/project/${projectRef}`
+    : "https://supabase.com/dashboard";
+}
+
 export const productionControlLinks: ProductionControlLink[] = [
   {
     detail: "Projet Supabase officiel",
-    href: "https://supabase.com/dashboard/project/yotafzxcpyyrkkpeyfpp",
+    href: supabaseDashboardHref(),
     label: "Supabase RLS + backup",
     proof: "verify_rls.sql en OK, backup connu, service role jamais expose.",
   },
@@ -86,14 +101,6 @@ export const productionControlLinks: ProductionControlLink[] = [
     proof: "Commit note, CI verte, rollback sur deployment precedent.",
   },
 ];
-
-function env(name: string) {
-  const value = process.env[name]?.trim();
-  if (!value || ["[]", "{}", "\"\"", "''"].includes(value)) {
-    return "";
-  }
-  return value.replace(/^["']|["']$/g, "");
-}
 
 function has(name: string) {
   return Boolean(env(name));

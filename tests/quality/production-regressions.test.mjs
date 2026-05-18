@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
-import { existsSync, readFileSync } from "node:fs";
-import { dirname, resolve } from "node:path";
+import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
+import { dirname, extname, join, resolve } from "node:path";
 import { describe, it } from "node:test";
 import { fileURLToPath } from "node:url";
 
@@ -20,7 +20,73 @@ function assertIncludes(content, values, label) {
   }
 }
 
+const repoLeakScanTargets = [
+  ".env.local.example",
+  ".env.production.example",
+  "README.md",
+  "docs",
+  "package.json",
+  "public",
+  "scripts",
+  "src",
+  "tests",
+];
+
+const repoLeakTextExtensions = new Set([
+  "",
+  ".css",
+  ".html",
+  ".js",
+  ".json",
+  ".md",
+  ".mjs",
+  ".sql",
+  ".ts",
+  ".tsx",
+  ".txt",
+  ".yaml",
+  ".yml",
+]);
+
+function collectRepoTextFiles(targetPath) {
+  const absolutePath = pathOf(targetPath);
+  if (!existsSync(absolutePath)) {
+    return [];
+  }
+
+  const stat = statSync(absolutePath);
+  if (stat.isFile()) {
+    return repoLeakTextExtensions.has(extname(absolutePath)) ? [absolutePath] : [];
+  }
+
+  return readdirSync(absolutePath).flatMap((entry) => {
+    const childPath = join(absolutePath, entry);
+    const childStat = statSync(childPath);
+    if (childStat.isDirectory()) {
+      return collectRepoTextFiles(childPath);
+    }
+    return repoLeakTextExtensions.has(extname(childPath)) ? [childPath] : [];
+  });
+}
+
 describe("production guardrails", () => {
+  it("keeps production project refs out of public repo files", () => {
+    const productionProjectRef = ["yotafzxc", "pyyrkkpeyfpp"].join("");
+    const forbiddenValues = [
+      productionProjectRef,
+      `https://${productionProjectRef}.supabase.co`,
+      `https://supabase.com/dashboard/project/${productionProjectRef}`,
+    ];
+    const files = repoLeakScanTargets.flatMap(collectRepoTextFiles);
+
+    for (const file of files) {
+      const content = readFileSync(file, "utf8");
+      for (const value of forbiddenValues) {
+        assert.ok(!content.includes(value), `${file} must not expose ${value}`);
+      }
+    }
+  });
+
   it("keeps tenant auth, RLS and billing lock wired into dashboard access", () => {
     const layout = read("src/app/(dashboard)/layout.tsx");
     const apiAuth = read("src/server/api-auth.ts");
@@ -751,7 +817,7 @@ describe("production guardrails", () => {
 
   it("keeps Vercel launch checks ready for the first production deployment", () => {
     assertIncludes(read(".env.production.example"), [
-      "https://yotafzxcpyyrkkpeyfpp.supabase.co",
+      "https://your-project-ref.supabase.co",
       "CONTRATPRO_REQUIRE_AUTH=true",
       "CONTRATPRO_REQUIRE_BILLING=true",
       "GOCARDLESS_ENVIRONMENT=live",
@@ -762,7 +828,7 @@ describe("production guardrails", () => {
       "github.com/admincairn/CONTRATPRO.git",
       "Node 24",
       "deployer ContratPro avec Node 24.x",
-      "https://yotafzxcpyyrkkpeyfpp.supabase.co",
+      "https://your-project-ref.supabase.co",
     ], "vercel preflight");
 
     assertIncludes(read("scripts/vercel-live-audit.mjs"), [
@@ -805,7 +871,7 @@ describe("production guardrails", () => {
       "npx vercel env ls | npm run vercel:live-audit --silent",
       "PILOT CONTROLE",
       "npm run deploy:smoke",
-      "https://supabase.com/dashboard/project/yotafzxcpyyrkkpeyfpp",
+      "https://supabase.com/dashboard/project/<project-ref>",
       "supabase/verify_rls.sql",
       "https://dashboard.stripe.com/acct_1TVFyGBJsOV2aVH0/test/dashboard",
     ], "vercel launch checklist");
@@ -978,7 +1044,8 @@ describe("production guardrails", () => {
       "getProductionArchitectSummary",
       "productionControlLinks",
       "recommendedDecision",
-      "https://supabase.com/dashboard/project/yotafzxcpyyrkkpeyfpp",
+      "supabaseDashboardHref",
+      "SUPABASE_PROJECT_REF",
       "https://vercel.com/contratpro?repo=https%3A%2F%2Fgithub.com%2Fadmincairn%2FCONTRATPRO",
       "Architecte IA production",
       "LIVE OK",

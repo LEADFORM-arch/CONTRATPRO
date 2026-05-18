@@ -474,10 +474,10 @@ https://github.com/admincairn/CONTRATPRO
 ```
 
 ContratPro force Node `24.x` via `package.json`. Le template production pointe
-vers le projet Supabase :
+vers le projet Supabase configure dans vos variables d'environnement :
 
 ```text
-https://yotafzxcpyyrkkpeyfpp.supabase.co
+https://<project-ref>.supabase.co
 ```
 
 Commandes de controle :

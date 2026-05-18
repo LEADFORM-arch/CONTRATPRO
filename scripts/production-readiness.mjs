@@ -167,7 +167,7 @@ check(
       "Variables Vercel obligatoires",
       "Cron relances quotidiennes",
       "docs/cron-renewals-runbook.md",
-      "https://supabase.com/dashboard/project/yotafzxcpyyrkkpeyfpp",
+      "https://supabase.com/dashboard/project/<project-ref>",
       "https://dashboard.stripe.com/acct_1TVFyGBJsOV2aVH0/test/dashboard",
       "Retour arriere",
     ]),
@@ -196,8 +196,8 @@ check(
       "Node.js 24.x",
       "npm run deploy:preflight",
       "npm run deploy:smoke",
-      "https://supabase.com/dashboard/project/yotafzxcpyyrkkpeyfpp",
-      "https://yotafzxcpyyrkkpeyfpp.supabase.co",
+      "https://supabase.com/dashboard/project/<project-ref>",
+      "https://<project-ref>.supabase.co",
       "https://dashboard.stripe.com/acct_1TVFyGBJsOV2aVH0/test/dashboard",
     ]),
   "la mise en ligne Vercel doit avoir une checklist dediee",
@@ -209,7 +209,7 @@ check(
     includesAll(read("scripts/vercel-preflight.mjs"), [
       "github.com/admincairn/CONTRATPRO.git",
       "Node 24",
-      "https://yotafzxcpyyrkkpeyfpp.supabase.co",
+      "https://your-project-ref.supabase.co",
     ]),
   "le repo doit pouvoir verifier sa preparation Vercel",
 );
