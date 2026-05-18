@@ -224,6 +224,15 @@ describe("production guardrails", () => {
       "kpi-scorecard.md",
     ], "prospection skill manual");
 
+    assertIncludes(read("docs/gocardless-sandbox-runbook.md"), [
+      "GOCARDLESS_ACCESS_TOKEN",
+      "GOCARDLESS_ENVIRONMENT=sandbox",
+      "/contracts/quick",
+      "Actif GoCardless",
+      "/payments/new",
+      "/api/webhooks/gocardless",
+    ], "GoCardless sandbox runbook");
+
     assertIncludes(read("docs/skill-prospection-facebook/mode-emploi.md"), [
       "Routine quotidienne",
       "Garder l'angle",

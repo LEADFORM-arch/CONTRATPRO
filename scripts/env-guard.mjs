@@ -67,6 +67,16 @@ if (!existsSync(envPath)) {
   if (!hasValue(env.SUPABASE_SERVICE_ROLE_KEY)) {
     warnings.push("SUPABASE_SERVICE_ROLE_KEY absent ou illisible. Certaines routes serveur ne fonctionneront pas.");
   }
+
+  if (hasValue(env.GOCARDLESS_ACCESS_TOKEN) && normalize(env.GOCARDLESS_ENVIRONMENT) !== "sandbox") {
+    warnings.push(
+      "GOCARDLESS_ACCESS_TOKEN est present mais GOCARDLESS_ENVIRONMENT n'est pas sandbox. Gardez sandbox en local sauf test live volontaire.",
+    );
+  }
+
+  if (hasValue(env.GOCARDLESS_ACCESS_TOKEN) && !hasValue(env.GOCARDLESS_VERSION)) {
+    warnings.push("GOCARDLESS_VERSION absent. Utilisez 2015-07-06 pour rester aligne avec l'API GoCardless.");
+  }
 }
 
 for (const warning of warnings) {

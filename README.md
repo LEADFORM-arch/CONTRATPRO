@@ -94,6 +94,12 @@ Les paiements SEPA disposent maintenant :
 - d'une route protegee `/api/payments/[id]/submit` pour envoyer le paiement au
   provider.
 
+Mode d'emploi sandbox :
+
+```text
+docs/gocardless-sandbox-runbook.md
+```
+
 ## Priorite 4 - Webhooks GoCardless
 
 Variable webhook a ajouter dans `.env.local` :

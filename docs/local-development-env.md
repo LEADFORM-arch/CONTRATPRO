@@ -16,7 +16,7 @@ Copy-Item .env.local.example .env.local
 - Supabase : anon key, service role key, project URL depuis `https://supabase.com/dashboard/project/yotafzxcpyyrkkpeyfpp` ;
 - Resend : API key et adresse d'envoi ;
 - Stripe : secret key, webhook secret, price ids Starter/Pro/Business depuis `https://dashboard.stripe.com/acct_1TVFyGBJsOV2aVH0/test/dashboard` ;
-- GoCardless : token live/sandbox et webhook secret ;
+- GoCardless : token sandbox, `GOCARDLESS_ENVIRONMENT=sandbox`, webhook secret sandbox ;
 - Cron : `CRON_SECRET` et `CONTRATPRO_CRON_SECRET`.
 
 3. Verifier :
@@ -28,6 +28,12 @@ npm run security:audit
 
 Si l'audit affiche une valeur `[]`, le secret local n'est pas restaurable depuis
 Vercel et doit etre repris dans son dashboard d'origine.
+
+Pour GoCardless sandbox, suivre aussi :
+
+```text
+docs/gocardless-sandbox-runbook.md
+```
 
 ## Regle locale anti-`org_demo`
 
