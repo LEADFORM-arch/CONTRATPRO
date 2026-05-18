@@ -24,6 +24,12 @@ export default function QuickContractPage() {
             </a>
             <a
               className="premium-secondary-action rounded-md px-4 py-2 text-sm font-semibold"
+              href="/import"
+            >
+              Importer Excel
+            </a>
+            <a
+              className="premium-secondary-action rounded-md px-4 py-2 text-sm font-semibold"
               href="/contracts"
             >
               Retour contrats

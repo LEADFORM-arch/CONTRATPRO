@@ -1515,6 +1515,7 @@ describe("production guardrails", () => {
     assertIncludes(read("src/app/(dashboard)/contracts/quick/page.tsx"), [
       "Creer un contrat avec paiement",
       "Formulaire complet",
+      "Importer Excel",
       "QuickContractForm",
       "Parcours terrain numerote",
       "1 Client",
@@ -1532,6 +1533,8 @@ describe("production guardrails", () => {
       "paymentMethod",
       "Creer et faire signer",
       "Prelevement SEPA",
+      "Fichier Excel",
+      "/import",
       "5 Validation",
       "Creer facture",
     ], "quick contract form");
@@ -1637,6 +1640,7 @@ describe("production guardrails", () => {
       ".activation-empty-actions",
       ".quick-contract-shell",
       ".quick-contract-group",
+      ".quick-contract-import-card",
       ".quick-payment-options",
       ".quick-contract-summary",
       ".quick-contract-success",

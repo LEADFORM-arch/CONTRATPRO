@@ -211,7 +211,7 @@ export function QuickContractForm({
           <span>5 Validation</span>
         </div>
 
-        <section className="quick-contract-group" data-state={groupStates.client}>
+        <section className="quick-contract-group" data-accent="emerald" data-state={groupStates.client}>
           <div className="quick-contract-group-number">1</div>
           <div className="quick-contract-group-body">
             <div className="quick-contract-group-title">
@@ -299,7 +299,7 @@ export function QuickContractForm({
           </div>
         </section>
 
-        <section className="quick-contract-group" data-state={groupStates.equipment}>
+        <section className="quick-contract-group" data-accent="cyan" data-state={groupStates.equipment}>
           <div className="quick-contract-group-number">2</div>
           <div className="quick-contract-group-body">
             <div className="quick-contract-group-title">
@@ -343,7 +343,7 @@ export function QuickContractForm({
           </div>
         </section>
 
-        <section className="quick-contract-group" data-state={groupStates.contract}>
+        <section className="quick-contract-group" data-accent="amber" data-state={groupStates.contract}>
           <div className="quick-contract-group-number">3</div>
           <div className="quick-contract-group-body">
             <div className="quick-contract-group-title">
@@ -394,7 +394,7 @@ export function QuickContractForm({
           </div>
         </section>
 
-        <section className="quick-contract-group" data-state={groupStates.payment}>
+        <section className="quick-contract-group" data-accent="green" data-state={groupStates.payment}>
           <div className="quick-contract-group-number">4</div>
           <div className="quick-contract-group-body">
             <div className="quick-contract-group-title">
@@ -429,7 +429,7 @@ export function QuickContractForm({
           </div>
         </section>
 
-        <section className="quick-contract-group" data-state="review">
+        <section className="quick-contract-group" data-accent="blue" data-state="review">
           <div className="quick-contract-group-number">5</div>
           <div className="quick-contract-group-body">
             <div className="quick-contract-group-title">
@@ -488,6 +488,13 @@ export function QuickContractForm({
               : "Aucun lien bancaire n'est cree pour ce mode de paiement."}
           </small>
         </div>
+        <a className="quick-contract-import-card" href="/import">
+          <span>Fichier Excel</span>
+          <strong>Importer plusieurs clients</strong>
+          <small>
+            CSV ou XLSX, simulation d'abord, creation seulement apres validation.
+          </small>
+        </a>
       </aside>
 
       <div className="contract-form-footer quick-contract-footer">
