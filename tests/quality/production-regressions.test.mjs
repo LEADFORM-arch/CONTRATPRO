@@ -228,6 +228,7 @@ describe("production guardrails", () => {
       "GOCARDLESS_ACCESS_TOKEN",
       "GOCARDLESS_ENVIRONMENT=sandbox",
       "/contracts/quick",
+      "Creer lien GoCardless",
       "Actif GoCardless",
       "/payments/new",
       "/api/webhooks/gocardless",
@@ -1524,12 +1525,36 @@ describe("production guardrails", () => {
     ], "contract detail next actions");
 
     assertIncludes(read("src/app/(dashboard)/contracts/[id]/MandateSetupForm.tsx"), [
+      "/api/contracts/${contractId}/mandate/authorisation",
       "/api/contracts/${contractId}/mandate",
+      "Creer lien GoCardless",
       "gcCustomerId",
       "gcMandateId",
       "Actif GoCardless",
       "Enregistrer mandat",
     ], "contract mandate setup form");
+
+    assertIncludes(read("src/app/api/contracts/[id]/mandate/authorisation/route.ts"), [
+      "createGoCardlessMandateAuthorisationFlow",
+      "sepa_mandates",
+      "SUBMITTED",
+      "authorisationUrl",
+      "Ajoutez un email client",
+    ], "contract mandate authorisation API");
+
+    assertIncludes(read("src/server/sepa-provider.ts"), [
+      "/billing_requests",
+      "/billing_request_flows",
+      "sepa_core",
+      "authorisationUrl",
+      "contratpro_contract_id",
+    ], "gocardless mandate authorisation provider");
+
+    assertIncludes(read("src/app/mandat-sepa/merci/page.tsx"), [
+      "Mandat SEPA transmis",
+      "Votre mandat SEPA est en cours de validation",
+      "GoCardless valide les informations bancaires",
+    ], "mandate thank-you page");
 
     assertIncludes(read("src/app/api/contracts/[id]/mandate/route.ts"), [
       "requireApiUser",

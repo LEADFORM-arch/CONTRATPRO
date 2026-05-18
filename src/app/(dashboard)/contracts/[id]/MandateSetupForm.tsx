@@ -16,6 +16,12 @@ type SubmitState =
   | { status: "success"; message: string }
   | { status: "error"; message: string };
 
+type FlowState =
+  | { status: "idle"; message: string; url: string }
+  | { status: "loading"; message: string; url: string }
+  | { status: "success"; message: string; url: string; expiresAt?: string }
+  | { status: "error"; message: string; url: string };
+
 const inputClass = "contract-form-input";
 
 export function MandateSetupForm({
@@ -29,6 +35,58 @@ export function MandateSetupForm({
     status: "idle",
     message: "",
   });
+  const [flowState, setFlowState] = useState<FlowState>({
+    status: "idle",
+    message: "",
+    url: "",
+  });
+
+  async function createAuthorisationLink() {
+    setFlowState({
+      status: "loading",
+      message: "Creation du lien GoCardless sandbox...",
+      url: "",
+    });
+
+    const response = await fetch(`/api/contracts/${contractId}/mandate/authorisation`, {
+      method: "POST",
+    });
+    const payload = (await response.json().catch(() => null)) as
+      | {
+          authorisationUrl?: string;
+          error?: string;
+          expiresAt?: string;
+        }
+      | null;
+
+    if (!response.ok || !payload?.authorisationUrl) {
+      setFlowState({
+        status: "error",
+        message: payload?.error || "Impossible de creer le lien GoCardless.",
+        url: "",
+      });
+      return;
+    }
+
+    setFlowState({
+      status: "success",
+      message: "Lien pret. Ouvrez-le en sandbox ou copiez-le pour le client test.",
+      url: payload.authorisationUrl,
+      expiresAt: payload.expiresAt,
+    });
+    router.refresh();
+  }
+
+  async function copyAuthorisationLink() {
+    if (!flowState.url) {
+      return;
+    }
+    await navigator.clipboard.writeText(flowState.url);
+    setFlowState({
+      ...flowState,
+      message: "Lien GoCardless copie.",
+    });
+  }
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -64,9 +122,64 @@ export function MandateSetupForm({
   }
 
   const disabled = submitState.status === "loading";
+  const flowLoading = flowState.status === "loading";
 
   return (
     <form className="contract-mandate-form" onSubmit={handleSubmit}>
+      <div className="contract-mandate-authorisation">
+        <div>
+          <p>Mandat heberge GoCardless</p>
+          <strong>Faire signer le mandat SEPA sandbox</strong>
+          <span>
+            ContratPro cree le parcours GoCardless, pre-remplit le client et
+            garde le mandat en suivi jusqu'au retour webhook.
+          </span>
+        </div>
+        <button
+          className="premium-secondary-action rounded-md px-4 py-2 text-sm font-semibold disabled:cursor-not-allowed disabled:opacity-60"
+          disabled={flowLoading}
+          onClick={createAuthorisationLink}
+          type="button"
+        >
+          {flowLoading ? "Creation..." : "Creer lien GoCardless"}
+        </button>
+      </div>
+
+      {flowState.status !== "idle" ? (
+        <div
+          className={
+            flowState.status === "error"
+              ? "contract-mandate-flow contract-mandate-flow-error"
+              : "contract-mandate-flow"
+          }
+        >
+          <p>{flowState.message}</p>
+          {flowState.url ? (
+            <div className="contract-mandate-flow-link">
+              <input className={inputClass} readOnly value={flowState.url} />
+              <a
+                className="premium-action rounded-md px-4 py-2 text-sm font-semibold"
+                href={flowState.url}
+                rel="noreferrer"
+                target="_blank"
+              >
+                Ouvrir
+              </a>
+              <button
+                className="premium-secondary-action rounded-md px-4 py-2 text-sm font-semibold"
+                onClick={copyAuthorisationLink}
+                type="button"
+              >
+                Copier
+              </button>
+            </div>
+          ) : null}
+          {flowState.status === "success" && flowState.expiresAt ? (
+            <small>Expiration GoCardless : {flowState.expiresAt}</small>
+          ) : null}
+        </div>
+      ) : null}
+
       <div className="contract-mandate-form-grid">
         <label className="contract-form-field">
           <span>ID client GoCardless</span>
