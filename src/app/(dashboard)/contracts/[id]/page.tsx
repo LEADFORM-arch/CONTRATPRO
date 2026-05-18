@@ -44,6 +44,51 @@ function SectionShell({
   );
 }
 
+function ContractNextAction({
+  contractId,
+  hasMandate,
+}: {
+  contractId: string;
+  hasMandate: boolean;
+}) {
+  return (
+    <section className="contract-next-action mt-6" data-od-id="contract-next-action">
+      <div className="contract-next-action-brief">
+        <p>Prochaine action</p>
+        <h3>Transformer ce contrat en encaissement suivi.</h3>
+        <span>
+          Facturez maintenant, puis préparez le mandat SEPA quand les infos
+          GoCardless finales sont en place.
+        </span>
+      </div>
+      <div className="contract-next-action-grid">
+        <a
+          className="contract-next-action-card"
+          data-tone="emerald"
+          href={`/invoices/new?contractId=${contractId}`}
+        >
+          <span>01</span>
+          <strong>Creer facture</strong>
+          <small>Reprendre client, contrat, TVA et montant TTC.</small>
+        </a>
+        <a
+          className="contract-next-action-card"
+          data-tone={hasMandate ? "cyan" : "amber"}
+          href="/payments/new"
+        >
+          <span>02</span>
+          <strong>{hasMandate ? "Programmer SEPA" : "Preparer SEPA"}</strong>
+          <small>
+            {hasMandate
+              ? "Mandat detecte: programmer le paiement recurrent."
+              : "Mandat GoCardless a renseigner avant soumission."}
+          </small>
+        </a>
+      </div>
+    </section>
+  );
+}
+
 export default async function ContractDetailPage({
   params,
 }: ContractDetailPageProps) {
@@ -85,6 +130,11 @@ export default async function ContractDetailPage({
           <span className="contract-payment-pill">{contract.endDate}</span>
         </div>
       </div>
+
+      <ContractNextAction
+        contractId={contract.id}
+        hasMandate={Boolean(contract.mandate)}
+      />
 
       <div className="mt-6 grid gap-6 xl:grid-cols-[1fr_1fr]">
         <SectionShell
@@ -208,6 +258,17 @@ export default async function ContractDetailPage({
                   ? `${contract.mandate.status} - ${contract.mandate.providerId}`
                   : "Aucun mandat actif"}
               </p>
+              <p className="mt-2 text-sm leading-5 text-zinc-500">
+                {contract.mandate
+                  ? "GoCardless peut etre soumis depuis les paiements programmes."
+                  : "Le contrat est marque SEPA. Ajoutez le mandat GoCardless quand les informations finales sont disponibles."}
+              </p>
+              <a
+                className="premium-secondary-action mt-3 inline-flex rounded-md px-3 py-2 text-sm font-semibold"
+                href="/payments/new"
+              >
+                {contract.mandate ? "Programmer paiement" : "Preparer SEPA"}
+              </a>
             </div>
             <div className="mt-3 divide-y divide-zinc-100">
               {contract.payments.length ? (

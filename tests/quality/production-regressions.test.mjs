@@ -1503,6 +1503,15 @@ describe("production guardrails", () => {
       "Preparer SEPA plus tard",
     ], "quick contract form");
 
+    assertIncludes(read("src/app/(dashboard)/contracts/[id]/page.tsx"), [
+      "data-od-id=\"contract-next-action\"",
+      "Creer facture",
+      "/invoices/new?contractId=",
+      "Preparer SEPA",
+      "GoCardless",
+      "Programmer paiement",
+    ], "contract detail next actions");
+
     assertIncludes(read("src/app/api/contracts/quick/route.ts"), [
       "requireApiUser",
       "insertSupabaseRow",
@@ -1544,6 +1553,8 @@ describe("production guardrails", () => {
       ".activation-empty-actions",
       ".quick-contract-shell",
       ".quick-contract-success",
+      ".contract-next-action",
+      ".contract-next-action-card",
       ".contract-portfolio-command",
       ".contract-portfolio-decision",
       ".payment-command-panel",
