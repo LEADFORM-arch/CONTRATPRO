@@ -671,6 +671,29 @@ describe("production guardrails", () => {
       "application/pdf",
       "no-store",
     ], "certificate pdf route");
+
+    assertIncludes(read("src/server/resend.ts"), [
+      "RESEND_API_KEY est absent",
+      "RESEND_FROM_EMAIL est absent",
+      "sendDocumentEmail",
+      "sendPlainEmail",
+    ], "resend provider safety");
+
+    assertIncludes(read("scripts/resend-readiness.mjs"), [
+      "RESEND_API_KEY",
+      "RESEND_FROM_EMAIL",
+      "CONTRATPRO_RESEND_TEST_TO",
+      "https://api.resend.com/domains",
+      "https://api.resend.com/emails",
+      "Resend OK",
+    ], "resend readiness script");
+
+    assertIncludes(read("docs/resend-readiness.md"), [
+      "Resend readiness ContratPro",
+      "npm run resend:readiness",
+      "CONTRATPRO_RESEND_TEST_TO",
+      "document_sends",
+    ], "resend readiness runbook");
   });
 
   it("keeps internal notifications durable and visible", () => {
@@ -792,6 +815,7 @@ describe("production guardrails", () => {
       "\"deploy:smoke\"",
       "\"deploy:smoke:auth\"",
       "\"deploy:smoke:journey\"",
+      "\"resend:readiness\"",
       "\"stripe:readiness\"",
       "\"stripe:create-test-billing\"",
       "npm run production:audit",

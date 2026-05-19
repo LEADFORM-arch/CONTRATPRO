@@ -26,14 +26,18 @@ export class EmailProviderError extends Error {
 
 function getResendConfig() {
   const apiKey = process.env.RESEND_API_KEY;
-  const from =
-    process.env.RESEND_FROM_EMAIL ||
-    process.env.CONTRATPRO_FROM_EMAIL ||
-    "ContratPro <onboarding@resend.dev>";
+  const from = process.env.RESEND_FROM_EMAIL || process.env.CONTRATPRO_FROM_EMAIL;
 
   if (!apiKey) {
     throw new EmailProviderError(
       "RESEND_API_KEY est absent. Ajoutez la cle Resend dans .env.local avant l'envoi email.",
+      503,
+    );
+  }
+
+  if (!from) {
+    throw new EmailProviderError(
+      "RESEND_FROM_EMAIL est absent. Configurez un expediteur Resend verifie avant l'envoi email.",
       503,
     );
   }

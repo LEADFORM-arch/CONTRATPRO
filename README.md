@@ -608,6 +608,16 @@ CONTRATPRO_NOTIFICATION_EMAILS=esport.hub.pro@proton.me
 CONTRATPRO_REQUIRE_BILLING=false
 ```
 
+Controle Resend avant demo :
+
+```powershell
+npm run resend:readiness
+$env:CONTRATPRO_RESEND_TEST_TO="votre-email@domaine.fr"
+npm run resend:readiness
+```
+
+Runbook : `docs/resend-readiness.md`.
+
 `supabase/rls.sql` doit etre execute en dernier dans Supabase SQL Editor apres
 les scripts metier (`schema.sql`, `seed.sql`, `renewal_actions.sql`,
 `prospection.sql`, `document_sends.sql`, `payment_events.sql`, `billing.sql`,
