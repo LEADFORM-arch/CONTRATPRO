@@ -46,6 +46,22 @@ doit afficher :
 origin  https://github.com/admincairn/CONTRATPRO.git
 ```
 
+Verifier aussi l'auteur Git local avant de pousser sur `main` :
+
+```powershell
+git config user.name
+git config user.email
+```
+
+Pour le projet Vercel `contratpro`, l'email local doit etre associe au compte
+Vercel/GitHub autorise. Un email non reconnu peut creer un deploiement GitHub
+en etat `BLOCKED` avant meme le build, surtout sur un depot prive. La valeur
+actuelle attendue est :
+
+```text
+esport.hub.pro@proton.me
+```
+
 ## 2. Import Vercel
 
 Dans Vercel :
@@ -131,6 +147,8 @@ push sur la branche de production.
 Verifier dans Vercel :
 
 - build Next.js termine ;
+- etat du deploiement `READY`, pas seulement deploiement cree ;
+- alias production pointe vers le dernier commit attendu ;
 - cron `/api/cron/renewals` visible ;
 - variables production presentes ;
 - domaine final configure ou URL Vercel temporaire disponible.
@@ -141,6 +159,8 @@ Lancer :
 
 ```powershell
 npm run deploy:smoke -- https://votre-deploiement.vercel.app
+npm run deploy:smoke:stripe -- https://votre-deploiement.vercel.app
+npm run deploy:smoke:gocardless -- https://votre-deploiement.vercel.app
 ```
 
 Si Vercel Deployment Protection est active, definir aussi le secret
@@ -175,6 +195,11 @@ Puis tester manuellement :
 - generation PDF facture ou attestation ;
 - envoi email document si Resend est configure ;
 - portail billing si Stripe est configure.
+
+Si un webhook retourne `Invalid API key` depuis Vercel alors que le test local
+fonctionne, ne pas conclure a un probleme Stripe ou GoCardless. Verifier et
+remplacer d'abord `SUPABASE_SERVICE_ROLE_KEY` dans Vercel, puis redeployer :
+une variable presente peut etre ancienne ou invalide.
 
 ## 7. Go live
 

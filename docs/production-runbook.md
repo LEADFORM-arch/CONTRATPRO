@@ -52,6 +52,21 @@ git remote -v
 
 avec `origin` pointe vers `https://github.com/admincairn/CONTRATPRO.git`.
 
+Avant un push vers `main`, verifier aussi l'auteur Git :
+
+```powershell
+git config user.name
+git config user.email
+```
+
+Sur le projet Vercel `contratpro`, l'email de commit doit etre reconnu par le
+compte Vercel/GitHub autorise. Un email non reconnu peut produire un deploiement
+`BLOCKED` sans build. La valeur locale attendue est actuellement :
+
+```text
+esport.hub.pro@proton.me
+```
+
 ## 2. Variables Vercel obligatoires
 
 Renseigner les variables de `.env.production.example` dans Vercel, au minimum :
@@ -118,6 +133,10 @@ invoice.payment_succeeded
 
 ## 5. Verification apres deploiement
 
+Verifier d'abord dans Vercel que le deploiement est `READY` et que l'alias
+production pointe vers le commit attendu. Un deploiement cree mais `BLOCKED`,
+`UNKNOWN` ou non aliasse ne doit pas etre considere comme en production.
+
 Controler dans cet ordre :
 
 ```text
@@ -137,6 +156,18 @@ Puis effectuer un test metier court :
 - generation PDF facture ou attestation ;
 - verification supervision ;
 - verification notifications internes.
+
+Pour les integrations sensibles, lancer aussi :
+
+```powershell
+npm run deploy:smoke:stripe -- https://votre-domaine.fr
+npm run deploy:smoke:gocardless -- https://votre-domaine.fr
+```
+
+Si Stripe ou GoCardless echoue avec une erreur Supabase `Invalid API key`, la
+priorite est de remplacer `SUPABASE_SERVICE_ROLE_KEY` dans Vercel puis de
+redeployer. La presence de la variable dans Vercel ne garantit pas que sa valeur
+est encore valide.
 
 ## 6. Cron relances quotidiennes
 
