@@ -109,7 +109,7 @@ export function FacebookSettingsForm({
         />
       </label>
       <label className="block">
-        <span className="text-sm font-medium text-zinc-700">Demo URL</span>
+        <span className="text-sm font-medium text-zinc-700">URL démo</span>
         <input
           className="settings-input mt-2 h-10 w-full rounded-md border px-3 text-sm"
           defaultValue={settings.demoUrl}

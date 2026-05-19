@@ -174,7 +174,7 @@ describe("production guardrails", () => {
       "buildPilotBrief",
       "Action apres envoi",
       "Dernier suivi",
-      "Architecte IA demo pilote",
+      "Architecte IA démo pilote",
       "Passage lead vers rendez-vous",
       "data-od-id=\"pilot-handoff-command\"",
       "DM skill",
@@ -240,7 +240,7 @@ describe("production guardrails", () => {
       "Reception kit Claude",
       "Strategie Claude",
       "/facebook/contratpro-strategie-facebook.html",
-      "Post epingle lancement",
+      "Post épinglé lancement",
       "Prompt visuel",
       "ProspectionCopyButton",
       "Liens UTM",
@@ -273,7 +273,7 @@ describe("production guardrails", () => {
       "KPI scorecard 90 jours",
       "ProspectionCopyButton",
       "promptAnalyse",
-      "Decision: vendre / iterer / couper",
+      "Décision: vendre / itérer / couper",
     ], "admin prospection skill guide page");
 
     assert.ok(
@@ -1163,8 +1163,8 @@ describe("production guardrails", () => {
       "Fiche de sortie pilote",
       "PilotDecisionCopyButton",
       "PilotExitNoteBuilder",
-      "Decision premium apres rendez-vous",
-      "Decision attendue",
+      "Décision premium après rendez-vous",
+      "Décision attendue",
       "Vendre / Iterer / Stop",
     ], "pilot admin page");
 

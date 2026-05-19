@@ -3,7 +3,7 @@ import { requireAdminUser } from "@/server/admin";
 
 import { ProspectionCopyButton } from "../ProspectionCopyButton";
 
-type ContentStatus = "Brouillon" | "Pret" | "Publie" | "Teste";
+type ContentStatus = "Brouillon" | "Prêt" | "Publié" | "Testé";
 
 type ContentAsset = {
   angle: string;
@@ -22,81 +22,81 @@ const contentAssets: ContentAsset[] = [
   {
     angle: "Contrats qui sortent du radar",
     channel: "Facebook page",
-    copy: `Il a rappele son client pour l'entretien annuel.
-Le client avait deja pris quelqu'un d'autre.
+    copy: `Il a rappelé son client pour l'entretien annuel.
+Le client avait déjà pris quelqu'un d'autre.
 
-Son contrat avait expire 4 mois plus tot.
-Personne ne l'avait relance.
-180 EUR de revenu recurrent. Parti.
+Son contrat avait expiré 4 mois plus tôt.
+Personne ne l'avait relancé.
+180 EUR de revenu récurrent. Parti.
 
-ContratPro sert a voir ces echeances avant qu'elles deviennent du chiffre perdu.
+ContratPro sert à voir ces échéances avant qu'elles deviennent du chiffre perdu.
 
 Essai pilote: [URL_DEMO_UTM]`,
-    format: "Post epingle",
-    kpi: "Clic demo + commentaires metier",
-    nextAction: "Publier en premier, epingler, puis DM les commentaires utiles.",
+    format: "Post épinglé",
+    kpi: "Clic démo + commentaires métier",
+    nextAction: "Publier en premier, épingler, puis DM les commentaires utiles.",
     slot: "J0",
-    status: "Pret",
-    title: "Post epingle lancement",
+    status: "Prêt",
+    title: "Post épinglé lancement",
     visualPrompt:
-      "Bandeau social premium pour chauffagistes CVC, cockpit sombre, carte de contrats d'entretien, alerte echeance, palette noir zinc bleu acier vert validation cyan diagnostic, style utilitaire haut de gamme, texte lisible mobile: Contrats d'entretien: ne laissez plus les echeances sortir du radar.",
+      "Bandeau social premium pour chauffagistes CVC, cockpit sombre, carte de contrats d'entretien, alerte échéance, palette noir zinc bleu acier vert validation cyan diagnostic, style utilitaire haut de gamme, texte lisible mobile: Contrats d'entretien: ne laissez plus les échéances sortir du radar.",
   },
   {
-    angle: "2 700 EUR de revenu recurrent oublie",
+    angle: "2 700 EUR de revenu récurrent oublié",
     channel: "Facebook feed",
     copy: `2 700 EUR.
 
-C'est ce qu'un chauffagiste avec 150 clients peut perdre chaque annee si 10% des contrats d'entretien ne sont pas relances.
+C'est ce qu'un chauffagiste avec 150 clients peut perdre chaque année si 10% des contrats d'entretien ne sont pas relances.
 
-Le probleme, ce n'est pas le travail.
+Le problème, ce n'est pas le travail.
 C'est le contrat qui sort du radar.
 
-ContratPro remet les echeances devant vous avant qu'elles deviennent du chiffre perdu.`,
+ContratPro remet les échéances devant vous avant qu'elles deviennent du chiffre perdu.`,
     format: "Post chiffre",
-    kpi: "Partages + clics demo",
+    kpi: "Partages + clics démo",
     nextAction: "Publier vendredi 19h, suivre les clics UTM, relancer les likes chauds.",
     slot: "S1 vendredi",
     status: "Brouillon",
-    title: "Chiffre choc contrats oublies",
+    title: "Chiffre choc contrats oubliés",
     visualPrompt:
-      "Miniature Facebook premium 1080x1350, grand chiffre 2700 EUR, fond noir zinc, ligne diagnostic cyan, petites cartes contrat entretien et chaudiere gaz, ambiance outil pro CVC, aucune decoration startup.",
+      "Miniature Facebook premium 1080x1350, grand chiffre 2700 EUR, fond noir zinc, ligne diagnostic cyan, petites cartes contrat entretien et chaudière gaz, ambiance outil pro CVC, aucune décoration startup.",
   },
   {
     angle: "Question terrain sans vendre",
     channel: "Facebook feed",
-    copy: `Chauffagistes, honnetement: comment vous gerez vos relances de contrats d'entretien ?
+    copy: `Chauffagistes, honnêtement: comment vous gérez vos relances de contrats d'entretien ?
 
 Excel et on croise les doigts
 Agenda papier
-De tete
-Logiciel metier
-Secretaire ou conjoint administratif
+De tête
+Logiciel métier
+Secrétaire ou conjoint administratif
 
-Sans jugement, je cherche a comprendre ce qui marche vraiment sur le terrain.`,
+Sans jugement, je cherche à comprendre ce qui marche vraiment sur le terrain.`,
     format: "Question engagement",
     kpi: "Commentaires qualifiables",
     nextAction: "Repondre aux commentaires puis ouvrir un DM sans lien.",
     slot: "S1 mercredi",
-    status: "Pret",
+    status: "Prêt",
     title: "Sondage relances",
     visualPrompt:
-      "Visuel carre Facebook sobre pour chauffagistes, checklist de methodes: Excel, agenda, tete, logiciel metier, secretaire, fond atelier CVC sombre, accents ambre et cyan, typographie technique lisible.",
+      "Visuel carré Facebook sobre pour chauffagistes, checklist de méthodes: Excel, agenda, tête, logiciel métier, secrétaire, fond atelier CVC sombre, accents ambre et cyan, typographie technique lisible.",
   },
   {
     angle: "Excel ne relance pas tout seul",
     channel: "Messenger",
     copy: `Salut [Prenom], j'ai vu que le sujet Excel revient dans ton organisation.
 
-Ce n'est pas une critique, beaucoup de chauffagistes travaillent comme ca.
+Ce n'est pas une critique, beaucoup de chauffagistes travaillent comme ça.
 
-Le vrai risque, c'est surtout ce qu'Excel ne signale pas tout seul: les contrats qui approchent de l'echeance.
+Le vrai risque, c'est surtout ce qu'Excel ne signale pas tout seul: les contrats qui approchent de l'échéance.
 
-Tu as deja calcule combien ca peut representer sur une annee ?`,
+Tu as déjà calculé combien ça peut représenter sur une année ?`,
     format: "DM Excel",
-    kpi: "Taux reponse DM",
+    kpi: "Taux réponse DM",
     nextAction: "Envoyer seulement si le signal Excel est visible.",
     slot: "Routine matin",
-    status: "Teste",
+    status: "Testé",
     title: "DM utilisateur Excel",
     visualPrompt:
       "Pas de visuel. Utiliser comme message Messenger uniquement, sans lien au premier contact.",
@@ -113,7 +113,7 @@ Le reste, c'est du bruit.
 ContratPro part de cette logique: proteger le portefeuille existant avant de promettre autre chose.`,
     format: "Post manifeste",
     kpi: "Commentaires dirigeants",
-    nextAction: "Publier apres le post chiffre pour clarifier le positionnement premium.",
+    nextAction: "Publier après le post chiffre pour clarifier le positionnement premium.",
     slot: "S2 lundi",
     status: "Brouillon",
     title: "Manifeste portefeuille contrats",
@@ -125,23 +125,23 @@ ContratPro part de cette logique: proteger le portefeuille existant avant de pro
     channel: "Facebook page",
     copy: `Je cherche 3 chauffagistes pour tester ContratPro sur un vrai portefeuille de contrats d'entretien.
 
-Objectif: voir en 30 minutes si des contrats peuvent etre relances, securises ou mieux suivis.
+Objectif: voir en 30 minutes si des contrats peuvent être relancés, sécurisés ou mieux suivis.
 
-Pas de CB. Pas de promesse floue. On regarde les echeances, les relances et les documents.
+Pas de CB. Pas de promesse floue. On regarde les échéances, les relances et les documents.
 
-Interessé ? Repondez "pilote" en commentaire ou envoyez un message.`,
+Interessé ? Répondez "pilote" en commentaire ou envoyez un message.`,
     format: "Offre pilote",
-    kpi: "Demos planifiees",
-    nextAction: "Publier quand le bandeau et le post epingle sont en ligne.",
+    kpi: "Démos planifiées",
+    nextAction: "Publier quand le bandeau et le post épinglé sont en ligne.",
     slot: "S2 vendredi",
     status: "Brouillon",
     title: "Offre 3 pilotes chauffagistes",
     visualPrompt:
-      "Miniature verticale premium, 3 places pilote, chauffagiste CVC, contrats entretien, ecran diagnostic, fond noir zinc, accent vert validation, texte: 3 pilotes chauffagistes recherches.",
+      "Miniature verticale premium, 3 places pilote, chauffagiste CVC, contrats entretien, écran diagnostic, fond noir zinc, accent vert validation, texte: 3 pilotes chauffagistes recherchés.",
   },
 ];
 
-const statusOrder: ContentStatus[] = ["Brouillon", "Pret", "Publie", "Teste"];
+const statusOrder: ContentStatus[] = ["Brouillon", "Prêt", "Publié", "Testé"];
 
 function statusCount(status: ContentStatus) {
   return contentAssets.filter((asset) => asset.status === status).length;
@@ -198,7 +198,7 @@ export default async function ProspectionContentLibraryPage() {
           </h2>
           <p className="mt-3 max-w-3xl text-sm leading-6 text-zinc-400">
             Quand Claude livre le kit Facebook, colle les textes finaux dans ces
-            emplacements: bandeau, post epingle, posts, miniatures et messages.
+            emplacements: bandeau, post épinglé, posts, miniatures et messages.
             Le but est de publier moins, mais de mesurer chaque signal.
           </p>
         </div>
@@ -237,11 +237,11 @@ export default async function ProspectionContentLibraryPage() {
               "Artifact complet archive dans /facebook/contratpro-strategie-facebook.html.",
             ],
             ["Bandeau", "Desktop + mobile, texte lisible, jargon CVC."],
-            ["Identite page", "Bio, description, CTA, Messenger, mots-cles."],
+            ["Identité page", "Bio, description, CTA, Messenger, mots-clés."],
             ["Posts", "12 posts classes par angle, KPI et CTA."],
             ["Miniatures", "Prompts 1080x1080 et 1080x1350."],
             ["UTM", "Un lien par campagne, medium et contenu."],
-            ["Scorecard", "Decision garder / iterer / couper chaque vendredi."],
+            ["Scorecard", "Décision garder / iterer / couper chaque vendredi."],
           ].map(([label, detail]) => (
             <article className="content-intake-card" key={label}>
               <strong>{label}</strong>
@@ -292,7 +292,7 @@ export default async function ProspectionContentLibraryPage() {
                       Prompt visuel
                     </p>
                     <p className="mt-1 text-sm text-zinc-400">
-                      A coller dans l'outil de creation image.
+                      À coller dans l'outil de création image.
                     </p>
                   </div>
                   <ProspectionCopyButton

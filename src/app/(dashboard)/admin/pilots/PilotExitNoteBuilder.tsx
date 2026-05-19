@@ -35,7 +35,7 @@ export function PilotExitNoteBuilder() {
     return [
       `Pilote: ${compact(pilotName, "Nom du chauffagiste")}`,
       `Date: ${compact(meetingDate, "date a renseigner")}`,
-      `Decision: ${decision}`,
+      `Décision: ${decision}`,
       `Preuve observee: ${compact(proof, "preuve terrain a renseigner")}`,
       `Prix teste/accepte: ${compact(acceptedPrice, "prix a renseigner")}`,
       `Objection bloquante: ${normalizedBlocker}`,

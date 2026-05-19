@@ -10,28 +10,28 @@ const dailyRoutine = [
     proof: "Chaque message part d'un signal observe: commentaire, like, Excel, relance.",
   },
   {
-    action: "Qualifier les reponses",
+    action: "Qualifier les réponses",
     moment: "Midi",
     proof: "Les prospects utiles passent dans /prospection avec source et prochaine action.",
   },
   {
     action: "Relancer les conversations ouvertes",
     moment: "Soir",
-    proof: "Chaque objection est notee avant de proposer une demo.",
+    proof: "Chaque objection est notée avant de proposer une démo.",
   },
 ];
 
 const weeklyCadence = [
-  ["Lundi 6h30", "Post probleme -> solution", "Contrats oublies, Excel, revenu perdu"],
+  ["Lundi 6h30", "Post probleme -> solution", "Contrats oubliés, Excel, revenu perdu"],
   ["Mercredi 12h15", "Question d'engagement", "Comprendre la methode actuelle sans vendre"],
-  ["Vendredi 19h00", "Preuve ou chiffre", "Clic demo trace et DM chaud"],
-  ["Vendredi soir", "Scorecard KPI", "Vendre, iterer ou couper l'angle"],
+  ["Vendredi 19h00", "Preuve ou chiffre", "Clic démo trace et DM chaud"],
+  ["Vendredi soir", "Scorecard KPI", "Vendre, itérer ou couper l'angle"],
 ] as const;
 
 const scorecardRows = [
   ["DMs envoyes", "25-50 / semaine", "Volume suffisant mais encore humain"],
   ["Reponses DM", "15-25%", "Changer accroche si moins de 10%"],
-  ["Demos planifiees", "2+ / semaine", "Prioriser les leads score 80+"],
+  ["Démos planifiées", "2+ / semaine", "Prioriser les leads score 80+"],
   ["Objection dominante", "1 claire", "Ne corriger qu'un blocage a la fois"],
 ] as const;
 
@@ -40,7 +40,7 @@ Genere un DM froid de 4 phrases maximum pour ce prospect:
 
 Prenom:
 Ville:
-Specialite:
+Spécialité:
 Signal observe:
 Douleur probable:
 
@@ -51,12 +51,12 @@ Contraintes:
 - ne pas dire "notre solution".`;
 
 const promptAnalyse = `Utilise le skill prospection Facebook ContratPro.
-Analyse ces resultats et donne une decision garder / iterer / couper.
+Analyse ces résultats et donne une décision garder / itérer / couper.
 
 DMs envoyes:
 Reponses:
-Demos:
-Clics demo:
+Démos:
+Clics démo:
 Posts publies:
 Commentaires utiles:
 Objections:
@@ -70,19 +70,19 @@ Donne:
 const dmExcel = `Salut [Prenom], j'ai vu que tu geres encore tes contrats sur Excel.
 
 Ce n'est pas une critique, beaucoup de chauffagistes font pareil.
-Le vrai sujet, c'est surtout ce qu'Excel ne signale pas tout seul: les contrats qui approchent de l'echeance.
+Le vrai sujet, c'est surtout ce qu'Excel ne signale pas tout seul: les contrats qui approchent de l'échéance.
 
-Tu as deja calcule combien ca peut representer sur une annee ?`;
+Tu as déjà calculé combien ça peut représenter sur une année ?`;
 
 const weeklyNote = `Semaine:
 Angle teste:
 Canal principal:
 DMs envoyes:
 Reponses:
-Demos:
+Démos:
 Meilleure phrase:
 Objection dominante:
-Decision: vendre / iterer / couper
+Décision: vendre / itérer / couper
 Action lundi matin:`;
 
 export default async function ProspectionSkillGuidePage() {
@@ -129,11 +129,11 @@ export default async function ProspectionSkillGuidePage() {
           <p className="mt-3 max-w-3xl text-sm leading-6 text-zinc-400">
             Le guide te donne les gestes a faire, les textes a copier, les
             prompts Codex et la scorecard pour savoir si un angle Facebook doit
-            etre garde, itere ou coupe.
+            être gardé, itéré ou coupé.
           </p>
         </div>
         <div className="prospection-guide-decision">
-          <strong>Decision vendredi</strong>
+          <strong>Décision vendredi</strong>
           <span>Vendre / Iterer / Couper</span>
         </div>
       </section>
@@ -170,8 +170,8 @@ export default async function ProspectionSkillGuidePage() {
             Pas de lien dans le premier DM
           </h3>
           <p className="mt-3 text-sm leading-6 text-zinc-400">
-            Le premier message doit ouvrir une conversation. Le lien demo arrive
-            apres un signal clair: reponse, douleur explicite ou demande.
+            Le premier message doit ouvrir une conversation. Le lien démo arrive
+            après un signal clair: réponse, douleur explicite ou demande.
           </p>
         </aside>
       </section>
@@ -234,7 +234,7 @@ export default async function ProspectionSkillGuidePage() {
               <p className="text-xs font-semibold uppercase tracking-wide text-cyan-300">
                 Prompt Codex
               </p>
-              <h3 className="mt-1 font-semibold text-zinc-50">Generer un DM</h3>
+              <h3 className="mt-1 font-semibold text-zinc-50">Générer un DM</h3>
             </div>
             <ProspectionCopyButton label="Copier prompt" text={promptDm} />
           </div>

@@ -46,7 +46,7 @@ export default async function AdminPilotsPage() {
             </p>
           </div>
           <div className="pilot-decision-box">
-            <span>Decision attendue</span>
+            <span>Décision attendue</span>
             <strong>Vendre / Iterer / Stop</strong>
             <p>Une sortie ecrite apres chaque rendez-vous.</p>
           </div>
@@ -67,7 +67,7 @@ export default async function AdminPilotsPage() {
         <div className="pilot-architect-header">
           <div>
             <p className="text-sm font-semibold text-cyan-300">{architect.headline}</p>
-            <h3>Decision premium apres rendez-vous</h3>
+            <h3>Décision premium après rendez-vous</h3>
             <p>{architect.nextMove}</p>
           </div>
           <div className="pilot-architect-metrics">
@@ -116,7 +116,7 @@ export default async function AdminPilotsPage() {
           <div>
             <h3>Script de rendez-vous pilote</h3>
             <p className="mt-1 text-sm text-zinc-400">
-              Trame courte pour conduire l'appel sans tomber dans la demo catalogue.
+              Trame courte pour conduire l'appel sans tomber dans la démo catalogue.
             </p>
           </div>
           <StatusPill>{scorecard.demoScript.length} temps forts</StatusPill>
@@ -262,7 +262,7 @@ export default async function AdminPilotsPage() {
             "2 pilotes sur 3 importent une vraie base.",
             "2 pilotes sur 3 identifient des contrats a relancer.",
             "1 pilote accepte Starter ou Pro.",
-            "Aucun blocage juridique ou securite critique.",
+            "Aucun blocage juridique ou sécurité critique.",
           ].map((item) => (
             <div className="pilot-go-item" key={item}>{item}</div>
           ))}

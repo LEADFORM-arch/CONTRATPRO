@@ -26,7 +26,7 @@ function leadDmScenario(lead: ProspectionLead) {
   const signal = leadSignal(lead).toLowerCase();
 
   if (lead.rawStatus === "REPLIED") {
-    return "reponse";
+    return "réponse";
   }
 
   if (lead.rawStatus === "CONTACTED") {
@@ -51,7 +51,7 @@ function leadDmScenario(lead: ProspectionLead) {
 function leadFounderAction(lead: ProspectionLead) {
   const scenario = leadDmScenario(lead);
 
-  if (scenario === "reponse") {
+  if (scenario === "réponse") {
     return {
       decision: "Proposer deux créneaux démo",
       nextMove: "Copier le DM, envoyer, puis passer le lead en Démo si un créneau est choisi.",
@@ -276,7 +276,7 @@ function pilotReadinessSignal(lead: ProspectionLead) {
       decision: "Qualifier avant pilote",
       lead,
       latestLog,
-      note: "Le compte merite un suivi, mais pas encore une demo forte.",
+      note: "Le compte mérite un suivi, mais pas encore une démo forte.",
       proof: hasObjection ? `Objection: ${latestLog?.objection}` : "Lead contacte",
       score: 65,
       tone: "iterate",
@@ -285,8 +285,8 @@ function pilotReadinessSignal(lead: ProspectionLead) {
 
   return {
     checklist: [
-      "Ne pas forcer la demo sans reponse.",
-      "Chercher un signal metier plus precis.",
+      "Ne pas forcer la démo sans réponse.",
+      "Chercher un signal métier plus précis.",
       "Garder le lead en prospection froide.",
     ],
     decision: "Rester en prospection",
@@ -304,9 +304,9 @@ function buildPilotBrief(item: ReturnType<typeof pilotReadinessSignal>) {
     ? `Dernier suivi: ${item.latestLog.channel}, scenario ${item.latestLog.scenario}, objection ${item.latestLog.objection}.`
     : "Dernier suivi: a journaliser avant rendez-vous.";
 
-  return `Fiche passage demo/pilote - ${item.lead.company}
+  return `Fiche passage démo/pilote - ${item.lead.company}
 
-Decision: ${item.decision}
+Décision: ${item.decision}
 Preuve: ${item.proof}
 Contact: ${item.lead.contact} - ${item.lead.phone} - ${item.lead.email}
 Contexte: ${item.lead.specialty} - ${item.lead.city} - score ${item.lead.score}/100
@@ -328,7 +328,7 @@ function buildLeadDmScript(lead: ProspectionLead) {
   const specialty = lead.specialty !== "-" ? lead.specialty : "CVC";
   const city = lead.city !== "-" ? ` sur ${lead.city}` : "";
 
-  if (scenario === "reponse") {
+  if (scenario === "réponse") {
     return `Salut ${name}, merci pour ton retour.
 
 Vu ce que tu me dis sur ${specialty}${city}, le plus simple est de prendre 15 minutes.
@@ -391,7 +391,7 @@ export default async function ProspectionPage() {
   await requireAdminUser("/prospection");
   const leads = await getProspectionLeads();
   const hotLeads = leads.filter((lead) => lead.score >= 80);
-  const inboundDemoLeads = leads.filter((lead) => lead.source === "PUBLIC_DEMO");
+  const inboundDémoLeads = leads.filter((lead) => lead.source === "PUBLIC_DEMO");
   const toQualify = leads.filter((lead) => lead.rawStatus === "TO_QUALIFY");
   const replied = leads.filter((lead) => lead.rawStatus === "REPLIED");
   const contacted = leads.filter((lead) =>
@@ -407,7 +407,7 @@ export default async function ProspectionPage() {
     ["Démos", demos, "Montrer le cash-flow"],
     ["Gagnés", won, "Onboarding client"],
   ] as const;
-  const priorityQueue = [...inboundDemoLeads, ...hotLeads, ...replied]
+  const priorityQueue = [...inboundDémoLeads, ...hotLeads, ...replied]
     .filter(
       (lead, index, list) => list.findIndex((item) => item.id === lead.id) === index,
     )
@@ -465,7 +465,7 @@ export default async function ProspectionPage() {
         {[
           ["Leads", leads.length, "Comptes identifiés", "cyan"],
           ["Prioritaires", hotLeads.length, "Score 80+", "amber"],
-          ["Demandes démo", inboundDemoLeads.length, "Entrantes site", "emerald"],
+          ["Demandes démo", inboundDémoLeads.length, "Entrantes site", "emerald"],
           ["Démos", demos.length, `${conversionRate}% gagné`, "rose"],
         ].map(([label, value, helper, tone]) => (
           <article
@@ -659,7 +659,7 @@ export default async function ProspectionPage() {
                   </div>
                   <h4>Aucune relance a traiter</h4>
                   <p>Les leads chauds n'ont pas de retard commercial visible.</p>
-                  <small>Continue la prospection Facebook et les demandes demo.</small>
+                  <small>Continue la prospection Facebook et les demandes démo.</small>
                 </div>
               </article>
             )}
@@ -700,7 +700,7 @@ export default async function ProspectionPage() {
         <div className="sales-command-header">
           <div>
             <p className="text-xs font-semibold uppercase tracking-wide text-emerald-300">
-              Architecte IA demo pilote
+              Architecte IA démo pilote
             </p>
             <h3 className="mt-1 text-lg font-semibold text-zinc-50">
               Passage lead vers rendez-vous

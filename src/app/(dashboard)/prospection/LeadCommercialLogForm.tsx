@@ -4,8 +4,21 @@ import { useRouter } from "next/navigation";
 import type { FormEvent } from "react";
 import { useState } from "react";
 
-const channels = ["Messenger", "Commentaire", "Telephone", "Email", "Demo"] as const;
-const scenarios = ["froid", "chaud", "excel", "relance", "reponse", "demo"] as const;
+const channels = [
+  ["Messenger", "Messenger"],
+  ["Commentaire", "Commentaire"],
+  ["Telephone", "Téléphone"],
+  ["Email", "Email"],
+  ["Demo", "Démo"],
+] as const;
+const scenarios = [
+  ["froid", "froid"],
+  ["chaud", "chaud"],
+  ["excel", "excel"],
+  ["relance", "relance"],
+  ["reponse", "réponse"],
+  ["demo", "démo"],
+] as const;
 
 function appendCommercialLog(currentNotes: string, logLine: string) {
   const cleanNotes = currentNotes.trim();
@@ -32,7 +45,7 @@ export function LeadCommercialLogForm({
 }) {
   const router = useRouter();
   const [action, setAction] = useState("DM copie/envoye");
-  const [channel, setChannel] = useState<(typeof channels)[number]>("Messenger");
+  const [channel, setChannel] = useState("Messenger");
   const [error, setError] = useState("");
   const [nextAction, setNextAction] = useState(defaultNextAction);
   const [objection, setObjection] = useState("");
@@ -97,21 +110,21 @@ export function LeadCommercialLogForm({
           Canal
           <select
             value={channel}
-            onChange={(event) => setChannel(event.target.value as (typeof channels)[number])}
+            onChange={(event) => setChannel(event.target.value)}
           >
-            {channels.map((item) => (
-              <option key={item} value={item}>
-                {item}
+            {channels.map(([value, label]) => (
+              <option key={value} value={value}>
+                {label}
               </option>
             ))}
           </select>
         </label>
         <label>
-          Scenario
+          Scénario
           <select value={scenario} onChange={(event) => setScenario(event.target.value)}>
-            {scenarios.map((item) => (
-              <option key={item} value={item}>
-                {item}
+            {scenarios.map(([value, label]) => (
+              <option key={value} value={value}>
+                {label}
               </option>
             ))}
           </select>
