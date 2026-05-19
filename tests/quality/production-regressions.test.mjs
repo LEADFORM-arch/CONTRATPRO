@@ -1538,10 +1538,18 @@ describe("production guardrails", () => {
       "read-excel-file/browser",
       "CSV/XLSX",
       "Plan d'import",
+      "Fiche de contrôle import",
+      "Simulation obligatoire",
       "Derniers imports et simulations",
       "Confirmer l'import",
       "modele-import-contratpro.csv",
     ], "client import page");
+
+    assertIncludes(read("src/app/globals.css"), [
+      ".import-decision-note",
+      ".import-decision-proof",
+      ".import-next-action",
+    ], "client import decision styling");
   });
 
   it("keeps first-run business screens actionable instead of empty", () => {

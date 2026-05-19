@@ -239,6 +239,89 @@ function logStatusLabel(status: string) {
   return "Prêt";
 }
 
+function buildImportDecision({
+  report,
+  result,
+  rowsCount,
+}: {
+  report: ImportReport | null;
+  result: ImportReport | null;
+  rowsCount: number;
+}) {
+  if (result) {
+    return {
+      action: "Voir les contrats",
+      href: "/contracts",
+      proof: [
+        `${result.customersCreated} client(s) créé(s)`,
+        `${result.installationsCreated} équipement(s) créé(s)`,
+        `${result.contractsCreated} contrat(s) créé(s)`,
+      ],
+      status: "Import terminé",
+      tone: "success",
+      title: "Le portefeuille Excel est entré dans ContratPro.",
+    };
+  }
+
+  if (report?.invalidRows) {
+    return {
+      action: "Corriger Excel puis relancer",
+      href: null,
+      proof: [
+        `${report.validRows} ligne(s) prête(s)`,
+        `${report.invalidRows} ligne(s) à corriger`,
+        "Aucune création lancée",
+      ],
+      status: "À corriger",
+      tone: "warning",
+      title: "Le fichier est lisible, mais certaines lignes bloquent.",
+    };
+  }
+
+  if (report) {
+    return {
+      action: "Confirmer l'import",
+      href: null,
+      proof: [
+        `${report.customersToCreate} client(s) à créer`,
+        `${report.customersToReuse} client(s) retrouvé(s)`,
+        `${report.contractsToCreate} contrat(s) à suivre`,
+      ],
+      status: "Simulation prête",
+      tone: "ready",
+      title: "Le plan d'import est propre.",
+    };
+  }
+
+  if (rowsCount > 0) {
+    return {
+      action: "Lancer la simulation",
+      href: null,
+      proof: [
+        `${rowsCount} ligne(s) détectée(s)`,
+        "Contrôle des colonnes en attente",
+        "Création toujours bloquée",
+      ],
+      status: "Lecture fichier",
+      tone: "reading",
+      title: "Le fichier est chargé, reste à contrôler le plan.",
+    };
+  }
+
+  return {
+    action: "Sélectionner le fichier",
+    href: null,
+    proof: [
+      "CSV, TXT ou XLSX accepté",
+      "Simulation obligatoire",
+      "Aucune écriture sans confirmation",
+    ],
+    status: "À préparer",
+    tone: "idle",
+    title: "Reprenez le portefeuille Excel sans ressaisie.",
+  };
+}
+
 export default function ClientImportPage() {
   const [fileName, setFileName] = useState("");
   const [rows, setRows] = useState<ParsedRow[]>([]);
@@ -253,6 +336,11 @@ export default function ClientImportPage() {
   const previewRows = rows.slice(0, 5);
   const canAnalyze = rows.length > 0 && hasRequiredClient(rows) && !isAnalyzing;
   const canExecute = Boolean(report && report.validRows > 0 && !isExecuting);
+  const importDecision = buildImportDecision({
+    report,
+    result,
+    rowsCount: rows.length,
+  });
   const templateHref = useMemo(
     () => `data:text/csv;charset=utf-8,${encodeURIComponent(templateCsv)}`,
     [],
@@ -374,10 +462,36 @@ export default function ClientImportPage() {
         title="Import Excel/CSV clients et contrats"
       />
 
+      <section className="import-decision-note mt-6 rounded-lg border p-5" data-tone={importDecision.tone}>
+        <div className="import-decision-copy">
+          <p className="text-xs font-semibold uppercase tracking-wide text-cyan-300">
+            Fiche de contrôle import
+          </p>
+          <h3>{importDecision.title}</h3>
+          <span>
+            ContratPro lit le fichier, prépare une simulation avant création, puis
+            attend votre confirmation pour écrire les clients, équipements et contrats.
+          </span>
+        </div>
+        <div className="import-decision-proof" aria-label="Preuves de controle import">
+          <StatusPill>{importDecision.status}</StatusPill>
+          {importDecision.proof.map((item) => (
+            <p key={item}>{item}</p>
+          ))}
+        </div>
+        {importDecision.href ? (
+          <a className="premium-action rounded-md px-4 py-2 text-sm font-semibold" href={importDecision.href}>
+            {importDecision.action}
+          </a>
+        ) : (
+          <span className="import-next-action">{importDecision.action}</span>
+        )}
+      </section>
+
       <label className="import-dropzone mt-6 flex min-h-44 cursor-pointer flex-col items-center justify-center rounded-lg border border-dashed px-6 py-8 text-center">
         <span className="import-dropzone-mark">CSV/XLSX</span>
         <span className="text-base font-semibold">
-          Sélectionner un export clients
+          Déposer le fichier clients du chauffagiste
         </span>
         <span className="mt-2 max-w-2xl text-sm text-zinc-500">
           Colonnes reconnues : raison sociale, email, téléphone, adresse, ville,

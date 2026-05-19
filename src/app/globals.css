@@ -6708,6 +6708,80 @@ body .hover\:bg-zinc-100:hover {
   width: 3rem;
 }
 
+.import-decision-note {
+  align-items: stretch;
+  background:
+    linear-gradient(135deg, rgba(56, 189, 248, 0.1), rgba(52, 211, 153, 0.06)),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.015)),
+    #111316;
+  border-color: rgba(56, 189, 248, 0.22);
+  box-shadow: 0 22px 58px rgba(0, 0, 0, 0.24);
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: minmax(0, 1fr) minmax(240px, 0.55fr) auto;
+}
+
+.import-decision-note[data-tone="success"] {
+  border-color: rgba(52, 211, 153, 0.3);
+}
+
+.import-decision-note[data-tone="warning"] {
+  border-color: rgba(245, 158, 11, 0.34);
+}
+
+.import-decision-note[data-tone="reading"] {
+  border-color: rgba(56, 189, 248, 0.28);
+}
+
+.import-decision-copy h3 {
+  color: #f4f4f5;
+  font-size: 1.1rem;
+  font-weight: 850;
+  letter-spacing: 0;
+  line-height: 1.25;
+  margin-top: 0.45rem;
+}
+
+.import-decision-copy span {
+  color: #a1a1aa;
+  display: block;
+  font-size: 0.9rem;
+  line-height: 1.65;
+  margin-top: 0.55rem;
+  max-width: 56rem;
+}
+
+.import-decision-proof {
+  background: rgba(255, 255, 255, 0.026);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 0.65rem;
+  display: grid;
+  gap: 0.55rem;
+  padding: 0.9rem;
+}
+
+.import-decision-proof p {
+  color: #d4d4d8;
+  font-size: 0.82rem;
+  line-height: 1.35;
+}
+
+.import-next-action {
+  align-items: center;
+  align-self: center;
+  background: rgba(52, 211, 153, 0.1);
+  border: 1px solid rgba(52, 211, 153, 0.2);
+  border-radius: 0.5rem;
+  color: #bbf7d0;
+  display: inline-flex;
+  font-size: 0.875rem;
+  font-weight: 800;
+  justify-content: center;
+  min-height: 2.5rem;
+  padding: 0.55rem 1rem;
+  white-space: nowrap;
+}
+
 .import-control-card,
 .import-preview,
 .import-history,
@@ -6788,6 +6862,17 @@ body .hover\:bg-zinc-100:hover {
 .import-schema-card:hover {
   border-color: rgba(52, 211, 153, 0.25);
   transform: translateY(-1px);
+}
+
+@media (max-width: 960px) {
+  .import-decision-note {
+    grid-template-columns: 1fr;
+  }
+
+  .import-next-action {
+    justify-self: start;
+    white-space: normal;
+  }
 }
 
 .settings-form,
