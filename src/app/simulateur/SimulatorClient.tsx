@@ -123,11 +123,11 @@ export default function SimulatorPage() {
         <div>
           <p className="text-sm font-semibold text-emerald-300">Simulateur ROI</p>
           <h1 className="mt-4 max-w-3xl text-4xl font-black tracking-normal text-zinc-50 sm:text-5xl">
-            Combien vous coutent vos contrats d'entretien oublies ?
+            Combien vous coûtent vos contrats d’entretien oubliés ?
           </h1>
           <p className="mt-5 max-w-2xl text-base leading-7 text-zinc-400">
             En 30 secondes, estimez le revenu annuel perdu faute de relances et le
-            montant recuperable avec un cockpit contrats, attestations et SEPA.
+            montant récupérable avec un cockpit contrats, attestations et SEPA.
           </p>
           <div className="mt-7 flex flex-wrap gap-3">
             <a className="premium-action rounded-md text-sm font-semibold" href="#calculer">
@@ -141,9 +141,9 @@ export default function SimulatorPage() {
 
         <aside className="simulator-proof-card">
           <span>Promesse commerciale</span>
-          <strong>1 contrat recupere peut payer plusieurs mois de ContratPro.</strong>
+          <strong>1 contrat récupéré peut payer plusieurs mois de ContratPro.</strong>
           <p>
-            Le prix devient acceptable quand le chauffagiste voit le cash oublie,
+            Le prix devient acceptable quand le chauffagiste voit le cash oublié,
             pas quand on lui liste des fonctions.
           </p>
         </aside>
@@ -156,7 +156,7 @@ export default function SimulatorPage() {
         <div className="simulator-panel">
           <div className="simulator-panel-header">
             <p>Votre portefeuille actuel</p>
-            <h2>Reglez les curseurs</h2>
+            <h2>Réglez les curseurs</h2>
           </div>
 
           <div className="simulator-controls">
@@ -187,8 +187,8 @@ export default function SimulatorPage() {
             />
             <SliderControl
               alert
-              helper="Hypothese prudente : une partie des non-renouvellements vient d'un manque de suivi, pas d'un refus client."
-              label="Contrats oublies ou relances trop tard"
+              helper="Hypothèse prudente : une partie des non-renouvellements vient d’un manque de suivi, pas d’un refus client."
+              label="Contrats oubliés ou relancés trop tard"
               max={35}
               min={5}
               suffix="%"
@@ -216,24 +216,24 @@ export default function SimulatorPage() {
 
         <div className="simulator-results" aria-live="polite">
           <div className="simulator-result-card simulator-result-card-loss">
-            <span>Revenu annuel a risque</span>
+            <span>Revenu annuel à risque</span>
             <strong>{euro(result.lostRevenue)}</strong>
             <p>
-              {result.forgottenContracts} contrats potentiellement oublies sur {contractCount}.
+              {result.forgottenContracts} contrats potentiellement oubliés sur {contractCount}.
             </p>
           </div>
 
           <div className="simulator-result-card simulator-result-card-recovery">
-            <span>Revenu recuperable estime</span>
+            <span>Revenu récupérable estimé</span>
             <strong>{euro(result.recoveredRevenue)}</strong>
-            <p>Hypothese : 70% des contrats oublies peuvent etre sauves avec relances structurees.</p>
+            <p>Hypothèse : 70% des contrats oubliés peuvent être sauvés avec des relances structurées.</p>
           </div>
 
           <div className="simulator-result-card simulator-result-card-roi">
-            <span>ROI net apres ContratPro</span>
+            <span>ROI net après ContratPro</span>
             <strong>{result.roiNet >= 0 ? "+" : ""}{euro(result.roiNet)}</strong>
             <p>
-              Cout annuel : {euro(result.annualCost)}. Rentabilite estimee :
+              Coût annuel : {euro(result.annualCost)}. Rentabilité estimée :
               {" "}
               {result.breakEvenMonths >= 99 ? "non atteinte" : `${result.breakEvenMonths} mois`}.
             </p>
@@ -241,21 +241,21 @@ export default function SimulatorPage() {
 
           <div className="simulator-next-step">
             <div>
-              <span>{hasCalculated ? "Resultat pret" : "Action suivante"}</span>
+              <span>{hasCalculated ? "Résultat prêt" : "Action suivante"}</span>
               <strong>
                 {hasCalculated
-                  ? `ROI estime : ${result.roiPercent >= 0 ? "+" : ""}${result.roiPercent}%`
-                  : "Calculez, puis montrez le resultat en demo."}
+                  ? `ROI estimé : ${result.roiPercent >= 0 ? "+" : ""}${result.roiPercent}%`
+                  : "Calculez, puis montrez le résultat en démo."}
               </strong>
               <p>
                 {trackingState === "saved"
-                  ? "Simulation journalisee anonymement pour mesurer les hypotheses marche."
-                  : "Aucune donnee personnelle n'est demandee dans ce simulateur."}
+                  ? "Simulation journalisée anonymement pour mesurer les hypothèses marché."
+                  : "Aucune donnée personnelle n’est demandée dans ce simulateur."}
               </p>
             </div>
             <div className="flex flex-wrap gap-2">
               <a className="premium-action rounded-md text-sm font-semibold" href="/demo">
-                Programmer une demo
+                Programmer une démo
               </a>
               <a className="premium-secondary-action rounded-md px-4 py-2 text-sm font-semibold" href="/pricing">
                 Comparer les offres
@@ -269,18 +269,18 @@ export default function SimulatorPage() {
         <div className="simulator-proof-grid">
           <article>
             <span>01</span>
-            <strong>Le probleme devient chiffre</strong>
-            <p>Le prospect voit une perte annuelle concrete, pas une promesse logicielle abstraite.</p>
+            <strong>Le problème devient chiffré</strong>
+            <p>Le prospect voit une perte annuelle concrète, pas une promesse logicielle abstraite.</p>
           </article>
           <article>
             <span>02</span>
             <strong>Le prix devient rationnel</strong>
-            <p>Starter, Pro et Business se comparent au revenu recupere, pas aux outils generalistes.</p>
+            <p>Starter, Pro et Business se comparent au revenu récupéré, pas aux outils généralistes.</p>
           </article>
           <article>
             <span>03</span>
-            <strong>La demo demarre mieux</strong>
-            <p>Le fondateur arrive avec une hypothese ROI personnalisee pour chaque chauffagiste.</p>
+            <strong>La démo démarre mieux</strong>
+            <p>Le fondateur arrive avec une hypothèse ROI personnalisée pour chaque chauffagiste.</p>
           </article>
         </div>
       </section>

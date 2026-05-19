@@ -1387,17 +1387,17 @@ describe("production guardrails", () => {
       "StructuredData",
       "ScheduleAction",
       "canonical: \"/demo\"",
-      "Demo ContratPro pour chauffagistes CVC",
+      "Démo ContratPro pour chauffagistes CVC",
     ], "demo metadata");
 
     assertIncludes(read("src/app/demo/merci/page.tsx"), [
       "export const metadata",
       "robots",
       "index: false",
-      "Demande recue",
-      "Votre demande demo est bien arrivee.",
-      "Prochaines etapes",
-      "Preparer votre fichier clients",
+      "Demande reçue",
+      "Votre demande démo est bien arrivée.",
+      "Prochaines étapes",
+      "Préparer votre fichier clients",
     ], "demo thank-you page");
 
     assertIncludes(read("src/app/pricing/page.tsx"), [
@@ -1454,15 +1454,15 @@ describe("production guardrails", () => {
       "Simulateur ROI",
       "Calculer ma perte",
       "/api/simulateur/track",
-      "Programmer une demo",
+      "Programmer une démo",
     ], "roi simulator public page");
 
     assertIncludes(read("src/app/attestation-entretien-chaudiere/page.tsx"), [
-      "Attestation d'entretien chaudiere",
+      "Attestation d’entretien chaudière",
       "Service-Public",
       "www.ecologie.gouv.fr",
       "application/ld+json",
-      "Voir la demo documents",
+      "Voir la démo documents",
     ], "seo boiler certificate page");
 
     assertIncludes(read("src/app/demo/page.tsx"), [
@@ -1470,7 +1470,7 @@ describe("production guardrails", () => {
       "Suspense",
       "#demande-demo",
       "Capture lead",
-      "Demander une demonstration ContratPro",
+      "Demander une démonstration ContratPro",
     ], "public demo lead capture page");
 
     assertIncludes(read("src/app/demo/DemoRequestForm.tsx"), [
@@ -1501,9 +1501,9 @@ describe("production guardrails", () => {
 
     assertIncludes(read("src/app/pricing/page.tsx"), [
       "Cash-flow CVC",
-      "Encaissez vos contrats d'entretien",
-      "contrats recuperes",
-      "revenu recurrent plus fiable",
+      "Encaissez vos contrats d’entretien",
+      "contrats récupérés",
+      "revenu récurrent plus fiable",
       "href={`/login?plan=${plan.id}`}",
       "Choisir {plan.name}",
     ], "cash-flow pricing positioning");
@@ -1580,11 +1580,11 @@ describe("production guardrails", () => {
     ], "contracts empty state actions");
 
     assertIncludes(read("src/app/(dashboard)/contracts/quick/page.tsx"), [
-      "Creer un contrat avec paiement",
+      "Créer un contrat avec paiement",
       "Formulaire complet",
       "Importer Excel",
       "QuickContractForm",
-      "Parcours terrain numerote",
+      "Parcours terrain numéroté",
       "1 Client",
       "5 Validation",
     ], "quick contract page");
@@ -1598,12 +1598,12 @@ describe("production guardrails", () => {
       "equipmentType",
       "priceTtc",
       "paymentMethod",
-      "Creer et faire signer",
-      "Prelevement SEPA",
+      "Créer et faire signer",
+      "Prélèvement SEPA",
       "Fichier Excel",
       "/import",
       "5 Validation",
-      "Creer facture",
+      "Créer facture",
     ], "quick contract form");
 
     assertIncludes(read("src/app/(dashboard)/contracts/[id]/page.tsx"), [

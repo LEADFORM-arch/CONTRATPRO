@@ -13,7 +13,7 @@ export const metadata: Metadata = {
   },
   openGraph: {
     description:
-      "Des offres lisibles pour recuperer du revenu recurrent sur les contrats d'entretien CVC.",
+      "Des offres lisibles pour récupérer du revenu récurrent sur les contrats d’entretien CVC.",
     title: "Tarifs ContratPro - Logiciel contrats entretien CVC",
     url: "/pricing",
   },
@@ -21,9 +21,9 @@ export const metadata: Metadata = {
 
 const setupItems = [
   "Import CSV/XLSX clients et contrats",
-  "Activation SEPA GoCardless sur les contrats recurrents",
-  "Controle des doublons avant mise en production",
-  "Verification Stripe, GoCardless et emails",
+  "Activation SEPA GoCardless sur les contrats récurrents",
+  "Contrôle des doublons avant mise en production",
+  "Vérification Stripe, GoCardless et emails",
 ];
 
 const pricingStructuredData = {
@@ -56,20 +56,20 @@ export default function PricingPage() {
         action={
           <>
             <a className="premium-action rounded-md text-sm font-semibold" href="/demo">
-              Voir la demo
+              Voir la démo
             </a>
             <a className="premium-secondary-action rounded-md px-4 py-2 text-sm font-semibold" href="/simulateur">
               Calculer le ROI
             </a>
           </>
         }
-        description="Trois paliers pour demarrer bas, prouver le ROI, puis ajouter SEPA, relances automatiques et supervision."
+        description="Trois paliers pour démarrer bas, prouver le ROI, puis ajouter SEPA, relances automatiques et supervision."
         eyebrow="Cash-flow CVC"
-        title="Encaissez vos contrats d'entretien sans courir apres les relances."
+        title="Encaissez vos contrats d’entretien sans courir après les relances."
       />
 
       <PublicSection
-        description="Le prix doit se lire comme un investissement : contrats recuperes, impayes reduits, temps administratif evite."
+        description="Le prix doit se lire comme un investissement : contrats récupérés, impayés réduits, temps administratif évité."
         title="Choisir le niveau de cash-flow"
       >
         <div className="public-pricing-grid public-pricing-grid-three">
@@ -107,8 +107,8 @@ export default function PricingPage() {
       </PublicSection>
 
       <PublicSection
-        description="Recommande pour les 5 premiers clients pilotes : on vend un revenu recurrent plus fiable, pas un logiciel de plus."
-        title="Passage en production accompagne"
+        description="Recommandé pour les 5 premiers clients pilotes : on vend un revenu récurrent plus fiable, pas un logiciel de plus."
+        title="Passage en production accompagné"
       >
         <div className="public-feature-list">
           {setupItems.map((item) => (

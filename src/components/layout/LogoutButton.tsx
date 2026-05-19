@@ -21,10 +21,7 @@ export function LogoutButton() {
       onClick={logout}
       type="button"
     >
-      <span className="sidebar-logout-icon" aria-hidden="true">
-        ↵
-      </span>
-      {isLoading ? "Deconnexion..." : "Deconnexion"}
+      {isLoading ? "Déconnexion..." : "Se déconnecter"}
     </button>
   );
 }

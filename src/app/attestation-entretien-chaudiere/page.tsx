@@ -3,51 +3,51 @@ import type { Metadata } from "next";
 import { PublicShell } from "@/components/marketing/PublicShell";
 
 export const metadata: Metadata = {
-  title: "Attestation entretien chaudiere et PAC - modele CVC | ContratPro",
+  title: "Attestation entretien chaudière et PAC - modèle CVC | ContratPro",
   description:
-    "Guide pour chauffagistes : entretien annuel chaudiere, pompe a chaleur, attestation sous 15 jours, mentions utiles et automatisation ContratPro.",
+    "Guide pour chauffagistes : entretien annuel chaudière, pompe à chaleur, attestation sous 15 jours, mentions utiles et automatisation ContratPro.",
   alternates: {
     canonical: "/attestation-entretien-chaudiere",
   },
 };
 
 const requiredItems = [
-  "Identite du professionnel et de l'entreprise CVC",
+  "Identité du professionnel et de l’entreprise CVC",
   "Adresse du logement ou du site entretenu",
-  "Type d'equipement : chaudiere, pompe a chaleur, VMC ou appareil associe",
-  "Marque, modele, puissance et numero de serie quand disponibles",
-  "Date de visite, operations realisees, nettoyage, reglage et controles",
-  "Resultats utiles : rendement, emissions, monoxyde de carbone si concerne",
-  "Conseils remis au client et prochaine echeance d'entretien",
+  "Type d’équipement : chaudière, pompe à chaleur, VMC ou appareil associé",
+  "Marque, modèle, puissance et numéro de série quand disponibles",
+  "Date de visite, opérations réalisées, nettoyage, réglage et contrôles",
+  "Résultats utiles : rendement, émissions, monoxyde de carbone si concerné",
+  "Conseils remis au client et prochaine échéance d’entretien",
 ];
 
 const workflow = [
-  ["1", "Planifier", "ContratPro repere les contrats dont l'echeance arrive."],
-  ["2", "Intervenir", "Le technicien retrouve client, equipement et historique terrain."],
-  ["3", "Generer", "L'attestation PDF reprend les donnees entreprise, client et intervention."],
-  ["4", "Envoyer", "L'email client et l'historique d'envoi sont conserves dans le dossier."],
+  ["1", "Planifier", "ContratPro repère les contrats dont l’échéance arrive."],
+  ["2", "Intervenir", "Le technicien retrouve client, équipement et historique terrain."],
+  ["3", "Générer", "L’attestation PDF reprend les données entreprise, client et intervention."],
+  ["4", "Envoyer", "L’email client et l’historique d’envoi sont conservés dans le dossier."],
 ];
 
 const faq = [
   {
     answer:
-      "Service-Public rappelle que l'entretien annuel concerne notamment les chaudieres fioul, gaz, bois, charbon ou multicombustible de 4 a 400 kW, ainsi que les pompes a chaleur et appareils de chauffage avec ventilation.",
-    question: "Quels equipements sont concernes par l'entretien annuel ?",
+      "Service-Public rappelle que l’entretien annuel concerne notamment les chaudières fioul, gaz, bois, charbon ou multicombustible de 4 à 400 kW, ainsi que les pompes à chaleur et appareils de chauffage avec ventilation.",
+    question: "Quels équipements sont concernés par l’entretien annuel ?",
   },
   {
     answer:
-      "Le chauffagiste doit remettre une attestation d'entretien dans un delai de 15 jours suivant la visite. Le client la conserve comme preuve de suivi.",
-    question: "Quand remettre l'attestation au client ?",
+      "Le chauffagiste doit remettre une attestation d’entretien dans un délai de 15 jours suivant la visite. Le client la conserve comme preuve de suivi.",
+    question: "Quand remettre l’attestation au client ?",
   },
   {
     answer:
-      "Elle doit permettre d'identifier l'equipement, les controles effectues, les resultats utiles et les conseils donnes au client. Le contenu exact depend du type d'installation et des textes applicables.",
-    question: "Que doit contenir une attestation d'entretien ?",
+      "Elle doit permettre d’identifier l’équipement, les contrôles effectués, les résultats utiles et les conseils donnés au client. Le contenu exact dépend du type d’installation et des textes applicables.",
+    question: "Que doit contenir une attestation d’entretien ?",
   },
   {
     answer:
-      "Oui. ContratPro genere le PDF cote serveur, l'envoie au client par email et garde un historique d'envoi rattache a l'organisation.",
-    question: "ContratPro peut-il automatiser l'attestation ?",
+      "Oui. ContratPro génère le PDF côté serveur, l’envoie au client par email et garde un historique d’envoi rattaché à l’organisation.",
+    question: "ContratPro peut-il automatiser l’attestation ?",
   },
 ];
 
@@ -78,7 +78,7 @@ export default function BoilerCertificateSeoPage() {
             Guide chauffagiste
           </p>
           <h1 className="mt-4 max-w-3xl text-4xl font-black tracking-normal text-zinc-50 sm:text-5xl">
-            Attestation d'entretien chaudiere et pompe a chaleur : quoi remettre au client ?
+            Attestation d’entretien chaudière et pompe à chaleur : quoi remettre au client ?
           </h1>
           <p className="mt-5 max-w-2xl text-base leading-7 text-zinc-400">
             L'entretien annuel cree une obligation documentaire simple mais
@@ -87,7 +87,7 @@ export default function BoilerCertificateSeoPage() {
           </p>
           <div className="mt-7 flex flex-wrap gap-3">
             <a className="premium-action rounded-md text-sm font-semibold" href="/demo">
-              Voir la demo documents
+              Voir la démo documents
             </a>
             <a className="premium-secondary-action rounded-md px-4 py-2 text-sm font-semibold" href="/pricing">
               Automatiser les attestations
@@ -97,7 +97,7 @@ export default function BoilerCertificateSeoPage() {
 
         <aside className="seo-summary-card">
           <span>Point cle</span>
-          <strong>Attestation sous 15 jours apres la visite.</strong>
+          <strong>Attestation sous 15 jours après la visite.</strong>
           <p>
             Pour un chauffagiste, le risque n'est pas seulement de generer le
             PDF : c'est d'oublier l'envoi, la preuve et le renouvellement suivant.
@@ -115,15 +115,15 @@ export default function BoilerCertificateSeoPage() {
             <article>
               <strong>Entretien annuel</strong>
               <p>
-                L'entretien concerne les chaudieres de 4 a 400 kW et s'etend
-                aussi aux pompes a chaleur et appareils de chauffage avec ventilation.
+                L’entretien concerne les chaudières de 4 à 400 kW et s’étend
+                aussi aux pompes à chaleur et appareils de chauffage avec ventilation.
               </p>
               <a href="https://www.service-public.fr/particuliers/vosdroits/F20760">
                 Source Service-Public
               </a>
             </article>
             <article>
-              <strong>Attestation detaillee</strong>
+              <strong>Attestation détaillée</strong>
               <p>
                 Le ministere rappelle la remise d'une attestation avec evaluation,
                 mesure de monoxyde de carbone lorsque pertinente et conseils.

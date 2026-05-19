@@ -4,9 +4,9 @@ import { PublicHero, PublicSection, PublicShell } from "@/components/marketing/P
 import { StructuredData } from "@/components/marketing/StructuredData";
 
 export const metadata: Metadata = {
-  title: "Demande demo recue",
+  title: "Demande démo reçue",
   description:
-    "Votre demande de demonstration ContratPro a bien ete transmise. Preparez votre fichier clients, vos contrats et vos questions avant l'echange.",
+    "Votre demande de démonstration ContratPro a bien été transmise. Préparez votre fichier clients, vos contrats et vos questions avant l’échange.",
   alternates: {
     canonical: "/demo/merci",
   },
@@ -20,39 +20,39 @@ const nextSteps = [
   [
     "1",
     "Qualification",
-    "Votre demande remonte dans le cockpit prospection avec le plan vise, la ville et le nombre de contrats.",
+    "Votre demande remonte dans le cockpit prospection avec le plan visé, la ville et le nombre de contrats.",
   ],
   [
     "2",
-    "Preparation",
-    "La demonstration est adaptee a votre situation : Excel, Praxedo, contrats actifs, attestations et relances.",
+    "Préparation",
+    "La démonstration est adaptée à votre situation : Excel, Praxedo, contrats actifs, attestations et relances.",
   ],
   [
     "3",
-    "Decision",
-    "Vous repartez avec le bon plan, les donnees a importer et une estimation claire du revenu recurrent a securiser.",
+    "Décision",
+    "Vous repartez avec le bon plan, les données à importer et une estimation claire du revenu récurrent à sécuriser.",
   ],
 ];
 
 const checklist = [
-  "Preparer votre fichier clients ou export Praxedo",
+  "Préparer votre fichier clients ou export Praxedo",
   "Estimer le nombre de contrats actifs et renouvellements annuels",
-  "Lister vos modeles actuels : facture, attestation, relance",
-  "Noter les questions SEPA, TVA, RGE ou mentions legales",
+  "Lister vos modèles actuels : facture, attestation, relance",
+  "Noter les questions SEPA, TVA, RGE ou mentions légales",
 ];
 
 const thankYouStructuredData = {
   "@context": "https://schema.org",
   "@type": "WebPage",
   description:
-    "Page de confirmation apres demande de demonstration ContratPro.",
+    "Page de confirmation après demande de démonstration ContratPro.",
   inLanguage: "fr-FR",
   isPartOf: {
     "@type": "WebSite",
     name: "ContratPro",
     url: "https://contratpro-dun.vercel.app",
   },
-  name: "Demande demo recue",
+  name: "Demande démo reçue",
   url: "https://contratpro-dun.vercel.app/demo/merci",
 };
 
@@ -75,7 +75,7 @@ export default async function DemoThanksPage({
   const company = valueFromParam(params.company);
   const plan = valueFromParam(params.plan);
   const companyLabel = company ? ` pour ${company}` : "";
-  const planLabel = plan ? `Plan demande : ${plan}.` : "Plan a confirmer pendant l'echange.";
+  const planLabel = plan ? `Plan demandé : ${plan}.` : "Plan à confirmer pendant l’échange.";
 
   return (
     <PublicShell>
@@ -91,14 +91,14 @@ export default async function DemoThanksPage({
             </a>
           </>
         }
-        description={`Votre demande${companyLabel} est bien arrivee. ${planLabel} La prochaine etape consiste a transformer votre portefeuille contrats en demonstration concrete.`}
-        eyebrow="Demande recue"
-        title="Votre demande demo est bien arrivee."
+        description={`Votre demande${companyLabel} est bien arrivée. ${planLabel} La prochaine étape consiste à transformer votre portefeuille contrats en démonstration concrète.`}
+        eyebrow="Demande reçue"
+        title="Votre demande démo est bien arrivée."
       />
 
       <PublicSection
-        description="La confirmation ne s'arrete pas a un message de succes : elle guide le prospect vers une preparation simple et utile."
-        title="Prochaines etapes"
+        description="La confirmation ne s’arrête pas à un message de succès : elle guide le prospect vers une préparation simple et utile."
+        title="Prochaines étapes"
       >
         <div className="public-demo-steps">
           {nextSteps.map(([number, title, detail]) => (
@@ -112,7 +112,7 @@ export default async function DemoThanksPage({
       </PublicSection>
 
       <PublicSection
-        description="Ces elements rendent la demonstration plus rapide, plus concrete et plus proche de votre quotidien terrain."
+        description="Ces éléments rendent la démonstration plus rapide, plus concrète et plus proche de votre quotidien terrain."
         title="Avant l'appel"
       >
         <div className="public-proof-grid">

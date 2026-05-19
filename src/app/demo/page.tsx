@@ -7,31 +7,31 @@ import { StructuredData } from "@/components/marketing/StructuredData";
 import { DemoRequestForm } from "./DemoRequestForm";
 
 export const metadata: Metadata = {
-  title: "Demo ContratPro pour chauffagistes CVC",
+  title: "Démo ContratPro pour chauffagistes CVC",
   description:
-    "Programmez une demonstration ContratPro : import clients, contrats d'entretien, relances, attestations, factures et encaissements.",
+    "Programmez une démonstration ContratPro : import clients, contrats d’entretien, relances, attestations, factures et encaissements.",
   alternates: {
     canonical: "/demo",
   },
   openGraph: {
     description:
-      "Voyez en 20 minutes comment ContratPro transforme un portefeuille d'entretien CVC en revenu recurrent pilote.",
-    title: "Demo ContratPro pour contrats de maintenance CVC",
+      "Voyez en 20 minutes comment ContratPro transforme un portefeuille d’entretien CVC en revenu récurrent pilote.",
+    title: "Démo ContratPro pour contrats de maintenance CVC",
     url: "/demo",
   },
 };
 
 const demoSteps = [
-  ["1", "Importer", "Base clients Praxedo ou creation manuelle des premiers clients."],
-  ["2", "Activer", "Contrats, equipements, echeances et prix annuels."],
+  ["1", "Importer", "Base clients Praxedo ou création manuelle des premiers clients."],
+  ["2", "Activer", "Contrats, équipements, échéances et prix annuels."],
   ["3", "Relancer", "Emails de renouvellement et cron quotidien."],
   ["4", "Encaisser", "SEPA, factures PDF, attestations et historique."],
 ];
 
 const proofPoints = [
-  "Vue dirigeant sur le chiffre d'affaires recurrent",
+  "Vue dirigeant sur le chiffre d’affaires récurrent",
   "Documents conformes avec SIRET, TVA, RGE et mentions utiles",
-  "Alertes internes si paiement, webhook ou cron se degrade",
+  "Alertes internes si paiement, webhook ou cron se dégrade",
   "Isolation Supabase/RLS par organisation",
 ];
 
@@ -39,12 +39,12 @@ const demoStructuredData = {
   "@context": "https://schema.org",
   "@type": "WebPage",
   description:
-    "Page de demande de demonstration ContratPro pour chauffagistes et entreprises CVC.",
+    "Page de demande de démonstration ContratPro pour chauffagistes et entreprises CVC.",
   inLanguage: "fr-FR",
-  name: "Demo ContratPro",
+  name: "Démo ContratPro",
   potentialAction: {
     "@type": "ScheduleAction",
-    name: "Programmer une demo ContratPro",
+    name: "Programmer une démo ContratPro",
     target: "https://contratpro-dun.vercel.app/demo#demande-demo",
   },
   url: "https://contratpro-dun.vercel.app/demo",
@@ -58,21 +58,21 @@ export default function DemoPage() {
         action={
           <>
             <a className="premium-action rounded-md text-sm font-semibold" href="#demande-demo">
-              Programmer une demo
+              Programmer une démo
             </a>
             <a className="premium-secondary-action rounded-md px-4 py-2 text-sm font-semibold" href="/pricing">
               Voir le tarif
             </a>
           </>
         }
-        description="Une demo structuree autour d'un cas concret : un chauffagiste importe son portefeuille, retrouve ses echeances, envoie ses documents et securise ses paiements."
-        eyebrow="Demo commerciale"
-        title="Montrez en 20 minutes comment ContratPro cree du revenu recurrent."
+        description="Une démo structurée autour d’un cas concret : un chauffagiste importe son portefeuille, retrouve ses échéances, envoie ses documents et sécurise ses paiements."
+        eyebrow="Démo commerciale"
+        title="Montrez en 20 minutes comment ContratPro crée du revenu récurrent."
       />
 
       <PublicSection
-        description="Le scenario de demonstration reste operationnel : pas de promesse abstraite, seulement les ecrans qui font gagner du temps et du cash."
-        title="Trame de demonstration"
+        description="Le scénario de démonstration reste opérationnel : pas de promesse abstraite, seulement les écrans qui font gagner du temps et du cash."
+        title="Trame de démonstration"
       >
         <div className="public-demo-steps">
           {demoSteps.map(([number, title, detail]) => (
@@ -85,7 +85,7 @@ export default function DemoPage() {
         </div>
       </PublicSection>
 
-      <PublicSection title="Preuves a montrer">
+      <PublicSection title="Preuves à montrer">
         <div className="public-proof-grid">
           {proofPoints.map((point) => (
             <article key={point}>{point}</article>
@@ -99,7 +99,7 @@ export default function DemoPage() {
             <p className="text-sm font-semibold text-emerald-300">
               Capture lead
             </p>
-            <h2>Demander une demonstration ContratPro</h2>
+            <h2>Demander une démonstration ContratPro</h2>
             <p>
               Cette demande alimente directement le pipeline prospection
               fondateur, avec scoring et notification interne.

@@ -97,19 +97,17 @@ export function AppShell({
             </div>
           ) : null}
 
-          <div className="sidebar-account">
+        </aside>
+        <section className="app-main-panel px-4 py-5 sm:px-6 lg:px-8">
+          <div className="app-topbar" aria-label="Session utilisateur">
             <div>
-              <p className="text-xs font-medium uppercase tracking-wide text-zinc-500">
-                Session
-              </p>
-              <p className="mt-1 text-sm font-semibold text-zinc-950">
-                Espace entreprise
-              </p>
+              <p>Session</p>
+              <strong>Espace entreprise</strong>
             </div>
             <LogoutButton />
           </div>
-        </aside>
-        <section className="px-4 py-5 sm:px-6 lg:px-8">{children}</section>
+          {children}
+        </section>
       </div>
     </main>
   );

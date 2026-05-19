@@ -33,12 +33,12 @@ type FormSnapshot = {
 const inputClass = "contract-form-input";
 
 const equipmentLabels: Record<string, string> = {
-  AC_REVERSIBLE: "Clim reversible",
-  BOILER_GAS: "Chaudiere gaz",
-  BOILER_OIL: "Chaudiere fioul",
+  AC_REVERSIBLE: "Clim réversible",
+  BOILER_GAS: "Chaudière gaz",
+  BOILER_OIL: "Chaudière fioul",
   HEAT_PUMP_AIR_AIR: "PAC air/air",
   HEAT_PUMP_AIR_WATER: "PAC air/eau",
-  OTHER: "Autre equipement",
+  OTHER: "Autre équipement",
   VMC: "VMC",
 };
 
@@ -81,15 +81,15 @@ export function QuickContractForm({
       .filter(Boolean)
       .join(" ");
     return {
-      contact: snapshot.contactName || snapshot.customerName || "Client a renseigner",
-      contract: snapshot.priceTtc ? `${snapshot.priceTtc} EUR TTC / an` : "Tarif a renseigner",
-      equipment: equipment || "Equipement a renseigner",
+      contact: snapshot.contactName || snapshot.customerName || "Client à renseigner",
+      contract: snapshot.priceTtc ? `${snapshot.priceTtc} EUR TTC / an` : "Tarif à renseigner",
+      equipment: equipment || "Équipement à renseigner",
       payment:
         snapshot.paymentMethod === "SEPA"
-          ? "Prelevement SEPA"
+          ? "Prélèvement SEPA"
           : snapshot.paymentMethod === "BANK_TRANSFER"
             ? "Virement"
-            : "Cheque",
+            : "Chèque",
     };
   }, [snapshot]);
   const groupStates = {
@@ -124,7 +124,7 @@ export function QuickContractForm({
       status: "loading",
       message:
         intent === "create-and-sign"
-          ? "Creation du contrat puis preparation du lien de prelevement..."
+          ? "Création du contrat puis préparation du lien de prélèvement..."
           : "Mise en portefeuille du contrat...",
     });
 
@@ -142,7 +142,7 @@ export function QuickContractForm({
     if (!response.ok || !payload.id || !payload.customerId) {
       setSubmitState({
         status: "error",
-        message: payload.error || "Impossible de creer ce contrat rapide.",
+        message: payload.error || "Impossible de créer ce contrat rapide.",
       });
       return;
     }
@@ -165,7 +165,7 @@ export function QuickContractForm({
           customerId: payload.customerId,
           message:
             mandatePayload?.error ||
-            "Contrat cree. Le lien de prelevement pourra etre repris depuis la fiche contrat.",
+            "Contrat créé. Le lien de prélèvement pourra être repris depuis la fiche contrat.",
         });
         return;
       }
@@ -176,7 +176,7 @@ export function QuickContractForm({
         contractId: payload.id,
         customerId: payload.customerId,
         message:
-          "Contrat cree. Le lien de signature SEPA est pret pour le client.",
+          "Contrat créé. Le lien de signature SEPA est prêt pour le client.",
       });
       return;
     }
@@ -185,7 +185,7 @@ export function QuickContractForm({
       status: "success",
       contractId: payload.id,
       customerId: payload.customerId,
-      message: "Contrat cree. Le dossier est pret pour facture ou paiement.",
+      message: "Contrat créé. Le dossier est prêt pour facture ou paiement.",
     });
   }
 
@@ -205,7 +205,7 @@ export function QuickContractForm({
       <section className="quick-contract-main">
         <div className="quick-contract-strip">
           <span>1 Client</span>
-          <span>2 Equipement</span>
+          <span>2 Équipement</span>
           <span>3 Contrat</span>
           <span>4 Paiement</span>
           <span>5 Validation</span>
@@ -220,7 +220,7 @@ export function QuickContractForm({
             </div>
             <div className="quick-contract-grid">
               <label className="contract-form-field md:col-span-2">
-                <span>Nom / societe</span>
+                <span>Nom / société</span>
                 <input
                   autoComplete="organization"
                   className={inputClass}
@@ -230,7 +230,7 @@ export function QuickContractForm({
                 />
               </label>
               <label className="contract-form-field">
-                <span>Prenom</span>
+                <span>Prénom</span>
                 <input
                   autoComplete="given-name"
                   className={inputClass}
@@ -259,7 +259,7 @@ export function QuickContractForm({
                 />
               </label>
               <label className="contract-form-field">
-                <span>Telephone</span>
+                <span>Téléphone</span>
                 <input
                   autoComplete="tel"
                   className={inputClass}
@@ -303,18 +303,18 @@ export function QuickContractForm({
           <div className="quick-contract-group-number">2</div>
           <div className="quick-contract-group-body">
             <div className="quick-contract-group-title">
-              <h3>Equipement</h3>
+              <h3>Équipement</h3>
               <p>Sur quoi porte l'entretien ?</p>
             </div>
             <div className="quick-contract-grid">
               <label className="contract-form-field">
                 <span>Type</span>
                 <select className={inputClass} defaultValue="BOILER_GAS" name="equipmentType">
-                  <option value="BOILER_GAS">Chaudiere gaz</option>
-                  <option value="BOILER_OIL">Chaudiere fioul</option>
+                  <option value="BOILER_GAS">Chaudière gaz</option>
+                  <option value="BOILER_OIL">Chaudière fioul</option>
                   <option value="HEAT_PUMP_AIR_WATER">PAC air/eau</option>
                   <option value="HEAT_PUMP_AIR_AIR">PAC air/air</option>
-                  <option value="AC_REVERSIBLE">Clim reversible</option>
+                  <option value="AC_REVERSIBLE">Clim réversible</option>
                   <option value="VMC">VMC</option>
                   <option value="OTHER">Autre</option>
                 </select>
@@ -324,7 +324,7 @@ export function QuickContractForm({
                 <input className={inputClass} name="brand" placeholder="Saunier Duval" />
               </label>
               <label className="contract-form-field">
-                <span>Modele</span>
+                <span>Modèle</span>
                 <input className={inputClass} name="model" placeholder="ThemaPlus Condens F25" />
               </label>
               <label className="contract-form-field">
@@ -336,7 +336,7 @@ export function QuickContractForm({
                 <input className={inputClass} name="location" placeholder="Cuisine" />
               </label>
               <label className="contract-form-field">
-                <span>N serie</span>
+                <span>N° de série</span>
                 <input className={inputClass} name="serialNumber" placeholder="SD-F25-TEST-2026" />
               </label>
             </div>
@@ -352,7 +352,7 @@ export function QuickContractForm({
             </div>
             <div className="quick-contract-grid">
               <label className="contract-form-field">
-                <span>Debut</span>
+                <span>Début</span>
                 <input className={inputClass} defaultValue={defaultStartDate} name="visibleStartDate" type="date" />
               </label>
               <label className="contract-form-field">
@@ -387,7 +387,7 @@ export function QuickContractForm({
                 <input
                   className={inputClass}
                   name="contractNotes"
-                  placeholder="Entretien annuel chaudiere gaz avec attestation apres visite"
+                  placeholder="Entretien annuel chaudière gaz avec attestation après visite"
                 />
               </label>
             </div>
@@ -404,26 +404,26 @@ export function QuickContractForm({
             <div className="quick-payment-options" role="radiogroup" aria-label="Mode de paiement">
               <label className="quick-payment-option">
                 <input defaultChecked name="paymentMethod" type="radio" value="SEPA" />
-                <span>Prelevement SEPA</span>
-                <small>ContratPro prepare le lien de signature.</small>
+                <span>Prélèvement SEPA</span>
+                <small>ContratPro prépare le lien de signature.</small>
               </label>
               <label className="quick-payment-option">
                 <input name="paymentMethod" type="radio" value="BANK_TRANSFER" />
                 <span>Virement</span>
-                <small>Le contrat est cree sans mandat.</small>
+                <small>Le contrat est créé sans mandat.</small>
               </label>
               <label className="quick-payment-option">
                 <input name="paymentMethod" type="radio" value="CHECK" />
-                <span>Cheque</span>
+                <span>Chèque</span>
                 <small>Suivi manuel, utile en transition.</small>
               </label>
             </div>
             <div className="quick-contract-human-status" data-active={sepaSelected}>
-              <span>{sepaSelected ? "A faire signer" : "Pas de mandat SEPA"}</span>
+              <span>{sepaSelected ? "À faire signer" : "Pas de mandat SEPA"}</span>
               <p>
                 {sepaSelected
-                  ? "Le client recevra ou ouvrira un lien securise GoCardless. Les IDs techniques restent caches."
-                  : "Le paiement sera note sur le contrat, sans prelevement automatique."}
+                  ? "Le client recevra ou ouvrira un lien sécurisé GoCardless. Les IDs techniques restent cachés."
+                  : "Le paiement sera noté sur le contrat, sans prélèvement automatique."}
               </p>
             </div>
           </div>
@@ -434,7 +434,7 @@ export function QuickContractForm({
           <div className="quick-contract-group-body">
             <div className="quick-contract-group-title">
               <h3>Validation</h3>
-              <p>Derniere verification avant creation.</p>
+              <p>Dernière vérification avant création.</p>
             </div>
             <div className="quick-contract-summary">
               <div>
@@ -442,7 +442,7 @@ export function QuickContractForm({
                 <strong>{summary.contact}</strong>
               </div>
               <div>
-                <span>Equipement</span>
+                <span>Équipement</span>
                 <strong>{summary.equipment}</strong>
               </div>
               <div>
@@ -467,7 +467,7 @@ export function QuickContractForm({
             <strong>{summary.contact}</strong>
           </div>
           <div>
-            <span>Equipement</span>
+            <span>Équipement</span>
             <strong>{summary.equipment}</strong>
           </div>
           <div>
@@ -481,18 +481,18 @@ export function QuickContractForm({
         </div>
         <div className="quick-contract-sepa-note">
           <span>Statut client</span>
-          <strong>{sepaSelected ? "Prelevement a faire signer" : "Paiement manuel"}</strong>
+          <strong>{sepaSelected ? "Prélèvement à faire signer" : "Paiement manuel"}</strong>
           <small>
             {sepaSelected
               ? "Le client voit GoCardless, le chauffagiste voit seulement le statut."
-              : "Aucun lien bancaire n'est cree pour ce mode de paiement."}
+              : "Aucun lien bancaire n’est créé pour ce mode de paiement."}
           </small>
         </div>
         <a className="quick-contract-import-card" href="/import">
           <span>Fichier Excel</span>
           <strong>Importer plusieurs clients</strong>
           <small>
-            CSV ou XLSX, simulation d'abord, creation seulement apres validation.
+            CSV ou XLSX, simulation d’abord, création seulement après validation.
           </small>
         </a>
       </aside>
@@ -516,7 +516,7 @@ export function QuickContractForm({
             type="submit"
             value="create"
           >
-            {disabled ? "Creation..." : "Creer le contrat"}
+            {disabled ? "Création..." : "Créer le contrat"}
           </button>
           <button
             className="premium-action rounded-md px-4 py-2 text-sm font-semibold disabled:cursor-not-allowed disabled:opacity-60"
@@ -525,7 +525,7 @@ export function QuickContractForm({
             type="submit"
             value="create-and-sign"
           >
-            {disabled ? "Preparation..." : "Creer et faire signer"}
+            {disabled ? "Préparation..." : "Créer et faire signer"}
           </button>
         </div>
       </div>
@@ -536,8 +536,8 @@ export function QuickContractForm({
             <p>Contrat actif</p>
             <h3>
               {submitState.authorisationUrl
-                ? "Le lien de prelevement est pret."
-                : "Le portefeuille est alimente."}
+                ? "Le lien de prélèvement est prêt."
+                : "Le portefeuille est alimenté."}
             </h3>
             <span>{submitState.message}</span>
           </div>
@@ -551,7 +551,7 @@ export function QuickContractForm({
               Voir contrat
             </a>
             <a className="premium-secondary-action rounded-md px-4 py-2 text-sm font-semibold" href={`/invoices/new?contractId=${submitState.contractId}`}>
-              Creer facture
+              Créer facture
             </a>
             <a className="premium-secondary-action rounded-md px-4 py-2 text-sm font-semibold" href="/payments/new">
               Paiements
