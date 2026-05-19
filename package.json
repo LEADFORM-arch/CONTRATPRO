@@ -24,6 +24,8 @@
     "deploy:smoke:auth": "node scripts/authenticated-smoke-test.mjs",
     "deploy:smoke:journey": "node scripts/customer-journey-smoke-test.mjs",
     "deploy:smoke:demo": "node scripts/demo-journey-smoke-test.mjs",
+    "smoke:gocardless": "node scripts/gocardless-sandbox-smoke-test.mjs",
+    "deploy:smoke:gocardless": "node scripts/gocardless-sandbox-smoke-test.mjs",
     "resend:readiness": "node scripts/resend-readiness.mjs",
     "stripe:readiness": "node scripts/stripe-readiness.mjs",
     "stripe:create-test-billing": "node scripts/stripe-create-test-billing.mjs",

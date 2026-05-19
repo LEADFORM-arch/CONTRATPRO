@@ -293,6 +293,7 @@ describe("production guardrails", () => {
     assertIncludes(read("docs/gocardless-sandbox-runbook.md"), [
       "GOCARDLESS_ACCESS_TOKEN",
       "GOCARDLESS_ENVIRONMENT=sandbox",
+      "npm run smoke:gocardless",
       "/contracts/quick",
       "Créer lien GoCardless",
       "mandate_request_mandate",
@@ -487,6 +488,15 @@ describe("production guardrails", () => {
       "mandate_request_mandate",
       "retrieveGoCardlessBillingRequest",
     ], "gocardless webhook");
+
+    assertIncludes(read("scripts/gocardless-sandbox-smoke-test.mjs"), [
+      "GOCARDLESS_WEBHOOK_ENDPOINT_SECRET",
+      "/api/contracts/quick",
+      "/api/payments",
+      "/api/webhooks/gocardless",
+      "payment_events",
+      "GoCardless sandbox OK",
+    ], "gocardless sandbox smoke");
 
     assertIncludes(read("src/app/api/webhooks/stripe/route.ts"), [
       "verifyStripeSignature",
@@ -815,6 +825,8 @@ describe("production guardrails", () => {
       "\"deploy:smoke\"",
       "\"deploy:smoke:auth\"",
       "\"deploy:smoke:journey\"",
+      "\"smoke:gocardless\"",
+      "\"deploy:smoke:gocardless\"",
       "\"resend:readiness\"",
       "\"stripe:readiness\"",
       "\"stripe:create-test-billing\"",

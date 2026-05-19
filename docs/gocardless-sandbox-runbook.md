@@ -20,6 +20,17 @@ test fournis ou acceptes par GoCardless.
 
 ## Parcours de test ContratPro
 
+Controle automatise avant demo :
+
+```powershell
+npm run smoke:gocardless
+npm run deploy:smoke:gocardless -- https://votre-deploiement.vercel.app
+```
+
+Ce script cree un contrat fictif, active un mandat sandbox controle, programme
+un paiement, simule un evenement webhook signe et verifie que le webhook traite
+l'evenement dans `payment_events`.
+
 1. Ouvrir `/contracts/quick`.
 2. Creer un contrat rapide avec un client fictif.
 3. Ouvrir la fiche contrat.

@@ -560,6 +560,16 @@ contrat rapide SEPA, lien GoCardless sandbox, facture, PDF et etape email
 prete. L'envoi Resend reste coupe par defaut ; l'activer seulement avec
 `CONTRATPRO_DEMO_SEND_EMAIL=true`.
 
+Controle GoCardless sandbox :
+
+```powershell
+npm run smoke:gocardless
+npm run deploy:smoke:gocardless -- $env:CONTRATPRO_DEPLOYMENT_URL
+```
+
+Le test couvre contrat SEPA, mandat actif controle, paiement programme, webhook
+signe et journal `payment_events`.
+
 ## Priorite 18 - Cockpit Go-Live fondateur
 
 Page reservee admin :
