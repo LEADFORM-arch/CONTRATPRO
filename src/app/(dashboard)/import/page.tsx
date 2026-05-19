@@ -65,9 +65,11 @@ const templateHeaders = [
   "marque",
   "modele",
   "numero serie",
+  "puissance",
   "debut contrat",
   "echeance",
   "montant annuel",
+  "tva",
   "mode paiement",
   "notes",
 ];
@@ -86,12 +88,80 @@ const templateRows = [
     "Saunier Duval",
     "ThemaPlus",
     "SD-12345",
+    "25",
     "01/01/2026",
     "31/12/2026",
     "189,00",
+    "10",
     "SEPA",
     "Client prioritaire",
   ],
+  [
+    "Martin Habitat",
+    "Paul",
+    "Martin",
+    "paul.martin@example.fr",
+    "06 45 12 78 90",
+    "8 avenue des Artisans",
+    "59000",
+    "Lille",
+    "PAC air/eau",
+    "Atlantic",
+    "Alfea Extensa",
+    "ATL-PAC-2026",
+    "8",
+    "15/02/2026",
+    "14/02/2027",
+    "264,00",
+    "10",
+    "Virement",
+    "Contrat entretien PAC",
+  ],
+];
+
+const templateFieldGuide = [
+  {
+    example: "Dupont Chauffage",
+    label: "raison sociale",
+    level: "Obligatoire",
+    note: "Nom du client final ou de la société.",
+  },
+  {
+    example: "contact@dupont-chauffage.fr",
+    label: "email",
+    level: "Conseillé",
+    note: "Utile pour envoyer factures, attestations et relances.",
+  },
+  {
+    example: "Chaudière gaz, PAC air/eau, VMC",
+    label: "equipement",
+    level: "Conseillé",
+    note: "ContratPro reconnaît le vocabulaire CVC courant.",
+  },
+  {
+    example: "Saunier Duval / ThemaPlus",
+    label: "marque / modele",
+    level: "Optionnel",
+    note: "Rend le dossier terrain plus exploitable.",
+  },
+  {
+    example: "31/12/2026",
+    label: "echeance",
+    level: "Conseillé",
+    note: "Alimente les relances et le revenu à sécuriser.",
+  },
+  {
+    example: "189,00",
+    label: "montant annuel",
+    level: "Conseillé",
+    note: "Permet de calculer le portefeuille récurrent.",
+  },
+  {
+    example: "SEPA, Virement, Chèque",
+    label: "mode paiement",
+    level: "Optionnel",
+    note: "SEPA prépare le suivi paiement, sans exposer de clé technique.",
+  },
 ];
 
 const templateCsv = [templateHeaders, ...templateRows]
@@ -486,6 +556,70 @@ export default function ClientImportPage() {
         ) : (
           <span className="import-next-action">{importDecision.action}</span>
         )}
+      </section>
+
+      <section className="import-model-panel mt-6 rounded-lg border p-5">
+        <div className="import-model-header">
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-wide text-emerald-300">
+              Modèle chauffagiste
+            </p>
+            <h3>Préparer un fichier Excel que ContratPro comprend.</h3>
+            <span>
+              Gardez vos colonnes terrain. ContratPro reconnaît les libellés courants
+              et simule l’import avant de créer quoi que ce soit.
+            </span>
+          </div>
+          <a
+            className="premium-action rounded-md px-4 py-2 text-sm font-semibold"
+            href={templateHref}
+            download="modele-import-contratpro.csv"
+          >
+            Télécharger le modèle
+          </a>
+        </div>
+
+        <div className="import-model-grid mt-5">
+          <div className="import-column-list">
+            {templateFieldGuide.map((field) => (
+              <article className="import-column-row" key={field.label}>
+                <div>
+                  <strong>{field.label}</strong>
+                  <p>{field.note}</p>
+                  <small>{field.example}</small>
+                </div>
+                <StatusPill>{field.level}</StatusPill>
+              </article>
+            ))}
+          </div>
+
+          <aside className="import-example-sheet" aria-label="Exemple de ligne chauffagiste">
+            <p>Exemple prêt à importer</p>
+            <h4>Contrat entretien chaudière</h4>
+            <dl>
+              <div>
+                <dt>Client</dt>
+                <dd>Dupont Chauffage</dd>
+              </div>
+              <div>
+                <dt>Équipement</dt>
+                <dd>Chaudière gaz Saunier Duval ThemaPlus</dd>
+              </div>
+              <div>
+                <dt>Échéance</dt>
+                <dd>31/12/2026</dd>
+              </div>
+              <div>
+                <dt>Montant</dt>
+                <dd>189,00 EUR TTC / an</dd>
+              </div>
+              <div>
+                <dt>Paiement</dt>
+                <dd>SEPA</dd>
+              </div>
+            </dl>
+          </aside>
+        </div>
       </section>
 
       <label className="import-dropzone mt-6 flex min-h-44 cursor-pointer flex-col items-center justify-center rounded-lg border border-dashed px-6 py-8 text-center">

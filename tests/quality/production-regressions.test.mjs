@@ -1540,6 +1540,10 @@ describe("production guardrails", () => {
       "Plan d'import",
       "Fiche de contrôle import",
       "Simulation obligatoire",
+      "Modèle chauffagiste",
+      "Préparer un fichier Excel que ContratPro comprend.",
+      "Télécharger le modèle",
+      "PAC air/eau",
       "Derniers imports et simulations",
       "Confirmer l'import",
       "modele-import-contratpro.csv",
@@ -1549,6 +1553,9 @@ describe("production guardrails", () => {
       ".import-decision-note",
       ".import-decision-proof",
       ".import-next-action",
+      ".import-model-panel",
+      ".import-column-row",
+      ".import-example-sheet",
     ], "client import decision styling");
   });
 
