@@ -74,7 +74,7 @@ export function QuickContractForm({
 
   const summary = useMemo(() => {
     const equipment = [
-      equipmentLabels[snapshot.equipmentType] ?? "Equipement CVC",
+      equipmentLabels[snapshot.equipmentType] ?? "Équipement CVC",
       snapshot.brand,
       snapshot.model,
     ]
@@ -356,7 +356,7 @@ export function QuickContractForm({
                 <input className={inputClass} defaultValue={defaultStartDate} name="visibleStartDate" type="date" />
               </label>
               <label className="contract-form-field">
-                <span>Duree</span>
+                <span>Durée</span>
                 <select className={inputClass} defaultValue="12" name="durationMonths">
                   <option value="12">12 mois</option>
                   <option value="24">24 mois</option>
@@ -488,11 +488,15 @@ export function QuickContractForm({
               : "Aucun lien bancaire n’est créé pour ce mode de paiement."}
           </small>
         </div>
-        <a className="quick-contract-import-card" href="/import">
-          <span>Fichier Excel</span>
-          <strong>Importer plusieurs clients</strong>
+        <a
+          aria-label="Importer un fichier Excel avant de créer plusieurs contrats"
+          className="quick-contract-import-card"
+          href="/import"
+        >
+          <span>Option Excel</span>
+          <strong>Importer un portefeuille existant</strong>
           <small>
-            CSV ou XLSX, simulation d’abord, création seulement après validation.
+            À utiliser avant une grosse saisie. La simulation reste obligatoire avant création.
           </small>
         </a>
       </aside>
@@ -506,26 +510,28 @@ export function QuickContractForm({
           }
         >
           {submitState.message ||
-            "Saisissez le minimum terrain. Vous pourrez enrichir le dossier ensuite."}
+            "Pour un premier contrat, remplissez uniquement les champs terrain. Le reste pourra être enrichi plus tard."}
         </p>
         <div className="quick-contract-submit-actions">
           <button
             className="premium-secondary-action rounded-md px-4 py-2 text-sm font-semibold disabled:cursor-not-allowed disabled:opacity-60"
             disabled={disabled}
             name="intent"
+            aria-label="Créer le contrat sans lancer la signature SEPA"
             type="submit"
             value="create"
           >
-            {disabled ? "Création..." : "Créer le contrat"}
+            {disabled ? "Création..." : "Créer sans SEPA"}
           </button>
           <button
             className="premium-action rounded-md px-4 py-2 text-sm font-semibold disabled:cursor-not-allowed disabled:opacity-60"
             disabled={disabled || !sepaSelected}
             name="intent"
+            aria-label="Créer le contrat et préparer le lien de signature SEPA"
             type="submit"
             value="create-and-sign"
           >
-            {disabled ? "Préparation..." : "Créer et faire signer"}
+            {disabled ? "Préparation..." : "Créer + lien SEPA"}
           </button>
         </div>
       </div>
@@ -544,7 +550,7 @@ export function QuickContractForm({
           <div className="quick-contract-success-actions">
             {submitState.authorisationUrl ? (
               <a className="premium-action rounded-md text-sm font-semibold" href={submitState.authorisationUrl} rel="noreferrer" target="_blank">
-                Ouvrir signature
+                Ouvrir le lien SEPA
               </a>
             ) : null}
             <a className="premium-action rounded-md text-sm font-semibold" href={`/contracts/${submitState.contractId}`}>
@@ -554,7 +560,7 @@ export function QuickContractForm({
               Créer facture
             </a>
             <a className="premium-secondary-action rounded-md px-4 py-2 text-sm font-semibold" href="/payments/new">
-              Paiements
+              Voir paiements
             </a>
           </div>
         </section>

@@ -66,7 +66,7 @@ const journeyChecks = [
     path: "/customers",
   },
   {
-    includes: ["Contrats de maintenance", "echeances"],
+    includes: ["Contrats de maintenance CVC", "échéances"],
     label: "Contrats",
     path: "/contracts",
   },
@@ -81,7 +81,7 @@ const journeyChecks = [
     path: "/invoices",
   },
   {
-    includes: ["Attestations legales"],
+    includes: ["Attestations légales"],
     label: "Attestations",
     path: "/certificates",
   },
@@ -91,7 +91,7 @@ const journeyChecks = [
     path: "/payments",
   },
   {
-    includes: ["Identite entreprise"],
+    includes: ["Identité entreprise"],
     label: "Entreprise",
     path: "/settings/company",
   },
@@ -101,7 +101,7 @@ const journeyChecks = [
     path: "/settings/billing",
   },
   {
-    includes: ["Securite", "multi-tenant"],
+    includes: ["Sécurité", "espace isolé"],
     label: "Securite",
     path: "/settings/security",
   },
