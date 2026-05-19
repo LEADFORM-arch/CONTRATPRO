@@ -116,6 +116,18 @@ Le check `Billing lock` restera en echec tant que
 
 ## 6. Test fonctionnel
 
+Controle automatise du webhook billing :
+
+```powershell
+npm run smoke:stripe
+npm run deploy:smoke:stripe -- https://votre-deploiement.vercel.app
+```
+
+Ce script signe deux evenements Stripe fictifs (`checkout.session.completed` et
+`customer.subscription.updated`) avec `STRIPE_WEBHOOK_SECRET`, puis verifie que
+`billing_subscriptions` passe en `active` et que `billing_events` journalise les
+evenements.
+
 1. Se connecter a ContratPro.
 2. Aller sur `/settings/billing`.
 3. Lire le bloc "Architecte IA billing" pour choisir le palier selon le signal

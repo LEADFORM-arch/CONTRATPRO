@@ -599,12 +599,14 @@ Scripts :
 ```powershell
 npm run stripe:create-test-billing
 npm run stripe:readiness
+npm run smoke:stripe
 ```
 
 Le flux recommande est de creer les produits/prix Stripe en mode test, ajouter
 `STRIPE_SECRET_KEY`, `STRIPE_WEBHOOK_SECRET`, `STRIPE_PRICE_ID_STARTER`,
 `STRIPE_PRICE_ID_PRO` et `STRIPE_PRICE_ID_BUSINESS` dans Vercel, tester
-`/settings/billing`, puis passer `CONTRATPRO_REQUIRE_BILLING=true`.
+`/settings/billing`, verifier le webhook avec `smoke:stripe`, puis passer
+`CONTRATPRO_REQUIRE_BILLING=true`.
 
 ## Variables importantes
 

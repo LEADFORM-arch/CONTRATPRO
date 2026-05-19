@@ -827,6 +827,8 @@ describe("production guardrails", () => {
       "\"deploy:smoke:journey\"",
       "\"smoke:gocardless\"",
       "\"deploy:smoke:gocardless\"",
+      "\"smoke:stripe\"",
+      "\"deploy:smoke:stripe\"",
       "\"resend:readiness\"",
       "\"stripe:readiness\"",
       "\"stripe:create-test-billing\"",
@@ -1314,6 +1316,16 @@ describe("production guardrails", () => {
       "recordBillingEvent",
     ], "stripe webhook idempotency");
 
+    assertIncludes(read("scripts/stripe-billing-smoke-test.mjs"), [
+      "STRIPE_WEBHOOK_SECRET",
+      "/api/webhooks/stripe",
+      "checkout.session.completed",
+      "customer.subscription.updated",
+      "billing_subscriptions",
+      "billing_events",
+      "Stripe Billing OK",
+    ], "stripe billing smoke");
+
     assertIncludes(read("src/app/globals.css"), [
       ".billing-architect",
       ".billing-architect-grid",
@@ -1324,6 +1336,9 @@ describe("production guardrails", () => {
       "https://dashboard.stripe.com/acct_1TVFyGBJsOV2aVH0/test/dashboard",
       "https://contratpro-dun.vercel.app/api/webhooks/stripe",
       "4242 4242 4242 4242",
+      "npm run smoke:stripe",
+      "billing_subscriptions",
+      "billing_events",
       "Architecte IA billing",
       "duplicate: true",
       "CONTRATPRO_REQUIRE_BILLING=true",
