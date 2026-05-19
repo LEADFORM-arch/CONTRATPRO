@@ -79,6 +79,29 @@ normalement les ecrans metier.
 
 ## 5. Test manuel avec un vrai fichier
 
+Avant le Loom ou une demo commerciale, rejouer le scenario M. Martin :
+
+```bash
+npm run smoke:demo
+npm run deploy:smoke:demo -- %CONTRATPRO_DEPLOYMENT_URL%
+```
+
+Ce script cree des donnees fictives uniques et controle :
+
+- import dry-run puis execution ;
+- creation d'un contrat rapide SEPA ;
+- generation d'un lien mandat GoCardless sandbox ;
+- creation d'une facture ;
+- generation du PDF facture ;
+- email facture pret, sans envoi par defaut.
+
+Pour tester Resend en reel, activer volontairement :
+
+```bash
+set CONTRATPRO_DEMO_SEND_EMAIL=true
+npm run smoke:demo
+```
+
 Apres les smokes, faire une session manuelle sur une base pilote :
 
 1. Ouvrir `/onboarding` et noter le score.

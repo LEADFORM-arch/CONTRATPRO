@@ -896,6 +896,8 @@ describe("production guardrails", () => {
       "\"dev\": \"node scripts/env-guard.mjs && next dev\"",
       "\"smoke:auth\": \"node scripts/authenticated-smoke-test.mjs\"",
       "\"smoke:journey\": \"node scripts/customer-journey-smoke-test.mjs\"",
+      "\"smoke:demo\": \"node scripts/demo-journey-smoke-test.mjs\"",
+      "\"deploy:smoke:demo\": \"node scripts/demo-journey-smoke-test.mjs\"",
     ], "env guard package scripts");
 
     assertIncludes(read("scripts/smoke-test-helpers.mjs"), [
@@ -944,6 +946,18 @@ describe("production guardrails", () => {
       "Parcours client OK",
     ], "customer journey smoke test");
 
+    assertIncludes(read("scripts/demo-journey-smoke-test.mjs"), [
+      "getSmokeConfig",
+      "CONTRATPRO_DEMO_SEND_EMAIL",
+      "/api/import/clients",
+      "/api/contracts/quick",
+      "/mandate/authorisation",
+      "/api/invoices",
+      "/pdf",
+      "/send",
+      "Demo M. Martin OK",
+    ], "demo journey smoke test");
+
     assertIncludes(read(".env.local.example"), [
       "NEXT_PUBLIC_APP_URL=http://localhost:3000",
       "SUPABASE_SERVICE_ROLE_KEY=",
@@ -970,8 +984,10 @@ describe("production guardrails", () => {
       "Runbook parcours client ContratPro",
       "npm run smoke:auth",
       "npm run smoke:journey",
+      "npm run smoke:demo",
       "ecran de reprise dashboard",
       "npm run deploy:smoke:journey",
+      "npm run deploy:smoke:demo",
       "Test manuel avec un vrai fichier",
       "Definition of done",
       "Stop rules",
@@ -981,6 +997,8 @@ describe("production guardrails", () => {
       "Priorite 30 - Parcours client complet",
       "docs/customer-journey-runbook.md",
       "npm run deploy:smoke:journey",
+      "npm run smoke:demo",
+      "CONTRATPRO_DEMO_SEND_EMAIL=true",
       "relances, factures, attestations, paiements",
     ], "customer journey README");
   });

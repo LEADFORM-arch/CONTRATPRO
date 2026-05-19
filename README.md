@@ -548,6 +548,18 @@ npm run deploy:smoke:journey -- $env:CONTRATPRO_DEPLOYMENT_URL
 Le test couvre connexion, dashboard, onboarding, import, clients, contrats,
 relances, factures, attestations, paiements, entreprise, billing et securite.
 
+Scenario demo M. Martin avant Loom :
+
+```powershell
+npm run smoke:demo
+npm run deploy:smoke:demo -- $env:CONTRATPRO_DEPLOYMENT_URL
+```
+
+Ce controle cree une base fictive unique : import dry-run, import execute,
+contrat rapide SEPA, lien GoCardless sandbox, facture, PDF et etape email
+prete. L'envoi Resend reste coupe par defaut ; l'activer seulement avec
+`CONTRATPRO_DEMO_SEND_EMAIL=true`.
+
 ## Priorite 18 - Cockpit Go-Live fondateur
 
 Page reservee admin :
