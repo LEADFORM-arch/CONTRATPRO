@@ -15,7 +15,7 @@ const baseUrl = rawBaseUrl.replace(/\/+$/, "");
 const checks = [
   { path: "/api/health", includes: ["ok", "ContratPro"] },
   { path: "/login", includes: ["Connexion", "ContratPro"] },
-  { path: "/architecte-ia", includes: ["Architecte IA", "revenus recurrents"] },
+  { path: "/architecte-ia", includes: ["Architecte IA", "revenus récurrents"] },
   { path: "/simulateur", includes: ["Simulateur ROI", "contrats"] },
   { path: "/attestation-entretien-chaudiere", includes: ["Attestation", "chaudiere"] },
   { path: "/pricing", includes: ["49", "199", "ContratPro"] },
