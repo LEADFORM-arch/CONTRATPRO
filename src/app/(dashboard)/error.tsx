@@ -11,9 +11,9 @@ function getReadableError(error: Error) {
   if (error.name === "DemoOrganizationForbiddenError") {
     return {
       eyebrow: "Configuration tenant",
-      title: "Acces bloque par securite.",
+      title: "Accès bloqué par sécurité.",
       description:
-        "ContratPro a detecte un tenant de demonstration dans un contexte protege. Corrigez l'organisation active, puis relancez la page.",
+        "ContratPro a détecté un tenant de démonstration dans un contexte protégé. Corrigez l’organisation active, puis relancez la page.",
       code: "TENANT_DEMO_FORBIDDEN",
     };
   }
@@ -21,18 +21,18 @@ function getReadableError(error: Error) {
   if (error.name === "ProductionTenantConfigError") {
     return {
       eyebrow: "Configuration production",
-      title: "Configuration incomplete.",
+      title: "Configuration incomplète.",
       description:
-        "Le cockpit ne peut pas garantir l'isolation des donnees tant que l'organisation ou l'authentification n'est pas correctement activee.",
+        "Le cockpit ne peut pas garantir l’isolation des données tant que l’organisation ou l’authentification n’est pas correctement activée.",
       code: "TENANT_CONFIG_REQUIRED",
     };
   }
 
   return {
     eyebrow: "Incident cockpit",
-    title: "Une verification a bloque le chargement.",
+    title: "Une vérification a bloqué le chargement.",
     description:
-      "Les donnees n'ont pas ete affichees pour eviter un etat incoherent. Reessayez, puis consultez la page securite si l'incident persiste.",
+      "Les données n’ont pas été affichées pour éviter un état incohérent. Réessayez, puis consultez la page sécurité si l’incident persiste.",
     code: "DASHBOARD_RUNTIME_ERROR",
   };
 }
@@ -64,13 +64,13 @@ export default function DashboardError({ error, reset }: DashboardErrorProps) {
               onClick={reset}
               type="button"
             >
-              Reessayer
+              Réessayer
             </button>
             <a
               className="premium-secondary-action rounded-md px-4 py-2 text-sm font-semibold"
               href="/settings/security"
             >
-              Verifier la securite
+              Vérifier la sécurité
             </a>
             <a
               className="premium-secondary-action rounded-md px-4 py-2 text-sm font-semibold"
@@ -102,8 +102,8 @@ export default function DashboardError({ error, reset }: DashboardErrorProps) {
             ) : null}
           </dl>
           <p className="mt-5 border-t border-white/10 pt-4 text-xs leading-5 text-zinc-500">
-            Les donnees metier restent masquees tant que la configuration n'est pas
-            revenue dans un etat coherent.
+            Les données métier restent masquées tant que la configuration n’est pas
+            revenue dans un état cohérent.
           </p>
         </aside>
       </section>

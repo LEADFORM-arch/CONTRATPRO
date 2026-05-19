@@ -8,7 +8,7 @@ import { FacebookSettingsForm } from "./FacebookSettingsForm";
 const groups = [
   ["Chauffagistes de France", "~15 000 membres", "Observation"],
   ["Plombiers Chauffagistes Pro", "~8 000 membres", "Posts conseils"],
-  ["Pompes a Chaleur - Installateurs", "~5 000 membres", "ICP prioritaire"],
+  ["Pompes à chaleur - Installateurs", "~5 000 membres", "ICP prioritaire"],
   ["VMC et Ventilation Pro", "~2 000 membres", "Secondaire"],
 ];
 
@@ -27,7 +27,7 @@ export default async function FacebookSettingsPage() {
             Voir leads internes
           </a>
         }
-        description="Configuration privee de ton canal d'acquisition Facebook: Buffer, Apify, ManyChat et n8n pour alimenter le pipeline ContratPro."
+        description="Configuration privée de ton canal d'acquisition Facebook: Buffer, Apify, ManyChat et n8n pour alimenter le pipeline ContratPro."
         eyebrow="Acquisition interne"
         title="Canal Facebook fondateur"
       />
@@ -37,8 +37,8 @@ export default async function FacebookSettingsPage() {
           Outil interne
         </p>
         <p className="mt-2 text-sm leading-6 text-zinc-300">
-          Cette page est pour toi, pas pour les entreprises clientes. Elle sert a
-          prospecter des chauffagistes sur Facebook et a remplir ton pipeline de
+          Cette page est pour toi, pas pour les entreprises clientes. Elle sert à
+          prospecter des chauffagistes sur Facebook et à remplir ton pipeline de
           vente ContratPro.
         </p>
       </section>
@@ -50,13 +50,13 @@ export default async function FacebookSettingsPage() {
       <div className="mt-6 grid gap-4 lg:grid-cols-[1fr_360px]">
         <section className="settings-panel rounded-lg border p-4 shadow-sm">
           <h3 className="text-base font-semibold text-zinc-50">
-            Routine conseillee
+            Routine conseillée
           </h3>
           <div className="mt-4 grid gap-3 md:grid-cols-5">
             {[
               "Observer",
-              "Generer posts",
-              "Verifier ton",
+              "Générer posts",
+              "Vérifier ton",
               "Planifier Buffer",
               "Brancher MP",
             ].map((step, index) => (
@@ -75,25 +75,25 @@ export default async function FacebookSettingsPage() {
 
         <section className="settings-panel rounded-lg border p-4 shadow-sm">
           <h3 className="text-base font-semibold text-zinc-50">
-            Etat connecteurs
+            État connecteurs
           </h3>
           <div className="mt-4 space-y-3 text-sm">
             <div className="flex items-center justify-between">
               <span className="text-zinc-300">Buffer</span>
               <StatusPill>
-                {settings.bufferAccessTokenConfigured ? "Pret" : "A configurer"}
+                {settings.bufferAccessTokenConfigured ? "Prêt" : "À configurer"}
               </StatusPill>
             </div>
             <div className="flex items-center justify-between">
               <span className="text-zinc-300">Apify</span>
               <StatusPill>
-                {settings.apifyTokenConfigured ? "Pret" : "A configurer"}
+                {settings.apifyTokenConfigured ? "Prêt" : "À configurer"}
               </StatusPill>
             </div>
             <div className="flex items-center justify-between">
               <span className="text-zinc-300">ManyChat</span>
               <StatusPill>
-                {settings.manychatTokenConfigured ? "Pret" : "A configurer"}
+                {settings.manychatTokenConfigured ? "Prêt" : "À configurer"}
               </StatusPill>
             </div>
           </div>
@@ -101,7 +101,7 @@ export default async function FacebookSettingsPage() {
       </div>
 
       <section className="settings-panel mt-6 rounded-lg border p-4 shadow-sm">
-        <h3 className="text-base font-semibold text-zinc-50">Groupes a tester</h3>
+        <h3 className="text-base font-semibold text-zinc-50">Groupes à tester</h3>
         <div className="facebook-groups mt-3 divide-y rounded-lg border">
           {groups.map(([name, members, status]) => (
             <div

@@ -5,7 +5,7 @@ import { getCertificates } from "@/server/contratpro-data";
 export default async function CertificatesPage() {
   const certificates = await getCertificates();
   const sentCount = certificates.filter(
-    (certificate) => certificate.status === "Envoyee",
+    (certificate) => certificate.status === "Envoyée",
   ).length;
   const pendingCount = certificates.length - sentCount;
   const referencesCount = new Set(
@@ -23,9 +23,9 @@ export default async function CertificatesPage() {
             Depuis un contrat
           </a>
         }
-        description="Pilotez les attestations d'entretien, leur statut d'envoi et les references reglementaires rattachees a chaque intervention."
-        eyebrow="Conformite"
-        title="Attestations legales"
+        description="Pilotez les attestations d'entretien, leur statut d'envoi et les références réglementaires rattachées à chaque intervention."
+        eyebrow="Conformité"
+        title="Attestations légales"
       />
 
       <section className="mt-6 grid gap-3 md:grid-cols-3">
@@ -36,16 +36,16 @@ export default async function CertificatesPage() {
           <p className="mt-3 text-3xl font-semibold text-zinc-50">
             {certificates.length}
           </p>
-          <p className="mt-2 text-sm text-zinc-400">Documents archives</p>
+          <p className="mt-2 text-sm text-zinc-400">Documents archivés</p>
         </article>
         <article className="certificate-stat-card" data-tone="amber">
           <p className="text-xs font-semibold uppercase tracking-wide text-zinc-500">
-            A envoyer
+            À envoyer
           </p>
           <p className="mt-3 text-3xl font-semibold text-zinc-50">
             {pendingCount}
           </p>
-          <p className="mt-2 text-sm text-zinc-400">Clients a notifier</p>
+          <p className="mt-2 text-sm text-zinc-400">Clients à notifier</p>
         </article>
         <article className="certificate-stat-card" data-tone="cyan">
           <p className="text-xs font-semibold uppercase tracking-wide text-zinc-500">
@@ -55,7 +55,7 @@ export default async function CertificatesPage() {
             {referencesCount}
           </p>
           <p className="mt-2 text-sm text-zinc-400">
-            References reglementaires
+            Références réglementaires
           </p>
         </article>
       </section>
@@ -67,11 +67,11 @@ export default async function CertificatesPage() {
               Registre documentaire
             </p>
             <h3 className="mt-1 text-lg font-semibold text-zinc-50">
-              Attestations pretes pour archivage et envoi client
+              Attestations prêtes pour archivage et envoi client
             </h3>
           </div>
           <span className="certificate-sla-pill">
-            {sentCount}/{certificates.length} envoyees
+            {sentCount}/{certificates.length} envoyées
           </span>
         </div>
 
@@ -131,15 +131,15 @@ export default async function CertificatesPage() {
             <ActivationEmptyState
               actionHref="/interventions/new"
               actionLabel="Planifier une intervention"
-              eyebrow="Conformite entretien"
+              eyebrow="Conformité entretien"
               proofPoints={[
-                "Attestation liee a l'intervention",
-                "Reference legale conservee",
-                "Envoi client historise",
+                "Attestation liée à l'intervention",
+                "Référence légale conservée",
+                "Envoi client historisé",
               ]}
               secondaryHref="/contracts"
               secondaryLabel="Voir contrats"
-              title="Generez les attestations depuis les interventions realisees."
+              title="Générez les attestations depuis les interventions réalisées."
             />
           </div>
         )}

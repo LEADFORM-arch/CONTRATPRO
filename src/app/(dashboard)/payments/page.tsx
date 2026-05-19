@@ -35,20 +35,20 @@ export default async function PaymentsPage() {
   const cashCommand = failed.length
     ? {
         action: "Corriger le rejet",
-        detail: `${failed.length} rejet(s), ${formatEuro(amountFailed)} a recuperer avant perte client.`,
+        detail: `${failed.length} rejet(s), ${formatEuro(amountFailed)} à récupérer avant perte client.`,
         label: "Incident cash-flow",
         tone: "rose" as const,
       }
     : pending.length
       ? {
-          action: "Soumettre les prelevements",
+          action: "Soumettre les prélèvements",
           detail: `${pending.length} paiement(s), ${formatEuro(amountToCollect)} en cours d'encaissement.`,
-          label: "Cash a encaisser",
+          label: "Cash à encaisser",
           tone: "amber" as const,
         }
       : {
-          action: "Controler les mandats",
-          detail: "Aucun incident actif. Gardez les mandats alignes avec les contrats a renouveler.",
+          action: "Contrôler les mandats",
+          detail: "Aucun incident actif. Gardez les mandats alignés avec les contrats à renouveler.",
           label: "Encaissement stable",
           tone: "emerald" as const,
         };
@@ -61,11 +61,11 @@ export default async function PaymentsPage() {
             className="premium-action rounded-md px-4 py-2 text-sm font-semibold"
             href="/payments/new"
           >
-            Creer paiement
+            Créer paiement
           </a>
         }
-        description="Pilotez les mandats, les prelevements programmes et les relances en cas de paiement manuel ou rejet."
-        eyebrow="Tresorerie recurrente"
+        description="Pilotez les mandats, les prélèvements programmés et les relances en cas de paiement manuel ou rejet."
+        eyebrow="Trésorerie récurrente"
         title="Paiements et mandats SEPA"
       />
 
@@ -83,7 +83,7 @@ export default async function PaymentsPage() {
               {nextPayment.customer} - {formatEuro(nextPayment.amount)} - {nextPayment.status}
             </span>
           ) : (
-            <span>Creer un premier paiement pour alimenter le cockpit.</span>
+            <span>Créer un premier paiement pour alimenter le cockpit.</span>
           )}
           <a className="premium-action rounded-md text-sm font-semibold" href={nextPayment?.contractId ? `/contracts/${nextPayment.contractId}` : "/payments/new"}>
             Ouvrir le dossier
@@ -99,26 +99,26 @@ export default async function PaymentsPage() {
           <strong className="mt-3 block text-3xl font-semibold text-zinc-50">
             {payments.length}
           </strong>
-          <p className="mt-2 text-sm text-zinc-400">Echeances en portefeuille</p>
+          <p className="mt-2 text-sm text-zinc-400">Échéances en portefeuille</p>
         </article>
         <article className="payment-stat-card" data-tone="amber">
           <p className="text-xs font-medium uppercase tracking-wide text-zinc-400">
-            A encaisser
+            À encaisser
           </p>
           <strong className="mt-3 block text-3xl font-semibold text-zinc-50">
             {formatEuro(amountToCollect)}
           </strong>
-          <p className="mt-2 text-sm text-zinc-400">Prelevements en cours</p>
+          <p className="mt-2 text-sm text-zinc-400">Prélèvements en cours</p>
         </article>
         <article className="payment-stat-card" data-tone="emerald">
           <p className="text-xs font-medium uppercase tracking-wide text-zinc-400">
-            Confirme
+            Confirmé
           </p>
           <strong className="mt-3 block text-3xl font-semibold text-zinc-50">
             {formatEuro(amountConfirmed)}
           </strong>
           <p className="mt-2 text-sm text-zinc-400">
-            Taux {collectionRate}% sur la periode
+            Taux {collectionRate}% sur la période
           </p>
         </article>
         <article className="payment-stat-card" data-tone="rose">
@@ -128,7 +128,7 @@ export default async function PaymentsPage() {
           <strong className="mt-3 block text-3xl font-semibold text-zinc-50">
             {failed.length}
           </strong>
-          <p className="mt-2 text-sm text-zinc-400">{formatEuro(amountFailed)} a recuperer</p>
+          <p className="mt-2 text-sm text-zinc-400">{formatEuro(amountFailed)} à récupérer</p>
         </article>
       </div>
 
@@ -136,10 +136,10 @@ export default async function PaymentsPage() {
         <div className="payment-section-header">
           <div>
             <p className="text-xs font-semibold uppercase tracking-wide text-emerald-300">
-              Encaissement recurrent
+              Encaissement récurrent
             </p>
             <h3 className="mt-1 text-lg font-semibold text-zinc-50">
-              Mandats actifs, prelevements programmes et incidents
+              Mandats actifs, prélèvements programmés et incidents
             </h3>
           </div>
           <span className="payment-risk-pill">
@@ -153,13 +153,13 @@ export default async function PaymentsPage() {
             <thead>
               <tr className="dashboard-table-head">
                 <th className="px-4 py-3 font-semibold">Client</th>
-                <th className="px-4 py-3 font-semibold">Libelle</th>
-                <th className="px-4 py-3 font-semibold">Methode</th>
-                <th className="px-4 py-3 font-semibold">Echeance</th>
+                <th className="px-4 py-3 font-semibold">Libellé</th>
+                <th className="px-4 py-3 font-semibold">Méthode</th>
+                <th className="px-4 py-3 font-semibold">Échéance</th>
                 <th className="px-4 py-3 font-semibold">Montant</th>
                 <th className="px-4 py-3 font-semibold">Statut</th>
                 <th className="px-4 py-3 font-semibold">Provider</th>
-                <th className="px-4 py-3 font-semibold">Decision</th>
+                <th className="px-4 py-3 font-semibold">Décision</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-zinc-800/80">
@@ -229,16 +229,16 @@ export default async function PaymentsPage() {
           <div className="p-4">
             <ActivationEmptyState
               actionHref="/payments/new"
-              actionLabel="Creer un paiement"
+              actionLabel="Créer un paiement"
               eyebrow="Cash-flow CVC"
               proofPoints={[
-                "Suivre mandat et echeance",
-                "Controler les rejets",
+                "Suivre mandat et échéance",
+                "Contrôler les rejets",
                 "Relier paiement et contrat",
               ]}
               secondaryHref="/contracts"
               secondaryLabel="Voir contrats"
-              title="Ajoutez un premier paiement pour securiser l'encaissement recurrent."
+              title="Ajoutez un premier paiement pour sécuriser l'encaissement récurrent."
             />
           </div>
         )}

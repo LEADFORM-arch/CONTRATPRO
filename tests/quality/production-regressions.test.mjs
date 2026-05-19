@@ -120,8 +120,8 @@ describe("production guardrails", () => {
     assertIncludes(read("src/server/contratpro-data.ts"), [
       "SupabaseDataUnavailableError",
       "const allowDemoFallback = canUseDemoData()",
-      "Lecture Supabase indisponible hors mode demo.",
-      "Profil organisation introuvable hors mode demo.",
+      "Lecture Supabase indisponible hors mode démo.",
+      "Profil organisation introuvable hors mode démo.",
     ], "data fail closed");
 
     assertIncludes(apiAuth, [
@@ -210,13 +210,13 @@ describe("production guardrails", () => {
     ], "lead PATCH commercial log fields");
 
     assertIncludes(read("src/app/(dashboard)/admin/prospection/page.tsx"), [
-      "Priorite fondateur",
-      "Appels demo a traiter aujourd'hui",
+      "Priorité fondateur",
+      "Appels démo à traiter aujourd'hui",
       "founder-queue-card",
       "PUBLIC_DEMO",
       "{lead.attribution}",
       "Performance attribution",
-      "Ce qui genere les meilleurs leads",
+      "Ce qui génère les meilleurs leads",
       "attributionStats",
       "Score moyen",
       "Architecte IA prospection Facebook",
@@ -360,7 +360,7 @@ describe("production guardrails", () => {
       "REPLIED",
       "LOST",
       "nextAction",
-      "Mise a jour impossible.",
+      "Mise à jour impossible.",
     ], "lead status sales actions");
 
     assertIncludes(read("src/app/globals.css"), [
@@ -533,15 +533,15 @@ describe("production guardrails", () => {
       "data-od-id=\"ops-gocardless-runbook\"",
       "data-od-id=\"ops-demo-checklist\"",
       "data-od-id=\"ops-smoke-runbook\"",
-      "Cron relances sous controle",
-      "GoCardless sandbox sous controle",
-      "Checklist pre-demo",
+      "Cron relances sous contrôle",
+      "GoCardless sandbox sous contrôle",
+      "Checklist pré-démo",
       "Smoke tests client",
       "health.cronRunbook.map",
       "health.goCardlessRunbook.map",
       "health.demoChecklist.map",
       "health.smokeRunbook.map",
-      "Dry-run avant envoi reel",
+      "Dry-run avant envoi réel",
       "Mandat puis paiement",
       "15 minutes avant l'appel",
       "Local puis Vercel",
@@ -996,7 +996,7 @@ describe("production guardrails", () => {
       "DemoOrganizationForbiddenError",
       "ProductionTenantConfigError",
       "TENANT_DEMO_FORBIDDEN",
-      "Verifier la securite",
+      "Vérifier la sécurité",
       "Se reconnecter",
       "Dashboard error boundary",
     ], "dashboard error boundary");
@@ -1010,13 +1010,13 @@ describe("production guardrails", () => {
 
   it("keeps client security and payment trust readable without exposing provider keys", () => {
     assertIncludes(read("src/app/(dashboard)/settings/security/page.tsx"), [
-      "Securite et paiements",
+      "Sécurité et paiements",
       "client-security-trust",
-      "Cles API masquees",
+      "Clés API masquées",
       "Comment circule un paiement SEPA",
-      "Vous n'avez pas a creer de compte technique GoCardless",
-      "L'encaissement SEPA live reste soumis a validation juridique",
-      "Auditabilite",
+      "Vous n'avez pas à créer de compte technique GoCardless",
+      "L'encaissement SEPA live reste soumis à validation juridique",
+      "Auditabilité",
       "Diagnostic admin",
       "currentAdmin ?",
       "Variables serveur",
@@ -1064,8 +1064,8 @@ describe("production guardrails", () => {
       "getProductionArchitectSummary",
       "Readiness commerciale",
       "data-od-id=\"production-ai-architect\"",
-      "Decider le live avec preuves",
-      "Decision recommandee maintenant",
+      "Décider le live avec preuves",
+      "Décision recommandée maintenant",
       "Activation production live",
       "data-od-id=\"production-live-activation\"",
       "Bloquants avant vente forte",
@@ -1233,10 +1233,10 @@ describe("production guardrails", () => {
       "getRecentBillingEvents",
       "Architecte IA billing",
       "requestedPlan",
-      "Plan demande depuis la page tarifs",
+      "Plan demandé depuis la page tarifs",
       "data-od-id=\"billing-ai-architect\"",
       "Vendre le bon palier",
-      "Journal Stripe recent",
+      "Journal Stripe récent",
       "billing-plan-card",
       "billing-event-row",
     ], "stripe billing page");
@@ -1282,9 +1282,9 @@ describe("production guardrails", () => {
       "data-od-id=\"onboarding-ai-architect\"",
       "activationDecisions",
       "activationDecision",
-      "Demarrer accompagne",
+      "Démarrage accompagné",
       "Pilote facturable",
-      "Go-live limite",
+      "Go-live limité",
       "Plan d'activation client",
     ], "premium onboarding page");
 
@@ -1447,7 +1447,7 @@ describe("production guardrails", () => {
       "variant=\"openDesign\"",
       "od-hero",
       "od-agent-grid",
-      "VOIR LA DEMO",
+      "VOIR LA DÉMO",
     ], "architecte ia public page");
 
     assertIncludes(read("src/app/simulateur/SimulatorClient.tsx"), [
@@ -1691,7 +1691,7 @@ describe("production guardrails", () => {
       "Commande cash-flow",
       "Action prioritaire",
       "Corriger le rejet",
-      "Creer un paiement",
+      "Créer un paiement",
     ], "payments cash command");
 
     assertIncludes(read("src/app/(dashboard)/invoices/page.tsx"), [
@@ -1699,7 +1699,7 @@ describe("production guardrails", () => {
       "Commande facturation",
       "Action prioritaire",
       "Relancer la facture",
-      "Creer une facture",
+      "Créer une facture",
     ], "invoices billing command");
 
     assertIncludes(read("src/app/globals.css"), [

@@ -27,15 +27,15 @@ export default async function CompanySettingsPage() {
           </a>
         }
         description="Ces informations alimentent les factures, attestations et documents commerciaux de l'entreprise."
-        eyebrow="Parametres"
-        title="Identite entreprise"
+        eyebrow="Paramètres"
+        title="Identité entreprise"
       />
 
       <div className="mt-6 grid gap-4 lg:grid-cols-[1fr_320px]">
         <CompanySettingsForm profile={profile} />
 
         <aside className="settings-side-panel rounded-lg border p-5 shadow-sm">
-          <h3 className="text-base font-semibold text-zinc-50">Controle qualite</h3>
+          <h3 className="text-base font-semibold text-zinc-50">Contrôle qualité</h3>
           <div className="mt-4">
             <StatusPill>{completion}/7 champs essentiels</StatusPill>
           </div>
@@ -45,7 +45,7 @@ export default async function CompanySettingsPage() {
               <dd className="font-semibold text-zinc-50">{profile.name}</dd>
             </div>
             <div>
-              <dt className="text-zinc-500">Adresse facture</dt>
+              <dt className="text-zinc-500">Adresse de facturation</dt>
               <dd className="font-semibold text-zinc-50">{profile.fullAddress}</dd>
             </div>
             <div>

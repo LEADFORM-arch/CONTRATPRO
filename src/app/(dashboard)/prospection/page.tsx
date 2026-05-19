@@ -53,25 +53,25 @@ function leadFounderAction(lead: ProspectionLead) {
 
   if (scenario === "reponse") {
     return {
-      decision: "Proposer deux creneaux demo",
-      nextMove: "Copier le DM, envoyer, puis passer le lead en Demo si un creneau est choisi.",
-      proof: "Le prospect a deja repondu.",
+      decision: "Proposer deux créneaux démo",
+      nextMove: "Copier le DM, envoyer, puis passer le lead en Démo si un créneau est choisi.",
+      proof: "Le prospect a déjà répondu.",
     };
   }
 
   if (scenario === "relance") {
     return {
       decision: "Relancer une seule fois",
-      nextMove: "Copier le DM de relance. Sans reponse, garder l'objection ou couper le lead.",
-      proof: "Le lead a deja ete contacte.",
+      nextMove: "Copier le DM de relance. Sans réponse, garder l'objection ou couper le lead.",
+      proof: "Le lead a déjà été contacté.",
     };
   }
 
   if (scenario === "demo") {
     return {
-      decision: "Qualifier le contexte demo",
-      nextMove: "Copier le DM, obtenir le contexte metier, puis preparer une demo sur contrats.",
-      proof: "Le lead vient du formulaire ou d'une demo planifiee.",
+      decision: "Qualifier le contexte démo",
+      nextMove: "Copier le DM, obtenir le contexte métier, puis préparer une démo sur contrats.",
+      proof: "Le lead vient du formulaire ou d'une démo planifiée.",
     };
   }
 
@@ -86,15 +86,15 @@ function leadFounderAction(lead: ProspectionLead) {
   if (scenario === "chaud") {
     return {
       decision: "Contacter maintenant",
-      nextMove: "Copier le DM, envoyer aujourd'hui, puis marquer Contacte dans le pipeline.",
+      nextMove: "Copier le DM, envoyer aujourd'hui, puis marquer Contacté dans le pipeline.",
       proof: "Score 80+ ou signal commercial fort.",
     };
   }
 
   return {
     decision: "Ouvrir sans vendre",
-    nextMove: "Copier le DM, attendre une reponse, puis ne relancer qu'avec un signal clair.",
-    proof: "Lead encore froid ou peu qualifie.",
+    nextMove: "Copier le DM, attendre une réponse, puis ne relancer qu'avec un signal clair.",
+    proof: "Lead encore froid ou peu qualifié.",
   };
 }
 
@@ -180,19 +180,19 @@ function leadFollowUpSignal(lead: ProspectionLead) {
 
   if (elapsed + 1 >= delay) {
     return {
-      decision: "Preparer la relance",
-      detail: `Relance ${latestLog.relance} a preparer: dernier suivi il y a ${elapsed} jour(s).`,
+      decision: "Préparer la relance",
+      detail: `Relance ${latestLog.relance} à préparer: dernier suivi il y a ${elapsed} jour(s).`,
       lead,
       latestLog,
       priority: 2,
-      reason: "A surveiller",
+      reason: "À surveiller",
       tone: "soon",
     };
   }
 
   return {
     decision: "Laisser respirer",
-    detail: `Dernier contact recent: relance prevue ${latestLog.relance}.`,
+    detail: `Dernier contact récent: relance prévue ${latestLog.relance}.`,
     lead,
     latestLog,
     priority: 0,
@@ -208,23 +208,23 @@ function followUpArchitectSummary(queue: NonNullable<ReturnType<typeof leadFollo
   if (due.length) {
     return {
       decision: "Relancer sans attendre",
-      evidence: `${due.length} compte(s) ont depasse la cadence prevue.`,
-      move: "Copier le DM de relance, envoyer, puis journaliser l'objection ou le creneau obtenu.",
+      evidence: `${due.length} compte(s) ont dépassé la cadence prévue.`,
+      move: "Copier le DM de relance, envoyer, puis journaliser l'objection ou le créneau obtenu.",
     };
   }
 
   if (missing.length) {
     return {
       decision: "Reprendre le fil commercial",
-      evidence: `${missing.length} compte(s) chauds n'ont pas encore de suivi journalise.`,
+      evidence: `${missing.length} compte(s) chauds n'ont pas encore de suivi journalisé.`,
       move: "Tracer le dernier contact avant toute nouvelle relance.",
     };
   }
 
   return {
-    decision: "Cadence sous controle",
+    decision: "Cadence sous contrôle",
     evidence: "Aucune relance urgente dans la file prioritaire.",
-    move: "Continuer les nouveaux DMs et surveiller les reponses chaudes.",
+    move: "Continuer les nouveaux DMs et surveiller les réponses chaudes.",
   };
 }
 
@@ -236,14 +236,14 @@ function pilotReadinessSignal(lead: ProspectionLead) {
     return {
       checklist: [
         "Confirmer le nombre de contrats d'entretien actifs.",
-        "Demander le fichier Excel ou la methode de suivi actuelle.",
-        "Preparer une demo sur renouvellements, documents et relances.",
+        "Demander le fichier Excel ou la méthode de suivi actuelle.",
+        "Préparer une démo sur renouvellements, documents et relances.",
       ],
-      decision: "Preparer la demo pilote",
+      decision: "Préparer la démo pilote",
       lead,
       latestLog,
-      note: "Le rendez-vous existe deja: transformer la demo en diagnostic cash-flow CVC.",
-      proof: "Demo planifiee",
+      note: "Le rendez-vous existe déjà: transformer la démo en diagnostic cash-flow CVC.",
+      proof: "Démo planifiée",
       score: 100,
       tone: "sell",
     };
@@ -252,11 +252,11 @@ function pilotReadinessSignal(lead: ProspectionLead) {
   if (lead.rawStatus === "REPLIED" || lead.score >= 85) {
     return {
       checklist: [
-        "Obtenir un creneau de 15 minutes.",
-        "Qualifier Excel, agenda ou logiciel metier actuel.",
+        "Obtenir un créneau de 15 minutes.",
+        "Qualifier Excel, agenda ou logiciel métier actuel.",
         "Isoler une objection avant de parler prix.",
       ],
-      decision: "Proposer un creneau pilote",
+      decision: "Proposer un créneau pilote",
       lead,
       latestLog,
       note: "Signal commercial assez fort pour sortir du DM et passer en rendez-vous.",
@@ -333,9 +333,9 @@ function buildLeadDmScript(lead: ProspectionLead) {
 
 Vu ce que tu me dis sur ${specialty}${city}, le plus simple est de prendre 15 minutes.
 
-Je te montre comment ContratPro repere les contrats a relancer, et tu me dis si ca colle a ta facon de travailler.
+Je te montre comment ContratPro repère les contrats à relancer, et tu me dis si ça colle à ta façon de travailler.
 
-Tu preferes un creneau demain matin ou en fin de journee ?`;
+Tu préfères un créneau demain matin ou en fin de journée ?`;
   }
 
   if (scenario === "relance") {
@@ -345,44 +345,44 @@ Si ce n'est pas le moment, aucun souci.
 
 Je voulais surtout savoir si les renouvellements oublies sont un vrai sujet chez toi, ou pas du tout.
 
-Tu es plutot equipe avec Excel, agenda, ou un logiciel metier ?`;
+Tu es plutôt équipé avec Excel, agenda, ou un logiciel métier ?`;
   }
 
   if (scenario === "demo") {
     return `Salut ${name}, j'ai vu ta demande autour de ContratPro.
 
-Le point interessant a verifier, ce n'est pas toutes les fonctions: c'est combien de contrats d'entretien peuvent etre relances ou securises rapidement.
+Le point intéressant à vérifier, ce n'est pas toutes les fonctions: c'est combien de contrats d'entretien peuvent être relancés ou sécurisés rapidement.
 
 Si tu as 15 minutes, je peux te montrer le parcours sur un cas concret.
 
-Tu veux qu'on parte sur ${specialty}${city} comme contexte de demo ?`;
+Tu veux qu'on parte sur ${specialty}${city} comme contexte de démo ?`;
   }
 
   if (scenario === "excel") {
     return `Salut ${name}, j'ai vu que le sujet Excel revient dans ton organisation.
 
-Ce n'est pas une critique, beaucoup de chauffagistes travaillent comme ca.
+Ce n'est pas une critique, beaucoup de chauffagistes travaillent comme ça.
 
-Le vrai risque, c'est surtout ce qu'Excel ne signale pas tout seul: les contrats qui approchent de l'echeance.
+Le vrai risque, c'est surtout ce qu'Excel ne signale pas tout seul: les contrats qui approchent de l'échéance.
 
-Tu as deja calcule combien ca peut representer sur une annee ?`;
+Tu as déjà calculé combien ça peut représenter sur une année ?`;
   }
 
   if (scenario === "chaud") {
     return `Salut ${name}, ton profil ressort comme prioritaire sur le sujet contrats d'entretien.
 
-Quand les relances reposent sur la memoire ou un fichier, un client peut sortir du radar sans bruit.
+Quand les relances reposent sur la mémoire ou un fichier, un client peut sortir du radar sans bruit.
 
-ContratPro sert justement a voir ces echeances avant qu'elles deviennent du chiffre perdu.
+ContratPro sert justement à voir ces échéances avant qu'elles deviennent du chiffre perdu.
 
-Tu geres aujourd'hui tes renouvellements comment ?`;
+Tu gères aujourd'hui tes renouvellements comment ?`;
   }
 
-  return `Salut ${name}, je regarde comment les chauffagistes gerent leurs contrats d'entretien${city}.
+  return `Salut ${name}, je regarde comment les chauffagistes gèrent leurs contrats d'entretien${city}.
 
-Quand tout est dans Excel, un agenda ou la tete, un renouvellement peut passer sans bruit.
+Quand tout est dans Excel, un agenda ou la tête, un renouvellement peut passer sans bruit.
 
-Je travaille sur ContratPro pour aider a voir ces contrats avant qu'ils expirent.
+Je travaille sur ContratPro pour aider à voir ces contrats avant qu'ils expirent.
 
 Tu te reconnais dans ce sujet ?`;
 }
@@ -402,10 +402,10 @@ export default async function ProspectionPage() {
   const conversionRate =
     leads.length > 0 ? Math.round((won.length / leads.length) * 100) : 0;
   const pipelineStages = [
-    ["A qualifier", toQualify, "Appeler sous 24h"],
-    ["Contactes", contacted.filter((lead) => lead.rawStatus !== "WON"), "Obtenir une reponse"],
-    ["Demos", demos, "Montrer le cash-flow"],
-    ["Gagnes", won, "Onboarding client"],
+    ["À qualifier", toQualify, "Appeler sous 24h"],
+    ["Contactés", contacted.filter((lead) => lead.rawStatus !== "WON"), "Obtenir une réponse"],
+    ["Démos", demos, "Montrer le cash-flow"],
+    ["Gagnés", won, "Onboarding client"],
   ] as const;
   const priorityQueue = [...inboundDemoLeads, ...hotLeads, ...replied]
     .filter(
@@ -441,7 +441,7 @@ export default async function ProspectionPage() {
               className="premium-secondary-action rounded-md px-4 py-2 text-sm font-semibold"
               href="/settings/facebook"
             >
-              Reglages acquisition
+              Réglages acquisition
             </a>
           </div>
         }
@@ -455,18 +455,18 @@ export default async function ProspectionPage() {
           Non visible client
         </p>
         <p className="mt-2 text-sm leading-6 text-zinc-300">
-          Ce module sert a ton acquisition commerciale. Il ne fait pas partie du
-          produit livre aux chauffagistes: il pilote tes leads, tes messages et
-          tes demonstrations.
+          Ce module sert à ton acquisition commerciale. Il ne fait pas partie du
+          produit livré aux chauffagistes: il pilote tes leads, tes messages et
+          tes démonstrations.
         </p>
       </section>
 
       <div className="mt-5 grid gap-3 md:grid-cols-4">
         {[
-          ["Leads", leads.length, "Comptes identifies", "cyan"],
+          ["Leads", leads.length, "Comptes identifiés", "cyan"],
           ["Prioritaires", hotLeads.length, "Score 80+", "amber"],
-          ["Demandes demo", inboundDemoLeads.length, "Entrantes site", "emerald"],
-          ["Demos", demos.length, `${conversionRate}% gagne`, "rose"],
+          ["Demandes démo", inboundDemoLeads.length, "Entrantes site", "emerald"],
+          ["Démos", demos.length, `${conversionRate}% gagné`, "rose"],
         ].map(([label, value, helper, tone]) => (
           <article
             className="prospection-stat-card"
@@ -576,7 +576,7 @@ export default async function ProspectionPage() {
                     Aucun lead urgent
                   </h4>
                   <p className="mt-1 text-sm text-zinc-400">
-                    Le prochain formulaire demo alimente cette file d'appel.
+                    Le prochain formulaire démo alimente cette file d'appel.
                   </p>
                 </div>
               </article>
@@ -589,9 +589,9 @@ export default async function ProspectionPage() {
             </p>
             <div className="mt-4 grid gap-3">
               {[
-                ["J0", "Appeler dans la journee, qualifier parc et Excel actuel."],
-                ["J+2", "Envoyer recap ROI + lien demo si pas de reponse."],
-                ["J+5", "Relancer sur contrat oublie et SEPA recurrent."],
+                ["J0", "Appeler dans la journée, qualifier parc et Excel actuel."],
+                ["J+2", "Envoyer récap ROI + lien démo si pas de réponse."],
+                ["J+5", "Relancer sur contrat oublié et SEPA récurrent."],
               ].map(([day, action]) => (
                 <div className="sales-playbook-step" key={day}>
                   <strong>{day}</strong>
@@ -618,7 +618,7 @@ export default async function ProspectionPage() {
 
         <div className="lead-followup-layout mt-4">
           <article className="lead-followup-decision">
-            <p>Decision du jour</p>
+            <p>Décision du jour</p>
             <strong>{followUpSummary.decision}</strong>
             <span>{followUpSummary.evidence}</span>
             <em>{followUpSummary.move}</em>
@@ -727,7 +727,7 @@ export default async function ProspectionPage() {
                   <strong>
                     {item.latestLog
                       ? `${item.latestLog.channel} - ${item.latestLog.objection}`
-                      : "A journaliser"}
+                      : "À journaliser"}
                   </strong>
                 </div>
                 <ul>
@@ -753,7 +753,7 @@ export default async function ProspectionPage() {
               Pipeline commercial
             </p>
             <h3 className="mt-1 text-lg font-semibold text-zinc-50">
-              Comptes chauffagistes a qualifier et convertir
+              Comptes chauffagistes à qualifier et convertir
             </h3>
           </div>
           <span className="prospection-signal-pill">
@@ -768,12 +768,12 @@ export default async function ProspectionPage() {
                 <th className="px-4 py-3 font-semibold">Entreprise</th>
                 <th className="px-4 py-3 font-semibold">Canal</th>
                 <th className="px-4 py-3 font-semibold">Attribution</th>
-                <th className="px-4 py-3 font-semibold">Specialite</th>
+                <th className="px-4 py-3 font-semibold">Spécialité</th>
                 <th className="px-4 py-3 font-semibold">Score</th>
                 <th className="px-4 py-3 font-semibold">Statut</th>
                 <th className="px-4 py-3 font-semibold">Prochaine action</th>
                 <th className="px-4 py-3 font-semibold">DM skill</th>
-                <th className="px-4 py-3 font-semibold">Decision</th>
+                <th className="px-4 py-3 font-semibold">Décision</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-zinc-800/80">

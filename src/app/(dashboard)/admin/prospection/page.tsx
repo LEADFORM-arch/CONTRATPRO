@@ -17,62 +17,62 @@ type SkillModule = {
 const facebookSkillModules: SkillModule[] = [
   {
     cadence: "Avant de publier",
-    evidence: "Page claire, bio CVC, CTA vers demo",
+    evidence: "Page claire, bio CVC, CTA vers démo",
     name: "Page Facebook",
-    output: "Verifier nom, bio, mots-cles et post epingle.",
+    output: "Vérifier nom, bio, mots-clés et post épinglé.",
   },
   {
     cadence: "3 fois / semaine",
-    evidence: "Douleur concrete puis une seule action",
+    evidence: "Douleur concrète puis une seule action",
     name: "Posts terrain",
-    output: "Formats probleme, chiffre, legal et question.",
+    output: "Formats problème, chiffre, légal et question.",
   },
   {
-    cadence: "5 a 10 DMs / jour",
-    evidence: "Message court, personnalise, sans lien au premier contact",
+    cadence: "5 à 10 DMs / jour",
+    evidence: "Message court, personnalisé, sans lien au premier contact",
     name: "DM fondateur",
     output: "Froid, chaud, Excel, relance ou closing.",
   },
   {
     cadence: "Chaque vendredi",
-    evidence: "CPL, reponses, demos et objections notees",
+    evidence: "CPL, réponses, démos et objections notées",
     name: "KPI 90 jours",
-    output: "Garder, iterer ou couper chaque angle.",
+    output: "Garder, itérer ou couper chaque angle.",
   },
 ];
 
 const facebookSkillCadence = [
-  ["Lundi 6h30", "Post probleme -> solution sur contrats oublies."],
+  ["Lundi 6h30", "Post problème -> solution sur contrats oubliés."],
   ["Mercredi 12h15", "Question d'engagement sans CTA produit."],
-  ["Vendredi 19h00", "Post preuve ou chiffre avec lien demo trace."],
-  ["Chaque jour", "5 DMs cibles: commentaire, like, Excel, relance, closing."],
+  ["Vendredi 19h00", "Post preuve ou chiffre avec lien démo tracé."],
+  ["Chaque jour", "5 DMs ciblés: commentaire, like, Excel, relance, closing."],
 ] as const;
 
 const facebookSkillKpis = [
-  ["Taux reponse DM", "15-25%", "Changer accroche si < 10%"],
-  ["Clics demo", "3-5%", "Revoir CTA si < 2%"],
-  ["Demos bookees", "2 / semaine", "Prioriser les leads score 80+"],
-  ["Decision", "90 jours", "Vendre, iterer ou couper"],
+  ["Taux réponse DM", "15-25%", "Changer accroche si < 10%"],
+  ["Clics démo", "3-5%", "Revoir CTA si < 2%"],
+  ["Démos bookées", "2 / semaine", "Prioriser les leads score 80+"],
+  ["Décision", "90 jours", "Vendre, itérer ou couper"],
 ] as const;
 
 const facebookDmScript = `Salut [Prenom], j'ai vu ton commentaire sur les relances et les contrats d'entretien.
 
-Quand tout est dans Excel ou dans la tete, un renouvellement peut passer sans bruit et le client part ailleurs.
+Quand tout est dans Excel ou dans la tête, un renouvellement peut passer sans bruit et le client part ailleurs.
 
-Je travaille sur ContratPro pour aider les chauffagistes a voir ces contrats avant qu'ils expirent.
+Je travaille sur ContratPro pour aider les chauffagistes à voir ces contrats avant qu'ils expirent.
 
-Tu sais combien de contrats tu as pu perdre comme ca sur les 12 derniers mois ?`;
+Tu sais combien de contrats tu as pu perdre comme ça sur les 12 derniers mois ?`;
 
 function buildFacebookPostScript(demoUrl: string) {
-  return `Il a rappele son client pour l'entretien annuel.
-Le client avait deja pris quelqu'un d'autre.
+  return `Il a rappelé son client pour l'entretien annuel.
+Le client avait déjà pris quelqu'un d'autre.
 
-Son contrat avait expire 4 mois plus tot.
-Personne ne l'avait relance.
-180 EUR de revenu recurrent. Parti.
+Son contrat avait expiré 4 mois plus tôt.
+Personne ne l'avait relancé.
+180 EUR de revenu récurrent. Parti.
 
-Avec ContratPro, les contrats a renouveler remontent avant l'echeance, avec la prochaine action a faire.
-Le chauffagiste garde son portefeuille vivant au lieu de le decouvrir trop tard.
+Avec ContratPro, les contrats à renouveler remontent avant l'échéance, avec la prochaine action à faire.
+Le chauffagiste garde son portefeuille vivant au lieu de le découvrir trop tard.
 
 Essai pilote: ${demoUrl}
 
@@ -189,7 +189,7 @@ export default async function AdminProspectionDashboardPage() {
               className="premium-secondary-action rounded-md px-4 py-2 text-sm font-semibold"
               href="/settings/facebook"
             >
-              Reglages Facebook
+              Réglages Facebook
             </a>
             <a
               className="premium-action rounded-md px-4 py-2 text-sm font-semibold"
@@ -315,8 +315,8 @@ export default async function AdminProspectionDashboardPage() {
         {[
           ["Leads", leads.length, "Total pipeline", "cyan"],
           ["Chauds", hotLeads.length, "Score 80+", "amber"],
-          ["Demandes demo", inboundDemoLeads.length, "Entrantes site", "emerald"],
-          ["Demos", demos.length, `${won.length} gagne`, "rose"],
+          ["Demandes démo", inboundDemoLeads.length, "Entrantes site", "emerald"],
+          ["Démos", demos.length, `${won.length} gagné`, "rose"],
         ].map(([label, value, helper, tone]) => (
           <article
             className="prospection-stat-card"
@@ -341,11 +341,11 @@ export default async function AdminProspectionDashboardPage() {
               Performance attribution
             </p>
             <h3 className="mt-1 text-lg font-semibold text-zinc-50">
-              Ce qui genere les meilleurs leads
+              Ce qui génère les meilleurs leads
             </h3>
             <p className="mt-2 max-w-2xl text-sm leading-6 text-zinc-400">
-              Lecture fondateur des campagnes tracees : volume, qualite et
-              progression vers demo ou signature.
+              Lecture fondateur des campagnes tracées : volume, qualité et
+              progression vers démo ou signature.
             </p>
           </div>
           <StatusPill>{attributionStats.length} sources suivies</StatusPill>
@@ -362,8 +362,8 @@ export default async function AdminProspectionDashboardPage() {
                   {[
                     ["Leads", item.leads],
                     ["Chauds", item.hot],
-                    ["Demos", item.demos],
-                    ["Gagnes", item.won],
+                    ["Démos", item.demos],
+                    ["Gagnés", item.won],
                   ].map(([label, value]) => (
                     <div className="attribution-mini-stat" key={label}>
                       <strong>{value}</strong>
@@ -378,10 +378,10 @@ export default async function AdminProspectionDashboardPage() {
             ))
           ) : (
             <article className="attribution-performance-card rounded-lg border p-3 lg:col-span-3">
-              <p className="font-semibold text-zinc-50">Aucune campagne tracee</p>
+              <p className="font-semibold text-zinc-50">Aucune campagne tracée</p>
               <p className="mt-1 text-sm text-zinc-400">
-                Cree un lien UTM dans Reglages Facebook, publie-le, puis les
-                demandes demo alimenteront cette lecture.
+                Crée un lien UTM dans Réglages Facebook, publie-le, puis les
+                demandes démo alimenteront cette lecture.
               </p>
             </article>
           )}
@@ -392,13 +392,13 @@ export default async function AdminProspectionDashboardPage() {
         <div className="sales-command-header">
           <div>
             <p className="text-xs font-semibold uppercase tracking-wide text-emerald-300">
-              Priorite fondateur
+              Priorité fondateur
             </p>
             <h3 className="mt-1 text-lg font-semibold text-zinc-50">
-              Appels demo a traiter aujourd'hui
+              Appels démo à traiter aujourd'hui
             </h3>
           </div>
-          <StatusPill>{toQualify.length} a qualifier</StatusPill>
+          <StatusPill>{toQualify.length} à qualifier</StatusPill>
         </div>
 
         <div className="mt-4 grid gap-3 lg:grid-cols-5">
@@ -425,7 +425,7 @@ export default async function AdminProspectionDashboardPage() {
             <article className="founder-queue-card lg:col-span-5">
               <h4 className="font-semibold text-zinc-50">File d'appel vide</h4>
               <p className="mt-1 text-sm text-zinc-400">
-                Les demandes du formulaire demo remonteront ici avec score et
+                Les demandes du formulaire démo remonteront ici avec score et
                 prochaine action.
               </p>
             </article>
@@ -489,26 +489,26 @@ export default async function AdminProspectionDashboardPage() {
             Canal Facebook
           </h3>
           <p className="mt-2 text-sm leading-6 text-zinc-400">
-            Connecteurs internes pour generer, planifier et suivre les messages
+            Connecteurs internes pour générer, planifier et suivre les messages
             de prospection.
           </p>
           <div className="mt-4 space-y-3 text-sm">
             <div className="flex items-center justify-between">
               <span className="text-zinc-300">Buffer</span>
               <StatusPill>
-                {settings.bufferAccessTokenConfigured ? "Pret" : "A configurer"}
+                {settings.bufferAccessTokenConfigured ? "Prêt" : "À configurer"}
               </StatusPill>
             </div>
             <div className="flex items-center justify-between">
               <span className="text-zinc-300">Apify</span>
               <StatusPill>
-                {settings.apifyTokenConfigured ? "Pret" : "A configurer"}
+                {settings.apifyTokenConfigured ? "Prêt" : "À configurer"}
               </StatusPill>
             </div>
             <div className="flex items-center justify-between">
               <span className="text-zinc-300">ManyChat</span>
               <StatusPill>
-                {settings.manychatTokenConfigured ? "Pret" : "A configurer"}
+                {settings.manychatTokenConfigured ? "Prêt" : "À configurer"}
               </StatusPill>
             </div>
           </div>
@@ -577,7 +577,7 @@ export default async function AdminProspectionDashboardPage() {
             Mise en route acquisition
           </p>
           <h3 className="mt-1 text-lg font-semibold text-zinc-50">
-            Connecteurs a finaliser
+            Connecteurs à finaliser
           </h3>
           <div className="mt-4 grid gap-3">
             {missingConnectors.length ? (
@@ -585,17 +585,17 @@ export default async function AdminProspectionDashboardPage() {
                 <div className="facebook-step-card rounded-lg border p-3" key={connector}>
                   <p className="font-semibold text-zinc-50">{connector}</p>
                   <p className="mt-1 text-sm text-zinc-400">
-                    A renseigner dans Reglages Facebook.
+                    À renseigner dans Réglages Facebook.
                   </p>
                 </div>
               ))
             ) : (
               <div className="facebook-step-card rounded-lg border p-3">
                 <p className="font-semibold text-zinc-50">
-                  Canal pret a piloter
+                  Canal prêt à piloter
                 </p>
                 <p className="mt-1 text-sm text-zinc-400">
-                  Les trois connecteurs critiques sont configures.
+                  Les trois connecteurs critiques sont configurés.
                 </p>
               </div>
             )}

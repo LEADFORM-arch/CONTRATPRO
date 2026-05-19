@@ -12,14 +12,14 @@ import { LaunchDecisionCopyButton } from "./LaunchDecisionCopyButton";
 
 const statusLabels: Record<LaunchStatus, string> = {
   critical: "Bloquant",
-  ready: "Pret",
-  warning: "A verrouiller",
+  ready: "Prêt",
+  warning: "À verrouiller",
 };
 
 const statusCopy: Record<LaunchStatus, string> = {
-  critical: "ContratPro tourne, mais certains prerequis business bloquent encore un lancement payant complet.",
+  critical: "ContratPro tourne, mais certains prérequis business bloquent encore un lancement payant complet.",
   ready: "Tous les signaux critiques sont au vert pour ouvrir commercialement.",
-  warning: "Le produit est exploitable en lancement controle, avec quelques points a fermer.",
+  warning: "Le produit est exploitable en lancement contrôlé, avec quelques points à fermer.",
 };
 
 function formatDate(value: string) {
@@ -46,7 +46,7 @@ export default async function LaunchPage() {
             </a>
           ) : null
         }
-        description={`Cockpit reserve a ${admin.email}. Il se concentre sur le passage de produit en ligne a offre vendable: revenus, securite, operations et preuves de production.`}
+        description={`Cockpit réservé à ${admin.email}. Il se concentre sur le passage de produit en ligne à offre vendable : revenus, sécurité, opérations et preuves de production.`}
         eyebrow="Go-live fondateur"
         title="Readiness commerciale"
       />
@@ -75,12 +75,12 @@ export default async function LaunchPage() {
               <strong>{readiness.blockers.length}</strong>
             </div>
             <div>
-              <span>Dernier controle</span>
+              <span>Dernier contrôle</span>
               <strong>{formatDate(readiness.generatedAt)}</strong>
             </div>
             <div>
               <span>URL</span>
-              <strong>{readiness.appUrl ? "Configuree" : "Absente"}</strong>
+              <strong>{readiness.appUrl ? "Configurée" : "Absente"}</strong>
             </div>
           </div>
         </div>
@@ -90,7 +90,7 @@ export default async function LaunchPage() {
         <div className="launch-architect-header">
           <div>
             <p className="text-sm font-semibold text-cyan-300">{productionArchitect.headline}</p>
-            <h3>Decider le live avec preuves, pas avec optimisme.</h3>
+            <h3>Décider le live avec preuves, pas avec optimisme.</h3>
             <p>{productionArchitect.thesis}</p>
           </div>
           <div className="launch-architect-metrics">
@@ -107,7 +107,7 @@ export default async function LaunchPage() {
 
         <div className="launch-recommended-decision" data-decision={productionArchitect.recommendedDecision.decision}>
           <div className="launch-recommended-copy">
-            <span>Decision recommandee maintenant</span>
+            <span>Décision recommandée maintenant</span>
             <strong>{productionArchitect.recommendedDecision.label}</strong>
             <p>{productionArchitect.nextMove}</p>
           </div>
@@ -176,7 +176,7 @@ export default async function LaunchPage() {
       {readiness.blockers.length ? (
         <section className="launch-blockers mt-6 rounded-lg border p-5">
           <div>
-            <p className="text-sm font-semibold text-rose-300">Priorite immediate</p>
+            <p className="text-sm font-semibold text-rose-300">Priorité immédiate</p>
             <h3 className="mt-1 text-lg font-bold text-zinc-50">Bloquants avant vente forte</h3>
           </div>
           <div className="mt-4 grid gap-3">
@@ -220,7 +220,7 @@ export default async function LaunchPage() {
         <div className="launch-activation-header">
           <div>
             <p className="text-sm font-semibold text-cyan-300">Activation production live</p>
-            <h3>Passer de produit pret a offre encaissable.</h3>
+            <h3>Passer de produit prêt à offre encaissable.</h3>
             <p>
               Cette sequence se joue dans l'ordre : freeze, backup, secrets,
               providers live, smoke tests, rollback. Aucun raccourci avant vrais clients.
@@ -248,7 +248,7 @@ export default async function LaunchPage() {
           <div>
             <h3>Plan pilote terrain</h3>
             <p className="mt-1 text-sm text-zinc-400">
-              A executer avec 1 a 3 chauffagistes avant publicite ou prospection large.
+              À exécuter avec 1 à 3 chauffagistes avant publicité ou prospection large.
             </p>
           </div>
           <span>{pilotPlan.length} etapes</span>

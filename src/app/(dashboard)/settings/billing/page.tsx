@@ -7,10 +7,10 @@ import { BillingActions } from "./BillingActions";
 
 const labels: Record<string, string> = {
   active: "Actif",
-  canceled: "Resilie",
+  canceled: "Résilié",
   incomplete: "Incomplet",
-  incomplete_expired: "Expire",
-  missing: "Non configure",
+  incomplete_expired: "Expiré",
+  missing: "Non configuré",
   past_due: "Impayé",
   paused: "En pause",
   trialing: "Essai",
@@ -22,19 +22,19 @@ const planArchitectCopy: Record<
   { decision: string; fit: string; signal: string }
 > = {
   business: {
-    decision: "Vendre si le dirigeant veut un go-live accompagne et surveille.",
-    fit: "Equipe CVC avec portefeuille recurrent deja rentable.",
+    decision: "Vendre si le dirigeant veut un go-live accompagné et surveillé.",
+    fit: "Équipe CVC avec portefeuille récurrent déjà rentable.",
     signal: "Il demande une date de bascule, pas seulement un essai.",
   },
   pro: {
-    decision: "Plan recommande pour prouver le ROI SEPA.",
-    fit: "Chauffagiste qui a deja des contrats mais relance encore a la main.",
-    signal: "Il parle d'impayes, de retard d'encaissement ou de charge admin.",
+    decision: "Plan recommandé pour prouver le ROI SEPA.",
+    fit: "Chauffagiste qui a déjà des contrats mais relance encore à la main.",
+    signal: "Il parle d'impayés, de retard d'encaissement ou de charge admin.",
   },
   starter: {
-    decision: "Utiliser comme entree simple depuis Excel.",
+    decision: "Utiliser comme entrée simple depuis Excel.",
     fit: "TPE qui veut importer, voir les relances et tester sans changer son terrain.",
-    signal: "Il accepte 49 EUR/mois pour eviter la ressaisie et les oublis.",
+    signal: "Il accepte 49 EUR/mois pour éviter la ressaisie et les oublis.",
   },
 };
 
@@ -102,8 +102,8 @@ export default async function BillingSettingsPage({
             requestedPlan={requestedPlan}
           />
         }
-        description="Activation de l'abonnement ContratPro Starter, Pro ou Business, suivi via Stripe et synchronise avec Supabase."
-        eyebrow="Parametres"
+        description="Activation de l'abonnement ContratPro Starter, Pro ou Business, suivi via Stripe et synchronisé avec Supabase."
+        eyebrow="Paramètres"
         title="Abonnement ContratPro"
       />
 
@@ -120,28 +120,28 @@ export default async function BillingSettingsPage({
             </div>
             <p className="mt-4 max-w-2xl text-sm leading-6 text-zinc-300">
               Le verrouillage produit s'active avec `CONTRATPRO_REQUIRE_BILLING=true`.
-              Les statuts `active` et `trialing` donnent acces a ContratPro ; les statuts
-              impayes renvoient vers cette page.
+              Les statuts `active` et `trialing` donnent accès à ContratPro ; les statuts
+              impayés renvoient vers cette page.
             </p>
             {requestedPlan ? (
               <p className="billing-requested-plan mt-4">
-                Plan demande depuis la page tarifs : ContratPro {requestedPlanLabel}.
+                Plan demandé depuis la page tarifs : ContratPro {requestedPlanLabel}.
               </p>
             ) : null}
           </div>
 
           <div className="billing-snapshot">
             <div>
-              <span>Fin periode</span>
+              <span>Fin période</span>
               <strong>{formatDate(billing.currentPeriodEnd)}</strong>
             </div>
             <div>
               <span>Annulation</span>
-              <strong>{billing.cancelAtPeriodEnd ? "Planifiee" : "Non"}</strong>
+              <strong>{billing.cancelAtPeriodEnd ? "Planifiée" : "Non"}</strong>
             </div>
             <div>
               <span>Billing lock</span>
-              <strong>{billing.required ? "Actif" : "Desactive"}</strong>
+              <strong>{billing.required ? "Actif" : "Désactivé"}</strong>
             </div>
           </div>
         </div>
@@ -180,7 +180,7 @@ export default async function BillingSettingsPage({
                     <dd>{copy.signal}</dd>
                   </div>
                   <div>
-                    <dt>Decision</dt>
+                    <dt>Décision</dt>
                     <dd>{copy.decision}</dd>
                   </div>
                 </dl>
@@ -200,17 +200,17 @@ export default async function BillingSettingsPage({
           </div>
           <div className="divide-y divide-zinc-800">
             <CheckRow
-              detail="Necessaire pour creer Checkout et le portail client."
+              detail="Nécessaire pour créer Checkout et le portail client."
               label="STRIPE_SECRET_KEY"
               ready={stripeReady}
             />
             <CheckRow
-              detail="Necessaire pour synchroniser les abonnements apres paiement."
+              detail="Nécessaire pour synchroniser les abonnements après paiement."
               label="STRIPE_WEBHOOK_SECRET"
               ready={webhookReady}
             />
             <CheckRow
-              detail="Starter, Pro et Business peuvent avoir chacun leur price_id. STRIPE_PRICE_ID reste accepte pour Pro."
+              detail="Starter, Pro et Business peuvent avoir chacun leur price_id. STRIPE_PRICE_ID reste accepté pour Pro."
               label="STRIPE_PRICE_ID_STARTER / PRO / BUSINESS"
               ready={billingPlans.some((plan) => Boolean(process.env[plan.envKey])) || Boolean(process.env.STRIPE_PRICE_ID)}
               warningOnly
@@ -245,8 +245,8 @@ export default async function BillingSettingsPage({
       <section className="billing-panel mt-6 rounded-lg border shadow-sm">
         <div className="billing-panel-header">
           <div>
-            <p className="text-sm font-semibold text-violet-300">Evenements</p>
-            <h3 className="mt-1 text-lg font-bold text-zinc-50">Journal Stripe recent</h3>
+            <p className="text-sm font-semibold text-violet-300">Événements</p>
+            <h3 className="mt-1 text-lg font-bold text-zinc-50">Journal Stripe récent</h3>
           </div>
         </div>
 
@@ -266,10 +266,10 @@ export default async function BillingSettingsPage({
           </div>
         ) : (
           <div className="billing-empty-state">
-            <strong>Aucun evenement Stripe pour cette organisation.</strong>
+            <strong>Aucun événement Stripe pour cette organisation.</strong>
             <p>
-              Le journal se remplira apres le premier Checkout, une mise a jour
-              d'abonnement ou une facture impayee recue par webhook.
+              Le journal se remplira après le premier Checkout, une mise à jour
+              d'abonnement ou une facture impayée reçue par webhook.
             </p>
           </div>
         )}
@@ -296,7 +296,7 @@ function CheckRow({
         <strong>{label}</strong>
         <p>{detail}</p>
       </div>
-      <span>{ready ? "Pret" : warningOnly ? "Optionnel" : "A configurer"}</span>
+      <span>{ready ? "Prêt" : warningOnly ? "Optionnel" : "À configurer"}</span>
     </div>
   );
 }

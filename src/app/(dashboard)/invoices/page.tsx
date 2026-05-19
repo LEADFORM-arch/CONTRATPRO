@@ -30,8 +30,8 @@ export default async function InvoicesPage() {
   const invoiceCommand = overdueInvoices.length
     ? {
         action: "Relancer la facture",
-        detail: `${overdueInvoices.length} retard(s), ${formatEuro(overdueAmount)} a recuperer.`,
-        label: "Retard a traiter",
+        detail: `${overdueInvoices.length} retard(s), ${formatEuro(overdueAmount)} à récupérer.`,
+        label: "Retard à traiter",
         tone: "rose" as const,
       }
     : openInvoices.length
@@ -42,8 +42,8 @@ export default async function InvoicesPage() {
           tone: "amber" as const,
         }
       : {
-          action: "Creer la prochaine facture",
-          detail: "Aucune facture ouverte. Continuez a transformer les contrats actifs en documents facturables.",
+          action: "Créer la prochaine facture",
+          detail: "Aucune facture ouverte. Continuez à transformer les contrats actifs en documents facturables.",
           label: "Facturation stable",
           tone: "emerald" as const,
         };
@@ -56,10 +56,10 @@ export default async function InvoicesPage() {
             className="premium-action rounded-md px-4 py-2 text-sm font-semibold"
             href="/invoices/new"
           >
-            Creer facture
+            Créer facture
           </a>
         }
-        description="Suivez les factures issues des contrats de maintenance, les montants ouverts et les paiements confirmes."
+        description="Suivez les factures issues des contrats de maintenance, les montants ouverts et les paiements confirmés."
         eyebrow="Facturation"
         title="Factures contrats CVC"
       />
@@ -78,7 +78,7 @@ export default async function InvoicesPage() {
               {priorityInvoice.number} - {priorityInvoice.customer} - {formatEuro(priorityInvoice.amountTtc)}
             </span>
           ) : (
-            <span>Creer une premiere facture pour alimenter le registre.</span>
+            <span>Créer une première facture pour alimenter le registre.</span>
           )}
           <a className="premium-action rounded-md text-sm font-semibold" href={priorityInvoice ? `/invoices/${priorityInvoice.id}` : "/invoices/new"}>
             Ouvrir le dossier
@@ -88,9 +88,9 @@ export default async function InvoicesPage() {
 
       <div className="mt-6 grid gap-3 md:grid-cols-4">
         {[
-          ["Factures", invoices.length, "Documents emis", "cyan"],
-          ["A encaisser", formatEuro(openAmount), "Solde ouvert", "amber"],
-          ["Encaisse", formatEuro(paidAmount), `${paidRate}% regle`, "emerald"],
+          ["Factures", invoices.length, "Documents émis", "cyan"],
+          ["À encaisser", formatEuro(openAmount), "Solde ouvert", "amber"],
+          ["Encaissé", formatEuro(paidAmount), `${paidRate}% réglé`, "emerald"],
           ["Retards", formatEuro(overdueAmount), `${overdueInvoices.length} facture(s)`, "rose"],
         ].map(([label, value, helper, tone]) => (
           <article
@@ -116,7 +116,7 @@ export default async function InvoicesPage() {
               Registre de facturation
             </p>
             <h3 className="mt-1 text-lg font-semibold text-zinc-50">
-              Factures maintenance, echeances et decisions d'encaissement
+              Factures maintenance, échéances et décisions d'encaissement
             </h3>
           </div>
           <span className="invoice-open-pill">{formatEuro(openAmount)} ouvert</span>
@@ -129,11 +129,11 @@ export default async function InvoicesPage() {
               <tr className="dashboard-table-head">
                 <th className="px-4 py-3 font-semibold">Facture</th>
                 <th className="px-4 py-3 font-semibold">Client</th>
-                <th className="px-4 py-3 font-semibold">Emission</th>
-                <th className="px-4 py-3 font-semibold">Echeance</th>
+                <th className="px-4 py-3 font-semibold">Émission</th>
+                <th className="px-4 py-3 font-semibold">Échéance</th>
                 <th className="px-4 py-3 font-semibold">Montant</th>
                 <th className="px-4 py-3 font-semibold">Statut</th>
-                <th className="px-4 py-3 font-semibold">Decision</th>
+                <th className="px-4 py-3 font-semibold">Décision</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-zinc-800/80">
@@ -190,16 +190,16 @@ export default async function InvoicesPage() {
           <div className="p-4">
             <ActivationEmptyState
               actionHref="/invoices/new"
-              actionLabel="Creer une facture"
+              actionLabel="Créer une facture"
               eyebrow="Facturation pilote"
               proofPoints={[
-                "Numerotation propre",
-                "TVA et echeance visibles",
-                "PDF pret a envoyer",
+                "Numérotation propre",
+                "TVA et échéance visibles",
+                "PDF prêt à envoyer",
               ]}
               secondaryHref="/contracts"
               secondaryLabel="Voir contrats"
-              title="Creez une premiere facture pour verifier le flux document et encaissement."
+              title="Créez une première facture pour vérifier le flux document et encaissement."
             />
           </div>
         )}

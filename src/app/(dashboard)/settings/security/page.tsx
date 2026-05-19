@@ -13,51 +13,51 @@ import { LogoutButton } from "./LogoutButton";
 const trustPillars = [
   {
     detail:
-      "Chaque entreprise travaille dans son propre espace. Les clients, contrats, factures, attestations et paiements restent rattaches a votre organisation.",
-    label: "Espace entreprise isole",
-    proof: "Organisation dediee",
+      "Chaque entreprise travaille dans son propre espace. Les clients, contrats, factures, attestations et paiements restent rattachés à votre organisation.",
+    label: "Espace entreprise isolé",
+    proof: "Organisation dédiée",
   },
   {
     detail:
-      "Les documents envoyes et les actions sensibles sont historises afin de garder une preuve exploitable en cas de question client.",
-    label: "Documents tracables",
+      "Les documents envoyés et les actions sensibles sont historisés afin de garder une preuve exploitable en cas de question client.",
+    label: "Documents traçables",
     proof: "Historique d'envoi",
   },
   {
     detail:
-      "Les paiements SEPA passent par une integration serveur. Les cles provider ne sont jamais affichees dans votre espace client.",
-    label: "Cles API masquees",
+      "Les paiements SEPA passent par une intégration serveur. Les clés provider ne sont jamais affichées dans votre espace client.",
+    label: "Clés API masquées",
     proof: "Serveur uniquement",
   },
   {
     detail:
-      "Les incidents de paiement, webhooks et notifications internes sont journalises pour eviter qu'un rejet SEPA reste invisible.",
+      "Les incidents de paiement, webhooks et notifications internes sont journalisés pour éviter qu'un rejet SEPA reste invisible.",
     label: "Surveillance active",
     proof: "Journal paiement",
   },
 ];
 
 const paymentFlow = [
-  ["1", "Contrat", "Le contrat annuel porte le montant, l'echeance et le mode de paiement."],
+  ["1", "Contrat", "Le contrat annuel porte le montant, l'échéance et le mode de paiement."],
   ["2", "Mandat", "Le mandat SEPA relie le client final au contrat de maintenance."],
   ["3", "Soumission", "ContratPro soumet le paiement au provider depuis le serveur."],
   ["4", "Suivi", "Chaque retour provider alimente le journal et les alertes."],
 ];
 
 const clientAssurances = [
-  "Vous n'avez pas a creer de compte technique GoCardless, Resend ou Stripe pour utiliser ContratPro.",
-  "Les identifiants provider sont configures cote ContratPro et ne sont jamais exposes dans l'interface.",
-  "Les fonds et les statuts de paiement doivent rester auditables via les journaux separes.",
-  "L'encaissement SEPA live reste soumis a validation juridique et activation controlee.",
+  "Vous n'avez pas à créer de compte technique GoCardless, Resend ou Stripe pour utiliser ContratPro.",
+  "Les identifiants provider sont configurés côté ContratPro et ne sont jamais exposés dans l'interface.",
+  "Les fonds et les statuts de paiement doivent rester auditables via les journaux séparés.",
+  "L'encaissement SEPA live reste soumis à validation juridique et activation contrôlée.",
 ];
 
 const adminChecklist = [
-  ["Schema initial", "supabase/schema.sql execute", "Fait"],
-  ["Documents", "supabase/document_sends.sql execute pour historiser les envois", "A verifier"],
-  ["Encaissement SEPA", "supabase/payment_events.sql execute pour tracer GoCardless", "A verifier"],
-  ["Billing ContratPro", "supabase/billing.sql execute pour Stripe", "A verifier"],
-  ["Notifications", "supabase/notifications.sql execute pour les alertes internes", "A verifier"],
-  ["RLS multi-tenant", "supabase/rls.sql execute puis verify_rls.sql", "A faire"],
+  ["Schéma initial", "supabase/schema.sql exécuté", "Fait"],
+  ["Documents", "supabase/document_sends.sql exécuté pour historiser les envois", "À vérifier"],
+  ["Encaissement SEPA", "supabase/payment_events.sql exécuté pour tracer GoCardless", "À vérifier"],
+  ["Billing ContratPro", "supabase/billing.sql exécuté pour Stripe", "À vérifier"],
+  ["Notifications", "supabase/notifications.sql exécuté pour les alertes internes", "À vérifier"],
+  ["RLS multi-tenant", "supabase/rls.sql exécuté puis verify_rls.sql", "À faire"],
 ] as const;
 
 export default async function SecuritySettingsPage() {
@@ -81,30 +81,30 @@ export default async function SecuritySettingsPage() {
             className="premium-secondary-action rounded-md px-4 py-2 text-sm font-semibold"
             href="/settings/company"
           >
-            Identite entreprise
+            Identité entreprise
           </a>
         }
-        description="Comprendre comment ContratPro protege vos contrats, vos documents et vos paiements recurrents sans exposer de cles techniques."
+        description="Comprendre comment ContratPro protège vos contrats, vos documents et vos paiements récurrents sans exposer de clés techniques."
         eyebrow="Confiance"
-        title="Securite et paiements"
+        title="Sécurité et paiements"
       />
 
       <section className="trust-command mt-6 rounded-lg border p-5" data-od-id="client-security-trust">
         <div className="trust-command-copy">
           <p className="text-xs font-semibold uppercase tracking-wide text-emerald-300">
-            Synthese dirigeant
+            Synthèse dirigeant
           </p>
-          <h3>Vos contrats restent dans un espace isole. Les providers restent cote ContratPro.</h3>
+          <h3>Vos contrats restent dans un espace isolé. Les providers restent côté ContratPro.</h3>
           <p>
             Le chauffagiste utilise le produit, pas l'infrastructure. Les emails,
-            documents et paiements sont operes par le serveur ContratPro, avec
+            documents et paiements sont opérés par le serveur ContratPro, avec
             journaux et alertes pour garder une trace claire.
           </p>
         </div>
         <div className="trust-command-status">
           <span>Mode actuel</span>
-          <strong>{demoTenant ? "Demo controlee" : "Espace entreprise"}</strong>
-          <em>{authEnforced ? "Connexion requise" : "Mode demonstration local"}</em>
+          <strong>{demoTenant ? "Démo contrôlée" : "Espace entreprise"}</strong>
+          <em>{authEnforced ? "Connexion requise" : "Mode démonstration local"}</em>
         </div>
       </section>
 
@@ -123,11 +123,11 @@ export default async function SecuritySettingsPage() {
           <div className="trust-section-header">
             <div>
               <p className="text-xs font-semibold uppercase tracking-wide text-cyan-300">
-                Paiements recurrents
+                Paiements récurrents
               </p>
               <h3>Comment circule un paiement SEPA</h3>
             </div>
-            <StatusPill>Controle serveur</StatusPill>
+            <StatusPill>Contrôle serveur</StatusPill>
           </div>
           <div className="payment-flow mt-4">
             {paymentFlow.map(([step, label, detail]) => (
@@ -146,7 +146,7 @@ export default async function SecuritySettingsPage() {
           <p className="text-xs font-semibold uppercase tracking-wide text-amber-300">
             Important
           </p>
-          <h3>Ce qui est cache au client, ce qui reste a valider</h3>
+          <h3>Ce qui est caché au client, ce qui reste à valider</h3>
           <div className="assurance-list mt-4">
             {clientAssurances.map((item) => (
               <p key={item}>{item}</p>
@@ -159,18 +159,18 @@ export default async function SecuritySettingsPage() {
         <div className="trust-section-header">
           <div>
             <p className="text-xs font-semibold uppercase tracking-wide text-emerald-300">
-              Auditabilite
+              Auditabilité
             </p>
             <h3>Les preuves disponibles dans ContratPro</h3>
           </div>
-          <StatusPill>Journaux separes</StatusPill>
+          <StatusPill>Journaux séparés</StatusPill>
         </div>
         <div className="trust-audit-grid mt-4">
           {[
-            ["Documents", "Historique des factures et attestations envoyees."],
-            ["Paiements", "Evenements provider, statuts et motifs de rejet."],
+            ["Documents", "Historique des factures et attestations envoyées."],
+            ["Paiements", "Événements provider, statuts et motifs de rejet."],
             ["Notifications", "Alertes internes sur incidents critiques."],
-            ["Imports", "Simulation et execution des fichiers clients."],
+            ["Imports", "Simulation et exécution des fichiers clients."],
           ].map(([label, detail]) => (
             <article key={label}>
               <strong>{label}</strong>
@@ -189,15 +189,15 @@ export default async function SecuritySettingsPage() {
               </p>
               <h3>Garde-fous techniques avant production</h3>
             </div>
-            <StatusPill>{rlsExpected ? "RLS attendue" : "RLS non forcee"}</StatusPill>
+            <StatusPill>{rlsExpected ? "RLS attendue" : "RLS non forcée"}</StatusPill>
           </div>
 
           <div className="mt-4 grid gap-3 md:grid-cols-4">
             {[
               ["Organisation", organizationId, "cyan"],
-              ["Mode demo", demoTenant ? "Actif" : "Desactive", "amber"],
+              ["Mode démo", demoTenant ? "Actif" : "Désactivé", "amber"],
               ["Auth requise", authEnforced ? "Oui" : "Non", "emerald"],
-              ["Env local", envGuardReady ? "Sain" : "A verifier", "rose"],
+              ["Env local", envGuardReady ? "Sain" : "À vérifier", "rose"],
             ].map(([label, value, tone]) => (
               <article className="security-stat-card" data-tone={tone} key={label}>
                 <p className="text-xs font-medium uppercase tracking-wide text-zinc-500">
@@ -236,7 +236,7 @@ export default async function SecuritySettingsPage() {
                 <div>
                   <h3 className="text-base font-semibold text-zinc-50">Session</h3>
                   <p className="mt-1 text-sm text-zinc-500">
-                    {currentUser?.email ?? "Aucun utilisateur connecte"}
+                    {currentUser?.email ?? "Aucun utilisateur connecté"}
                   </p>
                 </div>
                 {currentUser ? (
@@ -258,7 +258,7 @@ export default async function SecuritySettingsPage() {
                 {[
                   ["CONTRATPRO_ADMIN_EMAILS", adminEmails],
                   ["CONTRATPRO_REQUIRE_AUTH", "true en production"],
-                  ["CONTRATPRO_RLS_ENABLED", "true apres rls.sql"],
+                  ["CONTRATPRO_RLS_ENABLED", "true après rls.sql"],
                   ["RESEND_API_KEY", "Serveur uniquement"],
                   ["GOCARDLESS_ACCESS_TOKEN", "Serveur uniquement"],
                   ["GOCARDLESS_WEBHOOK_ENDPOINT_SECRET", "Signature webhook"],
@@ -275,7 +275,7 @@ export default async function SecuritySettingsPage() {
 
           <section className="settings-panel mt-5 rounded-lg border p-5 shadow-sm">
             <h3 className="text-base font-semibold text-zinc-50">
-              Ordre SQL recommande
+              Ordre SQL recommandé
             </h3>
             <pre className="mt-4 overflow-x-auto rounded-md bg-zinc-950 p-4 text-xs leading-6 text-zinc-100">
 {`1. supabase/schema.sql

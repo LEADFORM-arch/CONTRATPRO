@@ -4,8 +4,8 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 const actions = [
-  ["SENT", "Envoyee"],
-  ["PAID", "Payee"],
+  ["SENT", "Envoyée"],
+  ["PAID", "Payée"],
   ["OVERDUE", "Retard"],
 ] as const;
 

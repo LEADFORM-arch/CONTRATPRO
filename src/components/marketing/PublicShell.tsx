@@ -4,7 +4,7 @@ const navItems = [
   { href: "/architecte-ia", label: "Architecte IA" },
   { href: "/simulateur", label: "Simulateur" },
   { href: "/attestation-entretien-chaudiere", label: "Attestation" },
-  { href: "/demo", label: "Demo" },
+  { href: "/demo", label: "Démo" },
   { href: "/pricing", label: "Tarif" },
   { href: "/privacy", label: "Confidentialite" },
 ];
@@ -53,7 +53,7 @@ export function PublicShell({
           relances et encaissements recurrents.
         </p>
         <div className="flex flex-wrap gap-3">
-          <a href="/legal">Mentions legales</a>
+          <a href="/legal">Mentions légales</a>
           <a href="/terms">CGV</a>
           <a href="/privacy">Confidentialite</a>
         </div>

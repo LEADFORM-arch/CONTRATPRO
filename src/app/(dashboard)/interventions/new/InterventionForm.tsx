@@ -112,7 +112,7 @@ export function InterventionForm({
       </FormSection>
 
       <FormSection
-        description="Planifiez le passage terrain et anticipez la prochaine echeance."
+        description="Planifiez le passage terrain et anticipez la prochaine échéance."
         index="02"
         title="Visite"
       >
@@ -130,9 +130,9 @@ export function InterventionForm({
         <label className="contract-form-field">
           <span>Statut</span>
           <select className={inputClass} name="status">
-            <option value="SCHEDULED">Planifiee</option>
-            <option value="COMPLETED">Realisee</option>
-            <option value="CANCELLED">Annulee</option>
+            <option value="SCHEDULED">Planifiée</option>
+            <option value="COMPLETED">Réalisée</option>
+            <option value="CANCELLED">Annulée</option>
           </select>
         </label>
 
@@ -148,7 +148,7 @@ export function InterventionForm({
       </FormSection>
 
       <FormSection
-        description="Ajoutez les observations qui serviront au suivi client et a l'attestation."
+        description="Ajoutez les observations qui serviront au suivi client et à l’attestation."
         index="03"
         title="Compte rendu"
       >
@@ -157,7 +157,7 @@ export function InterventionForm({
           <textarea
             className="contract-form-input min-h-32 py-3"
             name="report"
-            placeholder="Points controles, anomalies, recommandations client..."
+            placeholder="Points contrôlés, anomalies, recommandations client..."
           />
         </label>
       </FormSection>
@@ -172,7 +172,7 @@ export function InterventionForm({
         >
           {submitState.message ||
             (contracts.length
-              ? "Une visite planifiee alimente ensuite les attestations et le suivi legal."
+              ? "Une visite planifiée alimente ensuite les attestations et le suivi légal."
               : "Creez d'abord un contrat pour planifier une intervention.")}
         </p>
         <button className="login-submit sm:max-w-64" disabled={disabled} type="submit">

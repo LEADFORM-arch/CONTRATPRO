@@ -10,8 +10,8 @@ type RenewalActionControlsProps = {
 
 const actions = [
   {
-    label: "Envoyee",
-    outcome: "Relance envoyee au client",
+    label: "Envoyée",
+    outcome: "Relance envoyée au client",
     status: "SENT",
   },
   {

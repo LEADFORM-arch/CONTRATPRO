@@ -57,7 +57,7 @@ export function CertificateAction({
         ? "Generation..."
         : state === "error"
           ? "Erreur"
-          : "Generer"}
+          : "Générer"}
     </button>
   );
 }

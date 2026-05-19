@@ -96,7 +96,7 @@ export function LeadForm() {
         />
       </label>
       <label className="lg:col-span-2">
-        <span className="text-xs font-medium text-zinc-500">Specialite</span>
+        <span className="text-xs font-medium text-zinc-500">Spécialité</span>
         <input
           className="lead-input mt-1 h-10 w-full rounded-md border px-3 text-sm"
           name="specialty"
@@ -108,7 +108,7 @@ export function LeadForm() {
         <input
           className="lead-input mt-1 h-10 w-full rounded-md border px-3 text-sm"
           name="nextAction"
-          placeholder="Appeler, envoyer demo, qualifier parc"
+          placeholder="Appeler, envoyer démo, qualifier parc"
         />
       </label>
       <div className="flex items-end justify-between gap-3 lg:col-span-6">

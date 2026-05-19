@@ -514,7 +514,7 @@ function equipmentTypeLabel(type: string) {
     HEAT_PUMP_GEO: "PAC geothermie",
     AC_REVERSIBLE: "Clim reversible",
     VMC: "VMC",
-    OTHER: "Autre equipement",
+    OTHER: "Autre équipement",
   };
   return labels[type] ?? type;
 }
@@ -522,9 +522,9 @@ function equipmentTypeLabel(type: string) {
 function contractStatusLabel(status: string) {
   const labels: Record<string, string> = {
     ACTIVE: "Actif",
-    EXPIRING: "A renouveler",
-    EXPIRED: "Expire",
-    CANCELLED: "Annule",
+    EXPIRING: "À renouveler",
+    EXPIRED: "Expiré",
+    CANCELLED: "Annulé",
     DRAFT: "Brouillon",
   };
   return labels[status] ?? status;
@@ -534,21 +534,21 @@ function paymentMethodLabel(method: string) {
   const labels: Record<string, string> = {
     SEPA: "SEPA actif",
     BANK_TRANSFER: "Virement",
-    CHECK: "Cheque",
-    CASH: "Especes",
+    CHECK: "Chèque",
+    CASH: "Espèces",
   };
   return labels[method] ?? method;
 }
 
 function paymentStatusLabel(status: string) {
   const labels: Record<string, string> = {
-    PENDING_SUBMISSION: "Programme",
-    SUBMITTED: "Envoye",
-    CONFIRMED: "Confirme",
-    PAID_OUT: "Verse",
-    FAILED: "A relancer",
-    CANCELLED: "Annule",
-    CHARGED_BACK: "Conteste",
+    PENDING_SUBMISSION: "Programmé",
+    SUBMITTED: "Envoyé",
+    CONFIRMED: "Confirmé",
+    PAID_OUT: "Versé",
+    FAILED: "À relancer",
+    CANCELLED: "Annulé",
+    CHARGED_BACK: "Contesté",
   };
   return labels[status] ?? status;
 }
@@ -556,10 +556,10 @@ function paymentStatusLabel(status: string) {
 function invoiceStatusLabel(status: string) {
   const labels: Record<string, string> = {
     DRAFT: "Brouillon",
-    SENT: "Envoyee",
-    PAID: "Payee",
+    SENT: "Envoyée",
+    PAID: "Payée",
     OVERDUE: "En retard",
-    CANCELLED: "Annulee",
+    CANCELLED: "Annulée",
   };
   return labels[status] ?? status;
 }
@@ -574,7 +574,7 @@ function daysUntil(value: string) {
 
 function renewalPriority(days: number) {
   if (days < 0) {
-    return "Expire";
+    return "Expiré";
   }
   if (days <= 15) {
     return "Critique";
@@ -585,7 +585,7 @@ function renewalPriority(days: number) {
   if (days <= 45) {
     return "Normale";
   }
-  return "Preparation";
+  return "Préparation";
 }
 
 function renewalChannel(days: number, method: string) {
@@ -598,15 +598,15 @@ function renewalChannel(days: number, method: string) {
   if (days <= 45) {
     return "Email";
   }
-  return "Preparation devis";
+  return "Préparation devis";
 }
 
 function renewalActionStatusLabel(status: string) {
   const labels: Record<string, string> = {
-    TODO: "A faire",
-    SENT: "Envoyee",
-    REPLIED: "Reponse recue",
-    WON: "Renouvele",
+    TODO: "À faire",
+    SENT: "Envoyée",
+    REPLIED: "Réponse reçue",
+    WON: "Renouvelé",
     LOST: "Perdu",
   };
   return labels[status] ?? status;
@@ -614,9 +614,9 @@ function renewalActionStatusLabel(status: string) {
 
 function interventionStatusLabel(status: string) {
   const labels: Record<string, string> = {
-    CANCELLED: "Annulee",
-    COMPLETED: "Realisee",
-    SCHEDULED: "Planifiee",
+    CANCELLED: "Annulée",
+    COMPLETED: "Réalisée",
+    SCHEDULED: "Planifiée",
   };
   return labels[status] ?? status;
 }
@@ -627,11 +627,11 @@ async function organizationId() {
 
 function leadStatusLabel(status: string) {
   const labels: Record<string, string> = {
-    TO_QUALIFY: "A qualifier",
-    CONTACTED: "Contacte",
-    REPLIED: "A repondu",
-    DEMO_SCHEDULED: "Demo planifiee",
-    WON: "Gagne",
+    TO_QUALIFY: "À qualifier",
+    CONTACTED: "Contacté",
+    REPLIED: "A répondu",
+    DEMO_SCHEDULED: "Démo planifiée",
+    WON: "Gagné",
     LOST: "Perdu",
   };
   return labels[status] ?? status;
@@ -674,7 +674,7 @@ async function supabaseRequest<T>(path: string): Promise<T | null> {
   if (!baseUrl || !headers) {
     if (!allowDemoFallback) {
       throw new SupabaseDataUnavailableError(
-        "Supabase doit etre configure pour lire les donnees metier hors mode demo.",
+        "Supabase doit être configuré pour lire les données métier hors mode démo.",
       );
     }
     return null;
@@ -691,7 +691,7 @@ async function supabaseRequest<T>(path: string): Promise<T | null> {
       console.warn(`[Supabase] ${response.status} on ${path}`);
       if (!allowDemoFallback) {
         throw new SupabaseDataUnavailableError(
-          `Supabase a refuse la lecture des donnees metier (${response.status}).`,
+          `Supabase a refusé la lecture des données métier (${response.status}).`,
         );
       }
       return null;
@@ -705,7 +705,7 @@ async function supabaseRequest<T>(path: string): Promise<T | null> {
     console.warn("[Supabase] request failed", error);
     if (!allowDemoFallback) {
       throw new SupabaseDataUnavailableError(
-        "Lecture Supabase indisponible hors mode demo.",
+        "Lecture Supabase indisponible hors mode démo.",
       );
     }
     return null;
@@ -760,7 +760,7 @@ export async function getRenewalPipeline() {
       channel: contract.payment.includes("SEPA") ? "Email + lien SEPA" : "Email",
       contact: "-",
       paymentMethod: contract.payment,
-      script: `Bonjour, votre contrat d'entretien ${contract.equipment} arrive a echeance le ${contract.renewal}. Je vous propose de le renouveler afin de conserver le suivi annuel et l'attestation d'entretien.`,
+      script: `Bonjour, votre contrat d'entretien ${contract.equipment} arrive à échéance le ${contract.renewal}. Je vous propose de le renouveler afin de conserver le suivi annuel et l'attestation d'entretien.`,
     }));
   }
 
@@ -784,7 +784,7 @@ export async function getRenewalPipeline() {
       channel: renewalChannel(daysRemaining, row.payment_method),
       contact: customer?.email || customer?.phone || "-",
       paymentMethod,
-      script: `Bonjour, votre contrat d'entretien ${equipment} arrive a echeance le ${endDate}. Je vous propose de le renouveler afin de conserver le suivi annuel, la priorite d'intervention et l'attestation d'entretien reglementaire.`,
+      script: `Bonjour, votre contrat d'entretien ${equipment} arrive à échéance le ${endDate}. Je vous propose de le renouveler afin de conserver le suivi annuel, la priorité d'intervention et l'attestation d'entretien réglementaire.`,
     };
   });
 }
@@ -863,8 +863,8 @@ export async function getContractDetail(id: string) {
           id: `${demo.id}-visit`,
           performedAt: demo.lastVisit,
           technician: "-",
-          status: "Realisee",
-          report: "Derniere visite importee depuis les donnees demo.",
+          status: "Réalisée",
+          report: "Dernière visite importée depuis les données démo.",
           nextVisitDate: demo.renewal,
         },
       ],
@@ -905,14 +905,14 @@ export async function getContractDetail(id: string) {
       id: intervention.id,
       performedAt: formatDate(intervention.performed_at),
       technician: intervention.technician ?? "-",
-      status: intervention.status === "COMPLETED" ? "Realisee" : intervention.status,
+      status: intervention.status === "COMPLETED" ? "Réalisée" : intervention.status,
       report: intervention.report ?? "-",
       nextVisitDate: formatDate(intervention.next_visit_date),
     })),
     certificates: (row.certificates ?? []).map((certificate) => ({
       id: certificate.id,
       issuedAt: formatDate(certificate.issued_at),
-      status: certificate.sent_to_customer ? "Envoyee" : "A envoyer",
+      status: certificate.sent_to_customer ? "Envoyée" : "À envoyer",
       legalReference: certificate.legal_reference,
       fileName: certificate.file_name ?? "-",
     })),
@@ -1089,11 +1089,11 @@ export async function getInterventions() {
       equipment: contract.equipment,
       performedAt: contract.lastVisit,
       technician: "-",
-      status: "Realisee",
-      report: "Intervention issue des donnees demo.",
+      status: "Réalisée",
+      report: "Intervention issue des données démo.",
       nextVisitDate: contract.renewal,
       certificateId: "",
-      certificateStatus: "A verifier",
+      certificateStatus: "À vérifier",
       value: contract.value,
     }));
   }
@@ -1118,9 +1118,9 @@ export async function getInterventions() {
       certificateId: certificate?.id ?? "",
       certificateStatus: certificate
         ? certificate.sent_to_customer
-          ? "Attestation envoyee"
-          : "Attestation a envoyer"
-        : "Attestation a generer",
+          ? "Attestation envoyée"
+          : "Attestation à envoyer"
+        : "Attestation à générer",
       value: Number(contract?.price_ttc ?? 0),
     };
   });
@@ -1146,7 +1146,7 @@ export async function getCertificates() {
       customer: customerName(customer),
       equipment: equipmentLabel(installation),
       issuedAt: formatDate(row.issued_at),
-      status: row.sent_to_customer ? "Envoyee" : "A envoyer",
+      status: row.sent_to_customer ? "Envoyée" : "À envoyer",
       legalReference: row.legal_reference,
     };
   });
@@ -1187,7 +1187,7 @@ export async function getCertificateDetail(id: string) {
       legalReference: demo.legalReference,
       performedAt: demo.issuedAt,
       technician: "-",
-      report: "Attestation issue des donnees demo.",
+      report: "Attestation issue des données démo.",
       contractId: "",
       contractPeriod: "-",
     };
@@ -1213,7 +1213,7 @@ export async function getCertificateDetail(id: string) {
     location: installation?.location ?? "-",
     issuedAt: formatDate(row.issued_at),
     sentAt: formatDate(row.sent_at),
-    status: row.sent_to_customer ? "Envoyee" : "A envoyer",
+    status: row.sent_to_customer ? "Envoyée" : "À envoyer",
     legalReference: row.legal_reference,
     performedAt: formatDate(intervention?.performed_at),
     technician: intervention?.technician ?? "-",
@@ -1234,12 +1234,12 @@ export async function getPayments() {
     return demoPayments.map((payment) => ({
       ...payment,
       contractId: "",
-      description: "Paiement issu des donnees demo",
+      description: "Paiement issu des données démo",
       failureReason: "",
       providerPaymentId: "",
       mandateId: "",
       mandateStatus: payment.method === "SEPA" ? "Actif" : "-",
-      rawStatus: payment.status === "A relancer" ? "FAILED" : "PENDING_SUBMISSION",
+      rawStatus: payment.status === "À relancer" ? "FAILED" : "PENDING_SUBMISSION",
     }));
   }
 
@@ -1311,7 +1311,7 @@ export async function getInvoices() {
       vatAmount: Math.round((contract.value - contract.value / 1.1) * 100) / 100,
       amountTtc: contract.value,
       rawStatus: index === 0 ? "SENT" : "PAID",
-      status: index === 0 ? "Envoyee" : "Payee",
+      status: index === 0 ? "Envoyée" : "Payée",
       paidAt: index === 0 ? "-" : contract.lastVisit,
     }));
   }
@@ -1426,15 +1426,15 @@ export async function getProspectionLeads() {
       email: "contact@thermi-ouest.fr",
       phone: "02 41 00 00 00",
       city: "Angers",
-      specialty: "Pompes a chaleur",
+      specialty: "Pompes à chaleur",
       source: "FACEBOOK",
-      status: "A qualifier",
+      status: "À qualifier",
       rawStatus: "TO_QUALIFY",
       score: 72,
-      nextAction: "Verifier volume contrats entretien",
+      nextAction: "Vérifier volume contrats entretien",
       lastTouch: "-",
       createdAt: "-",
-      notes: "A reagi a un post sur les renouvellements oublies.",
+      notes: "A réagi à un post sur les renouvellements oubliés.",
       sourceUrl: "https://facebook.com/groups/chauffagistes",
       attribution: "source=facebook | medium=groupes",
     },
@@ -1445,15 +1445,15 @@ export async function getProspectionLeads() {
       email: "hello@climhabitat44.fr",
       phone: "02 40 00 00 00",
       city: "Nantes",
-      specialty: "Clim reversible",
+      specialty: "Clim réversible",
       source: "FACEBOOK",
-      status: "Contacte",
+      status: "Contacté",
       rawStatus: "CONTACTED",
       score: 81,
-      nextAction: "Envoyer lien demo et sequence J+2",
+      nextAction: "Envoyer lien démo et séquence J+2",
       lastTouch: "-",
       createdAt: "-",
-      notes: "Profil tres proche ICP : petite equipe, PAC et clim reversible.",
+      notes: "Profil très proche ICP : petite équipe, PAC et clim réversible.",
       sourceUrl: "https://facebook.com/groups/pompes-a-chaleur",
       attribution: "source=facebook | medium=commentaire",
     },
@@ -1464,12 +1464,12 @@ export async function getProspectionLeads() {
       email: "contact@riviere-chauffage.fr",
       phone: "02 99 00 00 00",
       city: "Rennes",
-      specialty: "Chaudiere gaz",
+      specialty: "Chaudière gaz",
       source: "REFERRAL",
-      status: "Demo planifiee",
+      status: "Démo planifiée",
       rawStatus: "DEMO_SCHEDULED",
       score: 88,
-      nextAction: "Confirmer creneau demo",
+      nextAction: "Confirmer créneau démo",
       lastTouch: "-",
       createdAt: "-",
       notes: "Demande une vue simple des contrats actifs et relances.",
@@ -1549,7 +1549,7 @@ export async function getOrganizationProfile() {
   if (!row) {
     if (!canUseDemoData()) {
       throw new SupabaseDataUnavailableError(
-        "Profil organisation introuvable hors mode demo.",
+        "Profil organisation introuvable hors mode démo.",
       );
     }
 

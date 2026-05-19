@@ -33,7 +33,7 @@ export function SendCertificateButton({
   if (sent) {
     return (
       <span className="certificate-sent-pill print:hidden">
-        Envoyee client
+        Envoyée client
       </span>
     );
   }

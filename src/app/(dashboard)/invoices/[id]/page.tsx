@@ -67,7 +67,7 @@ export default async function InvoiceDetailPage({ params }: InvoicePageProps) {
                 {invoice.number}
               </h3>
               <p className="mt-2 text-sm text-zinc-400 print:text-zinc-600">
-                Emise le {invoice.issueDate} - echeance {invoice.dueDate}
+                Émise le {invoice.issueDate} - échéance {invoice.dueDate}
               </p>
               <p className="mt-2 text-xs leading-5 text-zinc-500 print:text-zinc-600">
                 {organization.fullAddress}
@@ -81,7 +81,7 @@ export default async function InvoiceDetailPage({ params }: InvoicePageProps) {
           <div className="mt-6 grid gap-6 md:grid-cols-2">
             <section className="invoice-info-panel">
               <h4 className="text-sm font-semibold uppercase tracking-wide text-zinc-500 print:text-zinc-600">
-                Emetteur
+                Émetteur
               </h4>
               <p className="mt-3 font-semibold text-zinc-50 print:text-zinc-950">
                 {organization.name}
@@ -97,7 +97,7 @@ export default async function InvoiceDetailPage({ params }: InvoicePageProps) {
             </section>
             <section className="invoice-info-panel">
               <h4 className="text-sm font-semibold uppercase tracking-wide text-zinc-500 print:text-zinc-600">
-                Client facture
+                Client facturé
               </h4>
               <p className="mt-3 font-semibold text-zinc-50 print:text-zinc-950">
                 {invoice.customer}
@@ -112,17 +112,17 @@ export default async function InvoiceDetailPage({ params }: InvoicePageProps) {
           <div className="mt-6 grid gap-6 md:grid-cols-2">
             <section className="invoice-info-panel">
               <h4 className="text-sm font-semibold uppercase tracking-wide text-zinc-500 print:text-zinc-600">
-                Contrat et equipement
+                Contrat et équipement
               </h4>
               <p className="mt-3 font-semibold text-zinc-50 print:text-zinc-950">
                 {invoice.equipment}
               </p>
               <p className="mt-1 text-sm text-zinc-400 print:text-zinc-600">{invoice.equipmentType}</p>
               <p className="mt-1 text-sm text-zinc-400 print:text-zinc-600">
-                Serie : {invoice.serialNumber}
+                Série : {invoice.serialNumber}
               </p>
               <p className="mt-1 text-sm text-zinc-400 print:text-zinc-600">
-                Periode : {invoice.contractPeriod}
+                Période : {invoice.contractPeriod}
               </p>
             </section>
           </div>
@@ -130,7 +130,7 @@ export default async function InvoiceDetailPage({ params }: InvoicePageProps) {
           <table className="invoice-lines mt-8 w-full text-left text-sm">
             <thead>
               <tr className="border-b border-zinc-800 text-xs uppercase tracking-wide text-zinc-500 print:border-zinc-200 print:text-zinc-600">
-                <th className="py-3 font-semibold">Designation</th>
+                <th className="py-3 font-semibold">Désignation</th>
                 <th className="py-3 text-right font-semibold">HT</th>
                 <th className="py-3 text-right font-semibold">TVA</th>
                 <th className="py-3 text-right font-semibold">TTC</th>
@@ -153,10 +153,10 @@ export default async function InvoiceDetailPage({ params }: InvoicePageProps) {
             </tbody>
           </table>
           <p className="invoice-legal-note mt-6 text-xs leading-5">
-            Facture payable a echeance. En cas de retard de paiement, penalites
-            de retard exigibles selon le taux legal applicable aux
-            professionnels et indemnite forfaitaire de recouvrement de 40 EUR
-            lorsque la reglementation l'autorise.
+            Facture payable à échéance. En cas de retard de paiement, pénalités
+            de retard exigibles selon le taux légal applicable aux
+            professionnels et indemnité forfaitaire de recouvrement de 40 EUR
+            lorsque la réglementation l'autorise.
           </p>
         </article>
 
@@ -169,7 +169,7 @@ export default async function InvoiceDetailPage({ params }: InvoicePageProps) {
                 <dd className="font-semibold text-zinc-50">{invoice.status}</dd>
               </div>
               <div>
-                <dt className="text-zinc-500">Payee le</dt>
+                <dt className="text-zinc-500">Payée le</dt>
                 <dd className="font-semibold text-zinc-50">{invoice.paidAt}</dd>
               </div>
               <div>

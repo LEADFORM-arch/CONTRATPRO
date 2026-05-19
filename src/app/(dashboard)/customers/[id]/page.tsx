@@ -85,7 +85,7 @@ export default async function CustomerDetailPage({
       <section className="customer-detail-section mt-6">
         <div className="customer-detail-section-header">
           <div>
-            <h3 className="text-base font-semibold text-zinc-950">Identite</h3>
+            <h3 className="text-base font-semibold text-zinc-950">Identité</h3>
             <p className="mt-1 text-sm text-zinc-500">
               Coordonnees utiles aux relances, visites et documents.
             </p>

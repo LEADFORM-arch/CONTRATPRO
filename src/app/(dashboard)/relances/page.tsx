@@ -115,20 +115,20 @@ export default async function RelancesPage() {
         label: "Risque critique",
         proof: `${critical.length} contrat(s) sous 15 jours. ${formatEuro(
           critical.reduce((sum, renewal) => sum + renewal.value, 0),
-        )} a proteger immediatement.`,
+        )} à protéger immédiatement.`,
       }
     : atRisk.length
       ? {
-          action: "Preparer les relances",
-          label: "Fenetre active",
-          proof: `${atRisk.length} contrat(s) entrent dans la fenetre de 45 jours. ${formatEuro(
+          action: "Préparer les relances",
+          label: "Fenêtre active",
+          proof: `${atRisk.length} contrat(s) entrent dans la fenêtre de 45 jours. ${formatEuro(
             valueAtRisk,
-          )} a securiser.`,
+          )} à sécuriser.`,
         }
       : {
-          action: "Controler la file",
+          action: "Contrôler la file",
           label: "Portefeuille stable",
-          proof: "Aucune urgence forte detectee. Gardez le rythme et surveillez les prochaines echeances.",
+          proof: "Aucune urgence forte détectée. Gardez le rythme et surveillez les prochaines échéances.",
         };
 
   return (
@@ -139,7 +139,7 @@ export default async function RelancesPage() {
             Nouveau contrat
           </a>
         }
-        description="Priorisez les renouvellements, choisissez le bon canal et lancez les relances avec un discours coherent."
+        description="Priorisez les renouvellements, choisissez le bon canal et lancez les relances avec un discours cohérent."
         eyebrow="Agent IA de croissance"
         title="Relances renouvellement"
       />
@@ -158,7 +158,7 @@ export default async function RelancesPage() {
               {topRenewal.customer} - {formatEuro(topRenewal.value)} - J-{topRenewal.daysRemaining}
             </span>
           ) : (
-            <span>Importer ou creer un contrat actif pour alimenter la file.</span>
+            <span>Importer ou créer un contrat actif pour alimenter la file.</span>
           )}
           <a className="premium-action rounded-md text-sm font-semibold" href={topRenewal ? `/contracts/${topRenewal.id}` : "/contracts/quick"}>
             Ouvrir le dossier
@@ -168,7 +168,7 @@ export default async function RelancesPage() {
 
       <div className="mt-6 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
         <StatCard
-          detail="recommandations a valider par un humain"
+          detail="recommandations à valider par un humain"
           label="File agent"
           tone="cyan"
           value={String(agent.validationQueue)}
@@ -180,14 +180,14 @@ export default async function RelancesPage() {
           value={String(agent.criticalCount)}
         />
         <StatCard
-          detail="revenu annuel priorise par l'agent"
+          detail="revenu annuel priorisé par l'agent"
           label="ROI potentiel"
           tone="rose"
           value={formatEuro(agent.totalExpectedValue)}
         />
         <StatCard
-          detail="peuvent etre renouveles avec mandat"
-          label="SEPA pret"
+          detail="peuvent être renouvelés avec mandat"
+          label="SEPA prêt"
           tone="emerald"
           value={String(sepaReady.length)}
         />
@@ -203,13 +203,13 @@ export default async function RelancesPage() {
               Agent de relance CVC
             </h3>
             <p className="mt-2 max-w-3xl text-sm leading-6 text-zinc-400">
-              L'agent trie les contrats par risque commercial, montant a proteger,
+              L'agent trie les contrats par risque commercial, montant à protéger,
               friction de paiement et historique de relance. Chaque action reste
-              soumise a validation humaine avant envoi.
+              soumise à validation humaine avant envoi.
             </p>
           </div>
           <span className="relance-agent-badge">
-            {agent.highCount + agent.criticalCount} priorite(s)
+            {agent.highCount + agent.criticalCount} priorité(s)
           </span>
         </div>
 
@@ -260,7 +260,7 @@ export default async function RelancesPage() {
               File commerciale
             </h3>
             <p className="mt-1 text-sm text-zinc-400">
-              Tri par echeance, avec la prochaine action conseillee.
+              Tri par échéance, avec la prochaine action conseillée.
             </p>
           </div>
           <span className="relance-critical-pill">
@@ -313,7 +313,7 @@ export default async function RelancesPage() {
 
                 <dl className="grid grid-cols-2 gap-3 text-sm">
                   <div className="relance-detail-cell">
-                    <dt>Echeance</dt>
+                    <dt>Échéance</dt>
                     <dd>{renewal.endDate}</dd>
                   </div>
                   <div className="relance-detail-cell">
@@ -358,16 +358,16 @@ export default async function RelancesPage() {
           <div className="p-4">
             <ActivationEmptyState
               actionHref="/contracts/quick"
-              actionLabel="Creer un contrat actif"
+              actionLabel="Créer un contrat actif"
               eyebrow="Relance automatique"
               proofPoints={[
-                "Detecter les echeances",
-                "Prioriser le revenu a risque",
-                "Preparer scripts et emails",
+                "Détecter les échéances",
+                "Prioriser le revenu à risque",
+                "Préparer scripts et emails",
               ]}
               secondaryHref="/import"
               secondaryLabel="Importer contrats"
-              title="Les relances apparaissent des qu'un contrat actif possede une echeance."
+              title="Les relances apparaissent dès qu'un contrat actif possède une échéance."
             />
           </div>
         )}
@@ -380,7 +380,7 @@ export default async function RelancesPage() {
               Journal des relances
             </h3>
             <p className="mt-1 text-sm text-zinc-400">
-              Historique commercial pret pour le suivi, les stats et les
+              Historique commercial prêt pour le suivi, les stats et les
               automatisations.
             </p>
           </div>
@@ -388,9 +388,9 @@ export default async function RelancesPage() {
         </div>
 
         <div className="grid gap-3 p-4 md:grid-cols-4">
-          <ActionStat label="A faire" tone="amber" value={actionStats.todo} />
-          <ActionStat label="Envoyees" tone="cyan" value={actionStats.sent} />
-          <ActionStat label="Gagnees" tone="emerald" value={actionStats.won} />
+          <ActionStat label="À faire" tone="amber" value={actionStats.todo} />
+          <ActionStat label="Envoyées" tone="cyan" value={actionStats.sent} />
+          <ActionStat label="Gagnées" tone="emerald" value={actionStats.won} />
           <ActionStat label="Perdues" tone="rose" value={actionStats.lost} />
         </div>
 
@@ -401,10 +401,10 @@ export default async function RelancesPage() {
                 <th className="px-4 py-3 font-semibold">Client</th>
                 <th className="px-4 py-3 font-semibold">Canal</th>
                 <th className="px-4 py-3 font-semibold">Action</th>
-                <th className="px-4 py-3 font-semibold">Echeance</th>
+                <th className="px-4 py-3 font-semibold">Échéance</th>
                 <th className="px-4 py-3 font-semibold">Issue</th>
                 <th className="px-4 py-3 font-semibold">Statut</th>
-                <th className="px-4 py-3 font-semibold">Decision</th>
+                <th className="px-4 py-3 font-semibold">Décision</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-zinc-800/80">
@@ -439,7 +439,7 @@ export default async function RelancesPage() {
               ) : (
                 <tr>
                   <td className="px-4 py-6 text-sm text-zinc-400" colSpan={7}>
-                    Aucune relance journalisee pour le moment. Cliquez sur
+                    Aucune relance journalisée pour le moment. Cliquez sur
                     Journaliser dans la file commerciale.
                   </td>
                 </tr>

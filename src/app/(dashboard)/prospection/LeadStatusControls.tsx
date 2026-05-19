@@ -5,11 +5,11 @@ import { useState } from "react";
 
 const actions = [
   ["TO_QUALIFY", "Qualifier", "Appeler sous 24h et qualifier le parc contrats"],
-  ["CONTACTED", "Contacte", "Envoyer le lien demo et relancer J+2"],
-  ["REPLIED", "Repondu", "Proposer deux creneaux de demonstration"],
-  ["DEMO_SCHEDULED", "Demo", "Preparer la demo avec donnees client"],
-  ["WON", "Gagne", "Creer l'organisation client et lancer onboarding"],
-  ["LOST", "Perdu", "Archiver avec motif et relance a 90 jours"],
+  ["CONTACTED", "Contacté", "Envoyer le lien démo et relancer J+2"],
+  ["REPLIED", "Répondu", "Proposer deux créneaux de démonstration"],
+  ["DEMO_SCHEDULED", "Démo", "Préparer la démo avec données client"],
+  ["WON", "Gagné", "Créer l'organisation client et lancer onboarding"],
+  ["LOST", "Perdu", "Archiver avec motif et relance à 90 jours"],
 ] as const;
 
 export function LeadStatusControls({
@@ -34,7 +34,7 @@ export function LeadStatusControls({
     setPending(null);
     if (!response.ok) {
       const payload = (await response.json()) as { error?: string };
-      setError(payload.error ?? "Mise a jour impossible.");
+      setError(payload.error ?? "Mise à jour impossible.");
       return;
     }
     router.refresh();

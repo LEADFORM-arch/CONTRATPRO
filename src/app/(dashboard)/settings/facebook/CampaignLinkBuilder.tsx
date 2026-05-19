@@ -150,7 +150,7 @@ export function CampaignLinkBuilder({ demoUrl }: { demoUrl: string }) {
 
       <div className="campaign-link-output mt-4 rounded-md border p-3">
         <p className="text-xs font-semibold uppercase tracking-wide text-zinc-500">
-          Lien pret a publier
+          Lien prêt à publier
         </p>
         <code className="mt-2 block break-all text-sm text-zinc-200">
           {trackedUrl}

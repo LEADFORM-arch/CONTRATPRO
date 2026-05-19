@@ -21,7 +21,7 @@ export default async function NewInterventionPage() {
             Retour planning
           </a>
         }
-        description="Planifiez une visite, rattachez-la au contrat et preparez le cycle attestation / prochaine echeance."
+        description="Planifiez une visite, rattachez-la au contrat et préparez le cycle attestation / prochaine échéance."
         eyebrow="Nouvelle intervention"
         title="Planifier une visite CVC"
       />
@@ -29,14 +29,14 @@ export default async function NewInterventionPage() {
       <div className="intervention-form-intro mt-6">
         <div>
           <p className="text-sm font-medium text-emerald-700">
-            Operation terrain
+            Opération terrain
           </p>
           <h3 className="mt-2 text-2xl font-semibold text-zinc-950">
-            Une visite propre, une attestation prete.
+            Une visite propre, une attestation prête.
           </h3>
           <p className="mt-2 max-w-2xl text-sm leading-6 text-zinc-500">
             Rattachez chaque passage au contrat pour alimenter le planning,
-            l'historique client et la generation d'attestation.
+            l’historique client et la génération d’attestation.
           </p>
         </div>
         <div className="contract-form-intro-grid">

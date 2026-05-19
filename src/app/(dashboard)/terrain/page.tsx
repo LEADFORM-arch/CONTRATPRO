@@ -3,7 +3,7 @@ import { formatEuro } from "@/lib/mock-data";
 import { getInterventions } from "@/server/contratpro-data";
 
 function actionLabel(certificateStatus: string) {
-  if (certificateStatus.includes("generer")) {
+  if (certificateStatus.includes("générer")) {
     return "GENERER PDF";
   }
 
@@ -16,10 +16,10 @@ function actionLabel(certificateStatus: string) {
 
 export default async function TerrainPage() {
   const interventions = await getInterventions();
-  const planned = interventions.filter((item) => item.status === "Planifiee");
-  const done = interventions.filter((item) => item.status === "Realisee");
+  const planned = interventions.filter((item) => item.status === "Planifiée");
+  const done = interventions.filter((item) => item.status === "Réalisée");
   const certificateQueue = interventions.filter((item) =>
-    item.certificateStatus.includes("generer") ||
+    item.certificateStatus.includes("générer") ||
     item.certificateStatus.includes("envoyer"),
   );
   const protectedRevenue = interventions.reduce((sum, item) => sum + item.value, 0);

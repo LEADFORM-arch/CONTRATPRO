@@ -27,7 +27,7 @@ export function PaymentStatusControls({
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        failureReason: status === "FAILED" ? "A relancer manuellement" : "",
+        failureReason: status === "FAILED" ? "À relancer manuellement" : "",
         status,
       }),
     });

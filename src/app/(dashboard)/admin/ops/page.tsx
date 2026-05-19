@@ -7,14 +7,14 @@ import { OpsCommandCopyButton } from "./OpsCommandCopyButton";
 
 const statusLabels: Record<OpsStatus, string> = {
   critical: "Critique",
-  ready: "Pret",
-  warning: "A surveiller",
+  ready: "Prêt",
+  warning: "À surveiller",
 };
 
 const statusCopy: Record<OpsStatus, string> = {
-  critical: "La production n'est pas prete. Corrige les points critiques avant d'ouvrir a plus de clients.",
-  ready: "Le socle est sain pour piloter une production limitee et surveillee.",
-  warning: "Le produit tourne, mais quelques integrations doivent encore etre verrouillees.",
+  critical: "La production n'est pas prête. Corrige les points critiques avant d'ouvrir à plus de clients.",
+  ready: "Le socle est sain pour piloter une production limitée et surveillée.",
+  warning: "Le produit tourne, mais quelques intégrations doivent encore être verrouillées.",
 };
 
 function formatDate(value: string | null) {
@@ -39,7 +39,7 @@ export default async function OpsPage() {
       <PageHeader
         action={
           <a className="premium-action rounded-md text-sm font-semibold" href="/settings/security">
-            Securite
+            Sécurité
           </a>
         }
         description={`Cockpit reserve a ${admin.email}. Surveille la sante technique, les integrations et les signaux critiques avant de vendre plus fort.`}
@@ -99,10 +99,10 @@ export default async function OpsPage() {
       <section className="ops-cron-panel mt-6 rounded-lg border shadow-sm" data-od-id="ops-cron-runbook">
         <div className="ops-panel-header">
           <div>
-            <p className="text-sm font-semibold text-cyan-300">Priorite 6</p>
-            <h3 className="mt-1 text-lg font-bold text-zinc-50">Cron relances sous controle</h3>
+            <p className="text-sm font-semibold text-cyan-300">Priorité 6</p>
+            <h3 className="mt-1 text-lg font-bold text-zinc-50">Cron relances sous contrôle</h3>
           </div>
-          <span className="ops-muted-pill">Dry-run avant envoi reel</span>
+          <span className="ops-muted-pill">Dry-run avant envoi réel</span>
         </div>
         <div className="ops-cron-grid">
           {health.cronRunbook.map((item) => (
@@ -126,7 +126,7 @@ export default async function OpsPage() {
         <div className="ops-panel-header">
           <div>
             <p className="text-sm font-semibold text-emerald-300">Cash-flow SEPA</p>
-            <h3 className="mt-1 text-lg font-bold text-zinc-50">GoCardless sandbox sous controle</h3>
+            <h3 className="mt-1 text-lg font-bold text-zinc-50">GoCardless sandbox sous contrôle</h3>
           </div>
           <span className="ops-muted-pill">Mandat puis paiement</span>
         </div>
@@ -152,7 +152,7 @@ export default async function OpsPage() {
         <div className="ops-panel-header">
           <div>
             <p className="text-sm font-semibold text-amber-300">Avant rendez-vous</p>
-            <h3 className="mt-1 text-lg font-bold text-zinc-50">Checklist pre-demo</h3>
+            <h3 className="mt-1 text-lg font-bold text-zinc-50">Checklist pré-démo</h3>
           </div>
           <span className="ops-muted-pill">15 minutes avant l'appel</span>
         </div>
@@ -186,7 +186,7 @@ export default async function OpsPage() {
       <section className="ops-smoke-panel mt-6 rounded-lg border shadow-sm" data-od-id="ops-smoke-runbook">
         <div className="ops-panel-header">
           <div>
-            <p className="text-sm font-semibold text-emerald-300">Qualite avant demo</p>
+            <p className="text-sm font-semibold text-emerald-300">Qualité avant démo</p>
             <h3 className="mt-1 text-lg font-bold text-zinc-50">Smoke tests client</h3>
           </div>
           <span className="ops-muted-pill">Local puis Vercel</span>
@@ -216,7 +216,7 @@ export default async function OpsPage() {
               <p className="text-sm font-semibold text-emerald-300">Garde-fous</p>
               <h3 className="mt-1 text-lg font-bold text-zinc-50">Configuration production</h3>
             </div>
-            <span className="ops-muted-pill">Secrets masques</span>
+            <span className="ops-muted-pill">Secrets masqués</span>
           </div>
 
           <div className="divide-y divide-zinc-800">
@@ -236,8 +236,8 @@ export default async function OpsPage() {
           <section className="ops-panel rounded-lg border shadow-sm">
             <div className="ops-panel-header">
               <div>
-                <p className="text-sm font-semibold text-cyan-300">Activite recente</p>
-                <h3 className="mt-1 text-lg font-bold text-zinc-50">Signaux metier</h3>
+                <p className="text-sm font-semibold text-cyan-300">Activité récente</p>
+                <h3 className="mt-1 text-lg font-bold text-zinc-50">Signaux métier</h3>
               </div>
             </div>
             <div className="grid gap-3 p-4">
@@ -257,7 +257,7 @@ export default async function OpsPage() {
             <div className="ops-panel-header">
               <div>
                 <p className="text-sm font-semibold text-amber-300">Runbook</p>
-                <h3 className="mt-1 text-lg font-bold text-zinc-50">Points de controle</h3>
+                <h3 className="mt-1 text-lg font-bold text-zinc-50">Points de contrôle</h3>
               </div>
             </div>
             <div className="grid gap-3 p-4">

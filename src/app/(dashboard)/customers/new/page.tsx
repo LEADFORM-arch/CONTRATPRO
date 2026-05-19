@@ -33,7 +33,7 @@ export default function NewCustomerPage() {
           </p>
         </div>
         <div className="contract-form-intro-grid">
-          <span>Identite</span>
+          <span>Identité</span>
           <span>Contact</span>
           <span>Adresse</span>
         </div>

@@ -147,10 +147,10 @@ export default async function CertificateDetailPage({
 
           <article>
             <h4 className="text-base font-semibold text-zinc-50 print:text-zinc-950">
-              Cadre legal
+              Cadre légal
             </h4>
             <dl className="mt-4 grid gap-4">
-              <DetailItem label="Reference" value={certificate.legalReference} />
+              <DetailItem label="Référence" value={certificate.legalReference} />
               <DetailItem label="Emission" value={certificate.issuedAt} />
               <DetailItem label="Envoi client" value={certificate.sentAt} />
             </dl>

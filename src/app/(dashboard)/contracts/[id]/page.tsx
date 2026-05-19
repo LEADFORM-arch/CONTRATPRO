@@ -164,7 +164,7 @@ export default async function ContractDetailPage({
               </a>
             ) : null
           }
-          description="Coordonnees rattachees au dossier de maintenance."
+          description="Coordonnées rattachées au dossier de maintenance."
           title="Client"
         >
           <dl className="grid gap-3 p-4 sm:grid-cols-2">
@@ -196,7 +196,7 @@ export default async function ContractDetailPage({
               Attestations
             </a>
           }
-          description="Visites rattachees au contrat et aux attestations legales."
+          description="Visites rattachées au contrat et aux attestations légales."
           title="Historique interventions"
         >
           <div className="divide-y divide-zinc-100 p-4">
@@ -269,7 +269,7 @@ export default async function ContractDetailPage({
                 className="premium-secondary-action mt-3 inline-flex rounded-md px-3 py-2 text-sm font-semibold"
                 href="/payments/new"
               >
-                {contract.mandate ? "Programmer paiement" : "Preparer SEPA"}
+                {contract.mandate ? "Programmer paiement" : "Préparer SEPA"}
               </a>
             </div>
             <MandateSetupForm

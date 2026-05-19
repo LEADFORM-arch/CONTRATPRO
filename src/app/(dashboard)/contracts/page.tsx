@@ -217,7 +217,7 @@ export default async function ContractsPage() {
             <ActivationEmptyState
               actionHref="/contracts/quick"
               actionLabel="Créer mon premier contrat"
-              eyebrow="Revenu recurrent"
+              eyebrow="Revenu récurrent"
               proofPoints={[
                 "Fixer une date anniversaire",
                 "Suivre montant et paiement",

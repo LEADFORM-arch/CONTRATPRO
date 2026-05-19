@@ -234,9 +234,9 @@ function logStatusLabel(status: string) {
     return "Importe";
   }
   if (status === "NEEDS_REVIEW") {
-    return "A corriger";
+    return "À corriger";
   }
-  return "Pret";
+  return "Prêt";
 }
 
 export default function ClientImportPage() {
@@ -366,22 +366,22 @@ export default function ClientImportPage() {
             href={templateHref}
             download="modele-import-contratpro.csv"
           >
-            Modele CSV
+            Modèle CSV
           </a>
         }
-        description="Importez un fichier CSV ou XLSX, controlez le plan d'import, puis creez les clients, equipements et contrats dans Supabase."
-        eyebrow="Onboarding donnees"
+        description="Importez un fichier CSV ou XLSX, contrôlez le plan d’import, puis créez les clients, équipements et contrats dans Supabase."
+        eyebrow="Onboarding données"
         title="Import Excel/CSV clients et contrats"
       />
 
       <label className="import-dropzone mt-6 flex min-h-44 cursor-pointer flex-col items-center justify-center rounded-lg border border-dashed px-6 py-8 text-center">
         <span className="import-dropzone-mark">CSV/XLSX</span>
         <span className="text-base font-semibold">
-          Selectionner un export clients
+          Sélectionner un export clients
         </span>
         <span className="mt-2 max-w-2xl text-sm text-zinc-500">
-          Colonnes reconnues : raison sociale, email, telephone, adresse, ville,
-          equipement, marque, modele, echeance, montant annuel et mode paiement.
+          Colonnes reconnues : raison sociale, email, téléphone, adresse, ville,
+          équipement, marque, modèle, échéance, montant annuel et mode paiement.
         </span>
         <input
           accept=".csv,.txt,.xlsx"
@@ -419,7 +419,7 @@ export default function ClientImportPage() {
               {report ? (
                 <>
                   <div>
-                    <dt className="text-zinc-500">Clients a creer</dt>
+                    <dt className="text-zinc-500">Clients à créer</dt>
                     <dd className="font-semibold text-zinc-50">{report.customersToCreate}</dd>
                   </div>
                   <div>
@@ -427,7 +427,7 @@ export default function ClientImportPage() {
                     <dd className="font-semibold text-zinc-50">{report.customersToReuse}</dd>
                   </div>
                   <div>
-                    <dt className="text-zinc-500">Equipements</dt>
+                    <dt className="text-zinc-500">Équipements</dt>
                     <dd className="font-semibold text-zinc-50">
                       {report.installationsToCreate}
                     </dd>
@@ -667,8 +667,8 @@ export default function ClientImportPage() {
         <section className="mt-6 grid gap-4 lg:grid-cols-3">
           {[
             ["1. Fichier", "CSV, TXT ou XLSX avec une ligne d'en-tete claire."],
-            ["2. Simulation", "ContratPro detecte les clients existants et les lignes incompletes."],
-            ["3. Import", "Creation des clients, equipements et contrats apres confirmation."],
+            ["2. Simulation", "ContratPro détecte les clients existants et les lignes incomplètes."],
+            ["3. Import", "Création des clients, équipements et contrats après confirmation."],
           ].map(([title, description]) => (
             <article
               className="import-schema-card rounded-lg border p-4 shadow-sm"

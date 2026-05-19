@@ -35,26 +35,26 @@ type ActivationDecision = {
 const activationDecisions: ActivationDecision[] = [
   {
     action: "Vendre le pilote Starter si l'import et les relances sont compris.",
-    label: "Demarrer accompagne",
+    label: "Démarrage accompagné",
     range: "0-59",
     risk: "Le client voit encore ContratPro comme une maquette.",
-    signal: "Identite incomplete, base vide ou aucun document genere.",
+    signal: "Identité incomplète, base vide ou aucun document généré.",
     tone: "critical",
   },
   {
     action: "Passer en pilote payant avec une liste courte d'actions.",
     label: "Pilote facturable",
     range: "60-84",
-    risk: "Le client peut payer, mais le go-live doit rester accompagne.",
-    signal: "Clients et contrats presents, SEPA ou documents encore a finaliser.",
+    risk: "Le client peut payer, mais le go-live doit rester accompagné.",
+    signal: "Clients et contrats présents, SEPA ou documents encore à finaliser.",
     tone: "warning",
   },
   {
     action: "Ouvrir le Pro ou Business et surveiller les signaux ops.",
-    label: "Go-live limite",
+    label: "Go-live limité",
     range: "85-100",
-    risk: "Le risque principal devient operationnel : emails, webhooks, cron.",
-    signal: "Cycle complet pret : donnees, documents, cash-flow et securite.",
+    risk: "Le risque principal devient opérationnel : emails, webhooks, cron.",
+    signal: "Cycle complet prêt : données, documents, cash-flow et sécurité.",
     tone: "ready",
   },
 ];
@@ -86,17 +86,17 @@ function OnboardingMetric({
 function StepStatus({ done }: { done: boolean }) {
   return (
     <span className="onboarding-status-pill" data-state={done ? "done" : "todo"}>
-      {done ? "Pret" : "A faire"}
+      {done ? "Prêt" : "À faire"}
     </span>
   );
 }
 
 function qualityLabel(score: number) {
   if (score >= 85) {
-    return "Pret a vendre";
+    return "Prêt à vendre";
   }
   if (score >= 60) {
-    return "Solide, a finaliser";
+    return "Solide, à finaliser";
   }
   return "Mise en route";
 }
@@ -138,48 +138,48 @@ export default async function OnboardingPage() {
 
   const steps: OnboardingStep[] = [
     {
-      title: "Identite entreprise",
+      title: "Identité entreprise",
       description: "Nom, SIRET, TVA, RGE, email et adresse pour documents propres.",
       href: "/settings/company",
       accent: "emerald",
       done: companyComplete,
-      impact: "Credibilite devis, factures et attestations.",
+      impact: "Crédibilité devis, factures et attestations.",
     },
     {
       title: "Base clients",
-      description: "Importer Praxedo ou creer les premiers clients manuellement.",
+      description: "Importer Praxedo ou créer les premiers clients manuellement.",
       href: "/import",
       accent: "cyan",
       done: customers.length > 0,
-      impact: "Point de depart du revenu recurrent.",
+      impact: "Point de départ du revenu récurrent.",
     },
     {
       title: "Contrats actifs",
-      description: "Rattacher equipements, echeances et prix annuels.",
+      description: "Rattacher équipements, échéances et prix annuels.",
       href: "/contracts/quick",
       accent: "amber",
       done: contracts.length > 0,
       impact: "Tableau de bord et relances deviennent exploitables.",
     },
     {
-      title: "Documents legaux",
-      description: "Generer au moins une facture et une attestation PDF.",
+      title: "Documents légaux",
+      description: "Générer au moins une facture et une attestation PDF.",
       href: invoices.length ? "/certificates" : "/invoices/new",
       accent: "rose",
       done: documentsReady,
       impact: "Preuve que le cycle client est livrable de bout en bout.",
     },
     {
-      title: "Paiement recurrent",
-      description: "Preparer SEPA et verifier la future facturation ContratPro.",
+      title: "Paiement récurrent",
+      description: "Préparer SEPA et vérifier la future facturation ContratPro.",
       href: sepaPayments.length ? "/payments" : "/settings/billing",
       accent: "violet",
       done: sepaPayments.length > 0 && billingReady,
-      impact: "Cash et abonnement sous controle.",
+      impact: "Cash et abonnement sous contrôle.",
     },
     {
-      title: "Securite production",
-      description: "Auth, RLS, billing lock et environnement hors demo.",
+      title: "Sécurité production",
+      description: "Auth, RLS, billing lock et environnement hors démo.",
       href: "/settings/security",
       accent: "emerald",
       done: securityReady && billingReady,
@@ -200,7 +200,7 @@ export default async function OnboardingPage() {
             {nextStep ? "Continuer" : "Voir le pilotage"}
           </a>
         }
-        description="Un parcours d'activation concu pour faire passer une entreprise CVC d'un compte brut a un outil pret a vendre, facturer et renouveler."
+        description="Un parcours d'activation conçu pour faire passer une entreprise CVC d'un compte brut à un outil prêt à vendre, facturer et renouveler."
         eyebrow="Mise en route"
         title="Activation ContratPro"
       />
@@ -221,7 +221,7 @@ export default async function OnboardingPage() {
             <p className="mt-4 max-w-2xl text-sm leading-6 text-zinc-300">
               {nextStep
                 ? `Prochaine action prioritaire : ${nextStep.title}. ${nextStep.impact}`
-                : "Tous les fondamentaux sont en place pour une demonstration client propre."}
+                : "Tous les fondamentaux sont en place pour une démonstration client propre."}
             </p>
           </div>
 
@@ -238,7 +238,7 @@ export default async function OnboardingPage() {
           <div>
             <p className="text-sm font-semibold text-emerald-300">Architecte IA activation</p>
             <h3 className="mt-1 text-lg font-bold text-zinc-50">
-              Decider quoi vendre selon la maturite reelle.
+              Décider quoi vendre selon la maturité réelle.
             </h3>
           </div>
           <span className="onboarding-architect-pill" data-status={decision.tone}>
@@ -248,16 +248,16 @@ export default async function OnboardingPage() {
 
         <div className="onboarding-decision-grid">
           <article className="onboarding-decision-card" data-status={decision.tone}>
-            <span>Decision maintenant</span>
+            <span>Décision maintenant</span>
             <strong>{decision.action}</strong>
             <p>{decision.risk}</p>
           </article>
           <article className="onboarding-decision-card">
-            <span>Signal observe</span>
+            <span>Signal observé</span>
             <strong>{decision.signal}</strong>
             <p>
               Le prochain clic doit faire avancer ce signal, sinon l'onboarding
-              devient cosmetique.
+              devient cosmétique.
             </p>
           </article>
         </div>
@@ -277,7 +277,7 @@ export default async function OnboardingPage() {
 
       <div className="mt-6 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
         <OnboardingMetric
-          detail={`${completed} jalons valides sur ${steps.length}`}
+          detail={`${completed} jalons validés sur ${steps.length}`}
           label="Progression"
           tone="emerald"
           value={`${completionRate}%`}
@@ -289,16 +289,16 @@ export default async function OnboardingPage() {
           value={organization.name}
         />
         <OnboardingMetric
-          detail="Potentiel annuel rattache aux contrats actifs"
+          detail="Potentiel annuel rattaché aux contrats actifs"
           label="ARR client"
           tone="amber"
           value={formatEuro(annualRevenue)}
         />
         <OnboardingMetric
-          detail={billing.required ? "Billing lock actif" : "Billing lock desactive"}
+          detail={billing.required ? "Billing lock actif" : "Billing lock désactivé"}
           label="Abonnement"
           tone={billing.active ? "emerald" : "rose"}
-          value={billing.active ? "Actif" : "A verifier"}
+          value={billing.active ? "Actif" : "À vérifier"}
         />
       </div>
 
@@ -309,12 +309,12 @@ export default async function OnboardingPage() {
               Plan d'activation client
             </h3>
             <p className="mt-1 max-w-2xl text-sm leading-6 text-zinc-500">
-              Chaque jalon valide un morceau du cycle complet : donnees,
-              contrats, documents, encaissement et securite.
+              Chaque jalon valide un morceau du cycle complet : données,
+              contrats, documents, encaissement et sécurité.
             </p>
           </div>
           <span className="onboarding-score">
-            {completed}/{steps.length} valides
+            {completed}/{steps.length} validés
           </span>
         </div>
 

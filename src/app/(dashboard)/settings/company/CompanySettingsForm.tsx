@@ -42,7 +42,7 @@ export function CompanySettingsForm({ profile }: { profile: CompanyProfile }) {
       return;
     }
 
-    setStatus("Identite entreprise sauvegardee");
+    setStatus("Identité entreprise sauvegardée");
   }
 
   return (

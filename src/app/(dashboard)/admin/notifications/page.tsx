@@ -5,7 +5,7 @@ import { getRecentInternalNotifications } from "@/server/internal-notifications"
 const severityLabels = {
   critical: "Critique",
   info: "Info",
-  warning: "A surveiller",
+  warning: "À surveiller",
 };
 
 type IncidentTone = "critical" | "ready" | "warning";
@@ -26,7 +26,7 @@ function incidentDecision({
     return {
       action: "Geler les ventes et traiter le dernier incident critique avant nouveau pilote.",
       label: "Incident critique",
-      signal: "Paiement, webhook, cron ou abonnement signale une rupture operationnelle.",
+      signal: "Paiement, webhook, cron ou abonnement signale une rupture opérationnelle.",
       tone: "critical",
     };
   }
@@ -34,8 +34,8 @@ function incidentDecision({
   if (failedEmailCount > 0) {
     return {
       action: "Corriger Resend ou les destinataires avant de compter sur l'alerting.",
-      label: "Alerting degrade",
-      signal: "Une notification est journalisee, mais l'email fondateur n'est pas parti.",
+      label: "Alerting dégradé",
+      signal: "Une notification est journalisée, mais l’email fondateur n’est pas parti.",
       tone: "warning",
     };
   }
@@ -43,7 +43,7 @@ function incidentDecision({
   return {
     action: "Surveiller normalement et conserver la cadence pilote.",
     label: "Surveillance saine",
-    signal: "Aucun incident critique recent et emails admin operationnels.",
+    signal: "Aucun incident critique récent et emails admin opérationnels.",
     tone: "ready",
   };
 }
@@ -75,7 +75,7 @@ export default async function AdminNotificationsPage() {
             Supervision
           </a>
         }
-        description={`Centre d'alertes reserve a ${admin.email}. Les emails admin et les traces de notification restent visibles meme si Resend echoue.`}
+        description={`Centre d’alertes réservé à ${admin.email}. Les emails admin et les traces de notification restent visibles même si Resend échoue.`}
         eyebrow="Interne fondateur"
         title="Notifications production"
       />
@@ -85,7 +85,7 @@ export default async function AdminNotificationsPage() {
           <div>
             <p className="text-sm font-semibold text-emerald-300">Architecte IA incidents</p>
             <h3 className="mt-1 text-lg font-bold text-zinc-50">
-              Decider avant de relancer ou vendre.
+              Décider avant de relancer ou vendre.
             </h3>
           </div>
           <span className="notification-command-pill" data-status={decision.tone}>
@@ -94,7 +94,7 @@ export default async function AdminNotificationsPage() {
         </div>
         <div className="notification-command-grid">
           <article className="notification-command-card" data-status={decision.tone}>
-            <span>Action immediate</span>
+            <span>Action immédiate</span>
             <strong>{decision.action}</strong>
             <p>{decision.signal}</p>
           </article>
@@ -103,16 +103,16 @@ export default async function AdminNotificationsPage() {
             <strong>{topType ? topType[0] : "Aucun signal"}</strong>
             <p>
               {topType
-                ? `${topType[1]} occurrence(s) dans les dernieres alertes internes.`
-                : "Le centre d'alertes est pret, mais aucun evenement n'a encore ete journalise."}
+                ? `${topType[1]} occurrence(s) dans les dernières alertes internes.`
+                : "Le centre d’alertes est prêt, mais aucun événement n’a encore été journalisé."}
             </p>
           </article>
           <article className="notification-command-card">
             <span>Preuve attendue</span>
             <strong>Journal + email fondateur</strong>
             <p>
-              Un incident doit laisser une ligne Supabase meme si Resend, Stripe,
-              GoCardless ou le cron echoue.
+              Un incident doit laisser une ligne Supabase même si Resend, Stripe,
+              GoCardless ou le cron échoue.
             </p>
           </article>
         </div>
@@ -130,7 +130,7 @@ export default async function AdminNotificationsPage() {
           <span>Paiements, webhooks, cron</span>
         </article>
         <article className="notification-stat-card" data-tone="amber">
-          <p>Emails echoues</p>
+          <p>Emails échoués</p>
           <strong>{failedEmails.length}</strong>
           <span>Resend ou config absente</span>
         </article>

@@ -33,13 +33,13 @@ function StatCard({
 export default async function InterventionsPage() {
   const interventions = await getInterventions();
   const scheduled = interventions.filter(
-    (intervention) => intervention.status === "Planifiee",
+    (intervention) => intervention.status === "Planifiée",
   );
   const completed = interventions.filter(
-    (intervention) => intervention.status === "Realisee",
+    (intervention) => intervention.status === "Réalisée",
   );
   const certificatesToGenerate = interventions.filter((intervention) =>
-    intervention.certificateStatus.includes("generer"),
+    intervention.certificateStatus.includes("générer"),
   );
   const protectedRevenue = interventions.reduce(
     (sum, intervention) => sum + intervention.value,
@@ -54,8 +54,8 @@ export default async function InterventionsPage() {
             Planifier visite
           </a>
         }
-        description="Pilotez les visites CVC rattachees aux contrats, avec suivi legal et generation d'attestation."
-        eyebrow="Operations terrain"
+        description="Pilotez les visites CVC rattachées aux contrats, avec suivi légal et génération d’attestation."
+        eyebrow="Opérations terrain"
         title="Planning interventions"
       />
 
@@ -67,20 +67,20 @@ export default async function InterventionsPage() {
           value={String(interventions.length)}
         />
         <StatCard
-          detail="a realiser ou confirmer"
-          label="Planifiees"
+          detail="à réaliser ou confirmer"
+          label="Planifiées"
           tone="amber"
           value={String(scheduled.length)}
         />
         <StatCard
-          detail="attestations a produire"
-          label="Conformite"
+          detail="attestations à produire"
+          label="Conformité"
           tone="rose"
           value={String(certificatesToGenerate.length)}
         />
         <StatCard
           detail="contrats couverts par ces visites"
-          label="Revenu protege"
+          label="Revenu protégé"
           tone="emerald"
           value={formatEuro(protectedRevenue)}
         />
@@ -93,11 +93,11 @@ export default async function InterventionsPage() {
               File terrain
             </h3>
             <p className="mt-1 text-sm text-zinc-500">
-              Chaque visite relie contrat, technicien, prochaine echeance et
+              Chaque visite relie contrat, technicien, prochaine échéance et
               attestation.
             </p>
           </div>
-          <StatusPill>{completed.length} realisee(s)</StatusPill>
+          <StatusPill>{completed.length} réalisée(s)</StatusPill>
         </div>
 
         <div className="overflow-x-auto">
@@ -105,7 +105,7 @@ export default async function InterventionsPage() {
             <thead>
               <tr className="dashboard-table-head text-xs uppercase tracking-wide text-zinc-500">
                 <th className="px-4 py-3 font-semibold">Client</th>
-                <th className="px-4 py-3 font-semibold">Equipement</th>
+                <th className="px-4 py-3 font-semibold">Équipement</th>
                 <th className="px-4 py-3 font-semibold">Intervention</th>
                 <th className="px-4 py-3 font-semibold">Technicien</th>
                 <th className="px-4 py-3 font-semibold">Prochaine visite</th>
