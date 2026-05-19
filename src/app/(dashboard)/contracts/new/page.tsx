@@ -24,21 +24,21 @@ export default async function NewContractPage() {
             Retour contrats
           </a>
         }
-        description="Rattachez un client, son equipement CVC et le contrat annuel qui alimentera les relances et paiements."
+        description="Rattachez un client, son équipement CVC et le contrat annuel qui alimentera les relances et paiements."
         eyebrow="Nouveau contrat"
-        title="Creer un contrat de maintenance"
+        title="Créer un contrat de maintenance"
       />
 
       <div className="contract-form-intro mt-6">
         <div>
           <p className="text-sm font-medium text-emerald-700">
-            Saisie guidee
+            Saisie guidée
           </p>
           <h3 className="mt-2 text-2xl font-semibold text-zinc-950">
-            Construire un revenu recurrent proprement.
+            Construire un revenu récurrent proprement.
           </h3>
           <p className="mt-2 max-w-2xl text-sm leading-6 text-zinc-500">
-            Le formulaire cree l'installation, le contrat annuel, puis alimente
+            Le formulaire crée l’installation, le contrat annuel, puis alimente
             automatiquement les vues relances, paiements et attestations.
           </p>
         </div>

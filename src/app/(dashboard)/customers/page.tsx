@@ -139,12 +139,12 @@ export default async function CustomersPage() {
               eyebrow="Premier portefeuille"
               proofPoints={[
                 "Reprendre Excel sans ressaisie",
-                "Preparer contrats et equipements",
-                "Debloquer relances et factures",
+                "Préparer contrats et équipements",
+                "Débloquer relances et factures",
               ]}
               secondaryHref="/customers/new"
               secondaryLabel="Ajouter un client"
-              title="Commencez par importer ou creer vos premiers clients CVC."
+              title="Commencez par importer ou créer vos premiers clients CVC."
             />
           </div>
         )}

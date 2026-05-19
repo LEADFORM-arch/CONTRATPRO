@@ -34,8 +34,8 @@ export default async function MandateThanksPage({
         }
         description={
           interrupted
-            ? "Le parcours GoCardless a ete interrompu. Le mandat peut etre repris depuis le lien transmis par votre chauffagiste."
-            : "Votre autorisation est transmise a GoCardless. Le chauffagiste pourra suivre le mandat et les prochains prelevements depuis ContratPro."
+            ? "Le parcours GoCardless a été interrompu. Le mandat peut être repris depuis le lien transmis par votre chauffagiste."
+            : "Votre autorisation est transmise à GoCardless. Le chauffagiste pourra suivre le mandat et les prochains prélèvements depuis ContratPro."
         }
         eyebrow={interrupted ? "Mandat non finalise" : "Mandat transmis"}
         title={
@@ -46,13 +46,13 @@ export default async function MandateThanksPage({
       />
 
       <PublicSection
-        description="ContratPro conserve le suivi operationnel cote chauffagiste : statut du mandat, prelevements programmes et incidents de paiement."
+        description="ContratPro conserve le suivi opérationnel côté chauffagiste : statut du mandat, prélèvements programmés et incidents de paiement."
         title="Ce qui se passe ensuite"
       >
         <div className="public-proof-grid">
-          <article>GoCardless valide les informations bancaires en environnement securise.</article>
-          <article>Le contrat reste rattache au client, a l'equipement CVC et au montant prevu.</article>
-          <article>Chaque prelevement apparait ensuite dans le suivi SEPA ContratPro.</article>
+          <article>GoCardless valide les informations bancaires en environnement sécurisé.</article>
+          <article>Le contrat reste rattaché au client, à l’équipement CVC et au montant prévu.</article>
+          <article>Chaque prélèvement apparaît ensuite dans le suivi SEPA ContratPro.</article>
         </div>
       </PublicSection>
     </PublicShell>

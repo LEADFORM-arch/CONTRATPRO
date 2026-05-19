@@ -7,7 +7,7 @@ const sections = [
   ],
   [
     "Finalites",
-    "Les donnees servent a fournir le service ContratPro, securiser l'acces, generer les documents, envoyer les relances, suivre les paiements et assurer la supervision technique.",
+    "Les données servent à fournir le service ContratPro, sécuriser l’accès, générer les documents, envoyer les relances, suivre les paiements et assurer la supervision technique.",
   ],
   [
     "Sous-traitants",
@@ -15,7 +15,7 @@ const sections = [
   ],
   [
     "Droits",
-    "Les utilisateurs peuvent demander acces, rectification, suppression ou export des donnees via l'adresse de contact de l'editeur.",
+    "Les utilisateurs peuvent demander accès, rectification, suppression ou export des données via l’adresse de contact de l’éditeur.",
   ],
 ];
 

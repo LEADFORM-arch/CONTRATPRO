@@ -107,7 +107,7 @@ export function PublicHero({
             <strong>34</strong>
           </div>
           <div>
-            <span>SEPA sous controle</span>
+            <span>SEPA sous contrôle</span>
             <strong>96%</strong>
           </div>
         </div>

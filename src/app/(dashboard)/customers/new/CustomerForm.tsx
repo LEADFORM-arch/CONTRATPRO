@@ -63,14 +63,14 @@ export function CustomerForm() {
     if (!response.ok) {
       setSubmitState({
         status: "error",
-        message: payload.error || "Impossible de creer ce client.",
+        message: payload.error || "Impossible de créer ce client.",
       });
       return;
     }
 
     setSubmitState({
       status: "success",
-      message: "Client cree. Retour a la base clients...",
+      message: "Client créé. Retour à la base clients...",
     });
     form.reset();
     router.push("/customers");
@@ -82,12 +82,12 @@ export function CustomerForm() {
   return (
     <form className="contract-form-shell mt-6" onSubmit={handleSubmit}>
       <FormSection
-        description="Identifiez le foyer, la SCI ou l'entreprise a rattacher au portefeuille."
+        description="Identifiez le foyer, la SCI ou l’entreprise à rattacher au portefeuille."
         index="01"
-        title="Identite"
+        title="Identité"
       >
         <label className="contract-form-field md:col-span-3">
-          <span>Societe ou foyer</span>
+          <span>Société ou foyer</span>
           <input
             className={inputClass}
             name="companyName"
@@ -95,7 +95,7 @@ export function CustomerForm() {
           />
         </label>
         <label className="contract-form-field">
-          <span>Prenom</span>
+          <span>Prénom</span>
           <input className={inputClass} name="firstName" placeholder="Claire" />
         </label>
         <label className="contract-form-field">
@@ -105,12 +105,12 @@ export function CustomerForm() {
       </FormSection>
 
       <FormSection
-        description="Ajoutez les coordonnees qui serviront aux relances et confirmations de visite."
+        description="Ajoutez les coordonnées qui serviront aux relances et confirmations de visite."
         index="02"
         title="Contact"
       >
         <label className="contract-form-field">
-          <span>Telephone</span>
+          <span>Téléphone</span>
           <input
             className={inputClass}
             name="phone"
@@ -130,7 +130,7 @@ export function CustomerForm() {
       </FormSection>
 
       <FormSection
-        description="Localisez le site d'intervention pour preparer les futures visites."
+        description="Localisez le site d’intervention pour préparer les futures visites."
         index="03"
         title="Adresse et notes"
       >
@@ -155,7 +155,7 @@ export function CustomerForm() {
           <textarea
             className="contract-form-input min-h-28 py-3"
             name="notes"
-            placeholder="Acces, preference horaire, interlocuteur..."
+            placeholder="Accès, préférence horaire, interlocuteur..."
           />
         </label>
       </FormSection>
@@ -169,7 +169,7 @@ export function CustomerForm() {
           }
         >
           {submitState.message ||
-            "Le nom de societe ou prenom + nom suffit pour demarrer."}
+            "Le nom de société ou prénom + nom suffit pour démarrer."}
         </p>
         <button className="login-submit sm:max-w-64" disabled={disabled} type="submit">
           Enregistrer le client

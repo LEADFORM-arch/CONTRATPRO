@@ -81,9 +81,9 @@ export default function BoilerCertificateSeoPage() {
             Attestation d’entretien chaudière et pompe à chaleur : quoi remettre au client ?
           </h1>
           <p className="mt-5 max-w-2xl text-base leading-7 text-zinc-400">
-            L'entretien annuel cree une obligation documentaire simple mais
+            L’entretien annuel crée une obligation documentaire simple mais
             critique : remettre une attestation propre, traçable et exploitable
-            pour le client comme pour l'entreprise CVC.
+            pour le client comme pour l’entreprise CVC.
           </p>
           <div className="mt-7 flex flex-wrap gap-3">
             <a className="premium-action rounded-md text-sm font-semibold" href="/demo">
@@ -96,11 +96,11 @@ export default function BoilerCertificateSeoPage() {
         </div>
 
         <aside className="seo-summary-card">
-          <span>Point cle</span>
+          <span>Point clé</span>
           <strong>Attestation sous 15 jours après la visite.</strong>
           <p>
-            Pour un chauffagiste, le risque n'est pas seulement de generer le
-            PDF : c'est d'oublier l'envoi, la preuve et le renouvellement suivant.
+            Pour un chauffagiste, le risque n’est pas seulement de générer le
+            PDF : c’est d’oublier l’envoi, la preuve et le renouvellement suivant.
           </p>
         </aside>
       </section>
@@ -108,7 +108,7 @@ export default function BoilerCertificateSeoPage() {
       <section className="seo-band mx-auto max-w-6xl px-5 py-8 sm:px-8">
         <div className="seo-panel">
           <div>
-            <p className="text-sm font-semibold text-cyan-300">Reglementation</p>
+            <p className="text-sm font-semibold text-cyan-300">Réglementation</p>
             <h2>Ce que disent les sources officielles</h2>
           </div>
           <div className="seo-source-grid">
@@ -125,11 +125,11 @@ export default function BoilerCertificateSeoPage() {
             <article>
               <strong>Attestation détaillée</strong>
               <p>
-                Le ministere rappelle la remise d'une attestation avec evaluation,
+                Le ministère rappelle la remise d’une attestation avec évaluation,
                 mesure de monoxyde de carbone lorsque pertinente et conseils.
               </p>
               <a href="https://www.ecologie.gouv.fr/politiques-publiques/entretien-inspection-systemes-chauffage-climatisation">
-                Source ministere
+                Source ministère
               </a>
             </article>
           </div>
@@ -139,11 +139,11 @@ export default function BoilerCertificateSeoPage() {
       <section className="mx-auto max-w-6xl px-5 py-8 sm:px-8">
         <div className="mb-5">
           <h2 className="text-2xl font-black text-zinc-50">
-            Mentions utiles a prevoir dans le modele
+            Mentions utiles à prévoir dans le modèle
           </h2>
           <p className="mt-2 max-w-2xl text-sm leading-6 text-zinc-400">
-            Cette liste sert de base operationnelle. Elle doit etre adaptee au
-            type d'equipement, a l'organisation de l'entreprise et aux textes applicables.
+            Cette liste sert de base opérationnelle. Elle doit être adaptée au
+            type d’équipement, à l’organisation de l’entreprise et aux textes applicables.
           </p>
         </div>
         <div className="seo-check-grid">
@@ -160,7 +160,7 @@ export default function BoilerCertificateSeoPage() {
         <div className="seo-panel">
           <div>
             <p className="text-sm font-semibold text-emerald-300">ContratPro</p>
-            <h2>Transformer l'attestation en processus automatique</h2>
+            <h2>Transformer l’attestation en processus automatique</h2>
           </div>
           <div className="seo-workflow-grid">
             {workflow.map(([number, title, detail]) => (
@@ -177,11 +177,11 @@ export default function BoilerCertificateSeoPage() {
       <section className="mx-auto max-w-6xl px-5 py-8 sm:px-8">
         <div className="seo-two-column">
           <article>
-            <h2>Pourquoi cette page convertit mieux qu'une simple fiche produit</h2>
+            <h2>Pourquoi cette page convertit mieux qu’une simple fiche produit</h2>
             <p>
-              Le chauffagiste ne cherche pas d'abord un logiciel. Il cherche a
+              Le chauffagiste ne cherche pas d’abord un logiciel. Il cherche à
               savoir quoi remettre au client, comment rester propre en cas de
-              demande, et comment ne plus perdre de temps apres chaque visite.
+              demande, et comment ne plus perdre de temps après chaque visite.
             </p>
             <a className="premium-action mt-5 rounded-md text-sm font-semibold" href="/simulateur">
               Calculer le ROI des contrats suivis
@@ -190,10 +190,10 @@ export default function BoilerCertificateSeoPage() {
           <article>
             <h2>Ce que ContratPro apporte</h2>
             <ul>
-              <li>Generation PDF serveur pour attestations et factures.</li>
-              <li>Envoi email client avec historique d'envoi.</li>
-              <li>Contrats, interventions et documents rattaches au meme dossier.</li>
-              <li>Relances de renouvellement pour conserver le revenu recurrent.</li>
+              <li>Génération PDF serveur pour attestations et factures.</li>
+              <li>Envoi email client avec historique d’envoi.</li>
+              <li>Contrats, interventions et documents rattachés au même dossier.</li>
+              <li>Relances de renouvellement pour conserver le revenu récurrent.</li>
             </ul>
           </article>
         </div>
@@ -201,7 +201,7 @@ export default function BoilerCertificateSeoPage() {
 
       <section className="mx-auto max-w-6xl px-5 py-8 sm:px-8">
         <div className="mb-5">
-          <h2 className="text-2xl font-black text-zinc-50">Questions frequentes</h2>
+          <h2 className="text-2xl font-black text-zinc-50">Questions fréquentes</h2>
         </div>
         <div className="seo-faq-grid">
           {faq.map((item) => (

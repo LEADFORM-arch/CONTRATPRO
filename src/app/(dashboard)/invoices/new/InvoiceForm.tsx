@@ -69,7 +69,7 @@ export function InvoiceForm({
 
     setSubmitState({
       status: "loading",
-      message: "Creation de la facture...",
+      message: "Création de la facture...",
     });
 
     const response = await fetch("/api/invoices", {
@@ -82,14 +82,14 @@ export function InvoiceForm({
     if (!response.ok) {
       setSubmitState({
         status: "error",
-        message: payload.error || "Impossible de creer cette facture.",
+        message: payload.error || "Impossible de créer cette facture.",
       });
       return;
     }
 
     setSubmitState({
       status: "success",
-      message: "Facture creee. Ouverture de la facture...",
+      message: "Facture créée. Ouverture de la facture...",
     });
     router.push(`/invoices/${payload.id}`);
     router.refresh();
@@ -104,7 +104,7 @@ export function InvoiceForm({
     >
       <div className="grid gap-4 md:grid-cols-2">
         <label className="grid gap-2 text-sm font-medium text-zinc-700 md:col-span-2">
-          Contrat facture
+          Contrat facturé
           <select
             className={inputClass}
             name="contractId"
@@ -121,7 +121,7 @@ export function InvoiceForm({
         </label>
 
         <label className="grid gap-2 text-sm font-medium text-zinc-700">
-          Numero
+          Numéro
           <input
             className={inputClass}
             defaultValue={invoiceNumber()}
@@ -134,13 +134,13 @@ export function InvoiceForm({
           Statut initial
           <select className={inputClass} name="status">
             <option value="DRAFT">Brouillon</option>
-            <option value="SENT">Envoyee</option>
-            <option value="PAID">Payee</option>
+            <option value="SENT">Envoyée</option>
+            <option value="PAID">Payée</option>
           </select>
         </label>
 
         <label className="grid gap-2 text-sm font-medium text-zinc-700">
-          Date emission
+          Date d’émission
           <input
             className={inputClass}
             defaultValue={defaultIssueDate}
@@ -151,7 +151,7 @@ export function InvoiceForm({
         </label>
 
         <label className="grid gap-2 text-sm font-medium text-zinc-700">
-          Echeance paiement
+          Échéance paiement
           <input
             className={inputClass}
             defaultValue={defaultDueDate}
@@ -188,8 +188,8 @@ export function InvoiceForm({
 
       <div className="mt-5 rounded-md bg-zinc-50 p-4 text-sm text-zinc-600">
         {selectedContract
-          ? "Les montants sont repris du contrat, puis recalcules cote serveur pour garder une base fiable."
-          : "Aucun contrat disponible pour generer une facture."}
+          ? "Les montants sont repris du contrat, puis recalculés côté serveur pour garder une base fiable."
+          : "Aucun contrat disponible pour générer une facture."}
       </div>
 
       <div className="mt-5 flex flex-col gap-3 border-t border-zinc-200 pt-5 sm:flex-row sm:items-center sm:justify-between">
@@ -205,7 +205,7 @@ export function InvoiceForm({
           disabled={disabled}
           type="submit"
         >
-          Creer facture
+          Créer facture
         </button>
       </div>
     </form>

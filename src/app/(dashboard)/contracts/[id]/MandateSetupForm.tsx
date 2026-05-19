@@ -62,7 +62,7 @@ export function MandateSetupForm({
     if (!response.ok || !payload?.authorisationUrl) {
       setFlowState({
         status: "error",
-        message: payload?.error || "Impossible de creer le lien GoCardless.",
+        message: payload?.error || "Impossible de créer le lien GoCardless.",
         url: "",
       });
       return;
@@ -70,7 +70,7 @@ export function MandateSetupForm({
 
     setFlowState({
       status: "success",
-      message: "Lien pret. Ouvrez-le en sandbox ou copiez-le pour le client test.",
+      message: "Lien prêt. Ouvrez-le en sandbox ou copiez-le pour le client test.",
       url: payload.authorisationUrl,
       expiresAt: payload.expiresAt,
     });
@@ -84,7 +84,7 @@ export function MandateSetupForm({
     await navigator.clipboard.writeText(flowState.url);
     setFlowState({
       ...flowState,
-      message: "Lien GoCardless copie.",
+      message: "Lien GoCardless copié.",
     });
   }
 
@@ -109,14 +109,14 @@ export function MandateSetupForm({
     if (!response.ok) {
       setSubmitState({
         status: "error",
-        message: payload?.error || "Impossible d'enregistrer le mandat.",
+        message: payload?.error || "Impossible d’enregistrer le mandat.",
       });
       return;
     }
 
     setSubmitState({
       status: "success",
-      message: "Mandat SEPA enregistre. Le dossier est pret pour paiement.",
+      message: "Mandat SEPA enregistré. Le dossier est prêt pour paiement.",
     });
     router.refresh();
   }
@@ -128,11 +128,11 @@ export function MandateSetupForm({
     <form className="contract-mandate-form" onSubmit={handleSubmit}>
       <div className="contract-mandate-authorisation">
         <div>
-          <p>Mandat heberge GoCardless</p>
+          <p>Mandat hébergé GoCardless</p>
           <strong>Faire signer le mandat SEPA sandbox</strong>
           <span>
-            ContratPro cree le parcours GoCardless, pre-remplit le client et
-            garde le mandat en suivi jusqu'au retour webhook.
+            ContratPro crée le parcours GoCardless, préremplit le client et
+            garde le mandat en suivi jusqu’au retour webhook.
           </span>
         </div>
         <button
@@ -141,7 +141,7 @@ export function MandateSetupForm({
           onClick={createAuthorisationLink}
           type="button"
         >
-          {flowLoading ? "Creation..." : "Creer lien GoCardless"}
+          {flowLoading ? "Création..." : "Créer lien GoCardless"}
         </button>
       </div>
 
@@ -202,12 +202,12 @@ export function MandateSetupForm({
         <label className="contract-form-field">
           <span>Statut mandat</span>
           <select className={inputClass} defaultValue={status} name="status">
-            <option value="PENDING_SUBMISSION">A preparer</option>
-            <option value="SUBMITTED">Envoye GoCardless</option>
+            <option value="PENDING_SUBMISSION">À préparer</option>
+            <option value="SUBMITTED">Envoyé GoCardless</option>
             <option value="ACTIVE">Actif GoCardless</option>
-            <option value="FAILED">Echec mandat</option>
-            <option value="CANCELLED">Annule</option>
-            <option value="EXPIRED">Expire</option>
+            <option value="FAILED">Échec mandat</option>
+            <option value="CANCELLED">Annulé</option>
+            <option value="EXPIRED">Expiré</option>
           </select>
         </label>
       </div>

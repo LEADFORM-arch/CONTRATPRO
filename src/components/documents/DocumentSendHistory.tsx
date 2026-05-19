@@ -28,7 +28,7 @@ export function DocumentSendHistory({ sends }: { sends: SendHistoryItem[] }) {
             Historique d'envoi
           </h3>
           <p className="mt-1 text-sm leading-5 text-zinc-500">
-            Trace email conservee pour savoir qui a recu quoi, quand, et avec
+            Trace email conservée pour savoir qui a reçu quoi, quand, et avec
             quel statut.
           </p>
         </div>

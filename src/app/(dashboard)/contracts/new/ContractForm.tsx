@@ -78,14 +78,14 @@ export function ContractForm({
     if (!response.ok) {
       setSubmitState({
         status: "error",
-        message: payload.error || "Impossible de creer ce contrat.",
+        message: payload.error || "Impossible de créer ce contrat.",
       });
       return;
     }
 
     setSubmitState({
       status: "success",
-      message: "Contrat cree. Retour aux contrats...",
+      message: "Contrat créé. Retour aux contrats...",
     });
     form.reset();
     router.push("/contracts");
@@ -97,12 +97,12 @@ export function ContractForm({
   return (
     <form className="contract-form-shell mt-6" onSubmit={handleSubmit}>
       <FormSection
-        description="Selectionnez le donneur d'ordre ou creez une fiche client avant de signer."
+        description="Sélectionnez le donneur d’ordre ou créez une fiche client avant de signer."
         index="01"
         title="Client"
       >
         <label className="contract-form-field md:col-span-2">
-          <span>Client rattache</span>
+          <span>Client rattaché</span>
           <select className={inputClass} name="customerId" required>
             {customers.map((customer) => (
               <option key={customer.id} value={customer.id}>
@@ -120,7 +120,7 @@ export function ContractForm({
       </FormSection>
 
       <FormSection
-        description="Renseignez les donnees techniques utiles aux visites, attestations et relances."
+        description="Renseignez les données techniques utiles aux visites, attestations et relances."
         index="02"
         title="Installation CVC"
       >
@@ -129,9 +129,9 @@ export function ContractForm({
           <select className={inputClass} name="equipmentType">
             <option value="HEAT_PUMP_AIR_WATER">PAC air/eau</option>
             <option value="HEAT_PUMP_AIR_AIR">PAC air/air</option>
-            <option value="AC_REVERSIBLE">Clim reversible</option>
-            <option value="BOILER_GAS">Chaudiere gaz</option>
-            <option value="BOILER_OIL">Chaudiere fioul</option>
+            <option value="AC_REVERSIBLE">Clim réversible</option>
+            <option value="BOILER_GAS">Chaudière gaz</option>
+            <option value="BOILER_OIL">Chaudière fioul</option>
             <option value="VMC">VMC</option>
             <option value="OTHER">Autre</option>
           </select>
@@ -141,7 +141,7 @@ export function ContractForm({
           <input className={inputClass} name="brand" placeholder="Atlantic" />
         </label>
         <label className="contract-form-field">
-          <span>Modele</span>
+          <span>Modèle</span>
           <input className={inputClass} name="model" placeholder="Alfea Extensa" />
         </label>
         <label className="contract-form-field">
@@ -154,7 +154,7 @@ export function ContractForm({
           />
         </label>
         <label className="contract-form-field">
-          <span>Numero serie</span>
+          <span>Numéro de série</span>
           <input className={inputClass} name="serialNumber" placeholder="SN-2026-001" />
         </label>
         <label className="contract-form-field">
@@ -164,12 +164,12 @@ export function ContractForm({
       </FormSection>
 
       <FormSection
-        description="Fixez la periode contractuelle, le mode de paiement et le prix TTC annuel."
+        description="Fixez la période contractuelle, le mode de paiement et le prix TTC annuel."
         index="03"
         title="Contrat annuel"
       >
         <label className="contract-form-field">
-          <span>Debut</span>
+          <span>Début</span>
           <input
             className={inputClass}
             defaultValue={defaultStartDate}
@@ -179,7 +179,7 @@ export function ContractForm({
           />
         </label>
         <label className="contract-form-field">
-          <span>Echeance</span>
+          <span>Échéance</span>
           <input
             className={inputClass}
             defaultValue={defaultEndDate}
@@ -193,8 +193,8 @@ export function ContractForm({
           <select className={inputClass} name="paymentMethod">
             <option value="SEPA">SEPA</option>
             <option value="BANK_TRANSFER">Virement</option>
-            <option value="CHECK">Cheque</option>
-            <option value="CASH">Especes</option>
+            <option value="CHECK">Chèque</option>
+            <option value="CASH">Espèces</option>
           </select>
         </label>
         <label className="contract-form-field">
@@ -237,8 +237,8 @@ export function ContractForm({
         >
           {submitState.message ||
             (customers.length
-              ? "Le contrat cree une installation puis le contrat annuel rattache."
-              : "Ajoutez d'abord un client pour creer un contrat.")}
+              ? "Le contrat crée une installation puis le contrat annuel rattaché."
+              : "Ajoutez d’abord un client pour créer un contrat.")}
         </p>
         <button className="login-submit sm:max-w-64" disabled={disabled} type="submit">
           Enregistrer le contrat

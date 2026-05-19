@@ -11,7 +11,7 @@ const clauses = [
   ],
   [
     "Responsabilite",
-    "Le client reste responsable de l'exactitude des donnees saisies, des obligations reglementaires applicables a son activite et de la validation des documents envoyes.",
+    "Le client reste responsable de l’exactitude des données saisies, des obligations réglementaires applicables à son activité et de la validation des documents envoyés.",
   ],
   [
     "Disponibilite",

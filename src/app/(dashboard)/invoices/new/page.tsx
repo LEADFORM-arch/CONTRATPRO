@@ -29,7 +29,7 @@ export default async function NewInvoicePage({ searchParams }: NewInvoicePagePro
             Retour factures
           </a>
         }
-        description="Generez une facture propre depuis un contrat de maintenance CVC, avec TVA et echeance de paiement."
+        description="Générez une facture propre depuis un contrat de maintenance CVC, avec TVA et échéance de paiement."
         eyebrow="Facturation"
         title="Nouvelle facture"
       />

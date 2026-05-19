@@ -22,7 +22,7 @@ export const dynamic = "force-dynamic";
 export const metadata: Metadata = {
   title: "Logiciel contrats entretien CVC pour chauffagistes",
   description:
-    "ContratPro aide les chauffagistes a retrouver leurs contrats d'entretien, automatiser les relances, generer les attestations et suivre les paiements.",
+    "ContratPro aide les chauffagistes à retrouver leurs contrats d’entretien, automatiser les relances, générer les attestations et suivre les paiements.",
   alternates: {
     canonical: "/",
   },
@@ -51,7 +51,7 @@ const homeWorkflow = [
 
 const homeProofs = [
   ["15 min", "pour comprendre les contrats a sauver"],
-  ["45 jours", "avant echeance pour relancer proprement"],
+  ["45 jours", "avant échéance pour relancer proprement"],
   ["SEPA", "pour fiabiliser le cash recurrent"],
 ];
 
@@ -337,7 +337,7 @@ async function DashboardHome() {
     {
       action: "Activer SEPA",
       count: renewalsWithoutSepa.length,
-      detail: "contrats a risque encore hors prelevement",
+      detail: "contrats à risque encore hors prélèvement",
       href: "/payments/new",
       tone: "cyan",
     },
@@ -376,7 +376,7 @@ async function DashboardHome() {
           label: "Urgent",
           tone: "rose" as const,
           title: "Protegez le revenu avant la fin de semaine.",
-          proof: `${criticalRenewals.length} echeance(s) critique(s), ${failedPayments.length} paiement(s) rejete(s).`,
+          proof: `${criticalRenewals.length} échéance(s) critique(s), ${failedPayments.length} paiement(s) rejeté(s).`,
           action: "Ouvrir la file de relance",
           href: "/relances",
         }
@@ -428,7 +428,7 @@ async function DashboardHome() {
         <section className="dashboard-empty-cockpit mt-6" data-od-id="dashboard-empty-cockpit">
           <div>
             <p>Activation portefeuille</p>
-            <h2>Importez votre base pour voir le revenu a securiser.</h2>
+            <h2>Importez votre base pour voir le revenu à sécuriser.</h2>
             <span>
               Le cockpit devient utile des que vos clients, equipements et contrats
               annuels sont presents. Commencez par un dry-run, sans creation irreversible.
@@ -439,7 +439,7 @@ async function DashboardHome() {
               Importer mes contrats
             </a>
             <a className="premium-secondary-action rounded-md px-4 py-2 text-sm font-semibold" href="/contracts/quick">
-              Creer un contrat
+              Créer un contrat
             </a>
           </div>
         </section>
@@ -453,7 +453,7 @@ async function DashboardHome() {
             </p>
             <h2>Securiser les contrats avant qu'ils ne fuient.</h2>
             <p>
-              Lecture dirigeant des echeances, documents, paiements et mandats
+              Lecture dirigeant des échéances, documents, paiements et mandats
               qui menacent directement le revenu annuel.
             </p>
           </div>
@@ -497,11 +497,11 @@ async function DashboardHome() {
               Action du jour
             </p>
             <h3>
-              {nextSecuringAction?.action ?? "Portefeuille sous controle"}
+              {nextSecuringAction?.action ?? "Portefeuille sous contrôle"}
             </h3>
             <p>
               {nextSecuringAction?.detail ??
-                "Aucune fuite urgente detectee. Continuez a suivre les prochaines echeances."}
+                "Aucune fuite urgente détectée. Continuez à suivre les prochaines échéances."}
             </p>
           </div>
           <a
@@ -602,7 +602,7 @@ async function DashboardHome() {
                 Renouvellements prioritaires
               </h3>
               <p className="mt-1 text-sm text-zinc-400">
-                Tries par echeance pour declencher les relances au bon moment.
+                Triés par échéance pour déclencher les relances au bon moment.
               </p>
             </div>
             <a

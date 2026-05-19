@@ -56,23 +56,23 @@ export default async function ContractsPage() {
       ? {
           action: "Relancer",
           href: "/relances",
-          label: "Revenu a proteger",
-          proof: `${contractsToRenew.length} contrat(s), ${formatEuro(revenueToSecure)} a securiser.`,
+          label: "Revenu à protéger",
+          proof: `${contractsToRenew.length} contrat(s), ${formatEuro(revenueToSecure)} à sécuriser.`,
           tone: "rose" as const,
         }
       : nonSepaContracts.length > 0
         ? {
             action: "Activer SEPA",
             href: "/payments/new",
-            label: "Cash-flow a fiabiliser",
-            proof: `${nonSepaContracts.length} contrat(s) encore hors prelevement automatique.`,
+            label: "Cash-flow à fiabiliser",
+            proof: `${nonSepaContracts.length} contrat(s) encore hors prélèvement automatique.`,
             tone: "amber" as const,
           }
         : {
-            action: "Controler",
+            action: "Contrôler",
             href: "/contracts/quick",
             label: "Portefeuille stable",
-            proof: "Aucun contrat prioritaire detecte dans la liste actuelle.",
+            proof: "Aucun contrat prioritaire détecté dans la liste actuelle.",
             tone: "emerald" as const,
           };
 
@@ -92,7 +92,7 @@ export default async function ContractsPage() {
             </a>
           </div>
         }
-        description="Suivez les contrats annuels, les dates anniversaires, les modes de paiement et les relances a declencher."
+        description="Suivez les contrats annuels, les dates anniversaires, les modes de paiement et les relances à déclencher."
         eyebrow="Gestion contrats"
         title="Contrats de maintenance CVC"
       />
@@ -111,7 +111,7 @@ export default async function ContractsPage() {
               {nextContract.customer} - {formatEuro(nextContract.value)}
             </span>
           ) : (
-            <span>Importer ou creer un premier contrat.</span>
+            <span>Importer ou créer un premier contrat.</span>
           )}
           <a className="premium-action rounded-md text-sm font-semibold" href={architectDecision.href}>
             {architectDecision.action}
@@ -133,14 +133,14 @@ export default async function ContractsPage() {
           value={formatEuro(total)}
         />
         <PortfolioMetric
-          detail={`${sepaContracts.length} contrat(s) avec paiement automatise`}
+          detail={`${sepaContracts.length} contrat(s) avec paiement automatisé`}
           label="SEPA"
           tone="amber"
           value={`${sepaRate}%`}
         />
         <PortfolioMetric
-          detail={`${contractsToRenew.length} contrat(s) a traiter en priorite`}
-          label="A securiser"
+          detail={`${contractsToRenew.length} contrat(s) à traiter en priorité`}
+          label="À sécuriser"
           tone="rose"
           value={formatEuro(revenueToSecure)}
         />
@@ -153,7 +153,7 @@ export default async function ContractsPage() {
               Portefeuille contrats
             </h3>
             <p className="mt-1 text-sm text-zinc-400">
-              Vue de pilotage des echeances, paiements et dossiers clients.
+              Vue de pilotage des échéances, paiements et dossiers clients.
             </p>
           </div>
           <span className="contract-count-pill">{contracts.length} dossiers</span>
@@ -165,9 +165,9 @@ export default async function ContractsPage() {
             <thead>
               <tr className="dashboard-table-head text-xs uppercase tracking-wide text-zinc-400">
                 <th className="px-4 py-3 font-semibold">Client</th>
-                <th className="px-4 py-3 font-semibold">Equipement</th>
-                <th className="px-4 py-3 font-semibold">Echeance</th>
-                <th className="px-4 py-3 font-semibold">Derniere visite</th>
+                <th className="px-4 py-3 font-semibold">Équipement</th>
+                <th className="px-4 py-3 font-semibold">Échéance</th>
+                <th className="px-4 py-3 font-semibold">Dernière visite</th>
                 <th className="px-4 py-3 font-semibold">Paiement</th>
                 <th className="px-4 py-3 font-semibold">Montant</th>
                 <th className="px-4 py-3 font-semibold">Statut</th>
@@ -216,7 +216,7 @@ export default async function ContractsPage() {
           <div className="p-4">
             <ActivationEmptyState
               actionHref="/contracts/quick"
-              actionLabel="Creer mon premier contrat"
+              actionLabel="Créer mon premier contrat"
               eyebrow="Revenu recurrent"
               proofPoints={[
                 "Fixer une date anniversaire",

@@ -21,9 +21,9 @@ export default async function NewPaymentPage() {
             Retour paiements
           </a>
         }
-        description="Programmez un paiement recurrent depuis un mandat SEPA actif et suivez son cycle d'encaissement."
-        eyebrow="Nouveau prelevement"
-        title="Creer un paiement SEPA"
+        description="Programmez un paiement récurrent depuis un mandat SEPA actif et suivez son cycle d’encaissement."
+        eyebrow="Nouveau prélèvement"
+        title="Créer un paiement SEPA"
       />
 
       <PaymentForm

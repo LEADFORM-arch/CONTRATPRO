@@ -12,7 +12,7 @@ export default function LegalPage() {
           <p>
             ContratPro est edite par la societe exploitante a renseigner avant
             mise en production : denomination sociale, forme juridique, capital,
-            SIRET, RCS, adresse du siege et email de contact.
+            SIRET, RCS, adresse du siège et email de contact.
           </p>
 
           <h2>Hebergement</h2>

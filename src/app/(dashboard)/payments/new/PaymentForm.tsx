@@ -39,7 +39,7 @@ export function PaymentForm({ defaultChargeDate, mandates }: PaymentFormProps) {
 
     setSubmitState({
       status: "loading",
-      message: "Creation du prelevement...",
+      message: "Création du prélèvement...",
     });
 
     const response = await fetch("/api/payments", {
@@ -52,14 +52,14 @@ export function PaymentForm({ defaultChargeDate, mandates }: PaymentFormProps) {
     if (!response.ok) {
       setSubmitState({
         status: "error",
-        message: payload.error || "Impossible de creer ce paiement.",
+        message: payload.error || "Impossible de créer ce paiement.",
       });
       return;
     }
 
     setSubmitState({
       status: "success",
-      message: "Prelevement cree. Retour aux paiements...",
+      message: "Prélèvement créé. Retour aux paiements...",
     });
     form.reset();
     router.push("/payments");
@@ -104,7 +104,7 @@ export function PaymentForm({ defaultChargeDate, mandates }: PaymentFormProps) {
         </label>
 
         <label className="grid gap-2 text-sm font-medium text-zinc-700">
-          Date d'encaissement
+          Date d’encaissement
           <input
             className={inputClass}
             defaultValue={defaultChargeDate}
@@ -117,14 +117,14 @@ export function PaymentForm({ defaultChargeDate, mandates }: PaymentFormProps) {
         <label className="grid gap-2 text-sm font-medium text-zinc-700">
           Statut initial
           <select className={inputClass} name="status">
-            <option value="PENDING_SUBMISSION">Programme</option>
-            <option value="SUBMITTED">Envoye banque</option>
-            <option value="CONFIRMED">Confirme</option>
+            <option value="PENDING_SUBMISSION">Programmé</option>
+            <option value="SUBMITTED">Envoyé banque</option>
+            <option value="CONFIRMED">Confirmé</option>
           </select>
         </label>
 
         <label className="grid gap-2 text-sm font-medium text-zinc-700 md:col-span-2">
-          Libelle
+          Libellé
           <input
             className={inputClass}
             name="description"
@@ -141,7 +141,7 @@ export function PaymentForm({ defaultChargeDate, mandates }: PaymentFormProps) {
         >
           {submitState.message ||
             (mandates.length
-              ? "Le paiement reste interne tant que le prestataire SEPA n'est pas branche."
+              ? "Le paiement reste interne tant que le prestataire SEPA n’est pas branché."
               : "Aucun mandat SEPA actif disponible.")}
         </p>
         {!mandates.length ? (
@@ -149,7 +149,7 @@ export function PaymentForm({ defaultChargeDate, mandates }: PaymentFormProps) {
             className="premium-secondary-action rounded-md px-4 py-2 text-sm font-semibold"
             href="/contracts"
           >
-            Creer un mandat depuis un contrat
+            Créer un mandat depuis un contrat
           </a>
         ) : null}
         <button

@@ -70,7 +70,7 @@ function ContractNextAction({
           href={`/invoices/new?contractId=${contractId}`}
         >
           <span>01</span>
-          <strong>Creer facture</strong>
+          <strong>Créer facture</strong>
           <small>Reprendre client, contrat, TVA et montant TTC.</small>
         </a>
         <a
@@ -79,11 +79,11 @@ function ContractNextAction({
           href="/payments/new"
         >
           <span>02</span>
-          <strong>{hasMandate ? "Programmer SEPA" : "Preparer SEPA"}</strong>
+          <strong>{hasMandate ? "Programmer SEPA" : "Préparer SEPA"}</strong>
           <small>
             {hasMandate
-              ? "Mandat detecte: programmer le paiement recurrent."
-              : "Mandat GoCardless a renseigner avant soumission."}
+              ? "Mandat détecté : programmer le paiement récurrent."
+              : "Mandat GoCardless à renseigner avant soumission."}
           </small>
         </a>
       </div>

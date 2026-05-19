@@ -103,10 +103,10 @@ export default async function CustomerDetailPage({
         <div className="customer-detail-section-header flex flex-wrap items-start justify-between gap-4">
           <div>
             <h3 className="text-base font-semibold text-zinc-950">
-              Parc installe
+              Parc installé
             </h3>
             <p className="mt-1 text-sm text-zinc-500">
-              Equipements, contrats associes et echeances de maintenance.
+              Équipements, contrats associés et échéances de maintenance.
             </p>
           </div>
           <a
@@ -143,7 +143,7 @@ export default async function CustomerDetailPage({
                     <thead>
                       <tr className="dashboard-table-head text-xs uppercase tracking-wide text-zinc-500">
                         <th className="px-3 py-2 font-semibold">Contrat</th>
-                        <th className="px-3 py-2 font-semibold">Periode</th>
+                        <th className="px-3 py-2 font-semibold">Période</th>
                         <th className="px-3 py-2 font-semibold">Paiement</th>
                         <th className="px-3 py-2 font-semibold">Montant</th>
                         <th className="px-3 py-2 font-semibold">Statut</th>
@@ -181,7 +181,7 @@ export default async function CustomerDetailPage({
             ))
           ) : (
             <p className="rounded-md bg-zinc-50 p-4 text-sm text-zinc-500">
-              Aucun equipement rattache a ce client.
+              Aucun équipement rattaché à ce client.
             </p>
           )}
         </div>

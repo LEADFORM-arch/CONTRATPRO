@@ -10,7 +10,7 @@ type PaymentEvent = {
 
 function eventLabel(value: string) {
   const labels: Record<string, string> = {
-    payment_created: "Paiement cree",
+    payment_created: "Paiement créé",
     payment_status_updated: "Statut modifie",
     provider_submission: "Soumission provider",
     provider_submission_failed: "Echec provider",

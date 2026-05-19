@@ -16,7 +16,7 @@ export default function NewCustomerPage() {
         }
         description="Ajoutez un client final avant de rattacher une installation, un contrat annuel et les relances."
         eyebrow="Nouveau client"
-        title="Creer une fiche client"
+        title="Créer une fiche client"
       />
 
       <div className="customer-form-intro mt-6">

@@ -294,7 +294,7 @@ describe("production guardrails", () => {
       "GOCARDLESS_ACCESS_TOKEN",
       "GOCARDLESS_ENVIRONMENT=sandbox",
       "/contracts/quick",
-      "Creer lien GoCardless",
+      "Créer lien GoCardless",
       "mandate_request_mandate",
       "Actif GoCardless",
       "/payments/new",
@@ -1571,11 +1571,11 @@ describe("production guardrails", () => {
     assertIncludes(read("src/app/(dashboard)/contracts/page.tsx"), [
       "data-od-id=\"contracts-portfolio-architect\"",
       "Architecte IA portefeuille",
-      "A securiser",
+      "À sécuriser",
       "Prochaine action",
       "/contracts/quick",
       "Contrat guide",
-      "Creer mon premier contrat",
+      "Créer mon premier contrat",
       "Importer depuis Excel",
     ], "contracts empty state actions");
 
@@ -1609,9 +1609,9 @@ describe("production guardrails", () => {
     assertIncludes(read("src/app/(dashboard)/contracts/[id]/page.tsx"), [
       "data-od-id=\"contract-next-action\"",
       "MandateSetupForm",
-      "Creer facture",
+      "Créer facture",
       "/invoices/new?contractId=",
-      "Preparer SEPA",
+      "Préparer SEPA",
       "GoCardless",
       "Programmer paiement",
     ], "contract detail next actions");
@@ -1619,7 +1619,7 @@ describe("production guardrails", () => {
     assertIncludes(read("src/app/(dashboard)/contracts/[id]/MandateSetupForm.tsx"), [
       "/api/contracts/${contractId}/mandate/authorisation",
       "/api/contracts/${contractId}/mandate",
-      "Creer lien GoCardless",
+      "Créer lien GoCardless",
       "gcCustomerId",
       "gcMandateId",
       "Actif GoCardless",
@@ -1659,7 +1659,7 @@ describe("production guardrails", () => {
 
     assertIncludes(read("src/app/(dashboard)/payments/new/PaymentForm.tsx"), [
       "Aucun mandat SEPA actif disponible",
-      "Creer un mandat depuis un contrat",
+      "Créer un mandat depuis un contrat",
       "/contracts",
     ], "payment empty mandate action");
 

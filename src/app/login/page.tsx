@@ -3,7 +3,7 @@ import { Suspense } from "react";
 import { LoginForm } from "./LoginForm";
 
 const proofMetrics = [
-  { label: "CA recurrent", value: "100%" },
+  { label: "CA récurrent", value: "100%" },
   { label: "Relances", value: "Auto" },
   { label: "RLS", value: "Actif" },
 ];
@@ -24,17 +24,17 @@ export default function LoginPage() {
           </div>
 
           <nav className="login-public-links">
-            <a href="/demo">Demo</a>
+            <a href="/demo">Démo</a>
             <a href="/pricing">Tarif</a>
-            <a href="/privacy">Confidentialite</a>
+            <a href="/privacy">Confidentialité</a>
           </nav>
 
           <h1 className="mt-8 max-w-2xl text-4xl font-semibold tracking-normal text-zinc-50 sm:text-5xl">
             Pilotez vos contrats CVC comme un centre de profit.
           </h1>
           <p className="mt-5 max-w-xl text-base leading-7 text-zinc-400">
-            Une interface executive pour suivre renouvellements, attestations,
-            factures et paiements recurrents sans perdre le fil operationnel.
+            Une interface exécutive pour suivre renouvellements, attestations,
+            factures et paiements récurrents sans perdre le fil opérationnel.
           </p>
 
           <div className="mt-8 grid max-w-xl grid-cols-3 gap-3">
@@ -52,7 +52,7 @@ export default function LoginPage() {
                 <p className="text-xs font-medium uppercase tracking-wide text-zinc-500">
                   Vue dirigeant
                 </p>
-                <strong>Contrats a renouveler</strong>
+                <strong>Contrats à renouveler</strong>
               </div>
               <span>Live</span>
             </div>
@@ -68,15 +68,15 @@ export default function LoginPage() {
             </div>
             <div className="login-preview-list">
               <div>
-                <span>Pompe a chaleur - Dijon</span>
+                <span>Pompe à chaleur - Dijon</span>
                 <strong>J+12</strong>
               </div>
               <div>
-                <span>Chaudiere gaz - Lyon</span>
+                <span>Chaudière gaz - Lyon</span>
                 <strong>J+21</strong>
               </div>
               <div>
-                <span>Clim reversible - Annecy</span>
+                <span>Clim réversible - Annecy</span>
                 <strong>J+34</strong>
               </div>
             </div>
@@ -88,13 +88,13 @@ export default function LoginPage() {
           <div className="flex items-start justify-between gap-4">
             <div>
               <p className="text-sm font-medium text-emerald-400">
-                Acces securise
+                Accès sécurisé
               </p>
               <h2 className="mt-2 text-3xl font-semibold tracking-normal">
                 Connexion
               </h2>
               <p className="mt-2 text-sm leading-6 text-zinc-400">
-                Connectez-vous a votre espace entreprise.
+                Connectez-vous à votre espace entreprise.
               </p>
             </div>
             <span className="login-security-pill">Supabase</span>
@@ -106,7 +106,7 @@ export default function LoginPage() {
 
           <div className="login-card-footer">
             <span />
-            Donnees isolees par organisation avec RLS active.
+            Données isolées par organisation avec RLS active.
           </div>
         </section>
       </section>

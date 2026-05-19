@@ -23,7 +23,7 @@ test fournis ou acceptes par GoCardless.
 1. Ouvrir `/contracts/quick`.
 2. Creer un contrat rapide avec un client fictif.
 3. Ouvrir la fiche contrat.
-4. Dans `Mandat SEPA`, cliquer `Creer lien GoCardless`.
+4. Dans `Mandat SEPA`, cliquer `Créer lien GoCardless`.
 5. Ouvrir le lien sandbox et finaliser le parcours mandate GoCardless heberge.
 6. Le mandat passe en suivi `Envoye GoCardless`.
 7. Le webhook `/api/webhooks/gocardless` doit ensuite rattacher
