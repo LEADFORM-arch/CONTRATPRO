@@ -202,6 +202,8 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: error.message }, { status: 401 });
     }
 
+    console.error("[Stripe] webhook processing failed", error);
+
     return NextResponse.json(
       { error: "Impossible de traiter le webhook Stripe." },
       { status: 500 },
