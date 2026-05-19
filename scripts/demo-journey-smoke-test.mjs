@@ -171,6 +171,26 @@ logStep("Facture demo creee", invoice.id);
 await getOk(`/api/invoices/${invoice.id}/pdf`, cookie);
 logStep("PDF facture", "generation OK");
 
+const intervention = await postJson("/api/interventions", cookie, {
+  contractId: quickContract.id,
+  nextVisitDate: "2027-05-19",
+  performedAt: "2026-05-19",
+  report: "Controle combustion, verification securites et nettoyage corps de chauffe.",
+  status: "COMPLETED",
+  technician: "M. Martin",
+}, 201);
+logStep("Intervention entretien", intervention.id);
+
+const certificate = await postJson("/api/certificates", cookie, {
+  contractId: quickContract.id,
+  interventionId: intervention.id,
+  legalReference: "Arrete entretien chaudiere - parcours demo ContratPro",
+}, 201);
+logStep("Attestation entretien", certificate.id);
+
+await getOk(`/api/certificates/${certificate.id}/pdf`, cookie);
+logStep("PDF attestation", "generation OK");
+
 if (sendEmail) {
   await postJson(`/api/invoices/${invoice.id}/send`, cookie, {}, 200);
   logStep("Email facture", "envoye via Resend");
@@ -179,5 +199,5 @@ if (sendEmail) {
 }
 
 console.log(
-  `\nDemo M. Martin OK: import -> contrat -> SEPA -> facture -> PDF${sendEmail ? " -> email" : " -> email pret"} sur ${baseUrl}.`,
+  `\nDemo M. Martin OK: import -> contrat -> SEPA -> facture -> attestation -> PDF${sendEmail ? " -> email" : " -> email pret"} sur ${baseUrl}.`,
 );
