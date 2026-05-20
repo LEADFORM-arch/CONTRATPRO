@@ -35,6 +35,9 @@ const productNavItems = [
   { href: "/settings/security", label: "S\u00e9curit\u00e9", tone: "security" },
 ];
 
+const guidedNavItems = productNavItems.filter((item) => "step" in item);
+const secondaryNavItems = productNavItems.filter((item) => !("step" in item));
+
 const internalNavItems = [
   { href: "/admin/launch", label: "Go-live" },
   { href: "/admin/pilots", label: "Pilotes" },
@@ -89,8 +92,9 @@ export function AppShell({
             + Nouveau contrat
           </a>
 
-          <nav className="mt-6 grid grid-cols-2 gap-2 text-sm lg:grid-cols-1">
-            {productNavItems.map((item) => {
+          <nav className="mt-6 grid grid-cols-2 gap-2 text-sm lg:grid-cols-1" aria-label="Parcours ContratPro">
+            <p className="nav-section-label col-span-2 lg:col-span-1">Parcours</p>
+            {guidedNavItems.map((item) => {
               const active = activePath === item.href;
               return (
                 <a
@@ -101,7 +105,27 @@ export function AppShell({
                   href={item.href}
                   key={item.href}
                 >
-                  {"step" in item ? <span className="nav-step">{item.step}</span> : null}
+                  <span className="nav-step">{item.step}</span>
+                  <span>{item.label}</span>
+                </a>
+              );
+            })}
+          </nav>
+
+          <nav className="mt-5 grid grid-cols-2 gap-2 text-sm lg:grid-cols-1" aria-label="Outils ContratPro">
+            <p className="nav-section-label col-span-2 lg:col-span-1">Suivi</p>
+            {secondaryNavItems.map((item) => {
+              const active = activePath === item.href;
+              return (
+                <a
+                  className={`nav-item rounded-md px-3 py-2 font-medium ${
+                    active ? "nav-item-active" : "text-zinc-600"
+                  }`}
+                  data-tone={item.tone}
+                  href={item.href}
+                  key={item.href}
+                >
+                  <span className="nav-dot" />
                   <span>{item.label}</span>
                 </a>
               );

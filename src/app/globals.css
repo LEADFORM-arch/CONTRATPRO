@@ -275,6 +275,24 @@ body .hover\:bg-zinc-100:hover {
   color: #ffffff;
 }
 
+.nav-dot {
+  background: rgb(var(--nav-signal, 148 163 184));
+  border-radius: 999px;
+  box-shadow: 0 0 14px rgb(var(--nav-signal, 148 163 184) / 0.32);
+  flex: 0 0 0.48rem;
+  height: 0.48rem;
+  width: 0.48rem;
+}
+
+.nav-section-label {
+  color: #71717a;
+  font-size: 0.68rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  margin: 0.15rem 0 0.2rem;
+  text-transform: uppercase;
+}
+
 .app-main-panel {
   background:
     linear-gradient(180deg, rgb(var(--page-signal) / 0.035), transparent 18rem),
@@ -413,11 +431,11 @@ body .hover\:bg-zinc-100:hover {
 .premium-action,
 .premium-inline-action {
   background:
-    linear-gradient(135deg, #059669, #0f766e 55%, #0e7490),
+    linear-gradient(135deg, rgb(var(--page-signal) / 0.92), rgb(var(--page-signal) / 0.58) 58%, rgba(14, 116, 144, 0.9)),
     #047857;
-  border: 1px solid rgba(110, 231, 183, 0.28);
+  border: 1px solid rgb(var(--page-signal) / 0.34);
   box-shadow:
-    0 10px 28px rgba(5, 150, 105, 0.2),
+    0 10px 28px rgb(var(--page-signal) / 0.18),
     inset 0 1px 0 rgba(255, 255, 255, 0.16);
   color: #ffffff;
 }
@@ -431,9 +449,9 @@ body .hover\:bg-zinc-100:hover {
 
 .premium-action:hover,
 .premium-inline-action:hover {
-  border-color: rgba(167, 243, 208, 0.5);
+  border-color: rgb(var(--page-signal) / 0.56);
   box-shadow:
-    0 16px 36px rgba(5, 150, 105, 0.28),
+    0 16px 36px rgb(var(--page-signal) / 0.26),
     inset 0 1px 0 rgba(255, 255, 255, 0.2);
   transform: translateY(-1px);
 }
@@ -459,9 +477,9 @@ body .hover\:bg-zinc-100:hover {
 
 .premium-secondary-action:hover {
   background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.075), rgba(255, 255, 255, 0.03)),
+    linear-gradient(180deg, rgb(var(--page-signal) / 0.08), rgba(255, 255, 255, 0.03)),
     #171a1f;
-  border-color: rgba(148, 163, 184, 0.42);
+  border-color: rgb(var(--page-signal) / 0.3);
   color: #ffffff;
 }
 
