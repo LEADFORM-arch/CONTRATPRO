@@ -23,6 +23,15 @@ type OnboardingStep = {
   title: string;
 };
 
+type FirstMinuteAction = {
+  cta: string;
+  detail: string;
+  href: string;
+  kicker: string;
+  state: "done" | "primary" | "ready";
+  title: string;
+};
+
 type ActivationDecision = {
   action: string;
   label: string;
@@ -111,6 +120,51 @@ function activationDecision(score: number) {
   return activationDecisions[0];
 }
 
+function firstMinuteActions({
+  companyComplete,
+  contractsCount,
+  customersCount,
+}: {
+  companyComplete: boolean;
+  contractsCount: number;
+  customersCount: number;
+}): FirstMinuteAction[] {
+  return [
+    {
+      cta: "D\u00e9poser Excel",
+      detail:
+        customersCount > 0
+          ? customersCount + " client(s) d\u00e9j\u00e0 pr\u00e9sents. Importer un autre fichier si besoin."
+          : "Pour reprendre un portefeuille clients sans ressaisie.",
+      href: "/import",
+      kicker: "J'ai d\u00e9j\u00e0 une liste",
+      state: customersCount > 0 ? "done" : "primary",
+      title: "Importer mes clients",
+    },
+    {
+      cta: "Cr\u00e9er contrat",
+      detail:
+        contractsCount > 0
+          ? contractsCount + " contrat(s) d\u00e9j\u00e0 actifs dans le cockpit."
+          : "Pour tester tout de suite client, \u00e9quipement, tarif et SEPA.",
+      href: "/contracts/quick",
+      kicker: "Je veux tester maintenant",
+      state: contractsCount > 0 ? "done" : customersCount > 0 ? "primary" : "ready",
+      title: "Cr\u00e9er un contrat",
+    },
+    {
+      cta: "Compl\u00e9ter fiche",
+      detail: companyComplete
+        ? "Identit\u00e9 pr\u00eate pour factures, attestations et emails."
+        : "SIRET, adresse, TVA et coordonn\u00e9es avant documents propres.",
+      href: "/settings/company",
+      kicker: "Je pr\u00e9pare les documents",
+      state: companyComplete ? "done" : "ready",
+      title: "Renseigner l'entreprise",
+    },
+  ];
+}
+
 export default async function OnboardingPage() {
   const [organization, customers, contracts, invoices, certificates, payments, billing] =
     await Promise.all([
@@ -191,6 +245,11 @@ export default async function OnboardingPage() {
   const completionRate = Math.round((completed / steps.length) * 100);
   const nextStep = steps.find((step) => !step.done);
   const decision = activationDecision(completionRate);
+  const quickStartActions = firstMinuteActions({
+    companyComplete,
+    contractsCount: contracts.length,
+    customersCount: customers.length,
+  });
 
   return (
     <AppShell activePath="/onboarding">
@@ -204,6 +263,31 @@ export default async function OnboardingPage() {
         eyebrow="Mise en route"
         title="Activation ContratPro"
       />
+
+      <section className="onboarding-first-run mt-6 rounded-lg border p-5">
+        <div className="onboarding-first-run-copy">
+          <p>{"Premi\u00e8re minute apr\u00e8s connexion"}</p>
+          <h2>{"Pas de formation : choisissez le point de d\u00e9part."}</h2>
+          <span>
+            {"ContratPro peut commencer par un fichier Excel, par un contrat test ou par les informations de l'entreprise. Le reste du cockpit se d\u00e9bloque naturellement."}
+          </span>
+        </div>
+        <div className="onboarding-first-run-actions">
+          {quickStartActions.map((action) => (
+            <a
+              className="onboarding-first-run-action"
+              data-state={action.state}
+              href={action.href}
+              key={action.title}
+            >
+              <span>{action.kicker}</span>
+              <strong>{action.title}</strong>
+              <p>{action.detail}</p>
+              <small>{action.cta}</small>
+            </a>
+          ))}
+        </div>
+      </section>
 
       <section className="onboarding-command mt-6 rounded-lg border p-5 shadow-sm">
         <div className="grid gap-5 lg:grid-cols-[1fr_360px] lg:items-end">
