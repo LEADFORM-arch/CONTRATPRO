@@ -2,21 +2,37 @@ import type { ReactNode } from "react";
 
 import { LogoutButton } from "./LogoutButton";
 
+type PageTone =
+  | "billing"
+  | "certificates"
+  | "clients"
+  | "company"
+  | "contracts"
+  | "control"
+  | "field"
+  | "import"
+  | "interventions"
+  | "invoices"
+  | "payments"
+  | "relances"
+  | "security"
+  | "start";
+
 const productNavItems = [
-  { href: "/", label: "Pilotage" },
-  { href: "/onboarding", label: "Onboarding" },
-  { href: "/terrain", label: "Terrain mobile" },
-  { href: "/relances", label: "Relances" },
-  { href: "/contracts", label: "Contrats" },
-  { href: "/interventions", label: "Interventions" },
-  { href: "/customers", label: "Clients" },
-  { href: "/certificates", label: "Attestations" },
-  { href: "/payments", label: "Paiements SEPA" },
-  { href: "/invoices", label: "Factures" },
-  { href: "/import", label: "Import Excel/CSV" },
-  { href: "/settings/company", label: "Entreprise" },
-  { href: "/settings/billing", label: "Abonnement" },
-  { href: "/settings/security", label: "S\u00e9curit\u00e9" },
+  { href: "/", label: "Pilotage", tone: "control" },
+  { href: "/onboarding", label: "D\u00e9marrer", step: "1", tone: "start" },
+  { href: "/import", label: "Import Excel", step: "2", tone: "import" },
+  { href: "/customers", label: "Clients", step: "3", tone: "clients" },
+  { href: "/contracts", label: "Contrats", step: "4", tone: "contracts" },
+  { href: "/payments", label: "SEPA", step: "5", tone: "payments" },
+  { href: "/invoices", label: "Factures", step: "6", tone: "invoices" },
+  { href: "/certificates", label: "Attestations", step: "7", tone: "certificates" },
+  { href: "/relances", label: "Relances", tone: "relances" },
+  { href: "/terrain", label: "Terrain mobile", tone: "field" },
+  { href: "/interventions", label: "Interventions", tone: "interventions" },
+  { href: "/settings/company", label: "Entreprise", tone: "company" },
+  { href: "/settings/billing", label: "Abonnement", tone: "billing" },
+  { href: "/settings/security", label: "S\u00e9curit\u00e9", tone: "security" },
 ];
 
 const internalNavItems = [
@@ -31,6 +47,19 @@ const internalNavItems = [
   { href: "/settings/facebook", label: "Canal Facebook" },
 ];
 
+function pageToneForPath(path: string): PageTone {
+  const matchingItem = productNavItems.find((item) => item.href === path);
+  if (matchingItem) {
+    return matchingItem.tone as PageTone;
+  }
+
+  if (path.startsWith("/admin") || path === "/prospection") {
+    return "control";
+  }
+
+  return "control";
+}
+
 export function AppShell({
   activePath,
   children,
@@ -40,8 +69,10 @@ export function AppShell({
   children: ReactNode;
   showInternalTools?: boolean;
 }) {
+  const pageTone = pageToneForPath(activePath);
+
   return (
-    <main className="app-shell-bg min-h-screen bg-zinc-100 text-zinc-950">
+    <main className="app-shell-bg min-h-screen bg-zinc-100 text-zinc-950" data-page-tone={pageTone}>
       <div className="grid min-h-screen lg:grid-cols-[248px_1fr]">
         <aside className="app-sidebar border-b border-zinc-200 bg-white px-5 py-5 lg:border-b-0 lg:border-r">
           <div>
@@ -66,10 +97,12 @@ export function AppShell({
                   className={`nav-item rounded-md px-3 py-2 font-medium ${
                     active ? "nav-item-active" : "text-zinc-600"
                   }`}
+                  data-tone={item.tone}
                   href={item.href}
                   key={item.href}
                 >
-                  {item.label}
+                  {"step" in item ? <span className="nav-step">{item.step}</span> : null}
+                  <span>{item.label}</span>
                 </a>
               );
             })}
