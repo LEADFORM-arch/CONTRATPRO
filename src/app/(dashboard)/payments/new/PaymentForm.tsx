@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { FormEvent, useState } from "react";
+import { FormEvent, useMemo, useState } from "react";
 
 type MandateOption = {
   amount: number;
@@ -21,7 +21,15 @@ type SubmitState =
   | { status: "error"; message: string };
 
 const inputClass =
-  "rounded-md border border-zinc-300 px-3 py-2 text-zinc-950 outline-none focus:border-emerald-700";
+  "payment-form-input";
+
+function formatPaymentEuro(value: number) {
+  return new Intl.NumberFormat("fr-FR", {
+    currency: "EUR",
+    maximumFractionDigits: 0,
+    style: "currency",
+  }).format(Number.isFinite(value) ? value : 0);
+}
 
 export function PaymentForm({ defaultChargeDate, mandates }: PaymentFormProps) {
   const router = useRouter();
@@ -31,6 +39,10 @@ export function PaymentForm({ defaultChargeDate, mandates }: PaymentFormProps) {
     message: "",
   });
   const selectedMandate = mandates.find((mandate) => mandate.id === selectedMandateId);
+  const selectedAmount = useMemo(
+    () => Number(selectedMandate?.amount ?? 0),
+    [selectedMandate?.amount],
+  );
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -70,96 +82,137 @@ export function PaymentForm({ defaultChargeDate, mandates }: PaymentFormProps) {
 
   return (
     <form
-      className="mt-6 max-w-5xl rounded-lg border border-zinc-200 bg-white p-5 shadow-sm"
+      className="payment-new-shell mt-6"
       onSubmit={handleSubmit}
     >
-      <div className="grid gap-4 md:grid-cols-2">
-        <label className="grid gap-2 text-sm font-medium text-zinc-700 md:col-span-2">
-          Mandat actif
-          <select
-            className={inputClass}
-            name="mandateId"
-            onChange={(event) => setSelectedMandateId(event.target.value)}
-            required
-            value={selectedMandateId}
+      <section className="payment-new-form rounded-lg border p-5 shadow-sm">
+        <div className="payment-new-form-intro">
+          <p>1. Mandat signé</p>
+          <h3>Choisir le client déjà autorisé au prélèvement.</h3>
+          <span>
+            Un paiement SEPA se crée uniquement depuis un mandat actif. Si la
+            liste est vide, il faut d'abord ouvrir un contrat et préparer la
+            signature SEPA.
+          </span>
+        </div>
+
+        <div className="grid gap-4 md:grid-cols-2">
+          <label className="payment-form-field md:col-span-2">
+            <span>Mandat actif</span>
+            <select
+              className={inputClass}
+              name="mandateId"
+              onChange={(event) => setSelectedMandateId(event.target.value)}
+              required
+              value={selectedMandateId}
+            >
+              {mandates.map((mandate) => (
+                <option key={mandate.id} value={mandate.id}>
+                  {mandate.label}
+                </option>
+              ))}
+            </select>
+          </label>
+        </div>
+
+        <div className="payment-step-band">2. Encaissement</div>
+
+        <div className="grid gap-4 md:grid-cols-2">
+          <label className="payment-form-field">
+            <span>Montant TTC</span>
+            <input
+              className={inputClass}
+              inputMode="decimal"
+              name="amount"
+              required
+              value={selectedMandate?.amount || ""}
+              readOnly
+            />
+          </label>
+
+          <label className="payment-form-field">
+            <span>Date d'encaissement</span>
+            <input
+              className={inputClass}
+              defaultValue={defaultChargeDate}
+              name="chargeDate"
+              required
+              type="date"
+            />
+          </label>
+
+          <label className="payment-form-field">
+            <span>Statut initial</span>
+            <select className={inputClass} name="status">
+              <option value="PENDING_SUBMISSION">Programmé</option>
+              <option value="SUBMITTED">Envoyé banque</option>
+              <option value="CONFIRMED">Confirmé</option>
+            </select>
+          </label>
+
+          <label className="payment-form-field">
+            <span>Libellé</span>
+            <input
+              className={inputClass}
+              name="description"
+              placeholder="Contrat entretien annuel CVC"
+            />
+          </label>
+        </div>
+
+        <div className="payment-new-footer">
+          <p
+            className={
+              submitState.status === "error"
+                ? "payment-new-message-error"
+                : "payment-new-message"
+            }
           >
-            {mandates.map((mandate) => (
-              <option key={mandate.id} value={mandate.id}>
-                {mandate.label}
-              </option>
-            ))}
-          </select>
-        </label>
-
-        <label className="grid gap-2 text-sm font-medium text-zinc-700">
-          Montant TTC
-          <input
-            className={inputClass}
-            inputMode="decimal"
-            name="amount"
-            required
-            value={selectedMandate?.amount || ""}
-            readOnly
-          />
-        </label>
-
-        <label className="grid gap-2 text-sm font-medium text-zinc-700">
-          Date d’encaissement
-          <input
-            className={inputClass}
-            defaultValue={defaultChargeDate}
-            name="chargeDate"
-            required
-            type="date"
-          />
-        </label>
-
-        <label className="grid gap-2 text-sm font-medium text-zinc-700">
-          Statut initial
-          <select className={inputClass} name="status">
-            <option value="PENDING_SUBMISSION">Programmé</option>
-            <option value="SUBMITTED">Envoyé banque</option>
-            <option value="CONFIRMED">Confirmé</option>
-          </select>
-        </label>
-
-        <label className="grid gap-2 text-sm font-medium text-zinc-700 md:col-span-2">
-          Libellé
-          <input
-            className={inputClass}
-            name="description"
-            placeholder="Contrat entretien annuel CVC"
-          />
-        </label>
-      </div>
-
-      <div className="mt-5 flex flex-col gap-3 border-t border-zinc-200 pt-5 sm:flex-row sm:items-center sm:justify-between">
-        <p
-          className={`text-sm ${
-            submitState.status === "error" ? "text-red-700" : "text-zinc-600"
-          }`}
-        >
-          {submitState.message ||
-            (mandates.length
-              ? "Le paiement reste interne tant que le prestataire SEPA n’est pas branché."
-              : "Aucun mandat SEPA actif disponible.")}
-        </p>
-        {!mandates.length ? (
-          <a
-            className="premium-secondary-action rounded-md px-4 py-2 text-sm font-semibold"
-            href="/contracts"
+            {submitState.message ||
+              (mandates.length
+                ? "Le paiement reste interne tant que le prestataire SEPA n’est pas branché."
+                : "Aucun mandat SEPA actif disponible.")}
+          </p>
+          {!mandates.length ? (
+            <a
+              className="premium-secondary-action rounded-md px-4 py-2 text-sm font-semibold"
+              href="/contracts"
+            >
+              Créer un mandat depuis un contrat
+            </a>
+          ) : null}
+          <button
+            className="premium-action rounded-md px-4 py-2 text-sm font-semibold disabled:cursor-not-allowed disabled:opacity-60"
+            disabled={disabled}
+            type="submit"
           >
-            Créer un mandat depuis un contrat
-          </a>
-        ) : null}
-        <button
-          className="rounded-md bg-emerald-700 px-4 py-2 text-sm font-semibold text-white shadow-sm disabled:cursor-not-allowed disabled:bg-zinc-400"
-          disabled={disabled}
-          type="submit"
-        >
-          Enregistrer paiement
-        </button>
-      </div>
+            {submitState.status === "loading" ? "Enregistrement..." : "Enregistrer paiement"}
+          </button>
+        </div>
+      </section>
+
+      <aside className="payment-new-preview rounded-lg border p-5 shadow-sm">
+        <p>Lecture cash</p>
+        <h3>{selectedMandate?.label ?? "Aucun mandat actif"}</h3>
+        <dl>
+          <div>
+            <dt>Montant à encaisser</dt>
+            <dd>{formatPaymentEuro(selectedAmount)}</dd>
+          </div>
+          <div>
+            <dt>Mode</dt>
+            <dd>SEPA</dd>
+          </div>
+          <div>
+            <dt>Statut de départ</dt>
+            <dd>Programmé</dd>
+          </div>
+        </dl>
+        <span>
+          Le suivi réel passe ensuite par les statuts et événements GoCardless
+          visibles dans le cockpit paiements.
+        </span>
+      </aside>
     </form>
   );
 }

@@ -15,16 +15,30 @@ export default async function NewPaymentPage() {
       <PageHeader
         action={
           <a
-            className="rounded-md border border-zinc-300 px-4 py-2 text-sm font-semibold text-zinc-700 shadow-sm"
+            className="premium-secondary-action rounded-md px-4 py-2 text-sm font-semibold"
             href="/payments"
           >
             Retour paiements
           </a>
         }
-        description="Programmez un paiement récurrent depuis un mandat SEPA actif et suivez son cycle d’encaissement."
+        description="Programmez un encaissement depuis un mandat SEPA actif, avec montant repris et date de prélèvement visible."
         eyebrow="Nouveau prélèvement"
         title="Créer un paiement SEPA"
       />
+
+      <section className="payment-new-brief mt-6 rounded-lg border p-5">
+        <div>
+          <p>Cash-flow contrat</p>
+          <h2>Choisir le mandat, vérifier le montant, programmer l'encaissement.</h2>
+          <span>
+            Le chauffagiste voit le client et le montant. Les identifiants GoCardless
+            restent cachés dans le cockpit technique.
+          </span>
+        </div>
+        <a className="premium-secondary-action rounded-md px-4 py-2 text-sm font-semibold" href="/contracts">
+          Voir contrats
+        </a>
+      </section>
 
       <PaymentForm
         defaultChargeDate={dateInputValue(new Date())}
