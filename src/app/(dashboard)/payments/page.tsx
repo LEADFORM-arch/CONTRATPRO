@@ -1,18 +1,13 @@
 import { AppShell, PageHeader, StatusPill } from "@/components/layout/AppShell";
 import { ActivationEmptyState } from "@/components/layout/ActivationEmptyState";
-import { PaymentEventTimeline } from "@/components/payments/PaymentEventTimeline";
 import { formatEuro } from "@/lib/mock-data";
 import { getPayments } from "@/server/contratpro-data";
-import { getRecentPaymentEvents } from "@/server/payment-events";
 
 import { PaymentSubmitButton } from "./PaymentSubmitButton";
 import { PaymentStatusControls } from "./PaymentStatusControls";
 
 export default async function PaymentsPage() {
-  const [payments, events] = await Promise.all([
-    getPayments(),
-    getRecentPaymentEvents(),
-  ]);
+  const payments = await getPayments();
   const pending = payments.filter((payment) =>
     ["PENDING_SUBMISSION", "SUBMITTED"].includes(payment.rawStatus),
   );
@@ -64,7 +59,7 @@ export default async function PaymentsPage() {
             Créer paiement
           </a>
         }
-        description="Pilotez les mandats, les prélèvements programmés et les relances en cas de paiement manuel ou rejet."
+        description="Une seule question : quel prélèvement faut-il encaisser ou corriger maintenant ?"
         eyebrow="Trésorerie récurrente"
         title="Paiements et mandats SEPA"
       />
@@ -243,10 +238,6 @@ export default async function PaymentsPage() {
           </div>
         )}
       </section>
-
-      <div className="mt-6">
-        <PaymentEventTimeline events={events} />
-      </div>
     </AppShell>
   );
 }

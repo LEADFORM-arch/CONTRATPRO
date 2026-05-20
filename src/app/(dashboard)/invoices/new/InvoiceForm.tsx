@@ -123,10 +123,9 @@ export function InvoiceForm({
       <section className="invoice-new-form rounded-lg border p-5 shadow-sm">
         <div className="invoice-new-form-intro">
           <p>1. Contrat à facturer</p>
-          <h3>Reprendre les informations déjà saisies.</h3>
+          <h3>Choisissez le contrat.</h3>
           <span>
-            Choisissez le contrat : client, équipement et montant sont repris
-            automatiquement pour éviter la double saisie.
+            ContratPro reprend le client, l'équipement et le montant.
           </span>
         </div>
 
@@ -224,7 +223,7 @@ export function InvoiceForm({
 
         <div className="invoice-new-note">
           {selectedContract
-            ? "Les montants sont repris du contrat, puis recalculés côté serveur pour garder une base fiable."
+            ? "Vérifiez seulement le montant avant de créer."
             : "Aucun contrat disponible pour générer une facture."}
         </div>
 

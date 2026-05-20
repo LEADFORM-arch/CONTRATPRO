@@ -572,7 +572,7 @@ export default function ClientImportPage() {
             Modèle Excel/CSV
           </a>
         }
-        description="Déposez le fichier clients du chauffagiste. ContratPro montre ce qui sera créé avant d’écrire quoi que ce soit."
+        description="Déposez le fichier. ContratPro simule avant de créer."
         eyebrow="Onboarding données"
         title="Reprendre un fichier Excel sans ressaisie"
       />
@@ -614,6 +614,22 @@ export default function ClientImportPage() {
           <span className="import-next-action">{importDecision.action}</span>
         )}
       </section>
+
+      <label className="import-dropzone mt-6 flex min-h-44 cursor-pointer flex-col items-center justify-center rounded-lg border border-dashed px-6 py-8 text-center">
+        <span className="import-dropzone-mark">CSV/XLSX</span>
+        <span className="text-base font-semibold">
+          Déposer le fichier clients et contrats
+        </span>
+        <span className="mt-2 max-w-2xl text-sm text-zinc-500">
+          Le contrôle se lance avant toute création. Aucun client n’est écrit sans confirmation.
+        </span>
+        <input
+          accept=".csv,.txt,.xlsx"
+          className="sr-only"
+          onChange={(event) => handleFile(event.target.files?.[0])}
+          type="file"
+        />
+      </label>
 
       <section className="import-model-panel mt-6 rounded-lg border p-5">
         <div className="import-model-header">
@@ -678,23 +694,6 @@ export default function ClientImportPage() {
           </aside>
         </div>
       </section>
-
-      <label className="import-dropzone mt-6 flex min-h-44 cursor-pointer flex-col items-center justify-center rounded-lg border border-dashed px-6 py-8 text-center">
-        <span className="import-dropzone-mark">CSV/XLSX</span>
-        <span className="text-base font-semibold">
-          Déposer le fichier clients et contrats
-        </span>
-        <span className="mt-2 max-w-2xl text-sm text-zinc-500">
-          Colonnes reconnues : raison sociale, email, téléphone, adresse, ville,
-          équipement, marque, modèle, échéance, montant annuel et mode paiement.
-        </span>
-        <input
-          accept=".csv,.txt,.xlsx"
-          className="sr-only"
-          onChange={(event) => handleFile(event.target.files?.[0])}
-          type="file"
-        />
-      </label>
 
       {error ? (
         <p className="import-error mt-5 rounded-md border px-3 py-2 text-sm leading-6">
@@ -841,30 +840,32 @@ export default function ClientImportPage() {
               </section>
             ) : null}
 
-            <div className="import-preview overflow-x-auto rounded-lg border shadow-sm">
-              <table className="w-full min-w-[760px] text-left text-sm">
-                <thead>
-                  <tr className="dashboard-table-head">
-                    {columns.map((column) => (
-                      <th className="px-4 py-3 font-semibold" key={column}>
-                        {column}
-                      </th>
-                    ))}
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-zinc-800/80">
-                  {previewRows.map((row, index) => (
-                    <tr className="import-preview-row" key={index}>
+            {!report ? (
+              <div className="import-preview overflow-x-auto rounded-lg border shadow-sm">
+                <table className="w-full min-w-[760px] text-left text-sm">
+                  <thead>
+                    <tr className="dashboard-table-head">
                       {columns.map((column) => (
-                        <td className="max-w-64 truncate px-4 py-3 text-zinc-300" key={column}>
-                          {row[column] || "-"}
-                        </td>
+                        <th className="px-4 py-3 font-semibold" key={column}>
+                          {column}
+                        </th>
                       ))}
                     </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
+                  </thead>
+                  <tbody className="divide-y divide-zinc-800/80">
+                    {previewRows.map((row, index) => (
+                      <tr className="import-preview-row" key={index}>
+                        {columns.map((column) => (
+                          <td className="max-w-64 truncate px-4 py-3 text-zinc-300" key={column}>
+                            {row[column] || "-"}
+                          </td>
+                        ))}
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            ) : null}
           </div>
         </div>
       ) : null}
@@ -894,7 +895,10 @@ export default function ClientImportPage() {
         </section>
       ) : null}
 
-      <section className="import-history mt-6 rounded-lg border p-4 shadow-sm">
+      <details className="import-history mt-6 rounded-lg border p-4 shadow-sm">
+        <summary className="import-history-summary">
+          Voir l'historique des imports
+        </summary>
         <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <p className="text-xs font-medium uppercase tracking-wide text-zinc-500">
@@ -966,7 +970,7 @@ export default function ClientImportPage() {
             </p>
           </div>
         )}
-      </section>
+      </details>
 
       {rows.length === 0 ? (
         <section className="mt-6 grid gap-4 lg:grid-cols-3">

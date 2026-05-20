@@ -88,11 +88,9 @@ export function PaymentForm({ defaultChargeDate, mandates }: PaymentFormProps) {
       <section className="payment-new-form rounded-lg border p-5 shadow-sm">
         <div className="payment-new-form-intro">
           <p>1. Mandat signé</p>
-          <h3>Choisir le client déjà autorisé au prélèvement.</h3>
+          <h3>Choisissez le mandat signé.</h3>
           <span>
-            Un paiement SEPA se crée uniquement depuis un mandat actif. Si la
-            liste est vide, il faut d'abord ouvrir un contrat et préparer la
-            signature SEPA.
+            Si la liste est vide, ouvrez un contrat et préparez d'abord la signature SEPA.
           </span>
         </div>
 
@@ -170,7 +168,7 @@ export function PaymentForm({ defaultChargeDate, mandates }: PaymentFormProps) {
           >
             {submitState.message ||
               (mandates.length
-                ? "Le paiement reste interne tant que le prestataire SEPA n’est pas branché."
+                ? "Vérifiez la date et enregistrez."
                 : "Aucun mandat SEPA actif disponible.")}
           </p>
           {!mandates.length ? (

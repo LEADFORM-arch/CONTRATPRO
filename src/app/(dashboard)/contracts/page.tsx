@@ -92,14 +92,15 @@ export default async function ContractsPage() {
             </a>
           </div>
         }
-        description="Suivez les contrats annuels, les dates anniversaires, les modes de paiement et les relances à déclencher."
+        description="Repérez le contrat à facturer, relancer ou passer en SEPA."
         eyebrow="Gestion contrats"
         title="Contrats de maintenance CVC"
       />
 
       <section className="contract-portfolio-command mt-6" data-od-id="contracts-portfolio-architect">
         <div className="contract-portfolio-brief">
-          <p>Architecte IA portefeuille</p>
+          <span className="sr-only">Architecte IA portefeuille</span>
+          <p>À faire maintenant</p>
           <h2>{architectDecision.label}</h2>
           <span>{architectDecision.proof}</span>
         </div>

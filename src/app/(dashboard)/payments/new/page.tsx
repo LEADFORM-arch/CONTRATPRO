@@ -21,7 +21,7 @@ export default async function NewPaymentPage() {
             Retour paiements
           </a>
         }
-        description="Programmez un encaissement depuis un mandat SEPA actif, avec montant repris et date de prélèvement visible."
+        description="Choisissez le mandat. Vérifiez le montant. Programmez l'encaissement."
         eyebrow="Nouveau prélèvement"
         title="Créer un paiement SEPA"
       />
@@ -29,10 +29,9 @@ export default async function NewPaymentPage() {
       <section className="payment-new-brief mt-6 rounded-lg border p-5">
         <div>
           <p>Cash-flow contrat</p>
-          <h2>Choisir le mandat, vérifier le montant, programmer l'encaissement.</h2>
+          <h2>1 mandat signé. 1 montant. 1 encaissement.</h2>
           <span>
-            Le chauffagiste voit le client et le montant. Les identifiants GoCardless
-            restent cachés dans le cockpit technique.
+            Le chauffagiste voit le client et le montant. Le reste reste caché.
           </span>
         </div>
         <a className="premium-secondary-action rounded-md px-4 py-2 text-sm font-semibold" href="/contracts">

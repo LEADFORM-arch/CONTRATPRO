@@ -56,11 +56,10 @@ function ContractNextAction({
   return (
     <section className="contract-next-action mt-6" data-od-id="contract-next-action">
       <div className="contract-next-action-brief">
-        <p>Prochaine action</p>
-        <h3>Transformer ce contrat en encaissement suivi.</h3>
+        <p>À faire maintenant</p>
+        <h3>Facturer, puis préparer le SEPA.</h3>
         <span>
-          Facturez maintenant, puis préparez le mandat SEPA quand les infos
-          GoCardless finales sont en place.
+          Commencez par la facture. Le mandat SEPA vient juste après.
         </span>
       </div>
       <div className="contract-next-action-grid">

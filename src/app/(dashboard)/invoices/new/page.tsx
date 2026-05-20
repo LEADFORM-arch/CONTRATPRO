@@ -29,17 +29,16 @@ export default async function NewInvoicePage({ searchParams }: NewInvoicePagePro
             Retour factures
           </a>
         }
-        description="Générez une facture propre depuis un contrat de maintenance CVC, avec montant repris, TVA et échéance de paiement."
+        description="Choisissez le contrat. Vérifiez le montant. Créez la facture."
         eyebrow="Facturation"
         title="Nouvelle facture"
       />
       <section className="invoice-new-brief mt-6 rounded-lg border p-5">
         <div>
           <p>Document prêt à sortir</p>
-          <h2>Choisir le contrat, vérifier le montant, créer la facture.</h2>
+          <h2>1 contrat. 1 montant. 1 facture.</h2>
           <span>
-            Le contrat porte déjà le client, l'équipement et le tarif. La facture
-            ne demande plus qu'une vérification rapide avant génération du PDF.
+            Tout est repris du contrat : client, équipement, tarif et TVA.
           </span>
         </div>
         <a className="premium-secondary-action rounded-md px-4 py-2 text-sm font-semibold" href="/settings/company">

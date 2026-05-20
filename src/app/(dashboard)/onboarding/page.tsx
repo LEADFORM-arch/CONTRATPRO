@@ -259,7 +259,7 @@ export default async function OnboardingPage() {
             {nextStep ? "Continuer" : "Voir le pilotage"}
           </a>
         }
-        description="Un parcours d'activation conçu pour faire passer une entreprise CVC d'un compte brut à un outil prêt à vendre, facturer et renouveler."
+        description="Choisissez le point de départ. Le reste vient après."
         eyebrow="Mise en route"
         title="Activation ContratPro"
       />
@@ -267,9 +267,9 @@ export default async function OnboardingPage() {
       <section className="onboarding-first-run mt-6 rounded-lg border p-5">
         <div className="onboarding-first-run-copy">
           <p>{"Premi\u00e8re minute apr\u00e8s connexion"}</p>
-          <h2>{"Pas de formation : choisissez le point de d\u00e9part."}</h2>
+          <h2>{"Que voulez-vous faire maintenant ?"}</h2>
           <span>
-            {"ContratPro peut commencer par un fichier Excel, par un contrat test ou par les informations de l'entreprise. Le reste du cockpit se d\u00e9bloque naturellement."}
+            {"Un seul choix suffit pour démarrer : importer, créer un contrat ou compléter l'entreprise."}
           </span>
         </div>
         <div className="onboarding-first-run-actions">

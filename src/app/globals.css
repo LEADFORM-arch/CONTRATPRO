@@ -11282,6 +11282,171 @@ textarea::placeholder {
   border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
+/* Chauffagiste 3-second focus: one obvious action, then quiet evidence. */
+.onboarding-first-run,
+.import-decision-note,
+.contract-portfolio-command,
+.contract-next-action,
+.invoice-new-brief,
+.payment-new-brief,
+.payment-command-panel {
+  background:
+    radial-gradient(circle at 0% 0%, rgba(52, 211, 153, 0.28), transparent 30%),
+    linear-gradient(135deg, rgba(6, 78, 59, 0.54), rgba(14, 116, 144, 0.24) 58%, rgba(245, 158, 11, 0.13)),
+    #10201d;
+  border-color: rgba(52, 211, 153, 0.36);
+  box-shadow:
+    0 22px 56px rgba(0, 0, 0, 0.24),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+.onboarding-first-run-copy h2,
+.import-decision-copy h3,
+.contract-portfolio-brief h2,
+.contract-next-action-brief h3,
+.invoice-new-brief h2,
+.payment-new-brief h2,
+.payment-command-brief h2 {
+  font-size: clamp(1.65rem, 2.6vw, 2.45rem);
+  max-width: 48rem;
+}
+
+.onboarding-first-run-copy span,
+.import-decision-copy span,
+.contract-portfolio-brief span,
+.contract-next-action-brief span,
+.invoice-new-brief span,
+.payment-new-brief span,
+.payment-command-brief span {
+  color: #d1fae5;
+  font-size: 0.96rem;
+  line-height: 1.45;
+  max-width: 44rem;
+}
+
+.onboarding-first-run-action[data-state="primary"],
+.import-dropzone,
+.invoice-new-form,
+.payment-new-form {
+  background:
+    linear-gradient(135deg, rgba(52, 211, 153, 0.18), rgba(56, 189, 248, 0.08)),
+    #111816;
+  border-color: rgba(52, 211, 153, 0.36);
+}
+
+.onboarding-first-run-action[data-state="primary"] strong,
+.import-dropzone .text-base {
+  color: #ffffff;
+  font-size: 1.18rem;
+}
+
+.onboarding-command,
+.onboarding-architect,
+.onboarding-metric {
+  display: none;
+}
+
+.onboarding-summary,
+.onboarding-step,
+.import-model-panel,
+.import-history,
+.contract-section,
+.contract-detail-section,
+.invoice-new-preview,
+.payment-new-preview,
+.payment-section {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.032), rgba(255, 255, 255, 0.012)),
+    #111316;
+  border-color: rgba(148, 163, 184, 0.16);
+}
+
+.import-model-panel {
+  margin-top: 1rem;
+}
+
+.import-model-header h3 {
+  font-size: 1.05rem;
+}
+
+.import-column-list {
+  gap: 0.5rem;
+}
+
+.import-column-row {
+  padding-block: 0.75rem;
+}
+
+.import-history-summary {
+  color: #d4d4d8;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 850;
+  list-style-position: inside;
+}
+
+.import-history:not([open]) {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.026), rgba(255, 255, 255, 0.01)),
+    #0d0f12;
+}
+
+.import-history[open] .import-history-summary {
+  margin-bottom: 1rem;
+}
+
+.invoice-new-form-intro span,
+.payment-new-form-intro span,
+.invoice-new-message,
+.payment-new-message {
+  color: #d4d4d8;
+}
+
+.invoice-step-band,
+.payment-step-band {
+  background:
+    linear-gradient(90deg, rgba(52, 211, 153, 0.16), rgba(56, 189, 248, 0.08)),
+    #0c1514;
+  border-color: rgba(52, 211, 153, 0.22);
+  color: #bbf7d0;
+}
+
+.invoice-new-preview,
+.payment-new-preview {
+  background:
+    linear-gradient(180deg, rgba(245, 158, 11, 0.08), rgba(255, 255, 255, 0.012)),
+    #121315;
+  border-color: rgba(245, 158, 11, 0.2);
+}
+
+.contract-section .overflow-x-auto,
+.payment-section .overflow-x-auto {
+  max-height: 42rem;
+  overflow: auto;
+}
+
+.contract-table-row:nth-child(odd),
+.payment-table-row:nth-child(odd),
+.import-preview-row:nth-child(odd) {
+  background: rgba(255, 255, 255, 0.014);
+}
+
+.contract-table-row:hover,
+.payment-table-row:hover,
+.import-preview-row:hover {
+  background: rgba(52, 211, 153, 0.055);
+}
+
+.payment-section::after,
+.contract-section::after {
+  color: #71717a;
+  content: "Liste complète disponible au défilement";
+  display: block;
+  font-size: 0.78rem;
+  font-weight: 750;
+  padding: 0.65rem 1rem 1rem;
+}
+
 button,
 select,
 input,
