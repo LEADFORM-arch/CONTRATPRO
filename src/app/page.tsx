@@ -367,9 +367,38 @@ async function DashboardHome() {
       },
       ...safetyActions,
     ].find((action) => action.count > 0);
+  const actionCount = safetyActions.reduce((sum, action) => sum + action.count, 0);
   const renewals = contracts.slice(0, 5);
   const paymentQueue = payments.slice(0, 4);
   const hasPortfolio = contracts.length > 0 || customers.length > 0;
+  const dashboardNextMove = !hasPortfolio
+    ? {
+        cta: "Importer Excel",
+        detail:
+          "Le cockpit se remplit apres une simulation d'import. Aucun client n'est cree sans confirmation.",
+        href: "/import",
+        label: "Premier demarrage",
+        title: "Commencez par votre fichier clients.",
+        tone: "cyan" as const,
+      }
+    : nextSecuringAction
+      ? {
+          cta: "Traiter maintenant",
+          detail: nextSecuringAction.detail,
+          href: nextSecuringAction.href,
+          label: "A faire maintenant",
+          title: `${nextSecuringAction.action} avant de quitter le cockpit.`,
+          tone: nextSecuringAction.tone,
+        }
+      : {
+          cta: "Voir contrats",
+          detail:
+            "Aucune urgence detectee. Le prochain controle utile reste la liste des echeances.",
+          href: "/contracts",
+          label: "Portefeuille calme",
+          title: "Rien ne brule aujourd'hui.",
+          tone: "emerald" as const,
+        };
   const architectDecision =
     criticalRenewals.length > 0 || failedPayments.length > 0
       ? {
@@ -419,10 +448,21 @@ async function DashboardHome() {
             </a>
           </div>
         }
-        description="Vue executive des renouvellements, visites legales, attestations et paiements recurrents alimentes par Supabase."
+        description="Les echeances, attestations, factures et paiements qui demandent une action aujourd'hui."
         eyebrow="Cockpit dirigeant"
         title="Securisation des contrats CVC"
       />
+
+      <section className="dashboard-next-move mt-6" data-tone={dashboardNextMove.tone}>
+        <div>
+          <p>{dashboardNextMove.label}</p>
+          <h2>{dashboardNextMove.title}</h2>
+          <span>{dashboardNextMove.detail}</span>
+        </div>
+        <a className="premium-action rounded-md text-sm font-semibold" href={dashboardNextMove.href}>
+          {dashboardNextMove.cta}
+        </a>
+      </section>
 
       {!hasPortfolio ? (
         <section className="dashboard-empty-cockpit mt-6" data-od-id="dashboard-empty-cockpit">
@@ -550,19 +590,29 @@ async function DashboardHome() {
               <p>Aujourd'hui</p>
               <h3>Actions qui securisent le cash</h3>
             </div>
-            <StatusPill>{safetyActions.reduce((sum, action) => sum + action.count, 0)} actions</StatusPill>
+            <StatusPill>{actionCount} actions</StatusPill>
           </div>
           <div className="dashboard-today-list">
-            {safetyActions.map((item) => (
-              <DashboardActionRow
-                action={item.action}
-                count={item.count}
-                detail={item.detail}
-                href={item.href}
-                key={item.action}
-                tone={item.tone}
-              />
-            ))}
+            {actionCount > 0 ? (
+              safetyActions
+                .filter((item) => item.count > 0)
+                .map((item) => (
+                  <DashboardActionRow
+                    action={item.action}
+                    count={item.count}
+                    detail={item.detail}
+                    href={item.href}
+                    key={item.action}
+                    tone={item.tone}
+                  />
+                ))
+            ) : (
+              <div className="dashboard-today-empty">
+                <strong>Aucune action urgente.</strong>
+                <p>Le portefeuille est calme. Continuez par le suivi des prochains contrats.</p>
+                <a href="/contracts">Voir les contrats</a>
+              </div>
+            )}
           </div>
         </article>
       </section>

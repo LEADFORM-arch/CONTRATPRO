@@ -2175,6 +2175,7 @@ body .hover\:bg-zinc-100:hover {
   transform: translateY(-1px);
 }
 
+.dashboard-next-move,
 .dashboard-empty-cockpit,
 .dashboard-architect-panel,
 .dashboard-today-panel {
@@ -2187,6 +2188,7 @@ body .hover\:bg-zinc-100:hover {
   position: relative;
 }
 
+.dashboard-next-move::before,
 .dashboard-empty-cockpit::before,
 .dashboard-architect-panel::before,
 .dashboard-today-panel::before {
@@ -2194,6 +2196,55 @@ body .hover\:bg-zinc-100:hover {
   height: 3px;
   inset: 0 0 auto;
   position: absolute;
+}
+
+.dashboard-next-move {
+  align-items: center;
+  display: flex;
+  gap: 1rem;
+  justify-content: space-between;
+  padding: 1.1rem;
+}
+
+.dashboard-next-move::before {
+  background: linear-gradient(90deg, #34d399, #38bdf8 55%, #f59e0b);
+}
+
+.dashboard-next-move[data-tone="emerald"]::before {
+  background: linear-gradient(90deg, #34d399, rgba(52, 211, 153, 0));
+}
+
+.dashboard-next-move[data-tone="amber"]::before {
+  background: linear-gradient(90deg, #f59e0b, rgba(245, 158, 11, 0));
+}
+
+.dashboard-next-move[data-tone="rose"]::before {
+  background: linear-gradient(90deg, #fb7185, rgba(251, 113, 133, 0));
+}
+
+.dashboard-next-move p {
+  color: #34d399;
+  font-size: 0.74rem;
+  font-weight: 900;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.dashboard-next-move h2 {
+  color: #f8fafc;
+  font-size: 1.28rem;
+  font-weight: 950;
+  line-height: 1.2;
+  margin-top: 0.35rem;
+}
+
+.dashboard-next-move span {
+  color: #a1a1aa;
+  display: block;
+  font-size: 0.9rem;
+  line-height: 1.55;
+  margin-top: 0.45rem;
+  max-width: 56rem;
 }
 
 .dashboard-empty-cockpit {
@@ -2408,6 +2459,35 @@ body .hover\:bg-zinc-100:hover {
   margin-top: 0.2rem;
 }
 
+.dashboard-today-empty {
+  background: rgba(255, 255, 255, 0.028);
+  border: 1px solid rgba(52, 211, 153, 0.16);
+  border-radius: 0.65rem;
+  padding: 0.9rem;
+}
+
+.dashboard-today-empty strong {
+  color: #f8fafc;
+  display: block;
+  font-size: 0.95rem;
+  font-weight: 900;
+}
+
+.dashboard-today-empty p {
+  color: #a1a1aa;
+  font-size: 0.82rem;
+  line-height: 1.5;
+  margin-top: 0.35rem;
+}
+
+.dashboard-today-empty a {
+  color: #bbf7d0;
+  display: inline-flex;
+  font-size: 0.82rem;
+  font-weight: 900;
+  margin-top: 0.65rem;
+}
+
 .contract-safety-cockpit {
   background:
     radial-gradient(circle at 6% 0%, rgba(52, 211, 153, 0.12), transparent 30%),
@@ -2613,6 +2693,11 @@ body .hover\:bg-zinc-100:hover {
 }
 
 @media (max-width: 1024px) {
+  .dashboard-next-move {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
   .dashboard-empty-cockpit {
     align-items: stretch;
     flex-direction: column;
