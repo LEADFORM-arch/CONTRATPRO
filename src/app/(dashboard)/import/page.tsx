@@ -392,6 +392,45 @@ function buildImportDecision({
   };
 }
 
+function buildImportRunway({
+  fileName,
+  report,
+  result,
+  rowsCount,
+}: {
+  fileName: string;
+  report: ImportReport | null;
+  result: ImportReport | null;
+  rowsCount: number;
+}) {
+  return [
+    {
+      detail: fileName || "Le fichier clients et contrats",
+      label: "Déposer Excel",
+      number: "1",
+      state: rowsCount > 0 ? "done" : "active",
+    },
+    {
+      detail: report
+        ? `${report.validRows} ligne(s) prêtes à importer`
+        : result
+          ? "Simulation validée"
+          : "ContratPro contrôle avant création",
+      label: "Vérifier simulation",
+      number: "2",
+      state: result || report ? "done" : rowsCount > 0 ? "active" : "idle",
+    },
+    {
+      detail: result
+        ? `${result.contractsCreated} contrat(s) créés`
+        : "Aucune écriture sans clic final",
+      label: "Confirmer création",
+      number: "3",
+      state: result ? "done" : report ? "active" : "idle",
+    },
+  ];
+}
+
 export default function ClientImportPage() {
   const [fileName, setFileName] = useState("");
   const [rows, setRows] = useState<ParsedRow[]>([]);
@@ -407,6 +446,12 @@ export default function ClientImportPage() {
   const canAnalyze = rows.length > 0 && hasRequiredClient(rows) && !isAnalyzing;
   const canExecute = Boolean(report && report.validRows > 0 && !isExecuting);
   const importDecision = buildImportDecision({
+    report,
+    result,
+    rowsCount: rows.length,
+  });
+  const importRunway = buildImportRunway({
+    fileName,
     report,
     result,
     rowsCount: rows.length,
@@ -524,13 +569,25 @@ export default function ClientImportPage() {
             href={templateHref}
             download="modele-import-contratpro.csv"
           >
-            Modèle CSV
+            Modèle Excel/CSV
           </a>
         }
-        description="Importez un fichier CSV ou XLSX, contrôlez le plan d’import, puis créez les clients, équipements et contrats dans Supabase."
+        description="Déposez le fichier clients du chauffagiste. ContratPro montre ce qui sera créé avant d’écrire quoi que ce soit."
         eyebrow="Onboarding données"
-        title="Import Excel/CSV clients et contrats"
+        title="Reprendre un fichier Excel sans ressaisie"
       />
+
+      <section className="import-runway mt-6" aria-label="Parcours import">
+        {importRunway.map((step) => (
+          <article className="import-runway-step" data-state={step.state} key={step.number}>
+            <span>{step.number}</span>
+            <div>
+              <strong>{step.label}</strong>
+              <p>{step.detail}</p>
+            </div>
+          </article>
+        ))}
+      </section>
 
       <section className="import-decision-note mt-6 rounded-lg border p-5" data-tone={importDecision.tone}>
         <div className="import-decision-copy">
@@ -575,7 +632,7 @@ export default function ClientImportPage() {
             href={templateHref}
             download="modele-import-contratpro.csv"
           >
-            Télécharger le modèle
+            Télécharger le modèle Excel/CSV
           </a>
         </div>
 
@@ -625,7 +682,7 @@ export default function ClientImportPage() {
       <label className="import-dropzone mt-6 flex min-h-44 cursor-pointer flex-col items-center justify-center rounded-lg border border-dashed px-6 py-8 text-center">
         <span className="import-dropzone-mark">CSV/XLSX</span>
         <span className="text-base font-semibold">
-          Déposer le fichier clients du chauffagiste
+          Déposer le fichier clients et contrats
         </span>
         <span className="mt-2 max-w-2xl text-sm text-zinc-500">
           Colonnes reconnues : raison sociale, email, téléphone, adresse, ville,

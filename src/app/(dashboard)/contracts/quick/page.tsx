@@ -36,7 +36,7 @@ export default function QuickContractPage() {
             </a>
           </div>
         }
-        description="Avancez par groupes numérotés : client, équipement, contrat, paiement, puis validation. Le chauffagiste ne voit pas les détails techniques GoCardless."
+        description="Objectif : créer le client, l’équipement, le contrat et le lien SEPA sur une seule page. Aucun réglage technique à montrer au chauffagiste."
         eyebrow="Contrat guidé"
         title="Créer un contrat avec paiement"
       />
@@ -47,16 +47,18 @@ export default function QuickContractPage() {
             Parcours terrain numéroté
           </p>
           <h3>
-            Un contrat comme sur papier, puis le paiement en plus.
+            Un contrat comme sur papier, puis le paiement prêt à signer.
           </h3>
           <p className="quick-contract-intro-copy">
-            Le chauffagiste suit les chiffres dans l'ordre naturel. ContratPro
-            crée le client, l’équipement, le contrat et, si besoin, le lien de
-            signature SEPA.
+            Le chauffagiste suit les chiffres dans l'ordre naturel. Il peut
+            remplir seulement l'essentiel, contrôler le résumé, puis créer le
+            dossier sans comprendre GoCardless.
           </p>
         </div>
         <div className="contract-form-intro-grid">
           <span>1 Client</span>
+          <span>2 Équipement</span>
+          <span>3 Contrat</span>
           <span>4 Paiement</span>
           <span>5 Validation</span>
         </div>

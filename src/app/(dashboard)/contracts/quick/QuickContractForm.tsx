@@ -225,7 +225,7 @@ export function QuickContractForm({
                   autoComplete="organization"
                   className={inputClass}
                   name="customerName"
-                  placeholder="Martin Depannage Chauffage"
+                  placeholder="Mme Dupont - Maison Les Lilas"
                   required
                 />
               </label>
@@ -422,7 +422,7 @@ export function QuickContractForm({
               <span>{sepaSelected ? "À faire signer" : "Pas de mandat SEPA"}</span>
               <p>
                 {sepaSelected
-                  ? "Le client recevra ou ouvrira un lien sécurisé GoCardless. Les IDs techniques restent cachés."
+                  ? "ContratPro prépare un lien sécurisé à faire signer. Le chauffagiste n'a rien à configurer."
                   : "Le paiement sera noté sur le contrat, sans prélèvement automatique."}
               </p>
             </div>
@@ -459,8 +459,8 @@ export function QuickContractForm({
       </section>
 
       <aside className="quick-contract-side">
-        <p>Nouveau contrat guide</p>
-        <h3>Comme une fiche papier, mais exploitable tout de suite.</h3>
+        <p>Résumé vivant</p>
+        <h3>Le dossier se construit pendant la saisie.</h3>
         <div className="quick-contract-side-summary" aria-label="Resume du contrat">
           <div>
             <span>Client</span>
@@ -510,7 +510,7 @@ export function QuickContractForm({
           }
         >
           {submitState.message ||
-            "Pour un premier contrat, remplissez uniquement les champs terrain. Le reste pourra être enrichi plus tard."}
+            "Remplissez l'essentiel : client, équipement, prix. ContratPro prépare le reste sans bloquer la saisie."}
         </p>
         <div className="quick-contract-submit-actions">
           <button
@@ -521,7 +521,7 @@ export function QuickContractForm({
             type="submit"
             value="create"
           >
-            {disabled ? "Création..." : "Créer sans SEPA"}
+            {disabled ? "Création..." : "Créer le contrat"}
           </button>
           <button
             className="premium-action rounded-md px-4 py-2 text-sm font-semibold disabled:cursor-not-allowed disabled:opacity-60"
