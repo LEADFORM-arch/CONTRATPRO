@@ -18,7 +18,14 @@ type PageTone =
   | "security"
   | "start";
 
-const productNavItems = [
+type ProductNavItem = {
+  href: string;
+  label: string;
+  step?: string;
+  tone: PageTone;
+};
+
+const productNavItems: ProductNavItem[] = [
   { href: "/", label: "Pilotage", tone: "control" },
   { href: "/onboarding", label: "D\u00e9marrer", step: "1", tone: "start" },
   { href: "/import", label: "Import Excel", step: "2", tone: "import" },
@@ -35,8 +42,10 @@ const productNavItems = [
   { href: "/settings/security", label: "S\u00e9curit\u00e9", tone: "security" },
 ];
 
-const guidedNavItems = productNavItems.filter((item) => "step" in item);
-const secondaryNavItems = productNavItems.filter((item) => !("step" in item));
+const guidedNavItems = productNavItems.filter(
+  (item): item is ProductNavItem & { step: string } => Boolean(item.step),
+);
+const secondaryNavItems = productNavItems.filter((item) => !item.step);
 
 const internalNavItems = [
   { href: "/admin/launch", label: "Go-live" },
@@ -63,6 +72,19 @@ function pageToneForPath(path: string): PageTone {
   return "control";
 }
 
+function productItemForPath(path: string) {
+  return productNavItems.find((item) => item.href === path);
+}
+
+function nextGuidedItem(step?: string) {
+  if (!step) {
+    return undefined;
+  }
+
+  const index = guidedNavItems.findIndex((item) => item.step === step);
+  return guidedNavItems[index + 1];
+}
+
 export function AppShell({
   activePath,
   children,
@@ -73,6 +95,8 @@ export function AppShell({
   showInternalTools?: boolean;
 }) {
   const pageTone = pageToneForPath(activePath);
+  const activeItem = productItemForPath(activePath);
+  const nextItem = nextGuidedItem(activeItem?.step);
 
   return (
     <main className="app-shell-bg min-h-screen bg-zinc-100 text-zinc-950" data-page-tone={pageTone}>
@@ -163,6 +187,26 @@ export function AppShell({
             </div>
             <LogoutButton />
           </div>
+          {activeItem ? (
+            <div className="app-route-cue" data-tone={activeItem.tone}>
+              {activeItem.step ? (
+                <span className="app-route-step">{activeItem.step}</span>
+              ) : (
+                <span className="app-route-dot" />
+              )}
+              <div>
+                <p>
+                  {activeItem.step
+                    ? `Etape ${activeItem.step} du parcours`
+                    : "Zone de suivi"}
+                </p>
+                <strong>{activeItem.label}</strong>
+              </div>
+              {nextItem ? (
+                <a href={nextItem.href}>Suite : {nextItem.label}</a>
+              ) : null}
+            </div>
+          ) : null}
           {children}
         </section>
       </div>
