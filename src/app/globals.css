@@ -5814,9 +5814,225 @@ body .hover\:bg-zinc-100:hover {
   color: #fecdd3;
 }
 
+.invoice-new-brief,
+.invoice-new-form,
+.invoice-new-preview {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.018)),
+    #111316;
+  border-color: #262a31;
+  box-shadow: 0 18px 44px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+  position: relative;
+}
+
+.invoice-new-brief::before,
+.invoice-new-form::before,
+.invoice-new-preview::before {
+  background: linear-gradient(90deg, #34d399, #38bdf8 55%, #f59e0b);
+  content: "";
+  height: 3px;
+  inset: 0 0 auto;
+  position: absolute;
+}
+
+.invoice-new-brief {
+  align-items: center;
+  display: flex;
+  gap: 1rem;
+  justify-content: space-between;
+}
+
+.invoice-new-brief p,
+.invoice-new-form-intro p,
+.invoice-new-preview p {
+  color: #34d399;
+  font-size: 0.75rem;
+  font-weight: 900;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.invoice-new-brief h2,
+.invoice-new-form-intro h3,
+.invoice-new-preview h3 {
+  color: #f4f4f5;
+  font-weight: 950;
+  line-height: 1.2;
+  margin-top: 0.4rem;
+}
+
+.invoice-new-brief h2 {
+  font-size: 1.35rem;
+}
+
+.invoice-new-form-intro h3,
+.invoice-new-preview h3 {
+  font-size: 1.05rem;
+}
+
+.invoice-new-brief span,
+.invoice-new-form-intro span,
+.invoice-new-preview > span {
+  color: #a1a1aa;
+  display: block;
+  font-size: 0.9rem;
+  line-height: 1.6;
+  margin-top: 0.5rem;
+  max-width: 52rem;
+}
+
+.invoice-new-shell {
+  display: grid;
+  gap: 1rem;
+  max-width: 78rem;
+}
+
+.invoice-new-form-intro {
+  margin-bottom: 1rem;
+}
+
+.invoice-step-band {
+  background: rgba(255, 255, 255, 0.028);
+  border: 1px solid rgba(255, 255, 255, 0.065);
+  border-radius: 0.5rem;
+  color: #d4d4d8;
+  font-size: 0.78rem;
+  font-weight: 900;
+  letter-spacing: 0.04em;
+  margin: 1rem 0;
+  padding: 0.65rem 0.75rem;
+  text-transform: uppercase;
+}
+
+.invoice-form-field,
+.invoice-form-field span,
+.invoice-form-input {
+  display: block;
+}
+
+.invoice-form-field span {
+  color: #d4d4d8;
+  font-size: 0.875rem;
+  font-weight: 700;
+}
+
+.invoice-form-input {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.012)),
+    #0b0d10;
+  border: 1px solid #303640;
+  border-radius: 0.45rem;
+  color: #f4f4f5;
+  font-size: 0.95rem;
+  min-height: 3rem;
+  margin-top: 0.55rem;
+  outline: none;
+  padding: 0 0.9rem;
+  width: 100%;
+}
+
+.invoice-form-input:focus {
+  border-color: rgba(52, 211, 153, 0.72);
+  box-shadow:
+    0 0 0 3px rgba(52, 211, 153, 0.12),
+    0 12px 30px rgba(0, 0, 0, 0.22);
+}
+
+.invoice-new-note {
+  background: rgba(56, 189, 248, 0.07);
+  border: 1px solid rgba(56, 189, 248, 0.18);
+  border-radius: 0.55rem;
+  color: #bae6fd;
+  font-size: 0.86rem;
+  line-height: 1.5;
+  margin-top: 1rem;
+  padding: 0.85rem;
+}
+
+.invoice-new-footer {
+  align-items: center;
+  border-top: 1px solid #262a31;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  justify-content: space-between;
+  margin-top: 1rem;
+  padding-top: 1rem;
+}
+
+.invoice-new-message,
+.invoice-new-message-error {
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+.invoice-new-message {
+  color: #a1a1aa;
+}
+
+.invoice-new-message-error {
+  color: #fecaca;
+}
+
+.invoice-new-preview {
+  align-self: start;
+}
+
+.invoice-new-preview dl {
+  display: grid;
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+.invoice-new-preview dl div {
+  background: rgba(255, 255, 255, 0.028);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 0.55rem;
+  padding: 0.75rem;
+}
+
+.invoice-new-preview dt {
+  color: #71717a;
+  font-size: 0.72rem;
+  font-weight: 900;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.invoice-new-preview dd {
+  color: #f4f4f5;
+  font-size: 1.15rem;
+  font-weight: 950;
+  margin-top: 0.25rem;
+}
+
+@media (min-width: 640px) {
+  .invoice-new-footer {
+    flex-direction: row;
+  }
+}
+
+@media (max-width: 900px) {
+  .invoice-new-brief {
+    align-items: stretch;
+    flex-direction: column;
+  }
+}
+
 @media (min-width: 900px) {
   .invoice-command-panel {
     grid-template-columns: minmax(0, 1fr) minmax(15rem, 0.34fr);
+  }
+
+  .invoice-new-shell {
+    align-items: start;
+    grid-template-columns: minmax(0, 1fr) 22rem;
+  }
+
+  .invoice-new-preview {
+    position: sticky;
+    top: 1rem;
   }
 }
 
