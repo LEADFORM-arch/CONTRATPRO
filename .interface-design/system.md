@@ -48,6 +48,34 @@ validated signals, diagnostic light, cash-flow movement, and risk markers.
 Avoid purple-led, beige-led, decorative gradients, paper textures, or ornamental
 background effects on product screens.
 
+## Page Color Memory
+
+Customer-facing product screens use a stable color-memory system so a busy CVC
+owner can recognize the work zone before reading.
+
+- 1 Start / onboarding: energy green for first action.
+- 2 Import Excel: teal for data intake and dry-run.
+- 3 Clients: light blue for customer portfolio.
+- 4 Contracts: amber for recurring maintenance revenue.
+- 5 SEPA: cyan for cash-flow and mandates.
+- 6 Invoices: lime for documents ready to send.
+- 7 Certificates: blue for proof and compliance.
+- Relances: orange for urgency and recovery.
+- Terrain mobile: sky blue for field work.
+- Interventions: teal for performed visits.
+- Entreprise: steel grey for company identity.
+- Abonnement: gold for commercial access.
+- Securite: soft red for risk and protection.
+
+Rules:
+
+- The active page background, header eyebrow, primary actions, nav marker, and
+  generic status pills inherit the page signal.
+- The color is a memory cue, not decoration. Keep it subtle on backgrounds and
+  stronger only on the current action.
+- The numbered journey is reserved for the core customer workflow; secondary
+  tools use dot markers, not numbers.
+
 ## Direction
 
 Signature: every premium cockpit should convert ambiguity into a visible next
@@ -201,4 +229,3 @@ Before shipping a product screen, run four checks:
   ContratPro-specific.
 - Token test: colors and borders must come from the control-room palette.
 - Action test: the user should know the next move within five seconds.
-

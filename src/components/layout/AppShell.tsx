@@ -199,7 +199,7 @@ export function PageHeader({
 
 export function StatusPill({ children }: { children: ReactNode }) {
   return (
-    <span className="inline-flex rounded-md border border-emerald-200 bg-emerald-50 px-2 py-1 text-xs font-medium text-emerald-800">
+    <span className="status-pill">
       {children}
     </span>
   );
