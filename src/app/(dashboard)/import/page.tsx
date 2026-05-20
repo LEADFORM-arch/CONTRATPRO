@@ -631,7 +631,10 @@ export default function ClientImportPage() {
         />
       </label>
 
-      <section className="import-model-panel mt-6 rounded-lg border p-5">
+      <details className="import-model-panel mt-6 rounded-lg border p-5">
+        <summary className="import-model-summary">
+          Voir le modèle Excel reconnu
+        </summary>
         <div className="import-model-header">
           <div>
             <p className="text-xs font-semibold uppercase tracking-wide text-emerald-300">
@@ -693,7 +696,7 @@ export default function ClientImportPage() {
             </dl>
           </aside>
         </div>
-      </section>
+      </details>
 
       {error ? (
         <p className="import-error mt-5 rounded-md border px-3 py-2 text-sm leading-6">

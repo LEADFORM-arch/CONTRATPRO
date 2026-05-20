@@ -386,7 +386,8 @@ export default async function OnboardingPage() {
         />
       </div>
 
-      <section className="mt-6">
+      <details className="onboarding-activation-details mt-6">
+        <summary>Voir la checklist de préparation</summary>
         <div className="onboarding-summary flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
           <div>
             <h3 className="text-lg font-semibold text-zinc-950">
@@ -451,7 +452,7 @@ export default async function OnboardingPage() {
             </article>
           ))}
         </div>
-      </section>
+      </details>
     </AppShell>
   );
 }

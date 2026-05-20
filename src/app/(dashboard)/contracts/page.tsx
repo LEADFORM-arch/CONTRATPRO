@@ -75,6 +75,9 @@ export default async function ContractsPage() {
             proof: "Aucun contrat prioritaire détecté dans la liste actuelle.",
             tone: "emerald" as const,
           };
+  const priorityContracts = (
+    contractsToRenew.length ? contractsToRenew : nonSepaContracts.length ? nonSepaContracts : contracts
+  ).slice(0, 3);
 
   return (
     <AppShell activePath="/contracts">
@@ -120,6 +123,32 @@ export default async function ContractsPage() {
         </div>
       </section>
 
+      {priorityContracts.length ? (
+        <section className="artisan-action-queue mt-5" aria-label="Contrats prioritaires">
+          {priorityContracts.map((contract, index) => (
+            <a
+              className="artisan-action-card"
+              data-tone={
+                contractsToRenew.includes(contract)
+                  ? "rose"
+                  : nonSepaContracts.includes(contract)
+                    ? "amber"
+                    : "emerald"
+              }
+              href={`/contracts/${contract.id}`}
+              key={contract.id}
+            >
+              <span>{String(index + 1).padStart(2, "0")}</span>
+              <div>
+                <strong>{contract.customer}</strong>
+                <p>{contract.equipment}</p>
+              </div>
+              <em>{formatEuro(contract.value)}</em>
+            </a>
+          ))}
+        </section>
+      ) : null}
+
       <div className="mt-6 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
         <PortfolioMetric
           detail="contrats actifs dans le portefeuille"
@@ -147,7 +176,10 @@ export default async function ContractsPage() {
         />
       </div>
 
-      <section className="contract-section mt-6 overflow-hidden">
+      <details className="contract-section mt-6 overflow-hidden">
+        <summary className="worklist-summary">
+          Voir tous les contrats ({contracts.length})
+        </summary>
         <div className="contract-section-header flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <h3 className="text-base font-semibold text-zinc-50">
@@ -230,7 +262,7 @@ export default async function ContractsPage() {
             />
           </div>
         )}
-      </section>
+      </details>
     </AppShell>
   );
 }

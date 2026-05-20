@@ -47,6 +47,7 @@ export default async function PaymentsPage() {
           label: "Encaissement stable",
           tone: "emerald" as const,
         };
+  const priorityPayments = (failed.length ? failed : pending.length ? pending : payments).slice(0, 3);
 
   return (
     <AppShell activePath="/payments">
@@ -85,6 +86,32 @@ export default async function PaymentsPage() {
           </a>
         </div>
       </section>
+
+      {priorityPayments.length ? (
+        <section className="artisan-action-queue mt-5" aria-label="Paiements prioritaires">
+          {priorityPayments.map((payment, index) => (
+            <a
+              className="artisan-action-card"
+              data-tone={
+                payment.rawStatus === "FAILED"
+                  ? "rose"
+                  : ["PENDING_SUBMISSION", "SUBMITTED"].includes(payment.rawStatus)
+                    ? "amber"
+                    : "emerald"
+              }
+              href={payment.contractId ? `/contracts/${payment.contractId}` : "/payments/new"}
+              key={payment.id}
+            >
+              <span>{String(index + 1).padStart(2, "0")}</span>
+              <div>
+                <strong>{payment.customer}</strong>
+                <p>{payment.status} · {payment.dueDate}</p>
+              </div>
+              <em>{formatEuro(payment.amount)}</em>
+            </a>
+          ))}
+        </section>
+      ) : null}
 
       <div className="mt-6 grid gap-3 md:grid-cols-4">
         <article className="payment-stat-card" data-tone="cyan">
@@ -127,7 +154,10 @@ export default async function PaymentsPage() {
         </article>
       </div>
 
-      <section className="payment-section mt-5 rounded-lg border">
+      <details className="payment-section mt-5 rounded-lg border">
+        <summary className="worklist-summary">
+          Voir tous les paiements ({payments.length})
+        </summary>
         <div className="payment-section-header">
           <div>
             <p className="text-xs font-semibold uppercase tracking-wide text-emerald-300">
@@ -237,7 +267,7 @@ export default async function PaymentsPage() {
             />
           </div>
         )}
-      </section>
+      </details>
     </AppShell>
   );
 }

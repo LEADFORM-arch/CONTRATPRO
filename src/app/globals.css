@@ -11385,6 +11385,154 @@ textarea::placeholder {
   list-style-position: inside;
 }
 
+.worklist-summary,
+.import-model-summary,
+.onboarding-activation-details > summary {
+  align-items: center;
+  background:
+    linear-gradient(135deg, rgba(52, 211, 153, 0.11), rgba(56, 189, 248, 0.045)),
+    #101216;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 0.65rem;
+  color: #f4f4f5;
+  cursor: pointer;
+  display: flex;
+  font-size: 0.92rem;
+  font-weight: 900;
+  justify-content: space-between;
+  list-style: none;
+  padding: 0.95rem 1rem;
+}
+
+.worklist-summary::-webkit-details-marker,
+.import-model-summary::-webkit-details-marker,
+.onboarding-activation-details > summary::-webkit-details-marker {
+  display: none;
+}
+
+.worklist-summary::after,
+.import-model-summary::after,
+.onboarding-activation-details > summary::after {
+  color: #67e8f9;
+  content: "Ouvrir";
+  font-size: 0.74rem;
+  font-weight: 900;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+details[open] > .worklist-summary::after,
+details[open] > .import-model-summary::after,
+.onboarding-activation-details[open] > summary::after {
+  content: "Masquer";
+}
+
+.onboarding-activation-details {
+  background: transparent;
+}
+
+.onboarding-activation-details[open] > summary,
+.import-model-panel[open] > summary,
+.contract-section[open] > summary,
+.payment-section[open] > summary {
+  margin-bottom: 1rem;
+}
+
+.artisan-action-queue {
+  display: grid;
+  gap: 0.85rem;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.artisan-action-card {
+  align-items: center;
+  background:
+    linear-gradient(135deg, rgba(52, 211, 153, 0.12), rgba(255, 255, 255, 0.025)),
+    #111316;
+  border: 1px solid rgba(52, 211, 153, 0.22);
+  border-radius: 0.75rem;
+  display: grid;
+  gap: 0.85rem;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  min-height: 5.5rem;
+  padding: 1rem;
+  text-decoration: none;
+}
+
+.artisan-action-card[data-tone="amber"] {
+  background:
+    linear-gradient(135deg, rgba(245, 158, 11, 0.15), rgba(255, 255, 255, 0.025)),
+    #121315;
+  border-color: rgba(245, 158, 11, 0.3);
+}
+
+.artisan-action-card[data-tone="rose"] {
+  background:
+    linear-gradient(135deg, rgba(251, 113, 133, 0.15), rgba(255, 255, 255, 0.025)),
+    #121315;
+  border-color: rgba(251, 113, 133, 0.3);
+}
+
+.artisan-action-card:hover {
+  border-color: rgba(167, 243, 208, 0.48);
+  transform: translateY(-1px);
+}
+
+.artisan-action-card span {
+  align-items: center;
+  background: rgba(52, 211, 153, 0.16);
+  border: 1px solid rgba(52, 211, 153, 0.26);
+  border-radius: 0.5rem;
+  color: #a7f3d0;
+  display: inline-flex;
+  font-size: 0.78rem;
+  font-weight: 950;
+  height: 2.3rem;
+  justify-content: center;
+  width: 2.3rem;
+}
+
+.artisan-action-card[data-tone="amber"] span {
+  background: rgba(245, 158, 11, 0.14);
+  border-color: rgba(245, 158, 11, 0.28);
+  color: #fde68a;
+}
+
+.artisan-action-card[data-tone="rose"] span {
+  background: rgba(251, 113, 133, 0.14);
+  border-color: rgba(251, 113, 133, 0.28);
+  color: #fecdd3;
+}
+
+.artisan-action-card strong,
+.artisan-action-card p,
+.artisan-action-card em {
+  display: block;
+}
+
+.artisan-action-card strong {
+  color: #ffffff;
+  font-size: 1rem;
+  font-weight: 950;
+  line-height: 1.2;
+}
+
+.artisan-action-card p {
+  color: #a1a1aa;
+  font-size: 0.84rem;
+  line-height: 1.35;
+  margin-top: 0.25rem;
+}
+
+.artisan-action-card em {
+  color: #f4f4f5;
+  font-size: 1rem;
+  font-style: normal;
+  font-weight: 950;
+  text-align: right;
+  white-space: nowrap;
+}
+
 .import-history:not([open]) {
   background:
     linear-gradient(180deg, rgba(255, 255, 255, 0.026), rgba(255, 255, 255, 0.01)),
@@ -11437,14 +11585,29 @@ textarea::placeholder {
   background: rgba(52, 211, 153, 0.055);
 }
 
-.payment-section::after,
-.contract-section::after {
+details[open].payment-section::after,
+details[open].contract-section::after {
   color: #71717a;
   content: "Liste complète disponible au défilement";
   display: block;
   font-size: 0.78rem;
   font-weight: 750;
   padding: 0.65rem 1rem 1rem;
+}
+
+@media (max-width: 980px) {
+  .artisan-action-queue {
+    grid-template-columns: 1fr;
+  }
+
+  .artisan-action-card {
+    grid-template-columns: auto minmax(0, 1fr);
+  }
+
+  .artisan-action-card em {
+    grid-column: 2;
+    text-align: left;
+  }
 }
 
 button,
