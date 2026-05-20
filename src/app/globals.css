@@ -2464,6 +2464,185 @@ body .hover\:bg-zinc-100:hover {
   position: relative;
 }
 
+.dashboard-artisan-home {
+  background:
+    radial-gradient(circle at 0% 0%, rgb(var(--page-signal) / 0.22), transparent 28rem),
+    linear-gradient(135deg, rgb(var(--page-signal) / 0.11), rgba(255, 255, 255, 0.018)),
+    #101316;
+  border: 1px solid rgb(var(--page-signal) / 0.24);
+  border-radius: 0.85rem;
+  display: grid;
+  gap: 1rem;
+  padding: 1.1rem;
+}
+
+.dashboard-artisan-copy p {
+  color: var(--page-signal-strong);
+  font-size: 0.78rem;
+  font-weight: 950;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.dashboard-artisan-copy h2 {
+  color: #ffffff;
+  font-size: clamp(1.65rem, 2.4vw, 2.45rem);
+  font-weight: 950;
+  line-height: 1.08;
+  margin-top: 0.45rem;
+}
+
+.dashboard-artisan-copy span {
+  color: #d4d4d8;
+  display: block;
+  font-size: 0.95rem;
+  line-height: 1.45;
+  margin-top: 0.55rem;
+}
+
+.dashboard-today-counts,
+.dashboard-quick-actions,
+.dashboard-priority-list {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.dashboard-today-counts {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.dashboard-today-count,
+.dashboard-priority-item,
+.dashboard-priority-empty {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.014)),
+    #0b0d10;
+  border: 1px solid rgba(255, 255, 255, 0.075);
+  border-radius: 0.7rem;
+  text-decoration: none;
+}
+
+.dashboard-today-count {
+  align-items: center;
+  display: grid;
+  gap: 0.8rem;
+  grid-template-columns: auto minmax(0, 1fr);
+  min-height: 6rem;
+  padding: 0.9rem;
+}
+
+.dashboard-today-count:hover,
+.dashboard-priority-item:hover {
+  background: rgba(255, 255, 255, 0.045);
+  transform: translateY(-1px);
+}
+
+.dashboard-today-count > span {
+  align-items: center;
+  background: rgb(var(--page-signal) / 0.16);
+  border: 1px solid rgb(var(--page-signal) / 0.28);
+  border-radius: 0.65rem;
+  color: #ffffff;
+  display: inline-flex;
+  font-size: 1.8rem;
+  font-variant-numeric: tabular-nums;
+  font-weight: 950;
+  height: 3.6rem;
+  justify-content: center;
+  width: 3.6rem;
+}
+
+.dashboard-today-count strong {
+  color: #ffffff;
+  display: block;
+  font-size: 1rem;
+  font-weight: 950;
+  line-height: 1.2;
+}
+
+.dashboard-today-count p {
+  color: #a1a1aa;
+  font-size: 0.84rem;
+  line-height: 1.35;
+  margin-top: 0.3rem;
+}
+
+.dashboard-quick-actions {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.dashboard-quick-actions a {
+  align-items: center;
+  min-height: 3rem;
+}
+
+.dashboard-priority-list {
+  background: rgba(255, 255, 255, 0.022);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 0.75rem;
+  padding: 0.85rem;
+}
+
+.dashboard-priority-header,
+.dashboard-priority-item {
+  align-items: center;
+  display: flex;
+  gap: 0.8rem;
+  justify-content: space-between;
+}
+
+.dashboard-priority-header strong {
+  color: #f4f4f5;
+  font-size: 0.95rem;
+  font-weight: 950;
+}
+
+.dashboard-priority-header span {
+  color: #a1a1aa;
+  font-size: 0.78rem;
+  font-weight: 850;
+}
+
+.dashboard-priority-item {
+  padding: 0.75rem;
+}
+
+.dashboard-priority-item > span {
+  background: rgb(var(--page-signal) / 0.14);
+  border: 1px solid rgb(var(--page-signal) / 0.24);
+  border-radius: 0.45rem;
+  color: #f4f4f5;
+  flex: none;
+  font-size: 0.75rem;
+  font-weight: 950;
+  padding: 0.42rem 0.55rem;
+}
+
+.dashboard-priority-item div {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.dashboard-priority-item strong,
+.dashboard-priority-empty strong {
+  color: #ffffff;
+  display: block;
+  font-size: 0.92rem;
+  font-weight: 950;
+}
+
+.dashboard-priority-item p,
+.dashboard-priority-empty p {
+  color: #a1a1aa;
+  font-size: 0.82rem;
+  line-height: 1.4;
+  margin-top: 0.25rem;
+}
+
+.dashboard-priority-empty {
+  padding: 0.85rem;
+}
+
 .dashboard-next-move::before,
 .dashboard-empty-cockpit::before,
 .dashboard-architect-panel::before,
@@ -2969,6 +3148,11 @@ body .hover\:bg-zinc-100:hover {
 }
 
 @media (max-width: 1024px) {
+  .dashboard-today-counts,
+  .dashboard-quick-actions {
+    grid-template-columns: 1fr;
+  }
+
   .dashboard-next-move {
     align-items: stretch;
     flex-direction: column;

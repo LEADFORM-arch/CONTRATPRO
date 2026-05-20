@@ -176,6 +176,54 @@ function DashboardActionRow({
   );
 }
 
+function TodayCountCard({
+  detail,
+  href,
+  label,
+  tone,
+  value,
+}: {
+  detail: string;
+  href: string;
+  label: string;
+  tone: CardTone;
+  value: number;
+}) {
+  return (
+    <a className="dashboard-today-count" data-tone={tone} href={href}>
+      <span>{value}</span>
+      <div>
+        <strong>{label}</strong>
+        <p>{detail}</p>
+      </div>
+    </a>
+  );
+}
+
+function TodayQueueItem({
+  action,
+  detail,
+  href,
+  label,
+  tone,
+}: {
+  action: string;
+  detail: string;
+  href: string;
+  label: string;
+  tone: CardTone;
+}) {
+  return (
+    <a className="dashboard-priority-item" data-tone={tone} href={href}>
+      <span>{action}</span>
+      <div>
+        <strong>{label}</strong>
+        <p>{detail}</p>
+      </div>
+    </a>
+  );
+}
+
 function HomeLanding() {
   return (
     <PublicShell>
@@ -399,6 +447,39 @@ async function DashboardHome() {
           title: "Rien ne brule aujourd'hui.",
           tone: "emerald" as const,
         };
+  const todayContractCount = criticalRenewals.length + renewalsWithoutSepa.length;
+  const todayPaymentCount = failedPayments.length + pendingPayments.length;
+  const todayDocumentCount = certificatesToSend.length + invoicesToFollow.length;
+  const priorityQueue = [
+    ...failedPayments.slice(0, 1).map((payment) => ({
+      action: "Paiement",
+      detail: `${formatEuro(payment.amount)} - ${payment.status}`,
+      href: payment.contractId ? `/contracts/${payment.contractId}` : "/payments",
+      label: payment.customer,
+      tone: "rose" as const,
+    })),
+    ...criticalRenewals.slice(0, 2).map((renewal) => ({
+      action: "Relance",
+      detail: `${renewal.daysRemaining} jour(s) restants - ${formatEuro(renewal.value)}`,
+      href: "/relances",
+      label: renewal.customer,
+      tone: "amber" as const,
+    })),
+    ...certificatesToSend.slice(0, 1).map((certificate) => ({
+      action: "Attestation",
+      detail: certificate.equipment,
+      href: "/certificates",
+      label: certificate.customer,
+      tone: "cyan" as const,
+    })),
+    ...invoicesToFollow.slice(0, 1).map((invoice) => ({
+      action: "Facture",
+      detail: `${formatEuro(invoice.amountTtc)} - ${invoice.status}`,
+      href: "/invoices",
+      label: invoice.customer,
+      tone: "emerald" as const,
+    })),
+  ].slice(0, 4);
   const architectDecision =
     criticalRenewals.length > 0 || failedPayments.length > 0
       ? {
@@ -452,6 +533,76 @@ async function DashboardHome() {
         eyebrow="Cockpit dirigeant"
         title="Securisation des contrats CVC"
       />
+
+      <section className="dashboard-artisan-home mt-6">
+        <div className="dashboard-artisan-copy">
+          <p>Aujourd'hui</p>
+          <h2>Ce qui mérite votre attention maintenant.</h2>
+          <span>
+            Pas besoin de tout lire : traitez une action, puis retour terrain.
+          </span>
+        </div>
+
+        <div className="dashboard-today-counts">
+          <TodayCountCard
+            detail="relances ou SEPA à préparer"
+            href="/contracts"
+            label="Contrats à traiter"
+            tone="amber"
+            value={todayContractCount}
+          />
+          <TodayCountCard
+            detail="en cours, rejetés ou à vérifier"
+            href="/payments"
+            label="Paiements à suivre"
+            tone="cyan"
+            value={todayPaymentCount}
+          />
+          <TodayCountCard
+            detail="factures et attestations"
+            href="/invoices"
+            label="Documents à envoyer"
+            tone="emerald"
+            value={todayDocumentCount}
+          />
+        </div>
+
+        <div className="dashboard-quick-actions">
+          <a className="premium-action rounded-md text-sm font-semibold" href="/contracts/quick">
+            Créer contrat
+          </a>
+          <a className="premium-secondary-action rounded-md px-4 py-2 text-sm font-semibold" href="/import">
+            Importer Excel
+          </a>
+          <a className="premium-secondary-action rounded-md px-4 py-2 text-sm font-semibold" href="/invoices/new">
+            Créer facture
+          </a>
+        </div>
+
+        <div className="dashboard-priority-list">
+          <div className="dashboard-priority-header">
+            <strong>File courte</strong>
+            <span>{priorityQueue.length || "0"} priorité(s)</span>
+          </div>
+          {priorityQueue.length ? (
+            priorityQueue.map((item) => (
+              <TodayQueueItem
+                action={item.action}
+                detail={item.detail}
+                href={item.href}
+                key={`${item.action}-${item.label}-${item.detail}`}
+                label={item.label}
+                tone={item.tone}
+              />
+            ))
+          ) : (
+            <div className="dashboard-priority-empty">
+              <strong>Aucune urgence.</strong>
+              <p>Le portefeuille est calme. Vous pouvez créer un contrat ou vérifier les échéances.</p>
+            </div>
+          )}
+        </div>
+      </section>
 
       <section className="dashboard-next-move mt-6" data-tone={dashboardNextMove.tone}>
         <div>
