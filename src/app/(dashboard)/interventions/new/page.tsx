@@ -46,6 +46,19 @@ export default async function NewInterventionPage() {
         </div>
       </div>
 
+      <section className="intervention-readiness mt-6" aria-label="Parcours attestation">
+        {[
+          ["1. Contrat", "Le client, l'équipement et le tarif restent rattachés au dossier."],
+          ["2. Visite", "La date, le technicien et le statut alimentent l'historique terrain."],
+          ["3. Attestation", "Le rapport devient la base du document PDF à transmettre."],
+        ].map(([title, detail]) => (
+          <article key={title}>
+            <strong>{title}</strong>
+            <p>{detail}</p>
+          </article>
+        ))}
+      </section>
+
       <InterventionForm
         contracts={contracts}
         defaultPerformedAt={datetimeLocalValue(new Date())}

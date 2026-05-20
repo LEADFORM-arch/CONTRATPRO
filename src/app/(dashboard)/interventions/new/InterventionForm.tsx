@@ -94,6 +94,14 @@ export function InterventionForm({
 
   return (
     <form className="contract-form-shell mt-6" onSubmit={handleSubmit}>
+      <div className="intervention-form-command">
+        <div>
+          <p>À la fin de cette saisie</p>
+          <h3>Le planning est à jour et l'attestation peut être générée.</h3>
+        </div>
+        <span>{contracts.length ? `${contracts.length} contrat(s) disponible(s)` : "Aucun contrat"}</span>
+      </div>
+
       <FormSection
         description="Selectionnez le contrat qui portera l'historique et l'attestation."
         index="01"
@@ -175,8 +183,12 @@ export function InterventionForm({
               ? "Une visite planifiée alimente ensuite les attestations et le suivi légal."
               : "Creez d'abord un contrat pour planifier une intervention.")}
         </p>
-        <button className="login-submit sm:max-w-64" disabled={disabled} type="submit">
-          Enregistrer intervention
+        <button
+          className="premium-action rounded-md px-4 py-2 text-sm font-semibold disabled:cursor-not-allowed disabled:opacity-60 sm:max-w-64"
+          disabled={disabled}
+          type="submit"
+        >
+          {submitState.status === "loading" ? "Enregistrement..." : "Enregistrer intervention"}
         </button>
       </div>
     </form>

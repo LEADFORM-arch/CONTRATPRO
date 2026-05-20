@@ -4992,6 +4992,88 @@ body .hover\:bg-zinc-100:hover {
   position: absolute;
 }
 
+.intervention-readiness {
+  display: grid;
+  gap: 0.85rem;
+}
+
+@media (min-width: 768px) {
+  .intervention-readiness {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.intervention-readiness article,
+.intervention-form-command {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.014)),
+    #111316;
+  border: 1px solid #262a31;
+  border-radius: 0.65rem;
+  box-shadow: 0 14px 36px rgba(0, 0, 0, 0.18);
+}
+
+.intervention-readiness article {
+  padding: 0.95rem;
+}
+
+.intervention-readiness strong {
+  color: #f4f4f5;
+  display: block;
+  font-size: 0.95rem;
+  font-weight: 900;
+}
+
+.intervention-readiness p {
+  color: #a1a1aa;
+  font-size: 0.84rem;
+  line-height: 1.5;
+  margin-top: 0.4rem;
+}
+
+.intervention-form-command {
+  align-items: center;
+  display: flex;
+  gap: 1rem;
+  justify-content: space-between;
+  padding: 1rem;
+}
+
+.intervention-form-command p {
+  color: #34d399;
+  font-size: 0.74rem;
+  font-weight: 900;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.intervention-form-command h3 {
+  color: #f4f4f5;
+  font-size: 1.05rem;
+  font-weight: 950;
+  line-height: 1.25;
+  margin-top: 0.3rem;
+}
+
+.intervention-form-command span {
+  background: rgba(56, 189, 248, 0.08);
+  border: 1px solid rgba(56, 189, 248, 0.2);
+  border-radius: 0.5rem;
+  color: #bae6fd;
+  flex: 0 0 auto;
+  font-size: 0.78rem;
+  font-weight: 900;
+  padding: 0.55rem 0.75rem;
+}
+
+@media (max-width: 640px) {
+  .intervention-form-intro,
+  .intervention-form-command {
+    align-items: stretch;
+    flex-direction: column;
+  }
+}
+
 .certificate-stat-card {
   background:
     linear-gradient(180deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.018)),
