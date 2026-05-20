@@ -1,0 +1,10 @@
+etape;temps_estime;compris_sans_aide;blocage;phrase_utilisateur;correction_a_prevoir;decision
+"Arrivee apres connexion";"10 secondes";"";"";"";"";"Le chauffagiste doit comprendre le premier clic sans explication."
+"Import du fichier clients";"2 minutes";"";"";"";"";"Il doit deposer le fichier, lire la simulation et confirmer sans aide lourde."
+"Creation d'un contrat rapide";"3 minutes";"";"";"";"";"Il doit comprendre client, equipement, tarif et paiement."
+"Lien mandat SEPA sandbox";"2 minutes";"";"";"";"";"Il doit comprendre que le client final signe le mandat."
+"Parametres entreprise";"2 minutes";"";"";"";"";"Il doit voir pourquoi ces infos rendent les factures propres."
+"Creation facture";"2 minutes";"";"";"";"";"Il doit choisir le contrat, verifier le montant et obtenir le PDF."
+"Attestation intervention";"2 minutes";"";"";"";"";"Il doit comprendre que l'attestation rassure le client final."
+"Retour dashboard";"20 secondes";"";"";"";"";"Il doit voir la prochaine action utile."
+"Verdict pilote";"5 minutes";"";"";"";"";"On decide: pret pilote, a corriger, ou blocage commercial."
