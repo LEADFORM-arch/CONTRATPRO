@@ -6341,11 +6341,13 @@ body .hover\:bg-zinc-100:hover {
 }
 
 @media (min-width: 900px) {
+  .certificate-command-panel,
   .payment-command-panel {
     grid-template-columns: minmax(0, 1fr) minmax(15rem, 0.34fr);
   }
 }
 
+.certificate-command-panel,
 .invoice-command-panel,
 .invoice-stat-card {
   background:
@@ -6359,6 +6361,7 @@ body .hover\:bg-zinc-100:hover {
   position: relative;
 }
 
+.certificate-command-panel,
 .invoice-command-panel {
   align-items: stretch;
   border-radius: 0.75rem;
@@ -6368,6 +6371,7 @@ body .hover\:bg-zinc-100:hover {
   padding: 1rem;
 }
 
+.certificate-command-panel::before,
 .invoice-command-panel::before {
   background: linear-gradient(90deg, #f59e0b, #34d399 52%, #38bdf8);
   content: "";
@@ -6376,6 +6380,7 @@ body .hover\:bg-zinc-100:hover {
   position: absolute;
 }
 
+.certificate-command-brief p,
 .invoice-command-brief p {
   color: #f59e0b;
   font-size: 0.74rem;
@@ -6384,6 +6389,7 @@ body .hover\:bg-zinc-100:hover {
   text-transform: uppercase;
 }
 
+.certificate-command-brief h2,
 .invoice-command-brief h2 {
   color: #f8fafc;
   font-size: clamp(1.35rem, 2vw, 2rem);
@@ -6391,6 +6397,7 @@ body .hover\:bg-zinc-100:hover {
   margin-top: 0.35rem;
 }
 
+.certificate-command-brief span,
 .invoice-command-brief span {
   color: #a1a1aa;
   display: block;
@@ -6398,6 +6405,7 @@ body .hover\:bg-zinc-100:hover {
   margin-top: 0.45rem;
 }
 
+.certificate-command-decision,
 .invoice-command-decision {
   background: rgba(9, 9, 11, 0.54);
   border: 1px solid rgba(82, 82, 91, 0.74);
@@ -6408,18 +6416,22 @@ body .hover\:bg-zinc-100:hover {
   padding: 0.85rem;
 }
 
+.certificate-command-decision[data-tone="emerald"],
 .invoice-command-decision[data-tone="emerald"] {
   border-color: rgba(52, 211, 153, 0.28);
 }
 
+.certificate-command-decision[data-tone="amber"],
 .invoice-command-decision[data-tone="amber"] {
   border-color: rgba(245, 158, 11, 0.28);
 }
 
+.certificate-command-decision[data-tone="rose"],
 .invoice-command-decision[data-tone="rose"] {
   border-color: rgba(251, 113, 133, 0.28);
 }
 
+.certificate-command-decision small,
 .invoice-command-decision small {
   color: #94a3b8;
   font-size: 0.72rem;
@@ -6428,12 +6440,14 @@ body .hover\:bg-zinc-100:hover {
   text-transform: uppercase;
 }
 
+.certificate-command-decision strong,
 .invoice-command-decision strong {
   color: #f8fafc;
   font-size: 1.35rem;
   font-weight: 950;
 }
 
+.certificate-command-decision span,
 .invoice-command-decision span {
   color: #a1a1aa;
   font-size: 0.84rem;
@@ -11894,6 +11908,9 @@ details[open] > .import-model-summary::after,
 .onboarding-activation-details[open] > summary,
 .import-model-panel[open] > summary,
 .contract-section[open] > summary,
+.invoice-section[open] > summary,
+.certificate-section[open] > summary,
+.artisan-evidence-details[open] > summary,
 .payment-section[open] > summary {
   margin-bottom: 1rem;
 }
@@ -12172,7 +12189,9 @@ details[open] > .import-model-summary::after,
 }
 
 details[open].payment-section::after,
-details[open].contract-section::after {
+details[open].contract-section::after,
+details[open].invoice-section::after,
+details[open].certificate-section::after {
   color: #71717a;
   content: "Liste complète disponible au défilement";
   display: block;

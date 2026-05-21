@@ -2,8 +2,40 @@ import { AppShell, PageHeader, StatusPill } from "@/components/layout/AppShell";
 import { ActivationEmptyState } from "@/components/layout/ActivationEmptyState";
 import { getCertificates } from "@/server/contratpro-data";
 
+type CertificateTone = "amber" | "cyan" | "emerald" | "rose";
+
+function CertificateWorkTile({
+  count,
+  detail,
+  href,
+  label,
+  step,
+  tone,
+}: {
+  count: string;
+  detail: string;
+  href: string;
+  label: string;
+  step: string;
+  tone: CertificateTone;
+}) {
+  return (
+    <a className="artisan-terrain-tile" data-tone={tone} href={href}>
+      <span>{step}</span>
+      <div>
+        <strong>{label}</strong>
+        <p>{detail}</p>
+      </div>
+      <em>{count}</em>
+    </a>
+  );
+}
+
 export default async function CertificatesPage() {
   const certificates = await getCertificates();
+  const pendingCertificates = certificates.filter(
+    (certificate) => certificate.status !== "EnvoyÃ©e",
+  );
   const sentCount = certificates.filter(
     (certificate) => certificate.status === "Envoyée",
   ).length;
@@ -11,6 +43,20 @@ export default async function CertificatesPage() {
   const referencesCount = new Set(
     certificates.map((certificate) => certificate.legalReference),
   ).size;
+  const priorityCertificate = pendingCertificates[0] ?? certificates[0];
+  const certificateCommand = pendingCount
+    ? {
+        action: "Envoyer l'attestation",
+        detail: `${pendingCount} document(s) a envoyer ou verifier avant archivage client.`,
+        label: "Preuve a sortir",
+        tone: "amber" as const,
+      }
+    : {
+        action: "Preparer la prochaine",
+        detail: "Toutes les attestations connues sont envoyees. Continuez depuis les interventions.",
+        label: "Conformite stable",
+        tone: "emerald" as const,
+      };
 
   return (
     <AppShell activePath="/certificates">
@@ -28,7 +74,63 @@ export default async function CertificatesPage() {
         title="Attestations légales"
       />
 
-      <section className="mt-6 grid gap-3 md:grid-cols-3">
+      <section className="certificate-command-panel mt-6" data-od-id="certificate-proof-command">
+        <div className="certificate-command-brief">
+          <p>Commande conformite</p>
+          <h2>{certificateCommand.label}</h2>
+          <span>{certificateCommand.detail}</span>
+        </div>
+        <div className="certificate-command-decision" data-tone={certificateCommand.tone}>
+          <small>Action prioritaire</small>
+          <strong>{certificateCommand.action}</strong>
+          {priorityCertificate ? (
+            <span>
+              {priorityCertificate.customer} - {priorityCertificate.equipment}
+            </span>
+          ) : (
+            <span>Planifier une intervention pour generer la premiere attestation.</span>
+          )}
+          <a
+            className="premium-action rounded-md text-sm font-semibold"
+            href={priorityCertificate ? `/certificates/${priorityCertificate.id}` : "/interventions/new"}
+          >
+            Ouvrir le document
+          </a>
+        </div>
+      </section>
+
+      <section className="artisan-terrain-lanes mt-5" aria-label="Raccourcis attestation">
+        <CertificateWorkTile
+          count="+"
+          detail="Partir d'une intervention ou d'un contrat de maintenance."
+          href="/interventions/new"
+          label="Generer attestation"
+          step="1"
+          tone="emerald"
+        />
+        <CertificateWorkTile
+          count={String(pendingCount)}
+          detail="Verifier la preuve, puis l'envoyer au client."
+          href={priorityCertificate ? `/certificates/${priorityCertificate.id}` : "/interventions/new"}
+          label="Envoyer au client"
+          step="2"
+          tone={pendingCount ? "amber" : "emerald"}
+        />
+        <CertificateWorkTile
+          count={String(certificates.length)}
+          detail="Retrouver les attestations et references conservees."
+          href="/certificates"
+          label="Registre preuves"
+          step="3"
+          tone="cyan"
+        />
+      </section>
+
+      <details className="artisan-evidence-details mt-5">
+        <summary className="worklist-summary">
+          Voir les chiffres conformite
+        </summary>
+        <div className="grid gap-3 md:grid-cols-3">
         <article className="certificate-stat-card" data-tone="emerald">
           <p className="text-xs font-semibold uppercase tracking-wide text-zinc-500">
             Attestations
@@ -58,9 +160,13 @@ export default async function CertificatesPage() {
             Références réglementaires
           </p>
         </article>
-      </section>
+        </div>
+      </details>
 
-      <section className="certificate-section mt-5 rounded-lg border">
+      <details className="certificate-section mt-5 rounded-lg border">
+        <summary className="worklist-summary">
+          Voir toutes les attestations ({certificates.length})
+        </summary>
         <div className="certificate-section-header">
           <div>
             <p className="text-xs font-semibold uppercase tracking-wide text-emerald-300">
@@ -143,7 +249,7 @@ export default async function CertificatesPage() {
             />
           </div>
         )}
-      </section>
+      </details>
     </AppShell>
   );
 }

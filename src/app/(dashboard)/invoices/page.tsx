@@ -5,6 +5,35 @@ import { getInvoices } from "@/server/contratpro-data";
 
 import { InvoiceStatusControls } from "./InvoiceStatusControls";
 
+type InvoiceTone = "amber" | "cyan" | "emerald" | "rose";
+
+function InvoiceWorkTile({
+  count,
+  detail,
+  href,
+  label,
+  step,
+  tone,
+}: {
+  count: string;
+  detail: string;
+  href: string;
+  label: string;
+  step: string;
+  tone: InvoiceTone;
+}) {
+  return (
+    <a className="artisan-terrain-tile" data-tone={tone} href={href}>
+      <span>{step}</span>
+      <div>
+        <strong>{label}</strong>
+        <p>{detail}</p>
+      </div>
+      <em>{count}</em>
+    </a>
+  );
+}
+
 export default async function InvoicesPage() {
   const invoices = await getInvoices();
   const openInvoices = invoices.filter((invoice) =>
@@ -86,7 +115,38 @@ export default async function InvoicesPage() {
         </div>
       </section>
 
-      <div className="mt-6 grid gap-3 md:grid-cols-4">
+      <section className="artisan-terrain-lanes mt-5" aria-label="Raccourcis facture">
+        <InvoiceWorkTile
+          count="+"
+          detail="Choisir un contrat, verifier le montant, generer le PDF."
+          href="/invoices/new"
+          label="Creer facture"
+          step="1"
+          tone="emerald"
+        />
+        <InvoiceWorkTile
+          count={String(openInvoices.length)}
+          detail="Envoyer, suivre ou relancer les factures ouvertes."
+          href={priorityInvoice ? `/invoices/${priorityInvoice.id}` : "/invoices/new"}
+          label="Traiter les ouvertes"
+          step="2"
+          tone={overdueInvoices.length ? "rose" : openInvoices.length ? "amber" : "emerald"}
+        />
+        <InvoiceWorkTile
+          count={String(invoices.length)}
+          detail="Retrouver toutes les factures et decisions d'encaissement."
+          href="/invoices"
+          label="Registre factures"
+          step="3"
+          tone="cyan"
+        />
+      </section>
+
+      <details className="artisan-evidence-details mt-5">
+        <summary className="worklist-summary">
+          Voir les chiffres facturation
+        </summary>
+        <div className="grid gap-3 md:grid-cols-4">
         {[
           ["Factures", invoices.length, "Documents émis", "cyan"],
           ["À encaisser", formatEuro(openAmount), "Solde ouvert", "amber"],
@@ -107,9 +167,13 @@ export default async function InvoicesPage() {
             <p className="mt-2 text-sm text-zinc-400">{helper}</p>
           </article>
         ))}
-      </div>
+        </div>
+      </details>
 
-      <section className="invoice-section mt-5 rounded-lg border">
+      <details className="invoice-section mt-5 rounded-lg border">
+        <summary className="worklist-summary">
+          Voir toutes les factures ({invoices.length})
+        </summary>
         <div className="invoice-section-header">
           <div>
             <p className="text-xs font-semibold uppercase tracking-wide text-emerald-300">
@@ -203,7 +267,7 @@ export default async function InvoicesPage() {
             />
           </div>
         )}
-      </section>
+      </details>
     </AppShell>
   );
 }
