@@ -14,28 +14,31 @@ export default function NewCustomerPage() {
             Retour clients
           </a>
         }
-        description="Ajoutez un client final avant de rattacher une installation, un contrat annuel et les relances."
+        description="Saisissez le minimum terrain : nom, telephone, ville, equipement et contrat prevu."
         eyebrow="Nouveau client"
-        title="Créer une fiche client"
+        title="Ajouter un client en 1 minute"
       />
 
       <div className="customer-form-intro mt-6">
         <div>
           <p className="text-sm font-medium text-emerald-700">
-            Base commerciale
+            Saisie terrain
           </p>
           <h3 className="mt-2 text-2xl font-semibold text-zinc-950">
-            Une fiche propre avant tout contrat.
+            Pas de fiche longue : ouvrez le dossier, completez plus tard.
           </h3>
           <p className="mt-2 max-w-2xl text-sm leading-6 text-zinc-500">
-            Centralisez les coordonnees utiles aux interventions, attestations,
-            factures et relances de renouvellement.
+            Le chauffagiste note ce qu'il sait deja. ContratPro garde
+            l'equipement et le contrat prevu dans les notes pour preparer la
+            suite.
           </p>
         </div>
         <div className="contract-form-intro-grid">
-          <span>Identité</span>
-          <span>Contact</span>
-          <span>Adresse</span>
+          <span>Nom</span>
+          <span>Telephone</span>
+          <span>Ville</span>
+          <span>Equipement</span>
+          <span>Contrat</span>
         </div>
       </div>
 

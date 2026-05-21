@@ -55,6 +55,19 @@ const homeProofs = [
   ["SEPA", "pour fiabiliser le cash recurrent"],
 ];
 
+const homeTradeZones = [
+  ["Chaudières", "Attestations, visites annuelles, facture prête."],
+  ["PAC", "Contrats air/eau et air/air avec échéance visible."],
+  ["VMC", "Suivi des sites, relances et preuves d'entretien."],
+  ["Clim", "Parc réversible, renouvellement et cash sous contrôle."],
+];
+
+const homeOutcomeCards = [
+  ["1 Importer", "Votre Excel devient une base exploitable sans ressaisie."],
+  ["2 Prioriser", "ContratPro montre le dossier qui rapporte ou bloque."],
+  ["3 Envoyer", "Factures, attestations et relances sortent au bon moment."],
+];
+
 const homeStructuredData = [
   {
     "@context": "https://schema.org",
@@ -176,6 +189,22 @@ function DashboardActionRow({
   );
 }
 
+function HomeLandingVisual() {
+  return (
+    <div className="home-hero-visual">
+      <img
+        alt="ContratPro sur tablette dans un local technique CVC"
+        src="/images/contratpro-cvc-facebook-banner.png"
+      />
+      <div className="home-hero-visual-panel">
+        <span>Action terrain</span>
+        <strong>Importer ou ajouter un client</strong>
+        <p>Le premier geste est visible avant de lire la page.</p>
+      </div>
+    </div>
+  );
+}
+
 function TodayCountCard({
   detail,
   href,
@@ -242,15 +271,31 @@ function HomeLanding() {
         description="ContratPro aide les chauffagistes et entreprises CVC a transformer leur portefeuille d'entretien en revenu recurrent pilote : relances, attestations, factures et encaissements au meme endroit."
         eyebrow="Logiciel contrats de maintenance CVC"
         title="Ne laissez plus vos contrats d'entretien dormir dans Excel."
+        visual={<HomeLandingVisual />}
       />
 
-      <section className="home-proof-strip mx-auto grid max-w-6xl gap-3 px-5 pb-4 sm:px-8 md:grid-cols-3">
+      <section className="home-proof-strip mx-auto grid max-w-7xl gap-3 px-5 pb-4 sm:px-8 md:grid-cols-3">
         {homeProofs.map(([value, label]) => (
           <article key={label}>
             <strong>{value}</strong>
             <span>{label}</span>
           </article>
         ))}
+      </section>
+
+      <section className="home-trade-band mx-auto max-w-7xl px-5 py-8 sm:px-8">
+        <div>
+          <p>Fait pour le CVC</p>
+          <h2>Chaudières, PAC, VMC, clim : chaque contrat garde sa place.</h2>
+        </div>
+        <div className="home-trade-grid">
+          {homeTradeZones.map(([label, detail]) => (
+            <article key={label}>
+              <strong>{label}</strong>
+              <span>{detail}</span>
+            </article>
+          ))}
+        </div>
       </section>
 
       <PublicSection
@@ -260,6 +305,20 @@ function HomeLanding() {
         <div className="public-proof-grid">
           {homeProblems.map((problem) => (
             <article key={problem}>{problem}</article>
+          ))}
+        </div>
+      </PublicSection>
+
+      <PublicSection
+        description="Le patron CVC doit savoir quoi faire sans formation : reprendre une base, choisir le prochain dossier, sortir le document."
+        title="Une page de travail, pas une usine à menus"
+      >
+        <div className="home-outcome-grid">
+          {homeOutcomeCards.map(([label, detail]) => (
+            <article key={label}>
+              <strong>{label}</strong>
+              <p>{detail}</p>
+            </article>
           ))}
         </div>
       </PublicSection>
@@ -303,7 +362,7 @@ function HomeLanding() {
         </div>
       </PublicSection>
 
-      <section className="home-final-cta mx-auto max-w-6xl px-5 py-8 sm:px-8">
+      <section className="home-final-cta mx-auto max-w-7xl px-5 py-8 sm:px-8">
         <div>
           <p className="text-sm font-semibold text-emerald-300">
             Premiere action
