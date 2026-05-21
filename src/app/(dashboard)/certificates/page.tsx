@@ -47,14 +47,14 @@ export default async function CertificatesPage() {
   const certificateCommand = pendingCount
     ? {
         action: "Envoyer l'attestation",
-        detail: `${pendingCount} document(s) a envoyer ou verifier avant archivage client.`,
-        label: "Preuve a sortir",
+        detail: `${pendingCount} document(s) à envoyer ou vérifier avant archivage client.`,
+        label: "Preuve à sortir",
         tone: "amber" as const,
       }
     : {
         action: "Preparer la prochaine",
-        detail: "Toutes les attestations connues sont envoyees. Continuez depuis les interventions.",
-        label: "Conformite stable",
+        detail: "Toutes les attestations connues sont envoyées. Continuez depuis les interventions.",
+        label: "Conformité stable",
         tone: "emerald" as const,
       };
 
@@ -76,7 +76,7 @@ export default async function CertificatesPage() {
 
       <section className="certificate-command-panel mt-6" data-od-id="certificate-proof-command">
         <div className="certificate-command-brief">
-          <p>Commande conformite</p>
+          <p>Commande conformité</p>
           <h2>{certificateCommand.label}</h2>
           <span>{certificateCommand.detail}</span>
         </div>
@@ -88,7 +88,7 @@ export default async function CertificatesPage() {
               {priorityCertificate.customer} - {priorityCertificate.equipment}
             </span>
           ) : (
-            <span>Planifier une intervention pour generer la premiere attestation.</span>
+            <span>Planifier une intervention pour générer la première attestation.</span>
           )}
           <a
             className="premium-action rounded-md text-sm font-semibold"
@@ -104,13 +104,13 @@ export default async function CertificatesPage() {
           count="+"
           detail="Partir d'une intervention ou d'un contrat de maintenance."
           href="/interventions/new"
-          label="Generer attestation"
+          label="Générer attestation"
           step="1"
           tone="emerald"
         />
         <CertificateWorkTile
           count={String(pendingCount)}
-          detail="Verifier la preuve, puis l'envoyer au client."
+          detail="Vérifier la preuve, puis l'envoyer au client."
           href={priorityCertificate ? `/certificates/${priorityCertificate.id}` : "/interventions/new"}
           label="Envoyer au client"
           step="2"
@@ -118,7 +118,7 @@ export default async function CertificatesPage() {
         />
         <CertificateWorkTile
           count={String(certificates.length)}
-          detail="Retrouver les attestations et references conservees."
+          detail="Retrouver les attestations et références conservées."
           href="/certificates"
           label="Registre preuves"
           step="3"
@@ -128,7 +128,7 @@ export default async function CertificatesPage() {
 
       <details className="artisan-evidence-details mt-5">
         <summary className="worklist-summary">
-          Voir les chiffres conformite
+          Voir les chiffres conformité
         </summary>
         <div className="grid gap-3 md:grid-cols-3">
         <article className="certificate-stat-card" data-tone="emerald">

@@ -118,9 +118,9 @@ export default async function InvoicesPage() {
       <section className="artisan-terrain-lanes mt-5" aria-label="Raccourcis facture">
         <InvoiceWorkTile
           count="+"
-          detail="Choisir un contrat, verifier le montant, generer le PDF."
+          detail="Choisir un contrat, vérifier le montant, générer le PDF."
           href="/invoices/new"
-          label="Creer facture"
+          label="Créer facture"
           step="1"
           tone="emerald"
         />
@@ -134,7 +134,7 @@ export default async function InvoicesPage() {
         />
         <InvoiceWorkTile
           count={String(invoices.length)}
-          detail="Retrouver toutes les factures et decisions d'encaissement."
+          detail="Retrouver toutes les factures et décisions d'encaissement."
           href="/invoices"
           label="Registre factures"
           step="3"

@@ -179,7 +179,7 @@ export default async function ContractsPage() {
       <section className="artisan-terrain-lanes mt-5" aria-label="Raccourcis contrat">
         <ContractWorkTile
           count={String(contractsToRenew.length)}
-          detail="Echeances proches, visites ou relances a declencher."
+          detail="Échéances proches, visites ou relances à déclencher."
           href="/relances"
           label="Traiter les relances"
           step="1"
@@ -187,7 +187,7 @@ export default async function ContractsPage() {
         />
         <ContractWorkTile
           count={String(nonSepaContracts.length)}
-          detail="Passer les contrats hors prelevement en encaissement suivi."
+          detail="Passer les contrats hors prélèvement en encaissement suivi."
           href="/payments/new"
           label="Activer SEPA"
           step="2"

@@ -145,7 +145,7 @@ export default async function PaymentsPage() {
       <section className="artisan-terrain-lanes mt-5" aria-label="Raccourcis paiement">
         <PaymentWorkTile
           count={String(failed.length)}
-          detail="Rejets ou echecs a corriger avant relance client."
+          detail="Rejets ou échecs à corriger avant relance client."
           href="/payments"
           label="Corriger un rejet"
           step="1"
@@ -153,7 +153,7 @@ export default async function PaymentsPage() {
         />
         <PaymentWorkTile
           count={formatEuro(amountToCollect)}
-          detail="Prelevements programmes ou a envoyer au provider."
+          detail="Prélèvements programmés ou à envoyer au provider."
           href="/payments/new"
           label="Encaisser maintenant"
           step="2"
@@ -161,7 +161,7 @@ export default async function PaymentsPage() {
         />
         <PaymentWorkTile
           count="+"
-          detail="Creer un paiement depuis un mandat actif et un contrat."
+          detail="Créer un paiement depuis un mandat actif et un contrat."
           href="/payments/new"
           label="Nouveau paiement"
           step="3"
