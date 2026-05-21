@@ -37,22 +37,22 @@ export const metadata: Metadata = {
 type CardTone = "amber" | "cyan" | "emerald" | "rose";
 
 const homeProblems = [
-  "Les renouvellements restent dans Excel ou dans la tete du dirigeant.",
-  "Les attestations et factures partent trop tard apres les visites.",
-  "Les contrats annuels sont vendus, mais pas toujours relances ni encaisses.",
+  "Vous vendez des contrats d'entretien, puis certains restent caches dans Excel.",
+  "Apres les visites, les attestations et factures peuvent partir trop tard.",
+  "Sans rappel clair, un contrat annuel vendu peut ne pas etre relance ni encaisse.",
 ];
 
 const homeWorkflow = [
-  ["Importer", "Clients, equipements et contrats existants."],
-  ["Surveiller", "Echeances, attestations et paiements recurrents."],
-  ["Relancer", "Emails, actions commerciales et cron quotidien."],
-  ["Encaisser", "Factures PDF, historique d'envoi et SEPA."],
+  ["Importez", "Vos clients, equipements et contrats existants."],
+  ["Voyez", "Les echeances, attestations et paiements a suivre."],
+  ["Relancez", "Les contrats avant qu'ils sortent du radar."],
+  ["Encaissez", "Factures PDF, historique d'envoi et SEPA."],
 ];
 
 const homeProofs = [
-  ["15 min", "pour comprendre les contrats a sauver"],
-  ["45 jours", "avant échéance pour relancer proprement"],
-  ["SEPA", "pour fiabiliser le cash recurrent"],
+  ["15 min", "pour voir les contrats a reprendre"],
+  ["45 jours", "avant echeance pour relancer proprement"],
+  ["SEPA", "pour automatiser les encaissements recurrents"],
 ];
 
 const homeTradeZones = [
@@ -63,9 +63,9 @@ const homeTradeZones = [
 ];
 
 const homeOutcomeCards = [
-  ["1 Importer", "Votre Excel devient une base exploitable sans ressaisie."],
-  ["2 Prioriser", "ContratPro montre le dossier qui rapporte ou bloque."],
-  ["3 Envoyer", "Factures, attestations et relances sortent au bon moment."],
+  ["1 Importez", "Votre fichier Excel devient une base clients exploitable."],
+  ["2 Traitez", "Vous ouvrez le dossier client qui demande une action."],
+  ["3 Envoyez", "Factures, attestations et relances partent au bon moment."],
 ];
 
 const homeStructuredData = [
@@ -199,7 +199,7 @@ function HomeLandingVisual() {
       <div className="home-hero-visual-panel">
         <span>Action terrain</span>
         <strong>Importer ou ajouter un client</strong>
-        <p>Le premier geste est visible avant de lire la page.</p>
+        <p>Vous savez tout de suite par ou demarrer.</p>
       </div>
     </div>
   );
@@ -268,7 +268,7 @@ function HomeLanding() {
             </a>
           </>
         }
-        description="ContratPro aide les chauffagistes et entreprises CVC a transformer leur portefeuille d'entretien en revenu recurrent pilote : relances, attestations, factures et encaissements au meme endroit."
+        description="ContratPro aide les chauffagistes a garder leurs contrats d'entretien sous controle : echeances, relances, attestations, factures et encaissements au meme endroit."
         eyebrow="Logiciel contrats de maintenance CVC"
         title="Ne laissez plus vos contrats d'entretien dormir dans Excel."
         visual={<HomeLandingVisual />}
@@ -299,8 +299,8 @@ function HomeLanding() {
       </section>
 
       <PublicSection
-        description="Le logiciel se concentre sur ce qui fait vraiment perdre du revenu a une entreprise CVC : l'oubli, le retard administratif et les paiements non automatises."
-        title="Le probleme n'est pas de vendre un contrat. C'est de le retrouver au bon moment."
+        description="Quand les journees s'enchainent entre depannages, entretiens et devis, ContratPro vous rappelle les contrats a reprendre avant qu'ils ne disparaissent dans les fichiers."
+        title="Vos contrats d'entretien ne doivent plus vous echapper."
       >
         <div className="public-proof-grid">
           {homeProblems.map((problem) => (
@@ -310,8 +310,8 @@ function HomeLanding() {
       </PublicSection>
 
       <PublicSection
-        description="Le patron CVC doit savoir quoi faire sans formation : reprendre une base, choisir le prochain dossier, sortir le document."
-        title="Une page de travail, pas une usine à menus"
+        description="Vous ouvrez ContratPro, vous voyez l'action utile, vous avancez. Pas besoin de chercher dans dix menus pour savoir quoi faire."
+        title="Un ecran simple pour savoir quoi faire."
       >
         <div className="home-outcome-grid">
           {homeOutcomeCards.map(([label, detail]) => (
@@ -324,8 +324,8 @@ function HomeLanding() {
       </PublicSection>
 
       <PublicSection
-        description="Un parcours court, pense pour un dirigeant terrain : importer, voir les urgences, relancer, encaisser."
-        title="Une methode simple pour recuperer du cash recurrent"
+        description="Vous importez votre base, vous voyez les urgences, vous relancez et vous encaissez plus proprement."
+        title="Un parcours court pour reprendre le controle"
       >
         <div className="public-demo-steps">
           {homeWorkflow.map(([title, detail], index) => (
