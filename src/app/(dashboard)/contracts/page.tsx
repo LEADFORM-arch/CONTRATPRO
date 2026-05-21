@@ -29,6 +29,33 @@ function PortfolioMetric({
   );
 }
 
+function ContractWorkTile({
+  count,
+  detail,
+  href,
+  label,
+  step,
+  tone,
+}: {
+  count: string;
+  detail: string;
+  href: string;
+  label: string;
+  step: string;
+  tone: ContractTone;
+}) {
+  return (
+    <a className="artisan-terrain-tile" data-tone={tone} href={href}>
+      <span>{step}</span>
+      <div>
+        <strong>{label}</strong>
+        <p>{detail}</p>
+      </div>
+      <em>{count}</em>
+    </a>
+  );
+}
+
 export default async function ContractsPage() {
   const contracts = await getContracts();
   const total = contracts.reduce((sum, contract) => sum + contract.value, 0);
@@ -149,7 +176,38 @@ export default async function ContractsPage() {
         </section>
       ) : null}
 
-      <div className="mt-6 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+      <section className="artisan-terrain-lanes mt-5" aria-label="Raccourcis contrat">
+        <ContractWorkTile
+          count={String(contractsToRenew.length)}
+          detail="Echeances proches, visites ou relances a declencher."
+          href="/relances"
+          label="Traiter les relances"
+          step="1"
+          tone={contractsToRenew.length ? "rose" : "emerald"}
+        />
+        <ContractWorkTile
+          count={String(nonSepaContracts.length)}
+          detail="Passer les contrats hors prelevement en encaissement suivi."
+          href="/payments/new"
+          label="Activer SEPA"
+          step="2"
+          tone={nonSepaContracts.length ? "amber" : "emerald"}
+        />
+        <ContractWorkTile
+          count="+"
+          detail="Ajouter un dossier propre sans passer par le formulaire long."
+          href="/contracts/quick"
+          label="Nouveau contrat guide"
+          step="3"
+          tone="cyan"
+        />
+      </section>
+
+      <details className="artisan-evidence-details mt-5">
+        <summary className="worklist-summary">
+          Voir les chiffres portefeuille
+        </summary>
+        <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
         <PortfolioMetric
           detail="contrats actifs dans le portefeuille"
           label="Contrats actifs"
@@ -174,7 +232,8 @@ export default async function ContractsPage() {
           tone="rose"
           value={formatEuro(revenueToSecure)}
         />
-      </div>
+        </div>
+      </details>
 
       <details className="contract-section mt-6 overflow-hidden">
         <summary className="worklist-summary">

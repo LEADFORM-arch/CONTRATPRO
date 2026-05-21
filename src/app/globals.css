@@ -11993,6 +11993,132 @@ details[open] > .import-model-summary::after,
   white-space: nowrap;
 }
 
+.artisan-terrain-lanes {
+  display: grid;
+  gap: 0.85rem;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.artisan-terrain-tile {
+  align-items: center;
+  background:
+    linear-gradient(135deg, rgba(56, 189, 248, 0.14), rgba(255, 255, 255, 0.025)),
+    #111316;
+  border: 1px solid rgba(56, 189, 248, 0.25);
+  border-radius: 0.85rem;
+  display: grid;
+  gap: 0.9rem;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  min-height: 6.25rem;
+  padding: 1rem;
+  text-decoration: none;
+}
+
+.artisan-terrain-tile:hover {
+  border-color: rgba(167, 243, 208, 0.5);
+  transform: translateY(-1px);
+}
+
+.artisan-terrain-tile span {
+  align-items: center;
+  background: rgba(56, 189, 248, 0.16);
+  border: 1px solid rgba(56, 189, 248, 0.32);
+  border-radius: 0.6rem;
+  color: #bae6fd;
+  display: inline-flex;
+  font-size: 1rem;
+  font-weight: 950;
+  height: 2.65rem;
+  justify-content: center;
+  width: 2.65rem;
+}
+
+.artisan-terrain-tile strong,
+.artisan-terrain-tile p,
+.artisan-terrain-tile em {
+  display: block;
+}
+
+.artisan-terrain-tile strong {
+  color: #ffffff;
+  font-size: 1.04rem;
+  font-weight: 950;
+  line-height: 1.2;
+}
+
+.artisan-terrain-tile p {
+  color: #a1a1aa;
+  font-size: 0.84rem;
+  line-height: 1.35;
+  margin-top: 0.3rem;
+}
+
+.artisan-terrain-tile em {
+  color: #f8fafc;
+  font-size: 1.25rem;
+  font-style: normal;
+  font-variant-numeric: tabular-nums;
+  font-weight: 950;
+  text-align: right;
+  white-space: nowrap;
+}
+
+.artisan-terrain-tile[data-tone="emerald"] {
+  background:
+    linear-gradient(135deg, rgba(52, 211, 153, 0.16), rgba(255, 255, 255, 0.025)),
+    #111816;
+  border-color: rgba(52, 211, 153, 0.3);
+}
+
+.artisan-terrain-tile[data-tone="emerald"] span {
+  background: rgba(52, 211, 153, 0.16);
+  border-color: rgba(52, 211, 153, 0.32);
+  color: #bbf7d0;
+}
+
+.artisan-terrain-tile[data-tone="amber"] {
+  background:
+    linear-gradient(135deg, rgba(245, 158, 11, 0.17), rgba(255, 255, 255, 0.025)),
+    #121315;
+  border-color: rgba(245, 158, 11, 0.34);
+}
+
+.artisan-terrain-tile[data-tone="amber"] span {
+  background: rgba(245, 158, 11, 0.15);
+  border-color: rgba(245, 158, 11, 0.34);
+  color: #fde68a;
+}
+
+.artisan-terrain-tile[data-tone="rose"] {
+  background:
+    linear-gradient(135deg, rgba(251, 113, 133, 0.17), rgba(255, 255, 255, 0.025)),
+    #121315;
+  border-color: rgba(251, 113, 133, 0.34);
+}
+
+.artisan-terrain-tile[data-tone="rose"] span {
+  background: rgba(251, 113, 133, 0.15);
+  border-color: rgba(251, 113, 133, 0.34);
+  color: #fecdd3;
+}
+
+.artisan-evidence-details {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.026), rgba(255, 255, 255, 0.01)),
+    #0d0f12;
+  border: 1px solid rgba(148, 163, 184, 0.14);
+  border-radius: 0.75rem;
+  padding: 0;
+}
+
+.artisan-evidence-details[open] {
+  padding: 0 0.9rem 0.9rem;
+}
+
+.artisan-evidence-details[open] > summary {
+  margin: 0 -0.9rem 0.9rem;
+}
+
 .import-history:not([open]) {
   background:
     linear-gradient(180deg, rgba(255, 255, 255, 0.026), rgba(255, 255, 255, 0.01)),
@@ -12056,15 +12182,18 @@ details[open].contract-section::after {
 }
 
 @media (max-width: 980px) {
-  .artisan-action-queue {
+  .artisan-action-queue,
+  .artisan-terrain-lanes {
     grid-template-columns: 1fr;
   }
 
-  .artisan-action-card {
+  .artisan-action-card,
+  .artisan-terrain-tile {
     grid-template-columns: auto minmax(0, 1fr);
   }
 
-  .artisan-action-card em {
+  .artisan-action-card em,
+  .artisan-terrain-tile em {
     grid-column: 2;
     text-align: left;
   }

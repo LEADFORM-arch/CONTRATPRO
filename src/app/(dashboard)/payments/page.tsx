@@ -6,6 +6,35 @@ import { getPayments } from "@/server/contratpro-data";
 import { PaymentSubmitButton } from "./PaymentSubmitButton";
 import { PaymentStatusControls } from "./PaymentStatusControls";
 
+type PaymentTone = "amber" | "cyan" | "emerald" | "rose";
+
+function PaymentWorkTile({
+  count,
+  detail,
+  href,
+  label,
+  step,
+  tone,
+}: {
+  count: string;
+  detail: string;
+  href: string;
+  label: string;
+  step: string;
+  tone: PaymentTone;
+}) {
+  return (
+    <a className="artisan-terrain-tile" data-tone={tone} href={href}>
+      <span>{step}</span>
+      <div>
+        <strong>{label}</strong>
+        <p>{detail}</p>
+      </div>
+      <em>{count}</em>
+    </a>
+  );
+}
+
 export default async function PaymentsPage() {
   const payments = await getPayments();
   const pending = payments.filter((payment) =>
@@ -113,7 +142,38 @@ export default async function PaymentsPage() {
         </section>
       ) : null}
 
-      <div className="mt-6 grid gap-3 md:grid-cols-4">
+      <section className="artisan-terrain-lanes mt-5" aria-label="Raccourcis paiement">
+        <PaymentWorkTile
+          count={String(failed.length)}
+          detail="Rejets ou echecs a corriger avant relance client."
+          href="/payments"
+          label="Corriger un rejet"
+          step="1"
+          tone={failed.length ? "rose" : "emerald"}
+        />
+        <PaymentWorkTile
+          count={formatEuro(amountToCollect)}
+          detail="Prelevements programmes ou a envoyer au provider."
+          href="/payments/new"
+          label="Encaisser maintenant"
+          step="2"
+          tone={pending.length ? "amber" : "emerald"}
+        />
+        <PaymentWorkTile
+          count="+"
+          detail="Creer un paiement depuis un mandat actif et un contrat."
+          href="/payments/new"
+          label="Nouveau paiement"
+          step="3"
+          tone="cyan"
+        />
+      </section>
+
+      <details className="artisan-evidence-details mt-5">
+        <summary className="worklist-summary">
+          Voir les chiffres cash-flow
+        </summary>
+        <div className="grid gap-3 md:grid-cols-4">
         <article className="payment-stat-card" data-tone="cyan">
           <p className="text-xs font-medium uppercase tracking-wide text-zinc-400">
             Paiements suivis
@@ -152,7 +212,8 @@ export default async function PaymentsPage() {
           </strong>
           <p className="mt-2 text-sm text-zinc-400">{formatEuro(amountFailed)} à récupérer</p>
         </article>
-      </div>
+        </div>
+      </details>
 
       <details className="payment-section mt-5 rounded-lg border">
         <summary className="worklist-summary">
