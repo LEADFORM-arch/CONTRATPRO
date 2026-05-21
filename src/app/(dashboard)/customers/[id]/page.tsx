@@ -34,6 +34,10 @@ function CustomerMetric({
   );
 }
 
+function valueOrEmpty(value: string) {
+  return value === "-" ? "" : value;
+}
+
 export default async function CustomerDetailPage({
   params,
 }: CustomerDetailPageProps) {
@@ -43,6 +47,17 @@ export default async function CustomerDetailPage({
   if (!customer) {
     notFound();
   }
+
+  const quickContractParams = new URLSearchParams({
+    customerAddress: valueOrEmpty(customer.address),
+    customerCity: valueOrEmpty(customer.city),
+    customerEmail: valueOrEmpty(customer.email),
+    customerId: customer.id,
+    customerName: customer.name,
+    customerPhone: valueOrEmpty(customer.phone),
+  });
+  const quickContractHref = `/contracts/quick?${quickContractParams.toString()}`;
+  const hasContract = customer.contracts > 0;
 
   return (
     <AppShell activePath="/customers">
@@ -59,6 +74,30 @@ export default async function CustomerDetailPage({
         eyebrow="Dossier client"
         title={customer.name}
       />
+
+      <section className="customer-next-action mt-6" data-state={hasContract ? "active" : "empty"}>
+        <div>
+          <p>{hasContract ? "Prochaine action" : "Dossier a activer"}</p>
+          <h3>
+            {hasContract
+              ? "Continuer avec les documents et le paiement."
+              : "Creer le premier contrat de ce client."}
+          </h3>
+          <span>
+            {hasContract
+              ? "Le client a deja un contrat. Vous pouvez facturer, preparer une attestation ou verifier le SEPA sandbox."
+              : "Le client existe. Il reste a rattacher l'equipement, le tarif annuel et le mode de paiement."}
+          </span>
+        </div>
+        <div className="customer-next-actions">
+          <a className="premium-action rounded-md text-sm font-semibold" href={quickContractHref}>
+            Creer le contrat de ce client
+          </a>
+          <a className="premium-secondary-action rounded-md px-4 py-2 text-sm font-semibold" href="/import">
+            Importer plusieurs clients
+          </a>
+        </div>
+      </section>
 
       <div className="customer-detail-hero mt-6">
         <div>
@@ -111,7 +150,7 @@ export default async function CustomerDetailPage({
           </div>
           <a
             className="premium-inline-action rounded-md px-3 py-2 text-sm font-semibold"
-            href="/contracts/quick"
+            href={quickContractHref}
           >
             Ajouter contrat
           </a>

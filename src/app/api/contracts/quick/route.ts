@@ -4,7 +4,9 @@ import { requireApiUser } from "@/server/api-auth";
 import {
   getResolvedOrganizationId,
   insertSupabaseRow,
+  selectSupabaseRows,
   SupabaseWriteError,
+  updateSupabaseRows,
 } from "@/server/supabase-write";
 
 const equipmentTypes = new Set([
@@ -56,6 +58,10 @@ function roundCurrency(value: number) {
   return Math.round(value * 100) / 100;
 }
 
+type ExistingCustomerRow = {
+  id: string;
+};
+
 export async function POST(request: Request) {
   try {
     const authError = await requireApiUser();
@@ -64,6 +70,7 @@ export async function POST(request: Request) {
     }
 
     const body = (await request.json()) as Record<string, unknown>;
+    const existingCustomerId = text(body.customerId);
     const customerName = text(body.customerName);
     const customerEmail = text(body.customerEmail);
     const priceTtc = numberValue(body.priceTtc);
@@ -73,28 +80,73 @@ export async function POST(request: Request) {
     const nextYear = new Date(today);
     nextYear.setFullYear(today.getFullYear() + 1);
 
-    if (!customerName || !customerEmail || !priceTtc) {
+    if (!priceTtc) {
       return NextResponse.json(
         {
-          error:
-            "Nom client, email client et prix TTC annuel sont obligatoires pour creer un contrat rapide.",
+          error: "Le prix TTC annuel est obligatoire pour creer un contrat rapide.",
         },
         { status: 400 },
       );
     }
 
-    const customer = await insertSupabaseRow<{ id: string }>("customers", {
-      organization_id: await getResolvedOrganizationId(),
-      company_name: customerName,
-      first_name: text(body.contactFirstName),
-      last_name: text(body.contactLastName),
-      email: customerEmail,
-      phone: text(body.customerPhone),
-      address: text(body.customerAddress),
-      city: text(body.customerCity),
-      zip_code: text(body.customerZipCode),
-      notes: "Cree depuis le contrat rapide.",
-    });
+    let customer: ExistingCustomerRow;
+
+    if (existingCustomerId) {
+      const existingRows = await selectSupabaseRows<ExistingCustomerRow>(
+        "customers",
+        `id=eq.${encodeURIComponent(existingCustomerId)}&select=id&limit=1`,
+      );
+
+      if (!existingRows[0]) {
+        return NextResponse.json(
+          { error: "Client introuvable pour ce contrat." },
+          { status: 404 },
+        );
+      }
+
+      const customerPatch: Record<string, unknown> = {};
+      if (customerName) customerPatch.company_name = customerName;
+      if (text(body.contactFirstName)) customerPatch.first_name = text(body.contactFirstName);
+      if (text(body.contactLastName)) customerPatch.last_name = text(body.contactLastName);
+      if (customerEmail) customerPatch.email = customerEmail;
+      if (text(body.customerPhone)) customerPatch.phone = text(body.customerPhone);
+      if (text(body.customerAddress)) customerPatch.address = text(body.customerAddress);
+      if (text(body.customerCity)) customerPatch.city = text(body.customerCity);
+      if (text(body.customerZipCode)) customerPatch.zip_code = text(body.customerZipCode);
+
+      if (Object.keys(customerPatch).length) {
+        await updateSupabaseRows<ExistingCustomerRow>(
+          "customers",
+          `id=eq.${encodeURIComponent(existingCustomerId)}`,
+          customerPatch,
+        );
+      }
+
+      customer = existingRows[0];
+    } else {
+      if (!customerName || !customerEmail) {
+        return NextResponse.json(
+          {
+            error:
+              "Nom client et email client sont obligatoires pour creer un nouveau contrat.",
+          },
+          { status: 400 },
+        );
+      }
+
+      customer = await insertSupabaseRow<ExistingCustomerRow>("customers", {
+        organization_id: await getResolvedOrganizationId(),
+        company_name: customerName,
+        first_name: text(body.contactFirstName),
+        last_name: text(body.contactLastName),
+        email: customerEmail,
+        phone: text(body.customerPhone),
+        address: text(body.customerAddress),
+        city: text(body.customerCity),
+        zip_code: text(body.customerZipCode),
+        notes: "Cree depuis le contrat rapide.",
+      });
+    }
 
     const equipmentLabel = [text(body.brand), text(body.model)]
       .filter(Boolean)

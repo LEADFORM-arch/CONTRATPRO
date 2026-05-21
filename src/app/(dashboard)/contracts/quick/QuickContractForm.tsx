@@ -5,6 +5,15 @@ import { FormEvent, useMemo, useState } from "react";
 type QuickContractFormProps = {
   defaultEndDate: string;
   defaultStartDate: string;
+  initialCustomer?: {
+    address: string;
+    city: string;
+    email: string;
+    id: string;
+    name: string;
+    phone: string;
+    zipCode: string;
+  };
 };
 
 type SubmitState =
@@ -56,6 +65,7 @@ function submitIntent(event: FormEvent<HTMLFormElement>) {
 export function QuickContractForm({
   defaultEndDate,
   defaultStartDate,
+  initialCustomer,
 }: QuickContractFormProps) {
   const [submitState, setSubmitState] = useState<SubmitState>({
     status: "idle",
@@ -64,7 +74,7 @@ export function QuickContractForm({
   const [snapshot, setSnapshot] = useState<FormSnapshot>({
     brand: "",
     contactName: "",
-    customerName: "",
+    customerName: initialCustomer?.name ?? "",
     equipmentType: "BOILER_GAS",
     model: "",
     paymentMethod: "SEPA",
@@ -201,6 +211,9 @@ export function QuickContractForm({
     >
       <input defaultValue={defaultStartDate} name="startDate" type="hidden" />
       <input defaultValue={defaultEndDate} name="endDate" type="hidden" />
+      {initialCustomer?.id ? (
+        <input defaultValue={initialCustomer.id} name="customerId" type="hidden" />
+      ) : null}
 
       <section className="quick-contract-main">
         <div className="quick-contract-strip">
@@ -224,6 +237,7 @@ export function QuickContractForm({
                 <input
                   autoComplete="organization"
                   className={inputClass}
+                  defaultValue={initialCustomer?.name}
                   name="customerName"
                   placeholder="Mme Dupont - Maison Les Lilas"
                   required
@@ -252,9 +266,10 @@ export function QuickContractForm({
                 <input
                   autoComplete="email"
                   className={inputClass}
+                  defaultValue={initialCustomer?.email}
                   name="customerEmail"
                   placeholder="client@example.fr"
-                  required
+                  required={!initialCustomer?.id}
                   type="email"
                 />
               </label>
@@ -263,6 +278,7 @@ export function QuickContractForm({
                 <input
                   autoComplete="tel"
                   className={inputClass}
+                  defaultValue={initialCustomer?.phone}
                   name="customerPhone"
                   placeholder="06 12 34 56 78"
                   type="tel"
@@ -273,6 +289,7 @@ export function QuickContractForm({
                 <input
                   autoComplete="street-address"
                   className={inputClass}
+                  defaultValue={initialCustomer?.address}
                   name="customerAddress"
                   placeholder="18 rue des Lilas"
                 />
@@ -282,6 +299,7 @@ export function QuickContractForm({
                 <input
                   autoComplete="postal-code"
                   className={inputClass}
+                  defaultValue={initialCustomer?.zipCode}
                   name="customerZipCode"
                   placeholder="31000"
                 />
@@ -291,6 +309,7 @@ export function QuickContractForm({
                 <input
                   autoComplete="address-level2"
                   className={inputClass}
+                  defaultValue={initialCustomer?.city}
                   name="customerCity"
                   placeholder="Toulouse"
                 />
