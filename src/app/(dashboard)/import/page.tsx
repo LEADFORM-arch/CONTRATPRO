@@ -577,17 +577,59 @@ export default function ClientImportPage() {
         title="Reprendre un fichier Excel sans ressaisie"
       />
 
-      <section className="import-runway mt-6" aria-label="Parcours import">
-        {importRunway.map((step) => (
-          <article className="import-runway-step" data-state={step.state} key={step.number}>
-            <span>{step.number}</span>
+      <section className="import-start-panel mt-6">
+        <label className="import-dropzone flex min-h-44 cursor-pointer flex-col items-center justify-center rounded-lg border border-dashed px-6 py-8 text-center">
+          <span className="import-dropzone-mark">1</span>
+          <span className="text-base font-semibold">
+            Déposer le fichier clients et contrats
+          </span>
+          <span className="mt-2 max-w-2xl text-sm text-zinc-500">
+            CSV/XLSX accepté. ContratPro simule avant de créer quoi que ce soit.
+          </span>
+          <input
+            accept=".csv,.txt,.xlsx"
+            className="sr-only"
+            onChange={(event) => handleFile(event.target.files?.[0])}
+            type="file"
+          />
+        </label>
+
+        <div className="import-start-actions">
+          <a className="artisan-terrain-tile" data-tone="emerald" href="/customers/new">
+            <span>2</span>
             <div>
-              <strong>{step.label}</strong>
-              <p>{step.detail}</p>
+              <strong>Ajouter un client</strong>
+              <p>Pas de fichier ? Saisissez une fiche client simple.</p>
             </div>
-          </article>
-        ))}
+            <em>+</em>
+          </a>
+          <a className="artisan-terrain-tile" data-tone="cyan" href={templateHref} download="modele-import-contratpro.csv">
+            <span>3</span>
+            <div>
+              <strong>Modèle Excel</strong>
+              <p>Partir d’un fichier propre si votre Excel est trop ancien.</p>
+            </div>
+            <em>CSV</em>
+          </a>
+        </div>
       </section>
+
+      <details className="artisan-evidence-details mt-5">
+        <summary className="worklist-summary">
+          Voir les étapes de contrôle
+        </summary>
+        <section className="import-runway" aria-label="Parcours import">
+          {importRunway.map((step) => (
+            <article className="import-runway-step" data-state={step.state} key={step.number}>
+              <span>{step.number}</span>
+              <div>
+                <strong>{step.label}</strong>
+                <p>{step.detail}</p>
+              </div>
+            </article>
+          ))}
+        </section>
+      </details>
 
       <section className="import-decision-note mt-6 rounded-lg border p-5" data-tone={importDecision.tone}>
         <div className="import-decision-copy">
@@ -614,22 +656,6 @@ export default function ClientImportPage() {
           <span className="import-next-action">{importDecision.action}</span>
         )}
       </section>
-
-      <label className="import-dropzone mt-6 flex min-h-44 cursor-pointer flex-col items-center justify-center rounded-lg border border-dashed px-6 py-8 text-center">
-        <span className="import-dropzone-mark">CSV/XLSX</span>
-        <span className="text-base font-semibold">
-          Déposer le fichier clients et contrats
-        </span>
-        <span className="mt-2 max-w-2xl text-sm text-zinc-500">
-          Le contrôle se lance avant toute création. Aucun client n’est écrit sans confirmation.
-        </span>
-        <input
-          accept=".csv,.txt,.xlsx"
-          className="sr-only"
-          onChange={(event) => handleFile(event.target.files?.[0])}
-          type="file"
-        />
-      </label>
 
       <details className="import-model-panel mt-6 rounded-lg border p-5">
         <summary className="import-model-summary">
@@ -975,25 +1001,6 @@ export default function ClientImportPage() {
         )}
       </details>
 
-      {rows.length === 0 ? (
-        <section className="mt-6 grid gap-4 lg:grid-cols-3">
-          {[
-            ["1. Fichier", "CSV, TXT ou XLSX avec une ligne d'en-tete claire."],
-            ["2. Simulation", "ContratPro détecte les clients existants et les lignes incomplètes."],
-            ["3. Import", "Création des clients, équipements et contrats après confirmation."],
-          ].map(([title, description]) => (
-            <article
-              className="import-schema-card rounded-lg border p-4 shadow-sm"
-              key={title}
-            >
-              <StatusPill>{title}</StatusPill>
-              <p className="mt-3 text-sm leading-6 text-zinc-600">
-                {description}
-              </p>
-            </article>
-          ))}
-        </section>
-      ) : null}
     </AppShell>
   );
 }

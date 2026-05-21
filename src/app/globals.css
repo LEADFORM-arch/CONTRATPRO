@@ -4827,7 +4827,8 @@ body .hover\:bg-zinc-100:hover {
 
 .customer-metric-card,
 .customer-section,
-.customer-card {
+.customer-card,
+.customer-command-panel {
   background:
     linear-gradient(180deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.018)),
     #111316;
@@ -4837,9 +4838,95 @@ body .hover\:bg-zinc-100:hover {
   position: relative;
 }
 
+.customer-command-panel {
+  align-items: stretch;
+  background:
+    radial-gradient(circle at 0% 0%, rgba(56, 189, 248, 0.22), transparent 30%),
+    linear-gradient(135deg, rgba(14, 116, 144, 0.42), rgba(6, 78, 59, 0.2) 58%, rgba(245, 158, 11, 0.1)),
+    #102026;
+  border-color: rgba(56, 189, 248, 0.32);
+  border-radius: 0.85rem;
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: minmax(0, 1fr) minmax(15rem, 0.35fr);
+  overflow: hidden;
+  padding: 1rem;
+}
+
+.customer-command-copy p {
+  color: #67e8f9;
+  font-size: 0.74rem;
+  font-weight: 900;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.customer-command-copy h2 {
+  color: #ffffff;
+  font-size: clamp(1.65rem, 2.5vw, 2.35rem);
+  font-weight: 950;
+  letter-spacing: 0;
+  line-height: 1.05;
+  margin-top: 0.45rem;
+}
+
+.customer-command-copy span {
+  color: #cffafe;
+  display: block;
+  font-size: 0.96rem;
+  line-height: 1.45;
+  margin-top: 0.75rem;
+  max-width: 46rem;
+}
+
+.customer-command-proof {
+  background: rgba(9, 9, 11, 0.48);
+  border: 1px solid rgba(56, 189, 248, 0.22);
+  border-radius: 0.7rem;
+  display: grid;
+  gap: 0.55rem;
+  padding: 0.9rem;
+}
+
+.customer-command-proof small {
+  color: #94a3b8;
+  font-size: 0.72rem;
+  font-weight: 900;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.customer-command-proof strong {
+  color: #ffffff;
+  font-size: 1.5rem;
+  font-weight: 950;
+}
+
+.customer-command-proof span {
+  color: #a1a1aa;
+  font-size: 0.84rem;
+  line-height: 1.45;
+}
+
+@media (max-width: 720px) {
+  .customer-command-panel {
+    grid-template-columns: 1fr;
+  }
+}
+
 .customer-metric-card {
   overflow: hidden;
   padding: 1rem;
+}
+
+.customer-metric-card strong,
+.customer-card h3 {
+  color: #f4f4f5;
+}
+
+.customer-metric-card p,
+.customer-card p {
+  color: #a1a1aa;
 }
 
 .customer-metric-card::before {
@@ -4896,6 +4983,14 @@ body .hover\:bg-zinc-100:hover {
     rgba(255, 255, 255, 0.016);
   border-bottom: 1px solid #262a31;
   padding: 1rem;
+}
+
+.customer-section-header h3 {
+  color: #f4f4f5;
+}
+
+.customer-section-header p {
+  color: #a1a1aa;
 }
 
 .customer-count-pill,
@@ -7740,6 +7835,26 @@ body .hover\:bg-zinc-100:hover {
 .import-runway {
   display: grid;
   gap: 0.85rem;
+}
+
+.import-start-panel {
+  display: grid;
+  gap: 1rem;
+}
+
+.import-start-actions {
+  display: grid;
+  gap: 0.85rem;
+}
+
+@media (min-width: 900px) {
+  .import-start-panel {
+    grid-template-columns: minmax(0, 1.25fr) minmax(18rem, 0.75fr);
+  }
+
+  .import-start-actions {
+    grid-template-rows: repeat(2, minmax(0, 1fr));
+  }
 }
 
 @media (min-width: 768px) {

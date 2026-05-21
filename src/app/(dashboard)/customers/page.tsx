@@ -29,6 +29,33 @@ function CustomerMetric({
   );
 }
 
+function CustomerWorkTile({
+  count,
+  detail,
+  href,
+  label,
+  step,
+  tone,
+}: {
+  count: string;
+  detail: string;
+  href: string;
+  label: string;
+  step: string;
+  tone: CustomerTone;
+}) {
+  return (
+    <a className="artisan-terrain-tile" data-tone={tone} href={href}>
+      <span>{step}</span>
+      <div>
+        <strong>{label}</strong>
+        <p>{detail}</p>
+      </div>
+      <em>{count}</em>
+    </a>
+  );
+}
+
 export default async function CustomersPage() {
   const customers = await getCustomers();
   const totalRevenue = customers.reduce(
@@ -39,6 +66,7 @@ export default async function CustomersPage() {
     (sum, customer) => sum + customer.contracts,
     0,
   );
+  const priorityCustomer = customers.find((customer) => customer.contracts === 0) ?? customers[0];
 
   return (
     <AppShell activePath="/customers">
@@ -48,12 +76,58 @@ export default async function CustomersPage() {
             Ajouter client
           </a>
         }
-        description="Centralisez les particuliers, SCI et pros avec leurs contacts, contrats et revenus recurrents."
+        description="Deux départs simples : importer le fichier existant ou ajouter le client reçu au téléphone."
         eyebrow="Base clients"
         title="Clients finaux"
       />
 
-      <div className="mt-6 grid gap-4 md:grid-cols-3">
+      <section className="customer-command-panel mt-6">
+        <div className="customer-command-copy">
+          <p>Départ terrain</p>
+          <h2>Choisissez comment entrer vos clients.</h2>
+          <span>
+            Si vous avez déjà un fichier, importez-le. Sinon, ajoutez un client et créez son contrat juste après.
+          </span>
+        </div>
+        <div className="customer-command-proof">
+          <small>Base actuelle</small>
+          <strong>{customers.length} client(s)</strong>
+          <span>{totalContracts} contrat(s) rattaché(s) · {formatEuro(totalRevenue)} suivis</span>
+        </div>
+      </section>
+
+      <section className="artisan-terrain-lanes mt-5" aria-label="Raccourcis clients">
+        <CustomerWorkTile
+          count="Excel"
+          detail="Reprendre une liste clients, équipements et contrats sans ressaisie."
+          href="/import"
+          label="Importer fichier"
+          step="1"
+          tone="cyan"
+        />
+        <CustomerWorkTile
+          count="+"
+          detail="Saisir un client reçu au téléphone ou après une intervention."
+          href="/customers/new"
+          label="Ajouter client"
+          step="2"
+          tone="emerald"
+        />
+        <CustomerWorkTile
+          count={String(customers.length)}
+          detail="Ouvrir un dossier, vérifier contact, ville, contrats et revenu."
+          href={priorityCustomer ? `/customers/${priorityCustomer.id}` : "/customers/new"}
+          label="Ouvrir dossier"
+          step="3"
+          tone="amber"
+        />
+      </section>
+
+      <details className="artisan-evidence-details mt-5">
+        <summary className="worklist-summary">
+          Voir les chiffres clients
+        </summary>
+        <div className="grid gap-4 md:grid-cols-3">
         <CustomerMetric
           detail="fiches clients actives"
           label="Portefeuille"
@@ -61,7 +135,7 @@ export default async function CustomersPage() {
           value={String(customers.length)}
         />
         <CustomerMetric
-          detail="contrats rattaches aux clients"
+          detail="contrats rattachés aux clients"
           label="Contrats"
           tone="emerald"
           value={String(totalContracts)}
@@ -72,16 +146,20 @@ export default async function CustomersPage() {
           tone="amber"
           value={formatEuro(totalRevenue)}
         />
-      </div>
+        </div>
+      </details>
 
-      <section className="customer-section mt-6">
+      <details className="customer-section mt-6">
+        <summary className="worklist-summary">
+          Voir tous les clients ({customers.length})
+        </summary>
         <div className="customer-section-header flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <h3 className="text-base font-semibold text-zinc-950">
               Portefeuille clients
             </h3>
             <p className="mt-1 text-sm text-zinc-500">
-              Contacts, villes, revenus recurrents et dossiers rattaches.
+              Contacts, villes, revenus récurrents et dossiers rattachés.
             </p>
           </div>
           <span className="customer-count-pill">{customers.length} clients</span>
@@ -103,7 +181,7 @@ export default async function CustomersPage() {
 
               <dl className="mt-5 grid gap-3 text-sm">
                 <div className="customer-detail-line">
-                  <dt>Telephone</dt>
+                  <dt>Téléphone</dt>
                   <dd>{customer.phone}</dd>
                 </div>
                 <div className="customer-detail-line">
@@ -148,7 +226,7 @@ export default async function CustomersPage() {
             />
           </div>
         )}
-      </section>
+      </details>
     </AppShell>
   );
 }
