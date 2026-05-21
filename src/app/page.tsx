@@ -274,7 +274,7 @@ function HomeLanding() {
         visual={<HomeLandingVisual />}
       />
 
-      <section className="home-proof-strip mx-auto grid max-w-7xl gap-3 px-5 pb-4 sm:px-8 md:grid-cols-3">
+      <section className="home-proof-strip mx-auto grid max-w-[1500px] gap-3 px-5 pb-4 sm:px-8 md:grid-cols-3">
         {homeProofs.map(([value, label]) => (
           <article key={label}>
             <strong>{value}</strong>
@@ -283,7 +283,7 @@ function HomeLanding() {
         ))}
       </section>
 
-      <section className="home-trade-band mx-auto max-w-7xl px-5 py-8 sm:px-8">
+      <section className="home-trade-band mx-auto max-w-[1500px] px-5 py-8 sm:px-8">
         <div>
           <p>Fait pour le CVC</p>
           <h2>Chaudières, PAC, VMC, clim : chaque contrat garde sa place.</h2>
@@ -362,7 +362,7 @@ function HomeLanding() {
         </div>
       </PublicSection>
 
-      <section className="home-final-cta mx-auto max-w-7xl px-5 py-8 sm:px-8">
+      <section className="home-final-cta mx-auto max-w-[1500px] px-5 py-8 sm:px-8">
         <div>
           <p className="text-sm font-semibold text-emerald-300">
             Premiere action

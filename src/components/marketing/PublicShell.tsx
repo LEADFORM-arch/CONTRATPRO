@@ -25,7 +25,7 @@ export function PublicShell({
         .filter(Boolean)
         .join(" ")}
     >
-      <header className="public-nav mx-auto flex max-w-7xl items-center justify-between gap-4 px-5 py-5 sm:px-8">
+      <header className="public-nav mx-auto flex max-w-[1500px] items-center justify-between gap-4 px-5 py-5 sm:px-8">
         <a className="public-brand" href="/">
           <span>CP</span>
           <div>
@@ -47,7 +47,7 @@ export function PublicShell({
 
       {children}
 
-      <footer className="public-footer mx-auto grid max-w-7xl gap-4 px-5 py-8 text-sm sm:px-8 md:grid-cols-[1fr_auto]">
+      <footer className="public-footer mx-auto grid max-w-[1500px] gap-4 px-5 py-8 text-sm sm:px-8 md:grid-cols-[1fr_auto]">
         <p>
           ContratPro aide les entreprises CVC a piloter contrats, attestations,
           relances et encaissements recurrents.
@@ -76,7 +76,7 @@ export function PublicHero({
   visual?: ReactNode;
 }) {
   return (
-    <section className="public-hero mx-auto grid max-w-7xl gap-8 px-5 pb-10 pt-8 sm:px-8 lg:grid-cols-[minmax(0,1fr)_520px] lg:items-center">
+    <section className="public-hero mx-auto grid max-w-[1500px] gap-10 px-5 pb-10 pt-8 sm:px-8 lg:grid-cols-[minmax(0,1fr)_600px] lg:items-center">
       <div>
         <p className="text-sm font-semibold text-emerald-300">{eyebrow}</p>
         <h1 className="mt-4 max-w-3xl text-4xl font-black tracking-normal text-zinc-50 sm:text-5xl">
@@ -128,7 +128,7 @@ export function PublicSection({
   title: string;
 }) {
   return (
-    <section className="mx-auto max-w-7xl px-5 py-8 sm:px-8">
+    <section className="mx-auto max-w-[1500px] px-5 py-8 sm:px-8">
       <div className="mb-5">
         <h2 className="text-2xl font-black text-zinc-50">{title}</h2>
         {description ? (
