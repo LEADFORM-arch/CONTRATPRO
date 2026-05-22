@@ -67,6 +67,43 @@ export default async function CertificateDetailPage({
         title={certificate.customer}
       />
 
+      <section className="document-next-action mt-6 print:hidden" data-tone="certificate">
+        <div>
+          <p>Preuve d'entretien</p>
+          <h3>Vérifier l'intervention, générer le PDF, envoyer au client.</h3>
+          <span>
+            L'attestation reprend l'entreprise, le client, l'équipement et le
+            compte rendu terrain. Elle doit pouvoir sortir sans chercher.
+          </span>
+        </div>
+        <div className="document-next-action-grid">
+          <a
+            className="document-next-action-card"
+            data-tone="blue"
+            href={`/api/certificates/${certificate.id}/pdf`}
+          >
+            <span>01</span>
+            <strong>Ouvrir PDF</strong>
+            <small>Contrôler la preuve d'entretien.</small>
+          </a>
+          <div className="document-next-action-card" data-tone="emerald">
+            <span>02</span>
+            <strong>Envoyer client</strong>
+            <small>Email journalisé dans l'historique.</small>
+            <DocumentSendButton
+              endpoint={`/api/certificates/${certificate.id}/send`}
+              label="Envoyer"
+            />
+          </div>
+          <div className="document-next-action-card" data-tone="cyan">
+            <span>03</span>
+            <strong>Imprimer</strong>
+            <small>Sortie papier pour remise ou archive.</small>
+            <PrintButton />
+          </div>
+        </div>
+      </section>
+
       <section className="mt-6 grid gap-6 xl:grid-cols-[1fr_340px]">
         <article className="certificate-document rounded-lg border p-6 shadow-sm print:border-zinc-300 print:bg-white print:text-zinc-950 print:shadow-none">
           <div className="certificate-document-header flex flex-col gap-4 pb-5 sm:flex-row sm:items-start sm:justify-between">

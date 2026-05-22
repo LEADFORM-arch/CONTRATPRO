@@ -56,6 +56,46 @@ export default async function InvoiceDetailPage({ params }: InvoicePageProps) {
         title={invoice.number}
       />
 
+      <section className="document-next-action mt-6 print:hidden" data-tone="invoice">
+        <div>
+          <p>Document à sortir</p>
+          <h3>Vérifier le montant, générer le PDF, envoyer au client.</h3>
+          <span>
+            La facture reprend le contrat, le client, la TVA et le total TTC. Le
+            chauffagiste n'a plus qu'à contrôler puis envoyer.
+          </span>
+        </div>
+        <div className="document-next-action-grid">
+          <a
+            className="document-next-action-card"
+            data-tone="lime"
+            href={`/api/invoices/${invoice.id}/pdf`}
+          >
+            <span>01</span>
+            <strong>Ouvrir PDF</strong>
+            <small>Contrôler la facture avant envoi.</small>
+          </a>
+          <div className="document-next-action-card" data-tone="emerald">
+            <span>02</span>
+            <strong>Envoyer client</strong>
+            <small>Email journalisé dans l'historique.</small>
+            <DocumentSendButton
+              endpoint={`/api/invoices/${invoice.id}/send`}
+              label="Envoyer"
+            />
+          </div>
+          <a
+            className="document-next-action-card"
+            data-tone="cyan"
+            href={`/contracts/${invoice.contractId}`}
+          >
+            <span>03</span>
+            <strong>Retour contrat</strong>
+            <small>Reprendre SEPA, visite ou attestation.</small>
+          </a>
+        </div>
+      </section>
+
       <section className="mt-6 grid gap-6 xl:grid-cols-[1fr_320px]">
         <article className="invoice-document rounded-lg border p-6 shadow-sm print:border-zinc-300 print:bg-white print:text-zinc-950 print:shadow-none">
           <div className="invoice-document-header flex flex-col gap-4 pb-5 sm:flex-row sm:items-start sm:justify-between">
