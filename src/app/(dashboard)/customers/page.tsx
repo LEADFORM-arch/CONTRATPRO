@@ -66,7 +66,14 @@ export default async function CustomersPage() {
     (sum, customer) => sum + customer.contracts,
     0,
   );
-  const priorityCustomer = customers.find((customer) => customer.contracts === 0) ?? customers[0];
+  const customersWithoutContract = customers.filter(
+    (customer) => customer.contracts === 0,
+  );
+  const priorityCustomers = (
+    customersWithoutContract.length ? customersWithoutContract : customers
+  ).slice(0, 3);
+  const priorityCustomer =
+    customers.find((customer) => customer.contracts === 0) ?? customers[0];
 
   return (
     <AppShell activePath="/customers">
@@ -76,7 +83,7 @@ export default async function CustomersPage() {
             Ajouter client
           </a>
         }
-        description="Deux départs simples : importer le fichier existant ou ajouter le client reçu au téléphone."
+        description="Le carnet sert à une chose : retrouver le client, créer son contrat, puis encaisser proprement."
         eyebrow="Base clients"
         title="Clients finaux"
       />
@@ -84,17 +91,84 @@ export default async function CustomersPage() {
       <section className="customer-command-panel mt-6">
         <div className="customer-command-copy">
           <p>Départ terrain</p>
-          <h2>Choisissez comment entrer vos clients.</h2>
+          <h2>Ouvrez le bon client, puis créez le contrat.</h2>
           <span>
-            Si vous avez déjà un fichier, importez-le. Sinon, ajoutez un client et créez son contrat juste après.
+            Si vous avez déjà un fichier, importez-le. Sinon, ajoutez un client reçu au téléphone et lancez son contrat juste après.
           </span>
         </div>
         <div className="customer-command-proof">
           <small>Base actuelle</small>
           <strong>{customers.length} client(s)</strong>
-          <span>{totalContracts} contrat(s) rattaché(s) · {formatEuro(totalRevenue)} suivis</span>
+          <span>
+            {customersWithoutContract.length} à contractualiser ·{" "}
+            {totalContracts} contrat(s) · {formatEuro(totalRevenue)} suivis
+          </span>
         </div>
       </section>
+
+      {priorityCustomers.length ? (
+        <section className="customer-priority-panel mt-5" aria-label="Clients à traiter">
+          <div className="customer-priority-header">
+            <div>
+              <p>À traiter maintenant</p>
+              <h3>3 fiches maximum pour éviter de chercher dans tout le portefeuille.</h3>
+            </div>
+            <a
+              className="premium-secondary-action rounded-md px-4 py-2 text-sm font-semibold"
+              href="/customers/new"
+            >
+              Ajouter client
+            </a>
+          </div>
+          <div className="customer-priority-grid">
+            {priorityCustomers.map((customer, index) => {
+              const needsContract = customer.contracts === 0;
+              return (
+                <article
+                  className="customer-priority-card"
+                  data-state={needsContract ? "contract" : "active"}
+                  key={customer.id}
+                >
+                  <div className="customer-priority-top">
+                    <span>{String(index + 1).padStart(2, "0")}</span>
+                    <em>{needsContract ? "Contrat à créer" : "Dossier actif"}</em>
+                  </div>
+                  <h4>{customer.name}</h4>
+                  <p>{customer.city} · {customer.contact}</p>
+                  <dl>
+                    <div>
+                      <dt>Contrats</dt>
+                      <dd>{customer.contracts}</dd>
+                    </div>
+                    <div>
+                      <dt>Revenu</dt>
+                      <dd>{formatEuro(customer.revenue)}</dd>
+                    </div>
+                  </dl>
+                  <div className="customer-priority-actions">
+                    <a
+                      className="premium-action rounded-md px-3 py-2 text-center text-sm font-semibold"
+                      href={
+                        needsContract
+                          ? `/contracts/quick?customerId=${customer.id}`
+                          : `/customers/${customer.id}`
+                      }
+                    >
+                      {needsContract ? "Créer contrat" : "Ouvrir dossier"}
+                    </a>
+                    <a
+                      className="premium-inline-action rounded-md px-3 py-2 text-center text-sm font-semibold"
+                      href={`/customers/${customer.id}`}
+                    >
+                      Fiche client
+                    </a>
+                  </div>
+                </article>
+              );
+            })}
+          </div>
+        </section>
+      ) : null}
 
       <section className="artisan-terrain-lanes mt-5" aria-label="Raccourcis clients">
         <CustomerWorkTile
