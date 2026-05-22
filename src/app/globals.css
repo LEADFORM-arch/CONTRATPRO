@@ -5812,6 +5812,25 @@ body .hover\:bg-zinc-100:hover {
   position: absolute;
 }
 
+.customer-form-intro p:first-child {
+  color: #67e8f9;
+  font-size: 0.75rem;
+  font-weight: 950;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+
+.customer-form-intro h3 {
+  color: #ffffff;
+  font-size: clamp(1.35rem, 2vw, 2rem);
+  font-weight: 950;
+  line-height: 1.08;
+}
+
+.customer-form-intro p:last-child {
+  color: #cbd5e1;
+}
+
 .customer-fast-shell {
   gap: 1rem;
 }
@@ -5839,6 +5858,20 @@ body .hover\:bg-zinc-100:hover {
   border-color: rgba(56, 189, 248, 0.22);
 }
 
+.customer-submit-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  width: 100%;
+}
+
+.customer-submit-actions .login-submit,
+.customer-submit-actions .premium-secondary-action {
+  justify-content: center;
+  min-height: 2.75rem;
+  width: 100%;
+}
+
 .customer-advanced-details {
   background:
     linear-gradient(180deg, rgba(255, 255, 255, 0.035), rgba(255, 255, 255, 0.014)),
@@ -5864,6 +5897,15 @@ body .hover\:bg-zinc-100:hover {
   .customer-form-intro {
     align-items: flex-start;
     flex-direction: column;
+  }
+}
+
+@media (min-width: 640px) {
+  .customer-submit-actions {
+    align-items: center;
+    flex-direction: row;
+    justify-content: flex-end;
+    max-width: 31rem;
   }
 }
 

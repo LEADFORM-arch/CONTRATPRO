@@ -14,7 +14,7 @@ export default function NewCustomerPage() {
             Retour clients
           </a>
         }
-        description="Saisissez le minimum terrain : nom, telephone, ville, equipement et contrat prevu."
+        description="Saisissez le minimum terrain : nom, téléphone, ville, équipement et contrat prévu."
         eyebrow="Nouveau client"
         title="Ajouter un client en 1 minute"
       />
@@ -25,11 +25,11 @@ export default function NewCustomerPage() {
             Saisie terrain
           </p>
           <h3 className="mt-2 text-2xl font-semibold text-zinc-950">
-            Pas de fiche longue : ouvrez le dossier, completez plus tard.
+            Pas de fiche longue : enregistrez, puis créez le contrat.
           </h3>
           <p className="mt-2 max-w-2xl text-sm leading-6 text-zinc-500">
-            Le chauffagiste note ce qu'il sait deja. ContratPro garde
-            l'equipement et le contrat prevu dans les notes pour preparer la
+            Le chauffagiste note ce qu'il sait déjà. ContratPro garde
+            l'équipement et le contrat prévu dans les notes pour préparer la
             suite.
           </p>
         </div>

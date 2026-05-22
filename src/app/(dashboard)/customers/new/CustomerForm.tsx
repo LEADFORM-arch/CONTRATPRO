@@ -42,6 +42,9 @@ function FormSection({
 
 export function CustomerForm() {
   const router = useRouter();
+  const [submitIntent, setSubmitIntent] = useState<"contract" | "customer">(
+    "contract",
+  );
   const [submitState, setSubmitState] = useState<SubmitState>({
     status: "idle",
     message: "",
@@ -50,6 +53,11 @@ export function CustomerForm() {
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const form = event.currentTarget;
+    const submitter = (event.nativeEvent as SubmitEvent).submitter as
+      | HTMLButtonElement
+      | null;
+    const intent = submitter?.value === "customer" ? "customer" : "contract";
+    setSubmitIntent(intent);
     const formData = new FormData(form);
     const payload = Object.fromEntries(formData.entries());
     const equipmentMemo = text(formData.get("equipmentMemo"));
@@ -67,7 +75,10 @@ export function CustomerForm() {
 
     setSubmitState({
       status: "loading",
-      message: "Creation du client en cours...",
+      message:
+        intent === "contract"
+          ? "Création du client, puis ouverture du contrat..."
+          : "Création du client en cours...",
     });
 
     const response = await fetch("/api/customers", {
@@ -87,10 +98,19 @@ export function CustomerForm() {
 
     setSubmitState({
       status: "success",
-      message: "Client cree. Ouverture du dossier...",
+      message:
+        intent === "contract"
+          ? "Client créé. Ouverture du contrat guidé..."
+          : "Client créé. Ouverture du dossier...",
     });
     form.reset();
-    router.push(result.id ? `/customers/${result.id}` : "/customers");
+    router.push(
+      result.id
+        ? intent === "contract"
+          ? `/contracts/quick?customerId=${result.id}`
+          : `/customers/${result.id}`
+        : "/customers",
+    );
     router.refresh();
   }
 
@@ -100,27 +120,27 @@ export function CustomerForm() {
     <form className="contract-form-shell customer-fast-shell mt-6" onSubmit={handleSubmit}>
       <section className="customer-fast-summary" aria-label="Parcours client">
         <span>1 Client</span>
-        <span>2 Equipement</span>
-        <span>3 Contrat</span>
-        <span>4 Dossier</span>
+        <span>2 Équipement</span>
+        <span>3 Créer contrat</span>
+        <span>4 Encaisser</span>
       </section>
 
       <FormSection
         description="Le minimum pour retrouver le client et rappeler rapidement."
         index="01"
-        title="Client recu au telephone"
+        title="Client reçu au téléphone"
       >
         <label className="contract-form-field md:col-span-2">
-          <span>Nom client / societe / foyer</span>
+          <span>Nom client / société / foyer</span>
           <input
             className={inputClass}
             name="companyName"
-            placeholder="Maison Lefevre, SCI Bellecour, Cabinet Martin..."
+            placeholder="Maison Lefèvre, SCI Bellecour, Cabinet Martin..."
             required
           />
         </label>
         <label className="contract-form-field">
-          <span>Telephone</span>
+          <span>Téléphone</span>
           <input
             className={inputClass}
             name="phone"
@@ -133,22 +153,22 @@ export function CustomerForm() {
           <input className={inputClass} name="city" placeholder="Nantes" />
         </label>
         <label className="contract-form-field md:col-span-2">
-          <span>Equipement a suivre</span>
+          <span>Équipement à suivre</span>
           <input
             className={inputClass}
             name="equipmentMemo"
-            placeholder="Chaudiere gaz Saunier Duval, PAC air/eau..."
+            placeholder="Chaudière gaz Saunier Duval, PAC air/eau..."
           />
         </label>
         <label className="contract-form-field">
-          <span>Contrat prevu</span>
+          <span>Contrat prévu</span>
           <select
             className={inputClass}
             defaultValue="Entretien annuel - a chiffrer"
             name="contractMemo"
           >
             <option value="Entretien annuel - a chiffrer">Entretien annuel</option>
-            <option value="Contrat chaudiere - 216 EUR TTC/an">Chaudiere - 216 EUR/an</option>
+            <option value="Contrat chaudiere - 216 EUR TTC/an">Chaudière - 216 EUR/an</option>
             <option value="Contrat PAC - 289 EUR TTC/an">PAC - 289 EUR/an</option>
             <option value="Contrat clim - 198 EUR TTC/an">Clim - 198 EUR/an</option>
           </select>
@@ -207,11 +227,30 @@ export function CustomerForm() {
           }
         >
           {submitState.message ||
-            "Nom, telephone, ville, equipement : assez pour ouvrir le dossier."}
+            "Nom, téléphone, ville, équipement : assez pour créer le contrat."}
         </p>
-        <button className="login-submit sm:max-w-64" disabled={disabled} type="submit">
-          Enregistrer le client
-        </button>
+        <div className="customer-submit-actions">
+          <button
+            className="login-submit"
+            disabled={disabled}
+            onClick={() => setSubmitIntent("contract")}
+            type="submit"
+            value="contract"
+          >
+            {submitState.status === "loading" && submitIntent === "contract"
+              ? "Ouverture..."
+              : "Enregistrer + créer contrat"}
+          </button>
+          <button
+            className="premium-secondary-action rounded-md px-4 py-2 text-sm font-semibold"
+            disabled={disabled}
+            onClick={() => setSubmitIntent("customer")}
+            type="submit"
+            value="customer"
+          >
+            Juste enregistrer
+          </button>
+        </div>
       </div>
     </form>
   );
