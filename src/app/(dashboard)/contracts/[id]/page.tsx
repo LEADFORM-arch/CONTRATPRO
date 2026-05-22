@@ -25,26 +25,33 @@ function SectionShell({
   description,
   children,
   action,
+  defaultOpen = false,
 }: {
   id?: string;
   title: string;
   description?: string;
   children: React.ReactNode;
   action?: React.ReactNode;
+  defaultOpen?: boolean;
 }) {
   return (
-    <section className="contract-detail-section" id={id}>
-      <div className="contract-detail-section-header">
+    <details
+      className="contract-detail-section contract-evidence-section"
+      id={id}
+      open={defaultOpen}
+    >
+      <summary className="contract-detail-section-header">
         <div>
+          <span className="contract-evidence-kicker">Preuve dossier</span>
           <h3 className="text-base font-semibold text-zinc-950">{title}</h3>
           {description ? (
             <p className="mt-1 text-sm leading-5 text-zinc-500">{description}</p>
           ) : null}
         </div>
         {action}
-      </div>
-      {children}
-    </section>
+      </summary>
+      <div className="contract-evidence-body">{children}</div>
+    </details>
   );
 }
 
@@ -61,8 +68,8 @@ function ContractNextAction({
         <p>À faire maintenant</p>
         <h3>Facturer, encaisser, puis prouver l'entretien.</h3>
         <span>
-          Le contrat est créé. La suite logique tient en trois gestes : facture,
-          SEPA sandbox, puis visite avec attestation.
+          Trois gestes suffisent pour rendre ce dossier exploitable : sortir la
+          facture, faire signer le SEPA sandbox, puis produire l'attestation.
         </span>
       </div>
       <div className="contract-next-action-grid">
@@ -144,12 +151,35 @@ export default async function ContractDetailPage({
         </div>
       </div>
 
+      <div className="contract-dossier-strip mt-3" aria-label="Fiche express contrat">
+        <div>
+          <span>Client</span>
+          <strong>{contract.contact}</strong>
+          <small>{contract.city}</small>
+        </div>
+        <div>
+          <span>Installation</span>
+          <strong>{contract.equipment}</strong>
+          <small>{contract.equipmentType}</small>
+        </div>
+        <div>
+          <span>Échéance</span>
+          <strong>{contract.endDate}</strong>
+          <small>Renouvellement à surveiller</small>
+        </div>
+        <div>
+          <span>Encaissement</span>
+          <strong>{contract.mandate ? "SEPA prêt" : "SEPA à signer"}</strong>
+          <small>{contract.paymentMethod}</small>
+        </div>
+      </div>
+
       <ContractNextAction
         contractId={contract.id}
         hasMandate={Boolean(contract.mandate)}
       />
 
-      <div className="mt-6 grid gap-6 xl:grid-cols-[1fr_1fr]">
+      <div className="contract-evidence-grid mt-6">
         <SectionShell
           description="Prix, TVA, calendrier et conditions de paiement."
           title="Cadre contractuel"
@@ -187,7 +217,7 @@ export default async function ContractDetailPage({
         </SectionShell>
       </div>
 
-      <div className="mt-6 grid gap-6 xl:grid-cols-[0.9fr_1.1fr]">
+      <div className="contract-evidence-grid mt-4">
         <SectionShell title="Installation CVC">
           <dl className="grid gap-3 p-4 sm:grid-cols-2">
             <DetailItem label="Equipement" value={contract.equipment} />
@@ -237,7 +267,7 @@ export default async function ContractDetailPage({
         </SectionShell>
       </div>
 
-      <div className="mt-6 grid gap-6 xl:grid-cols-2">
+      <div className="contract-evidence-grid mt-4">
         <SectionShell title="Conformite">
           <div className="divide-y divide-zinc-100 p-4">
             {contract.certificates.length ? (
@@ -262,7 +292,11 @@ export default async function ContractDetailPage({
           </div>
         </SectionShell>
 
-        <SectionShell id="sepa-sandbox" title="Paiements recurrents">
+        <SectionShell
+          defaultOpen={!contract.mandate}
+          id="sepa-sandbox"
+          title="Paiements recurrents"
+        >
           <div className="p-4">
             <div className="contract-mandate-box">
               <p className="text-sm text-zinc-500">Mandat SEPA</p>

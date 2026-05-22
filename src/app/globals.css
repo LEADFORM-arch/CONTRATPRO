@@ -4145,6 +4145,73 @@ body .hover\:bg-zinc-100:hover {
   scroll-margin-top: 1.25rem;
 }
 
+.contract-dossier-strip {
+  background:
+    linear-gradient(135deg, rgba(245, 158, 11, 0.09), rgba(6, 182, 212, 0.055)),
+    #0b0d10;
+  border: 1px solid rgba(245, 158, 11, 0.2);
+  border-radius: 0.65rem;
+  display: grid;
+  gap: 0.75rem;
+  padding: 0.85rem;
+}
+
+@media (min-width: 760px) {
+  .contract-dossier-strip {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+.contract-dossier-strip div {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.014)),
+    #111316;
+  border: 1px solid rgba(255, 255, 255, 0.075);
+  border-radius: 0.5rem;
+  min-width: 0;
+  padding: 0.75rem;
+}
+
+.contract-dossier-strip span,
+.contract-dossier-strip small {
+  color: #a1a1aa;
+  display: block;
+  font-size: 0.72rem;
+  font-weight: 850;
+}
+
+.contract-dossier-strip span {
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.contract-dossier-strip strong {
+  color: #f4f4f5;
+  display: block;
+  font-size: 0.98rem;
+  font-weight: 900;
+  line-height: 1.25;
+  margin-top: 0.28rem;
+  overflow-wrap: anywhere;
+}
+
+.contract-dossier-strip small {
+  color: #fbbf24;
+  line-height: 1.35;
+  margin-top: 0.28rem;
+}
+
+.contract-evidence-grid {
+  display: grid;
+  gap: 0.75rem;
+}
+
+@media (min-width: 1024px) {
+  .contract-evidence-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
 .contract-detail-hero {
   align-items: center;
   display: flex;
@@ -4307,6 +4374,65 @@ body .hover\:bg-zinc-100:hover {
   gap: 1rem;
   justify-content: space-between;
   padding: 1rem;
+}
+
+.contract-evidence-section {
+  box-shadow: none;
+}
+
+.contract-evidence-section > summary {
+  cursor: pointer;
+  list-style: none;
+}
+
+.contract-evidence-section > summary::-webkit-details-marker {
+  display: none;
+}
+
+.contract-evidence-section > summary::after {
+  align-items: center;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 0.45rem;
+  color: #a1a1aa;
+  content: "+";
+  display: inline-flex;
+  flex: 0 0 2rem;
+  font-size: 1rem;
+  font-weight: 900;
+  height: 2rem;
+  justify-content: center;
+  margin-left: auto;
+  width: 2rem;
+}
+
+.contract-evidence-section[open] > summary::after {
+  color: #fbbf24;
+  content: "−";
+}
+
+.contract-evidence-section > summary:hover {
+  background:
+    linear-gradient(135deg, rgba(245, 158, 11, 0.075), rgba(56, 189, 248, 0.04)),
+    rgba(255, 255, 255, 0.02);
+}
+
+.contract-evidence-section[open] {
+  border-color: rgba(245, 158, 11, 0.22);
+}
+
+.contract-evidence-kicker {
+  color: #fbbf24;
+  display: block;
+  font-size: 0.68rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  margin-bottom: 0.25rem;
+  text-transform: uppercase;
+}
+
+.contract-evidence-body {
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
 }
 
 .contract-detail-item {
