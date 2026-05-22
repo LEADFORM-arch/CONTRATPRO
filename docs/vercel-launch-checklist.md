@@ -139,6 +139,11 @@ bloquants, tandis que Resend, Stripe multi-paliers et GoCardless live sont des
 points differes a annoncer avant vente large. Quand le billing obligatoire passe
 a `true`, ces integrations redeviennent des blocages live.
 
+Analytics produit : PostHog ou un outil equivalent reste volontairement differe.
+Ne pas l'ajouter comme blocage du premier deploiement. Le brancher seulement
+apres les premiers pilotes chauffagistes, et uniquement derriere le consentement
+cookies `statistics=true`.
+
 ## 5. Premier deploiement
 
 Apres import Vercel, declencher un premier deploy depuis le dashboard ou via un
