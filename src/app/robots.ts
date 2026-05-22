@@ -10,6 +10,7 @@ export default function robots(): MetadataRoute.Robots {
         "/attestation-entretien-chaudiere",
         "/pricing",
         "/demo",
+        "/cookies",
       ],
       disallow: ["/admin", "/api", "/settings", "/contracts", "/customers", "/invoices"],
       userAgent: "*",

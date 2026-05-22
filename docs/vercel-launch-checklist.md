@@ -182,6 +182,7 @@ Routes controlees :
 /pricing
 /demo
 /legal
+/cookies
 /privacy
 /terms
 ```

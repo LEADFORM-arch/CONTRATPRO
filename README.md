@@ -431,15 +431,16 @@ Pages publiques disponibles hors session :
 /demo
 /pricing
 /legal
+/cookies
 /privacy
 /terms
 ```
 
 La page `/login` expose aussi les liens Demo, Tarif et Confidentialite. Ces
 pages donnent une base propre pour vendre ContratPro avant connexion : offre a
-49/99/199 EUR/mois, scenario de demonstration, mentions legales, confidentialite et
-CGV. Les textes juridiques sont des bases de lancement a faire relire avant une
-commercialisation publique.
+49/99/199 EUR/mois, scenario de demonstration, mentions legales, cookies,
+confidentialite et CGV. Les textes juridiques sont des bases de lancement a
+faire relire avant une commercialisation publique.
 
 ## Priorite 14 - Industrialisation production
 

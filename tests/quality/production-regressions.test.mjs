@@ -1391,6 +1391,7 @@ describe("production guardrails", () => {
       "src/app/demo/merci/page.tsx",
       "src/app/pricing/page.tsx",
       "src/app/legal/page.tsx",
+      "src/app/cookies/page.tsx",
       "src/app/privacy/page.tsx",
       "src/app/terms/page.tsx",
     ]) {
@@ -1404,6 +1405,7 @@ describe("production guardrails", () => {
     );
 
     assertIncludes(read("src/components/marketing/PublicShell.tsx"), [
+      "CookiePreferencesButton",
       "href=\"/\"",
       "/architecte-ia",
       "/simulateur",
@@ -1411,9 +1413,15 @@ describe("production guardrails", () => {
       "/demo",
       "/pricing",
       "/privacy",
+      "/cookies",
       "/legal",
       "/terms",
     ], "public shell");
+
+    assertIncludes(read("src/app/layout.tsx"), [
+      "CookieConsent",
+      "<CookieConsent />",
+    ], "cookie consent root layout");
 
     assertIncludes(read("src/app/page.tsx"), [
       "HomeLanding",
@@ -1478,6 +1486,13 @@ describe("production guardrails", () => {
       "canonical: \"/pricing\"",
       "Tarifs ContratPro Starter, Pro et Business",
     ], "pricing metadata");
+
+    assertIncludes(read("src/app/cookies/page.tsx"), [
+      "export const metadata",
+      "canonical: \"/cookies\"",
+      "COOKIE_CATEGORIES",
+      "Politique cookies",
+    ], "cookies metadata");
 
     assertIncludes(read("src/app/simulateur/page.tsx"), [
       "export const metadata",
@@ -1554,13 +1569,42 @@ describe("production guardrails", () => {
     ], "public demo lead form");
 
     assertIncludes(read("src/app/globals.css"), [
+      ".cookie-consent-banner",
+      ".cookie-consent-equal-button",
+      ".cookie-modal-panel",
+      ".cookie-policy-grid",
       ".demo-request-panel",
       ".demo-request-form",
       ".demo-form-success",
     ], "public demo lead styles");
 
+    assertIncludes(read("src/components/cookie-consent.tsx"), [
+      "\"use client\"",
+      "useCookieConsent",
+      "contratpro:open-cookie-modal",
+      "Tout refuser",
+      "Tout accepter",
+      "/cookies",
+    ], "cookie consent component");
+
+    assertIncludes(read("src/hooks/use-cookie-consent.ts"), [
+      "COOKIE_CONSENT_STORAGE_KEY",
+      "COOKIE_CONSENT_EXPIRY_MS",
+      "COOKIE_BANNER_ID",
+      "localStorage",
+      "hydrated",
+    ], "cookie consent hook");
+
+    assertIncludes(read("src/lib/cookies-config.ts"), [
+      "COOKIE_BANNER_VERSION",
+      "defaultValue: false",
+      "statistics",
+      "marketing",
+    ], "cookie consent config");
+
     assertIncludes(read("src/app/sitemap.ts"), [
       "/attestation-entretien-chaudiere",
+      "/cookies",
       "contratpro-dun.vercel.app",
     ], "public sitemap");
 
