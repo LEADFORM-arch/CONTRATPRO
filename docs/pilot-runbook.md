@@ -173,3 +173,19 @@ Fonction bloquante:
 Message commercial qui marche:
 Decision: vendre / iterer / pivoter
 ```
+
+## Kit operationnel court
+
+Pour un rendez-vous terrain rapide, utiliser le dossier :
+
+```text
+docs/pilote-terrain/
+```
+
+Ordre recommande :
+
+1. `README.md` pour preparer le rendez-vous.
+2. `script-rdv-10-min.md` pendant le rendez-vous.
+3. `martin-chauffage-import.csv` pour l'import fictif.
+4. `grille-observation.csv` pour noter les blocages.
+5. `fiche-decision-pilote.md` pour trancher juste apres.
