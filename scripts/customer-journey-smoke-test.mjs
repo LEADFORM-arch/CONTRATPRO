@@ -56,7 +56,7 @@ const journeyChecks = [
     path: "/onboarding",
   },
   {
-    includes: ["Import Excel/CSV", "plan d&#x27;import"],
+    includes: ["Reprendre un fichier Excel sans ressaisie", "Déposer Excel"],
     label: "Import clients et contrats",
     path: "/import",
   },
