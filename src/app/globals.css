@@ -4141,6 +4141,10 @@ body .hover\:bg-zinc-100:hover {
   position: relative;
 }
 
+.contract-detail-section[id="sepa-sandbox"] {
+  scroll-margin-top: 1.25rem;
+}
+
 .contract-detail-hero {
   align-items: center;
   display: flex;
@@ -4357,6 +4361,13 @@ body .hover\:bg-zinc-100:hover {
   border: 1px solid rgba(56, 189, 248, 0.16);
   border-radius: 0.55rem;
   padding: 0.9rem;
+}
+
+.contract-mandate-technical[open] {
+  background:
+    linear-gradient(135deg, rgba(6, 182, 212, 0.11), rgba(16, 185, 129, 0.06)),
+    #0b0d10;
+  border-color: rgba(6, 182, 212, 0.34);
 }
 
 .contract-mandate-technical summary {

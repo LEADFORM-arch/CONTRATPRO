@@ -20,18 +20,20 @@ function DetailItem({ label, value }: { label: string; value: string }) {
 }
 
 function SectionShell({
+  id,
   title,
   description,
   children,
   action,
 }: {
+  id?: string;
   title: string;
   description?: string;
   children: React.ReactNode;
   action?: React.ReactNode;
 }) {
   return (
-    <section className="contract-detail-section">
+    <section className="contract-detail-section" id={id}>
       <div className="contract-detail-section-header">
         <div>
           <h3 className="text-base font-semibold text-zinc-950">{title}</h3>
@@ -76,14 +78,14 @@ function ContractNextAction({
         <a
           className="contract-next-action-card"
           data-tone={hasMandate ? "cyan" : "amber"}
-          href="/payments/new"
+          href={hasMandate ? "/payments/new" : "#sepa-sandbox"}
         >
           <span>02</span>
           <strong>{hasMandate ? "Programmer SEPA" : "Préparer SEPA"}</strong>
           <small>
             {hasMandate
               ? "Mandat détecté : programmer le paiement récurrent."
-              : "Mandat GoCardless à renseigner avant soumission."}
+              : "Créer le lien de signature sandbox avant le paiement."}
           </small>
         </a>
         <a
@@ -260,7 +262,7 @@ export default async function ContractDetailPage({
           </div>
         </SectionShell>
 
-        <SectionShell title="Paiements recurrents">
+        <SectionShell id="sepa-sandbox" title="Paiements recurrents">
           <div className="p-4">
             <div className="contract-mandate-box">
               <p className="text-sm text-zinc-500">Mandat SEPA</p>
@@ -272,17 +274,21 @@ export default async function ContractDetailPage({
               <p className="mt-2 text-sm leading-5 text-zinc-500">
                 {contract.mandate
                   ? "GoCardless peut etre soumis depuis les paiements programmes."
-                  : "Le contrat est marque SEPA. Ajoutez le mandat GoCardless quand les informations finales sont disponibles."}
+                  : "Commencez par créer le lien GoCardless sandbox. Après signature, le paiement pourra être programmé."}
               </p>
               <a
                 className="premium-secondary-action mt-3 inline-flex rounded-md px-3 py-2 text-sm font-semibold"
-                href="/payments/new"
+                href={contract.mandate ? "/payments/new" : "#sepa-sandbox"}
               >
                 {contract.mandate ? "Programmer paiement" : "Préparer SEPA"}
               </a>
             </div>
-            <details className="contract-mandate-technical mt-3">
-              <summary>Sandbox avancé : identifiants GoCardless</summary>
+            <details className="contract-mandate-technical mt-3" open={!contract.mandate}>
+              <summary>
+                {contract.mandate
+                  ? "Sandbox avancé : identifiants GoCardless"
+                  : "Préparer SEPA sandbox avec GoCardless"}
+              </summary>
               <MandateSetupForm
                 contractId={contract.id}
                 customerProviderId={contract.mandate?.customerProviderId}
