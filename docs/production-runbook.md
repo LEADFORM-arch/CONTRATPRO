@@ -64,7 +64,7 @@ compte Vercel/GitHub autorise. Un email non reconnu peut produire un deploiement
 `BLOCKED` sans build. La valeur locale attendue est actuellement :
 
 ```text
-esport.hub.pro@proton.me
+admin@votre-domaine.fr
 ```
 
 ## 2. Variables Vercel obligatoires
@@ -77,7 +77,7 @@ CONTRATPRO_APP_URL=https://votre-domaine.fr
 CONTRATPRO_REQUIRE_AUTH=true
 CONTRATPRO_RLS_ENABLED=true
 CONTRATPRO_REQUIRE_BILLING=true
-CONTRATPRO_ADMIN_EMAILS=esport.hub.pro@proton.me
+CONTRATPRO_ADMIN_EMAILS=admin@votre-domaine.fr
 SUPABASE_URL=...
 SUPABASE_ANON_KEY=...
 SUPABASE_SERVICE_ROLE_KEY=...

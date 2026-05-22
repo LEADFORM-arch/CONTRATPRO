@@ -1,5 +1,7 @@
 import { PublicSection, PublicShell } from "@/components/marketing/PublicShell";
 
+const contactEmail = process.env.NEXT_PUBLIC_CONTACT_EMAIL?.trim();
+
 export default function LegalPage() {
   return (
     <PublicShell>
@@ -24,8 +26,14 @@ export default function LegalPage() {
 
           <h2>Contact</h2>
           <p>
-            Contact fondateur : esport.hub.pro@proton.me. Une adresse de support
-            dediee pourra etre ajoutee avant lancement public.
+            Contact fondateur :{" "}
+            {contactEmail ? (
+              <a href={`mailto:${contactEmail}`}>{contactEmail}</a>
+            ) : (
+              "adresse communiquee pendant le pilote"
+            )}
+            . Une adresse de support dediee pourra etre ajoutee avant lancement
+            public.
           </p>
         </div>
       </PublicSection>

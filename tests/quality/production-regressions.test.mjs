@@ -72,10 +72,12 @@ function collectRepoTextFiles(targetPath) {
 describe("production guardrails", () => {
   it("keeps production project refs out of public repo files", () => {
     const productionProjectRef = ["yotafzxc", "pyyrkkpeyfpp"].join("");
+    const privateFounderEmail = ["esport.hub.pro", "proton.me"].join("@");
     const forbiddenValues = [
       productionProjectRef,
       `https://${productionProjectRef}.supabase.co`,
       `https://supabase.com/dashboard/project/${productionProjectRef}`,
+      privateFounderEmail,
     ];
     const files = repoLeakScanTargets.flatMap(collectRepoTextFiles);
 

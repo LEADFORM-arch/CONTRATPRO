@@ -59,7 +59,7 @@ en etat `BLOCKED` avant meme le build, surtout sur un depot prive. La valeur
 actuelle attendue est :
 
 ```text
-esport.hub.pro@proton.me
+admin@votre-domaine.fr
 ```
 
 ## 2. Import Vercel
@@ -188,7 +188,7 @@ Routes controlees :
 
 Puis tester manuellement :
 
-- connexion admin `esport.hub.pro@proton.me` ;
+- connexion admin `admin@votre-domaine.fr` ;
 - `/admin/ops` ;
 - `/admin/notifications` ;
 - `/onboarding` ;

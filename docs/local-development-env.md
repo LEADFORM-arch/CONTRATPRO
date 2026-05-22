@@ -59,7 +59,7 @@ Ne jamais ecrire le mot de passe dans le repo. Le definir seulement dans le
 terminal courant ou dans `.env.local`, qui est ignore par Git :
 
 ```powershell
-$env:CONTRATPRO_SMOKE_EMAIL="esport.hub.pro@proton.me"
+$env:CONTRATPRO_SMOKE_EMAIL="admin@votre-domaine.fr"
 $env:CONTRATPRO_SMOKE_PASSWORD="votre-mot-de-passe"
 npm run smoke:auth
 npm run smoke:journey
@@ -88,7 +88,7 @@ reprise dashboard apparait a la place du cockpit.
 Pour tester Vercel ou le domaine final :
 
 ```powershell
-$env:CONTRATPRO_SMOKE_EMAIL="esport.hub.pro@proton.me"
+$env:CONTRATPRO_SMOKE_EMAIL="admin@votre-domaine.fr"
 $env:CONTRATPRO_SMOKE_PASSWORD="votre-mot-de-passe"
 npm run deploy:smoke:auth -- https://contratpro-dun.vercel.app
 npm run deploy:smoke:journey -- https://contratpro-dun.vercel.app

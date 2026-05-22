@@ -3,7 +3,6 @@ import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
-const expectedAdminEmail = "esport.hub.pro@proton.me";
 
 const checks = [];
 
@@ -72,8 +71,8 @@ check(
 );
 check(
   "Email admin",
-  (env.CONTRATPRO_ADMIN_EMAILS ?? "").toLowerCase().includes(expectedAdminEmail),
-  `CONTRATPRO_ADMIN_EMAILS doit inclure ${expectedAdminEmail}`,
+  hasUsableEnvValue(env.CONTRATPRO_ADMIN_EMAILS),
+  "CONTRATPRO_ADMIN_EMAILS doit contenir au moins un email admin reel",
 );
 check(
   "Supabase URL",
@@ -179,8 +178,9 @@ check(
   "Fail-closed donnees metier",
   includesAll(read("src/server/contratpro-data.ts"), [
     "SupabaseDataUnavailableError",
-    "allowDemoFallback",
-    "Lecture Supabase indisponible hors mode demo.",
+    "const allowDemoFallback = canUseDemoData()",
+    "if (!allowDemoFallback)",
+    "Lecture Supabase indisponible hors mode démo.",
   ]),
   "les donnees demo ne doivent etre servies qu'en mode demo explicite",
 );

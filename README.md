@@ -333,7 +333,7 @@ supabase/notifications.sql
 Variable optionnelle :
 
 ```text
-CONTRATPRO_NOTIFICATION_EMAILS=esport.hub.pro@proton.me
+CONTRATPRO_NOTIFICATION_EMAILS=admin@votre-domaine.fr
 ```
 
 Si `CONTRATPRO_NOTIFICATION_EMAILS` est absent, les emails listes dans
@@ -390,8 +390,8 @@ CONTRATPRO_APP_URL=https://votre-domaine.fr
 CONTRATPRO_REQUIRE_AUTH=true
 CONTRATPRO_RLS_ENABLED=true
 CONTRATPRO_REQUIRE_BILLING=true
-CONTRATPRO_ADMIN_EMAILS=esport.hub.pro@proton.me
-CONTRATPRO_NOTIFICATION_EMAILS=esport.hub.pro@proton.me
+CONTRATPRO_ADMIN_EMAILS=admin@votre-domaine.fr
+CONTRATPRO_NOTIFICATION_EMAILS=admin@votre-domaine.fr
 SUPABASE_URL=...
 SUPABASE_ANON_KEY=...
 SUPABASE_SERVICE_ROLE_KEY=...
@@ -523,7 +523,7 @@ Verification authentifiee production, avec les identifiants fournis uniquement
 dans le terminal courant :
 
 ```powershell
-$env:CONTRATPRO_SMOKE_EMAIL="esport.hub.pro@proton.me"
+$env:CONTRATPRO_SMOKE_EMAIL="admin@votre-domaine.fr"
 $env:CONTRATPRO_SMOKE_PASSWORD="votre-mot-de-passe"
 npm run deploy:smoke:auth -- https://contratpro-dun.vercel.app
 ```
@@ -615,8 +615,8 @@ Dans `.env.local` :
 ```text
 CONTRATPRO_REQUIRE_AUTH=true
 CONTRATPRO_RLS_ENABLED=true
-CONTRATPRO_ADMIN_EMAILS=esport.hub.pro@proton.me
-CONTRATPRO_NOTIFICATION_EMAILS=esport.hub.pro@proton.me
+CONTRATPRO_ADMIN_EMAILS=admin@votre-domaine.fr
+CONTRATPRO_NOTIFICATION_EMAILS=admin@votre-domaine.fr
 CONTRATPRO_REQUIRE_BILLING=false
 ```
 
