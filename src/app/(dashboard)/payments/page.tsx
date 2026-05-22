@@ -94,6 +94,16 @@ export default async function PaymentsPage() {
         title="Paiements et mandats SEPA"
       />
 
+      <section className="payment-sandbox-note mt-5" aria-label="Mode SEPA sandbox">
+        <div>
+          <p>Mode sandbox GoCardless</p>
+          <strong>Vous pouvez tester le parcours sans vrai prélèvement bancaire.</strong>
+        </div>
+        <span>
+          Le chauffagiste suit le client, le montant et le statut. Les identifiants provider restent dans les détails avancés.
+        </span>
+      </section>
+
       <section className="payment-command-panel mt-6" data-od-id="payment-cash-command">
         <div className="payment-command-brief">
           <p>Commande cash-flow</p>
@@ -244,7 +254,7 @@ export default async function PaymentsPage() {
                 <th className="px-4 py-3 font-semibold">Échéance</th>
                 <th className="px-4 py-3 font-semibold">Montant</th>
                 <th className="px-4 py-3 font-semibold">Statut</th>
-                <th className="px-4 py-3 font-semibold">Provider</th>
+                <th className="px-4 py-3 font-semibold">Suivi SEPA</th>
                 <th className="px-4 py-3 font-semibold">Décision</th>
               </tr>
             </thead>
@@ -290,9 +300,13 @@ export default async function PaymentsPage() {
                   </td>
                   <td className="px-4 py-4">
                     {payment.providerPaymentId ? (
-                      <span className="payment-provider-pill">
-                        {payment.providerPaymentId}
-                      </span>
+                      <div className="payment-provider-status">
+                        <span className="payment-provider-pill">Confirmé sandbox</span>
+                        <details className="payment-provider-details">
+                          <summary>ID technique</summary>
+                          <span>{payment.providerPaymentId}</span>
+                        </details>
+                      </div>
                     ) : (
                       <PaymentSubmitButton
                         disabled={payment.rawStatus !== "PENDING_SUBMISSION"}

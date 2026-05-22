@@ -6474,6 +6474,42 @@ body .hover\:bg-zinc-100:hover {
   line-height: 1.45;
 }
 
+.payment-sandbox-note {
+  align-items: center;
+  background:
+    linear-gradient(135deg, rgba(56, 189, 248, 0.13), rgba(52, 211, 153, 0.08)),
+    #0d1417;
+  border: 1px solid rgba(56, 189, 248, 0.24);
+  border-radius: 0.75rem;
+  display: flex;
+  gap: 1rem;
+  justify-content: space-between;
+  padding: 1rem;
+}
+
+.payment-sandbox-note p {
+  color: #67e8f9;
+  font-size: 0.72rem;
+  font-weight: 900;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.payment-sandbox-note strong {
+  color: #f8fafc;
+  display: block;
+  font-size: 1rem;
+  font-weight: 950;
+  margin-top: 0.25rem;
+}
+
+.payment-sandbox-note span {
+  color: #a1a1aa;
+  font-size: 0.86rem;
+  line-height: 1.45;
+  max-width: 35rem;
+}
+
 .payment-stat-card::before {
   content: "";
   height: 3px;
@@ -6694,6 +6730,50 @@ body .hover\:bg-zinc-100:hover {
   margin-bottom: 1rem;
 }
 
+.payment-new-rhythm {
+  display: grid;
+  gap: 0.75rem;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin-bottom: 1rem;
+}
+
+.payment-new-rhythm div {
+  background:
+    linear-gradient(135deg, rgba(52, 211, 153, 0.11), rgba(56, 189, 248, 0.045)),
+    #0d1414;
+  border: 1px solid rgba(52, 211, 153, 0.2);
+  border-radius: 0.65rem;
+  padding: 0.8rem;
+}
+
+.payment-new-rhythm span {
+  align-items: center;
+  background: rgba(52, 211, 153, 0.14);
+  border: 1px solid rgba(52, 211, 153, 0.26);
+  border-radius: 0.45rem;
+  color: #bbf7d0;
+  display: inline-flex;
+  font-size: 0.72rem;
+  font-weight: 950;
+  height: 1.9rem;
+  justify-content: center;
+  width: 1.9rem;
+}
+
+.payment-new-rhythm strong {
+  color: #ffffff;
+  display: block;
+  font-size: 0.96rem;
+  font-weight: 950;
+  margin-top: 0.6rem;
+}
+
+.payment-new-rhythm p {
+  color: #a1a1aa;
+  font-size: 0.78rem;
+  margin-top: 0.2rem;
+}
+
 .payment-step-band {
   background: rgba(255, 255, 255, 0.028);
   border: 1px solid rgba(255, 255, 255, 0.065);
@@ -6853,6 +6933,34 @@ body .hover\:bg-zinc-100:hover {
   max-width: 13rem;
   overflow-wrap: anywhere;
   padding: 0.4rem 0.55rem;
+}
+
+.payment-provider-status {
+  display: grid;
+  gap: 0.45rem;
+  justify-items: start;
+}
+
+.payment-provider-details {
+  color: #94a3b8;
+  font-size: 0.74rem;
+}
+
+.payment-provider-details summary {
+  cursor: pointer;
+  font-weight: 850;
+}
+
+.payment-provider-details span {
+  background: rgba(255, 255, 255, 0.035);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 0.35rem;
+  color: #d4d4d8;
+  display: inline-flex;
+  margin-top: 0.35rem;
+  max-width: 12rem;
+  overflow-wrap: anywhere;
+  padding: 0.35rem 0.45rem;
 }
 
 .payment-events {

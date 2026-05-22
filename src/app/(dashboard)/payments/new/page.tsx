@@ -31,7 +31,7 @@ export default async function NewPaymentPage() {
           <p>Cash-flow contrat</p>
           <h2>1 mandat signé. 1 montant. 1 encaissement.</h2>
           <span>
-            Le chauffagiste voit le client et le montant. Le reste reste caché.
+            Mode sandbox : vous testez le parcours. Le chauffagiste voit le client, le montant et la date.
           </span>
         </div>
         <a className="premium-secondary-action rounded-md px-4 py-2 text-sm font-semibold" href="/contracts">

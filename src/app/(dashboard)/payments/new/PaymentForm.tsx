@@ -88,10 +88,28 @@ export function PaymentForm({ defaultChargeDate, mandates }: PaymentFormProps) {
       <section className="payment-new-form rounded-lg border p-5 shadow-sm">
         <div className="payment-new-form-intro">
           <p>1. Mandat signé</p>
-          <h3>Choisissez le mandat signé.</h3>
+          <h3>Choisissez le client à encaisser.</h3>
           <span>
             Si la liste est vide, ouvrez un contrat et préparez d'abord la signature SEPA.
           </span>
+        </div>
+
+        <div className="payment-new-rhythm" aria-label="Étapes de création du paiement">
+          <div>
+            <span>01</span>
+            <strong>Client</strong>
+            <p>Mandat signé</p>
+          </div>
+          <div>
+            <span>02</span>
+            <strong>Montant</strong>
+            <p>Repris du contrat</p>
+          </div>
+          <div>
+            <span>03</span>
+            <strong>Date</strong>
+            <p>Encaissement prévu</p>
+          </div>
         </div>
 
         <div className="grid gap-4 md:grid-cols-2">
@@ -207,8 +225,7 @@ export function PaymentForm({ defaultChargeDate, mandates }: PaymentFormProps) {
           </div>
         </dl>
         <span>
-          Le suivi réel passe ensuite par les statuts et événements GoCardless
-          visibles dans le cockpit paiements.
+          Mode sandbox : aucun vrai prélèvement bancaire tant que GoCardless reste en test.
         </span>
       </aside>
     </form>
