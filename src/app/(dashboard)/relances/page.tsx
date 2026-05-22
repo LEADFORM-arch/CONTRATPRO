@@ -107,6 +107,13 @@ export default async function RelancesPage() {
     critical[0] ??
     atRisk[0] ??
     renewals[0];
+  const priorityRenewals = (
+    critical.length ? critical : atRisk.length ? atRisk : renewals
+  ).slice(0, 3);
+  const priorityValue = priorityRenewals.reduce(
+    (sum, renewal) => sum + renewal.value,
+    0,
+  );
   const commandTone: RelanceTone =
     critical.length > 0 ? "rose" : atRisk.length > 0 ? "amber" : "emerald";
   const command = critical.length
@@ -139,7 +146,7 @@ export default async function RelancesPage() {
             Nouveau contrat
           </a>
         }
-        description="Priorisez les renouvellements, choisissez le bon canal et lancez les relances avec un discours cohérent."
+        description="Une seule mission : ne pas laisser un contrat rentable dormir trop longtemps."
         eyebrow="Agent IA de croissance"
         title="Relances renouvellement"
       />
@@ -166,34 +173,94 @@ export default async function RelancesPage() {
         </div>
       </section>
 
-      <div className="mt-6 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-        <StatCard
-          detail="recommandations à valider par un humain"
-          label="File agent"
-          tone="cyan"
-          value={String(agent.validationQueue)}
-        />
-        <StatCard
-          detail="contrats avec score IA critique"
-          label="Critiques"
-          tone="amber"
-          value={String(agent.criticalCount)}
-        />
-        <StatCard
-          detail="revenu annuel priorisé par l'agent"
-          label="ROI potentiel"
-          tone="rose"
-          value={formatEuro(agent.totalExpectedValue)}
-        />
-        <StatCard
-          detail="peuvent être renouvelés avec mandat"
-          label="SEPA prêt"
-          tone="emerald"
-          value={String(sepaReady.length)}
-        />
-      </div>
+      {priorityRenewals.length ? (
+        <section className="relance-today-panel mt-5" aria-label="Relances du jour">
+          <div className="relance-today-header">
+            <div>
+              <p>File du jour</p>
+              <h3>3 dossiers maximum. On relance, puis on passe au chantier suivant.</h3>
+            </div>
+            <span>{formatEuro(priorityValue)} à protéger</span>
+          </div>
+          <div className="relance-today-grid">
+            {priorityRenewals.map((renewal, index) => (
+              <article
+                className="relance-today-card"
+                data-tone={urgencyTone(renewal.daysRemaining)}
+                key={renewal.id}
+              >
+                <div className="relance-today-card-head">
+                  <span>{String(index + 1).padStart(2, "0")}</span>
+                  <strong>J-{renewal.daysRemaining}</strong>
+                </div>
+                <h4>{renewal.customer}</h4>
+                <p>{renewal.equipment}</p>
+                <dl>
+                  <div>
+                    <dt>À sauver</dt>
+                    <dd>{formatEuro(renewal.value)}</dd>
+                  </div>
+                  <div>
+                    <dt>Canal</dt>
+                    <dd>{renewal.channel}</dd>
+                  </div>
+                </dl>
+                <div className="relance-today-actions">
+                  <SendRenewalEmailButton
+                    channel={renewal.channel}
+                    contractId={renewal.id}
+                    message={renewal.script}
+                  />
+                  <CopyScriptButton script={renewal.script} />
+                  <a
+                    className="premium-inline-action rounded-md px-3 py-2 text-center text-sm font-semibold"
+                    href={`/contracts/${renewal.id}`}
+                  >
+                    Dossier
+                  </a>
+                </div>
+              </article>
+            ))}
+          </div>
+        </section>
+      ) : null}
 
-      <section className="relance-agent-panel mt-6 rounded-lg border p-4 shadow-sm">
+      <details className="artisan-evidence-details mt-5">
+        <summary className="worklist-summary">
+          Voir les chiffres de relance
+        </summary>
+        <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+          <StatCard
+            detail="recommandations à valider par un humain"
+            label="File agent"
+            tone="cyan"
+            value={String(agent.validationQueue)}
+          />
+          <StatCard
+            detail="contrats avec score IA critique"
+            label="Critiques"
+            tone="amber"
+            value={String(agent.criticalCount)}
+          />
+          <StatCard
+            detail="revenu annuel priorisé par l'agent"
+            label="ROI potentiel"
+            tone="rose"
+            value={formatEuro(agent.totalExpectedValue)}
+          />
+          <StatCard
+            detail="peuvent être renouvelés avec mandat"
+            label="SEPA prêt"
+            tone="emerald"
+            value={String(sepaReady.length)}
+          />
+        </div>
+      </details>
+
+      <details className="relance-agent-panel mt-5 rounded-lg border p-4 shadow-sm">
+        <summary className="worklist-summary">
+          Voir l'analyse Architecte IA
+        </summary>
         <div className="flex flex-col gap-3 lg:flex-row lg:items-start lg:justify-between">
           <div>
             <p className="text-sm font-semibold text-cyan-300">
@@ -251,9 +318,12 @@ export default async function RelancesPage() {
             </article>
           ))}
         </div>
-      </section>
+      </details>
 
-      <section className="relance-section mt-6">
+      <details className="relance-section mt-5">
+        <summary className="worklist-summary">
+          Voir toute la file commerciale ({renewals.length})
+        </summary>
         <div className="relance-section-header flex flex-wrap items-start justify-between gap-4">
           <div>
             <h3 className="text-base font-semibold text-zinc-50">
@@ -371,9 +441,12 @@ export default async function RelancesPage() {
             />
           </div>
         )}
-      </section>
+      </details>
 
-      <section className="relance-section mt-6">
+      <details className="relance-section mt-5">
+        <summary className="worklist-summary">
+          Voir le journal des relances ({actions.length})
+        </summary>
         <div className="relance-section-header flex flex-wrap items-start justify-between gap-4">
           <div>
             <h3 className="text-base font-semibold text-zinc-50">
@@ -447,7 +520,7 @@ export default async function RelancesPage() {
             </tbody>
           </table>
         </div>
-      </section>
+      </details>
     </AppShell>
   );
 }
