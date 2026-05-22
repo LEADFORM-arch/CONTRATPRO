@@ -57,9 +57,10 @@ function ContractNextAction({
     <section className="contract-next-action mt-6" data-od-id="contract-next-action">
       <div className="contract-next-action-brief">
         <p>À faire maintenant</p>
-        <h3>Facturer, puis préparer le SEPA.</h3>
+        <h3>Facturer, encaisser, puis prouver l'entretien.</h3>
         <span>
-          Commencez par la facture. Le mandat SEPA vient juste après.
+          Le contrat est créé. La suite logique tient en trois gestes : facture,
+          SEPA sandbox, puis visite avec attestation.
         </span>
       </div>
       <div className="contract-next-action-grid">
@@ -84,6 +85,15 @@ function ContractNextAction({
               ? "Mandat détecté : programmer le paiement récurrent."
               : "Mandat GoCardless à renseigner avant soumission."}
           </small>
+        </a>
+        <a
+          className="contract-next-action-card"
+          data-tone="blue"
+          href={`/interventions/new?contractId=${contractId}`}
+        >
+          <span>03</span>
+          <strong>Visite + attestation</strong>
+          <small>Planifier le passage et préparer la preuve d'entretien.</small>
         </a>
       </div>
     </section>
@@ -271,12 +281,15 @@ export default async function ContractDetailPage({
                 {contract.mandate ? "Programmer paiement" : "Préparer SEPA"}
               </a>
             </div>
-            <MandateSetupForm
-              contractId={contract.id}
-              customerProviderId={contract.mandate?.customerProviderId}
-              mandateProviderId={contract.mandate?.providerId}
-              status={contract.mandate?.status}
-            />
+            <details className="contract-mandate-technical mt-3">
+              <summary>Sandbox avancé : identifiants GoCardless</summary>
+              <MandateSetupForm
+                contractId={contract.id}
+                customerProviderId={contract.mandate?.customerProviderId}
+                mandateProviderId={contract.mandate?.providerId}
+                status={contract.mandate?.status}
+              />
+            </details>
             <div className="mt-3 divide-y divide-zinc-100">
               {contract.payments.length ? (
                 contract.payments.map((payment) => (

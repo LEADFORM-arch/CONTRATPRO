@@ -11,6 +11,7 @@ type ContractOption = {
 type InterventionFormProps = {
   contracts: ContractOption[];
   defaultPerformedAt: string;
+  selectedContractId?: string;
 };
 
 type SubmitState =
@@ -49,6 +50,7 @@ function FormSection({
 export function InterventionForm({
   contracts,
   defaultPerformedAt,
+  selectedContractId = "",
 }: InterventionFormProps) {
   const router = useRouter();
   const [submitState, setSubmitState] = useState<SubmitState>({
@@ -66,6 +68,7 @@ export function InterventionForm({
       message: "Planification de la visite...",
     });
 
+    const contractId = String(formData.get("contractId") ?? "");
     const response = await fetch("/api/interventions", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -83,10 +86,10 @@ export function InterventionForm({
 
     setSubmitState({
       status: "success",
-      message: "Intervention planifiee. Retour au planning...",
+      message: "Intervention planifiee. Retour au dossier contrat...",
     });
     form.reset();
-    router.push("/interventions");
+    router.push(contractId ? `/contracts/${contractId}` : "/interventions");
     router.refresh();
   }
 
@@ -109,7 +112,15 @@ export function InterventionForm({
       >
         <label className="contract-form-field md:col-span-3">
           <span>Contrat</span>
-          <select className={inputClass} name="contractId" required>
+          <select
+            className={inputClass}
+            defaultValue={selectedContractId}
+            name="contractId"
+            required
+          >
+            {!selectedContractId ? (
+              <option value="">Selectionner un contrat</option>
+            ) : null}
             {contracts.map((contract) => (
               <option key={contract.id} value={contract.id}>
                 {contract.label}
