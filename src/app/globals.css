@@ -4763,6 +4763,44 @@ body .hover\:bg-zinc-100:hover {
   position: absolute;
 }
 
+.quick-contract-customer-lock {
+  align-items: center;
+  background:
+    linear-gradient(135deg, rgba(245, 158, 11, 0.14), rgba(52, 211, 153, 0.06)),
+    #111316;
+  border-bottom: 1px solid rgba(245, 158, 11, 0.22);
+  display: flex;
+  gap: 1rem;
+  justify-content: space-between;
+  padding: 1rem;
+  padding-top: calc(1rem + 3px);
+}
+
+.quick-contract-customer-lock p {
+  color: #fbbf24;
+  font-size: 0.72rem;
+  font-weight: 950;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+
+.quick-contract-customer-lock strong {
+  color: #ffffff;
+  display: block;
+  font-size: 1.15rem;
+  font-weight: 950;
+  margin-top: 0.25rem;
+}
+
+.quick-contract-customer-lock span {
+  color: #cbd5e1;
+  display: block;
+  font-size: 0.86rem;
+  line-height: 1.45;
+  margin-top: 0.35rem;
+  max-width: 44rem;
+}
+
 .quick-contract-strip {
   background:
     linear-gradient(135deg, rgba(16, 185, 129, 0.09), rgba(56, 189, 248, 0.055)),
@@ -4776,6 +4814,13 @@ body .hover\:bg-zinc-100:hover {
 @media (min-width: 640px) {
   .quick-contract-strip {
     grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 720px) {
+  .quick-contract-customer-lock {
+    align-items: stretch;
+    flex-direction: column;
   }
 }
 

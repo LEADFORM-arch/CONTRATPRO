@@ -1,4 +1,5 @@
 import { AppShell, PageHeader } from "@/components/layout/AppShell";
+import { getCustomerDetail } from "@/server/contratpro-data";
 
 import { QuickContractForm } from "./QuickContractForm";
 
@@ -21,14 +22,28 @@ export default async function QuickContractPage({
   const today = new Date();
   const nextYear = new Date(today);
   nextYear.setFullYear(today.getFullYear() + 1);
-  const initialCustomer = firstParam(params.customerId)
+  const customerId = firstParam(params.customerId) ?? "";
+  const customerDetail = customerId ? await getCustomerDetail(customerId) : null;
+  const initialCustomer = customerId
     ? {
-        address: firstParam(params.customerAddress) ?? "",
-        city: firstParam(params.customerCity) ?? "",
-        email: firstParam(params.customerEmail) ?? "",
-        id: firstParam(params.customerId) ?? "",
-        name: firstParam(params.customerName) ?? "",
-        phone: firstParam(params.customerPhone) ?? "",
+        address:
+          firstParam(params.customerAddress) ??
+          (customerDetail?.address === "-" ? "" : customerDetail?.address) ??
+          "",
+        city:
+          firstParam(params.customerCity) ??
+          (customerDetail?.city === "-" ? "" : customerDetail?.city) ??
+          "",
+        email:
+          firstParam(params.customerEmail) ??
+          (customerDetail?.email === "-" ? "" : customerDetail?.email) ??
+          "",
+        id: customerId,
+        name: firstParam(params.customerName) ?? customerDetail?.name ?? "",
+        phone:
+          firstParam(params.customerPhone) ??
+          (customerDetail?.phone === "-" ? "" : customerDetail?.phone) ??
+          "",
         zipCode: firstParam(params.customerZipCode) ?? "",
       }
     : undefined;

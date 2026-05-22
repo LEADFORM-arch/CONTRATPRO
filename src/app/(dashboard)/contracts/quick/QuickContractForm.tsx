@@ -216,6 +216,24 @@ export function QuickContractForm({
       ) : null}
 
       <section className="quick-contract-main">
+        {initialCustomer?.id ? (
+          <div className="quick-contract-customer-lock">
+            <div>
+              <p>Client repris</p>
+              <strong>{initialCustomer.name || "Fiche client existante"}</strong>
+              <span>
+                Le contrat sera rattaché à cette fiche. Les coordonnées visibles ici peuvent encore être complétées.
+              </span>
+            </div>
+            <a
+              className="premium-secondary-action rounded-md px-4 py-2 text-sm font-semibold"
+              href={`/customers/${initialCustomer.id}`}
+            >
+              Voir fiche
+            </a>
+          </div>
+        ) : null}
+
         <div className="quick-contract-strip">
           <span>1 Client</span>
           <span>2 Équipement</span>
