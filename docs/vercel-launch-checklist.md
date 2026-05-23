@@ -189,6 +189,7 @@ Routes controlees :
 /legal
 /cookies
 /privacy
+/dpa
 /terms
 ```
 

@@ -116,6 +116,7 @@ for (const page of [
   "src/app/legal/page.tsx",
   "src/app/cookies/page.tsx",
   "src/app/privacy/page.tsx",
+  "src/app/dpa/page.tsx",
   "src/app/terms/page.tsx",
 ]) {
   check(
@@ -228,6 +229,7 @@ check(
       "/demo",
       "/demo/merci",
       "/cookies",
+      "/dpa",
     ]),
   "le deploiement doit avoir un controle HTTP post-release",
 );

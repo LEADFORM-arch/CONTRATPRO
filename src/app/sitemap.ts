@@ -13,6 +13,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/legal",
     "/cookies",
     "/privacy",
+    "/dpa",
     "/terms",
   ].map((path) => ({
     changeFrequency: path === "/attestation-entretien-chaudiere" ? "monthly" : "weekly",

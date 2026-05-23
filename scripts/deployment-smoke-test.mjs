@@ -24,6 +24,7 @@ const checks = [
   { path: "/legal", includes: ["Mentions", "ContratPro"] },
   { path: "/cookies", includes: ["cookies", "ContratPro"] },
   { path: "/privacy", includes: ["confidentialite", "ContratPro"] },
+  { path: "/dpa", includes: ["donnees", "ContratPro"] },
   { path: "/terms", includes: ["conditions", "ContratPro"] },
 ];
 

@@ -6,10 +6,11 @@ const navItems = [
   { href: "/architecte-ia", label: "Architecte IA" },
   { href: "/simulateur", label: "Simulateur" },
   { href: "/attestation-entretien-chaudiere", label: "Attestation" },
-  { href: "/demo", label: "Démo" },
+  { href: "/demo", label: "Demo" },
   { href: "/pricing", label: "Tarif" },
   { href: "/cookies", label: "Cookies" },
   { href: "/privacy", label: "Confidentialite" },
+  { href: "/dpa", label: "DPA" },
 ];
 
 export function PublicShell({
@@ -56,9 +57,10 @@ export function PublicShell({
           relances et encaissements recurrents.
         </p>
         <div className="flex flex-wrap gap-3">
-          <a href="/legal">Mentions légales</a>
+          <a href="/legal">Mentions legales</a>
           <a href="/terms">CGV</a>
           <a href="/privacy">Confidentialite</a>
+          <a href="/dpa">DPA</a>
           <a href="/cookies">Cookies</a>
           <CookiePreferencesButton />
         </div>
@@ -93,32 +95,34 @@ export function PublicHero({
         {action ? <div className="mt-7 flex flex-wrap gap-3">{action}</div> : null}
       </div>
 
-      {visual ?? <div className="public-product-visual">
-        <div className="public-visual-top">
-          <span>Contrats actifs</span>
-          <strong>48 900 EUR</strong>
-        </div>
-        <div className="public-visual-bars">
-          <span data-size="92" />
-          <span data-size="68" />
-          <span data-size="82" />
-          <span data-size="54" />
-        </div>
-        <div className="public-visual-list">
-          <div>
-            <span>Relances a 30 jours</span>
-            <strong>12</strong>
+      {visual ?? (
+        <div className="public-product-visual">
+          <div className="public-visual-top">
+            <span>Contrats actifs</span>
+            <strong>48 900 EUR</strong>
           </div>
-          <div>
-            <span>Attestations envoyees</span>
-            <strong>34</strong>
+          <div className="public-visual-bars">
+            <span data-size="92" />
+            <span data-size="68" />
+            <span data-size="82" />
+            <span data-size="54" />
           </div>
-          <div>
-            <span>SEPA sous contrôle</span>
-            <strong>96%</strong>
+          <div className="public-visual-list">
+            <div>
+              <span>Relances a 30 jours</span>
+              <strong>12</strong>
+            </div>
+            <div>
+              <span>Attestations envoyees</span>
+              <strong>34</strong>
+            </div>
+            <div>
+              <span>SEPA sous controle</span>
+              <strong>96%</strong>
+            </div>
           </div>
         </div>
-      </div>}
+      )}
     </section>
   );
 }

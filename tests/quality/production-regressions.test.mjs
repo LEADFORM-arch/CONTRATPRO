@@ -1393,6 +1393,7 @@ describe("production guardrails", () => {
       "src/app/legal/page.tsx",
       "src/app/cookies/page.tsx",
       "src/app/privacy/page.tsx",
+      "src/app/dpa/page.tsx",
       "src/app/terms/page.tsx",
     ]) {
       assert.ok(existsSync(pathOf(page)), `${page} should exist`);
@@ -1413,6 +1414,7 @@ describe("production guardrails", () => {
       "/demo",
       "/pricing",
       "/privacy",
+      "/dpa",
       "/cookies",
       "/legal",
       "/terms",
@@ -1493,6 +1495,13 @@ describe("production guardrails", () => {
       "COOKIE_CATEGORIES",
       "Politique cookies",
     ], "cookies metadata");
+
+    assertIncludes(read("src/app/dpa/page.tsx"), [
+      "export const metadata",
+      "canonical: \"/dpa\"",
+      "Accord de traitement des donnees",
+      "sous-traitant",
+    ], "dpa metadata");
 
     assertIncludes(read("src/app/simulateur/page.tsx"), [
       "export const metadata",
@@ -1605,6 +1614,7 @@ describe("production guardrails", () => {
     assertIncludes(read("src/app/sitemap.ts"), [
       "/attestation-entretien-chaudiere",
       "/cookies",
+      "/dpa",
       "contratpro-dun.vercel.app",
     ], "public sitemap");
 
