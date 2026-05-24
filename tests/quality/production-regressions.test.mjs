@@ -710,6 +710,12 @@ describe("production guardrails", () => {
       "no-store",
     ], "certificate pdf route");
 
+    assertIncludes(read("src/components/documents/DocumentSendButton.tsx"), [
+      "DOCUMENT_SEND_TIMEOUT_MS",
+      "AbortController",
+      "Le PDF reste disponible",
+    ], "document send button timeout");
+
     assertIncludes(read("src/server/resend.ts"), [
       "RESEND_API_KEY est absent",
       "RESEND_FROM_EMAIL est absent",

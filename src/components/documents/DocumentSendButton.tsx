@@ -3,6 +3,8 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
+const DOCUMENT_SEND_TIMEOUT_MS = 30_000;
+
 export function DocumentSendButton({
   endpoint,
   label,
@@ -20,14 +22,37 @@ export function DocumentSendButton({
     setState("loading");
     setMessage("");
 
-    const response = await fetch(endpoint, { method: "POST" });
-    const payload = (await response.json().catch(() => null)) as
-      | { error?: string }
-      | null;
+    const controller = new AbortController();
+    const timeout = window.setTimeout(
+      () => controller.abort(),
+      DOCUMENT_SEND_TIMEOUT_MS,
+    );
+
+    let response: Response;
+    let payload: { error?: string } | null = null;
+    try {
+      response = await fetch(endpoint, {
+        method: "POST",
+        signal: controller.signal,
+      });
+      payload = (await response.json().catch(() => null)) as
+        | { error?: string }
+        | null;
+    } catch (error) {
+      setState("error");
+      setMessage(
+        error instanceof DOMException && error.name === "AbortError"
+          ? "Envoi trop long. Le PDF reste disponible, verifiez Resend plus tard."
+          : "Envoi impossible. Le PDF reste disponible.",
+      );
+      return;
+    } finally {
+      window.clearTimeout(timeout);
+    }
 
     if (!response.ok) {
       setState("error");
-      setMessage(payload?.error ?? "Envoi impossible.");
+      setMessage(payload?.error ?? "Envoi impossible. Le PDF reste disponible.");
       return;
     }
 
