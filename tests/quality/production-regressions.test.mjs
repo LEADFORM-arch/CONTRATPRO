@@ -623,6 +623,7 @@ describe("production guardrails", () => {
       "manifest: \"/manifest.webmanifest\"",
       "appleWebApp",
       "themeColor: \"#1E3A5F\"",
+      "ServiceWorkerRegistration",
     ], "pwa metadata");
 
     assertIncludes(read("src/app/manifest.ts"), [
@@ -633,6 +634,29 @@ describe("production guardrails", () => {
     ], "pwa manifest");
 
     assert.ok(existsSync(pathOf("src/app/icon.svg")), "PWA icon should exist");
+    assert.ok(existsSync(pathOf("src/app/offline/page.tsx")), "offline fallback page should exist");
+    assert.ok(existsSync(pathOf("public/service-worker.js")), "service worker should exist");
+
+    assertIncludes(read("public/service-worker.js"), [
+      "contratpro-offline-v1",
+      "OFFLINE_URL",
+      "/offline",
+      "request.mode === \"navigate\"",
+      "PRECACHE_URLS",
+    ], "pwa service worker");
+
+    assertIncludes(read("src/components/pwa/ServiceWorkerRegistration.tsx"), [
+      "\"use client\"",
+      "navigator.serviceWorker.register",
+      "/service-worker.js",
+      "scope: \"/\"",
+    ], "pwa service worker registration");
+
+    assertIncludes(read("src/app/offline/page.tsx"), [
+      "Mode hors ligne",
+      "sans stocker les donnees clients hors ligne",
+      "Retour terrain",
+    ], "pwa offline fallback");
 
     assertIncludes(read("src/components/layout/AppShell.tsx"), [
       "/terrain",
@@ -650,6 +674,8 @@ describe("production guardrails", () => {
     assertIncludes(read("README.md"), [
       "Priorite 5b - Mobile terrain PWA",
       "/manifest.webmanifest",
+      "/service-worker.js",
+      "/offline",
       "/terrain",
     ], "terrain documentation");
   });
@@ -822,6 +848,7 @@ describe("production guardrails", () => {
     assertIncludes(read("package.json"), [
       "\"node\": \"24.x\"",
       "\"ci:verify\"",
+      "\"db:audit\"",
       "\"deploy:preflight\"",
       "\"vercel:live-audit\"",
       "\"deploy:smoke\"",

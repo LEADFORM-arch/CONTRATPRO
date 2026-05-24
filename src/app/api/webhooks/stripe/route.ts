@@ -154,6 +154,15 @@ async function handleInvoicePaymentFailed(object: Record<string, unknown>) {
   return organizationId ?? null;
 }
 
+async function handleInvoicePaymentSucceeded(object: Record<string, unknown>) {
+  const subscriptionId = stripeId(object.subscription);
+  const existing = subscriptionId
+    ? await findBillingByStripeSubscription(subscriptionId).catch(() => null)
+    : null;
+
+  return existing?.organization_id ?? metadataOrganizationId(object);
+}
+
 export async function POST(request: NextRequest) {
   try {
     const rawBody = await request.text();
@@ -184,6 +193,10 @@ export async function POST(request: NextRequest) {
 
     if (event.type === "invoice.payment_failed") {
       organizationId = await handleInvoicePaymentFailed(event.data.object);
+    }
+
+    if (event.type === "invoice.payment_succeeded") {
+      organizationId = await handleInvoicePaymentSucceeded(event.data.object);
     }
 
     await recordBillingEvent({

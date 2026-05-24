@@ -1,0 +1,70 @@
+{
+  "description": "Ordre officiel des scripts Supabase ContratPro. RLS doit rester apres tous les scripts metier et verify_rls doit rester dernier.",
+  "scripts": [
+    {
+      "file": "schema.sql",
+      "phase": "schema",
+      "required": true
+    },
+    {
+      "file": "seed.sql",
+      "phase": "seed",
+      "required": false
+    },
+    {
+      "file": "invoices_seed.sql",
+      "phase": "seed",
+      "required": false
+    },
+    {
+      "file": "renewal_actions.sql",
+      "phase": "feature",
+      "required": true
+    },
+    {
+      "file": "prospection.sql",
+      "phase": "feature",
+      "required": true
+    },
+    {
+      "file": "simulation_leads.sql",
+      "phase": "feature",
+      "required": true
+    },
+    {
+      "file": "document_sends.sql",
+      "phase": "feature",
+      "required": true
+    },
+    {
+      "file": "payment_events.sql",
+      "phase": "feature",
+      "required": true
+    },
+    {
+      "file": "billing.sql",
+      "phase": "feature",
+      "required": true
+    },
+    {
+      "file": "notifications.sql",
+      "phase": "feature",
+      "required": true
+    },
+    {
+      "file": "import_logs.sql",
+      "phase": "feature",
+      "required": true
+    },
+    {
+      "file": "rls.sql",
+      "phase": "security",
+      "required": true
+    },
+    {
+      "file": "verify_rls.sql",
+      "phase": "verification",
+      "required": true
+    }
+  ]
+}

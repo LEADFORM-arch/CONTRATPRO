@@ -1,0 +1,29 @@
+"use client";
+
+import { useEffect } from "react";
+
+export function ServiceWorkerRegistration() {
+  useEffect(() => {
+    if (!("serviceWorker" in navigator)) {
+      return;
+    }
+
+    const register = () => {
+      navigator.serviceWorker.register("/service-worker.js", {
+        scope: "/",
+      }).catch(() => {
+        // The app must keep working even if the browser blocks service workers.
+      });
+    };
+
+    if (document.readyState === "complete") {
+      register();
+      return;
+    }
+
+    window.addEventListener("load", register, { once: true });
+    return () => window.removeEventListener("load", register);
+  }, []);
+
+  return null;
+}

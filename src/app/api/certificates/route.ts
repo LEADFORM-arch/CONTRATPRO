@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 
 import { requireApiUser } from "@/server/api-auth";
+import { getContractDetail } from "@/server/contratpro-data";
 import { insertSupabaseRow, SupabaseWriteError } from "@/server/supabase-write";
 
 function text(value: unknown) {
@@ -25,6 +26,21 @@ export async function POST(request: Request) {
             "Intervention et contrat sont obligatoires pour generer l'attestation.",
         },
         { status: 400 },
+      );
+    }
+
+    const contract = await getContractDetail(contractId);
+    if (!contract) {
+      return NextResponse.json({ error: "Contrat introuvable." }, { status: 404 });
+    }
+
+    const interventionBelongsToContract = contract.interventions.some(
+      (intervention) => intervention.id === interventionId,
+    );
+    if (!interventionBelongsToContract) {
+      return NextResponse.json(
+        { error: "Intervention introuvable sur ce contrat." },
+        { status: 404 },
       );
     }
 

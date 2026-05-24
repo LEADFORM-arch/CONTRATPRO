@@ -77,6 +77,7 @@ for (const script of [
   "build",
   "type-check",
   "security:audit",
+  "db:audit",
   "test:quality",
   "production:audit",
   "ci:verify",

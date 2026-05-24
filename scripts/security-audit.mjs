@@ -98,6 +98,11 @@ check(
   "supabase/verify_rls.sql doit etre executable dans Supabase SQL Editor",
 );
 check(
+  "Manifest migrations Supabase",
+  existsSync(file("supabase/migration-order.json")),
+  "supabase/migration-order.json doit versionner l'ordre schema -> metier -> RLS -> verification",
+);
+check(
   "SQL historique documents",
   existsSync(file("supabase/document_sends.sql")),
   "supabase/document_sends.sql doit creer l'historique d'envoi",

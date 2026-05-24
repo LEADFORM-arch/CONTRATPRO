@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 
 import { requireApiUser } from "@/server/api-auth";
+import { getCustomerDetail } from "@/server/contratpro-data";
 import { insertSupabaseRow, SupabaseWriteError } from "@/server/supabase-write";
 
 const equipmentTypes = new Set([
@@ -73,6 +74,11 @@ export async function POST(request: Request) {
         },
         { status: 400 },
       );
+    }
+
+    const customer = await getCustomerDetail(customerId);
+    if (!customer) {
+      return NextResponse.json({ error: "Client introuvable." }, { status: 404 });
     }
 
     const installation = await insertSupabaseRow<{ id: string }>("installations", {

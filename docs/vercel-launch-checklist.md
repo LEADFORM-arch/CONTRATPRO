@@ -127,6 +127,7 @@ En local :
 ```powershell
 npm run ci:verify
 npm run deploy:preflight
+npm run db:audit
 npx vercel env ls | npm run vercel:live-audit --silent
 ```
 

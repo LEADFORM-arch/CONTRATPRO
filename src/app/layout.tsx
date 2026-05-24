@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 
 import { CookieConsent } from "@/components/cookie-consent";
+import { ServiceWorkerRegistration } from "@/components/pwa/ServiceWorkerRegistration";
 
 import "./globals.css";
 
@@ -63,6 +64,7 @@ export default function RootLayout({
     <html lang="fr" className="h-full antialiased">
       <body className="min-h-full flex flex-col">
         {children}
+        <ServiceWorkerRegistration />
         <CookieConsent />
       </body>
     </html>

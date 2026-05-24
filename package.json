@@ -13,6 +13,7 @@
     "start": "next start",
     "type-check": "tsc --noEmit",
     "test:quality": "node --test tests/quality/*.test.mjs",
+    "db:audit": "node scripts/supabase-migration-audit.mjs",
     "security:audit": "node scripts/security-audit.mjs",
     "production:audit": "node scripts/production-readiness.mjs",
     "deploy:preflight": "node scripts/vercel-preflight.mjs",
@@ -31,7 +32,7 @@
     "resend:readiness": "node scripts/resend-readiness.mjs",
     "stripe:readiness": "node scripts/stripe-readiness.mjs",
     "stripe:create-test-billing": "node scripts/stripe-create-test-billing.mjs",
-    "ci:verify": "npm run type-check && npm run test:quality && npm run security:audit && npm run production:audit && npm run deploy:preflight && npm run build",
+    "ci:verify": "npm run type-check && npm run test:quality && npm run db:audit && npm run security:audit && npm run production:audit && npm run deploy:preflight && npm run build",
     "db:generate": "prisma generate",
     "db:push": "node scripts/refuse-prisma-push.mjs"
   },

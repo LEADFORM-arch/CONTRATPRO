@@ -33,6 +33,7 @@ lenteur, crash VS Code ou port bloque, preferer `npm run dev:clean`.
 ```powershell
 npm run type-check
 npm run test:quality
+npm run db:audit
 npm run security:audit
 npm run production:audit
 ```
@@ -146,6 +147,10 @@ interventions sous forme de cartes tactiles : client, ville, equipement,
 technicien, prochaine visite, statut d'attestation et actions rapides vers le
 contrat ou le PDF. Ce lot ne remplace pas encore une application offline
 complete, mais il pose le premier ecran terrain manquant pour les pilotes.
+
+Un service worker prudent est aussi expose via `/service-worker.js` : il ne met
+pas en cache les donnees clients, mais fournit une page `/offline` et les assets
+publics minimaux pour confirmer l'installation PWA quand le reseau tombe.
 
 ## Priorite 5c - Pilotes chauffagistes
 
@@ -362,6 +367,11 @@ RLS, billing lock, routes admin, API metier protegees, webhooks signes, cron
 protege, PDF serveur, envoi document, notifications internes et scripts
 Supabase alignes. Ils completent `npm run security:audit`, qui controle aussi la
 configuration locale `.env.local`.
+
+Les corrections issues de l'audit architecture sont suivies dans
+`docs/architecture-audit-corrections.md` : ordre des migrations Supabase,
+isolation multi-tenant, webhooks financiers, PWA hors ligne prudente et points
+volontairement differes.
 
 ## Priorite 12 - Deploiement production
 
@@ -638,6 +648,10 @@ les scripts metier (`schema.sql`, `seed.sql`, `renewal_actions.sql`,
 `notifications.sql`). La commande `npm run security:audit`
 verifie la configuration locale, la presence des politiques RLS dans le repo et
 les garde-fous de l'espace admin.
+
+L'ordre officiel est versionne dans `supabase/migration-order.json`. La commande
+`npm run db:audit` verifie que les scripts existent, que RLS passe apres les
+tables metier et que `verify_rls.sql` reste le dernier controle.
 
 Pour confirmer l'etat reel de Supabase, executer ensuite :
 
