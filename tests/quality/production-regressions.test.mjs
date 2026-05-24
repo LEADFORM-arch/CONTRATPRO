@@ -1896,6 +1896,23 @@ describe("production guardrails", () => {
       "Importer contrats",
     ], "renewals empty state actions");
 
+    assertIncludes(read("src/app/(dashboard)/relances/SendRenewalEmailButton.tsx"), [
+      "RENEWAL_EMAIL_TIMEOUT_MS",
+      "Copiez le script ou journalisez la relance",
+    ], "renewal email timeout");
+
+    assertIncludes(read("src/app/(dashboard)/relances/LogRenewalButton.tsx"), [
+      "RENEWAL_LOG_TIMEOUT_MS",
+      "Journal trop long",
+      "Copiez le script",
+    ], "renewal log timeout");
+
+    assertIncludes(read("src/app/(dashboard)/relances/RenewalActionControls.tsx"), [
+      "RENEWAL_STATUS_TIMEOUT_MS",
+      "Le statut actuel reste visible",
+      "Mise a jour relance impossible",
+    ], "renewal status timeout");
+
     assertIncludes(read("src/app/(dashboard)/payments/page.tsx"), [
       "data-od-id=\"payment-cash-command\"",
       "Commande cash-flow",

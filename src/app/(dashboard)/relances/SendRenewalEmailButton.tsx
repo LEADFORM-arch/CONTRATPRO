@@ -3,6 +3,8 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
+const RENEWAL_EMAIL_TIMEOUT_MS = 30_000;
+
 export function SendRenewalEmailButton({
   channel,
   contractId,
@@ -22,18 +24,39 @@ export function SendRenewalEmailButton({
     setState("loading");
     setError("");
 
-    const response = await fetch("/api/relances/send", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ channel, contractId, message }),
-    });
-    const payload = (await response.json().catch(() => null)) as
-      | { error?: string }
-      | null;
+    const controller = new AbortController();
+    const timeout = window.setTimeout(
+      () => controller.abort(),
+      RENEWAL_EMAIL_TIMEOUT_MS,
+    );
+
+    let response: Response;
+    let payload: { error?: string } | null = null;
+    try {
+      response = await fetch("/api/relances/send", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ channel, contractId, message }),
+        signal: controller.signal,
+      });
+      payload = (await response.json().catch(() => null)) as
+        | { error?: string }
+        | null;
+    } catch (error) {
+      setState("error");
+      setError(
+        error instanceof DOMException && error.name === "AbortError"
+          ? "Envoi trop long. Copiez le script ou journalisez la relance."
+          : "Envoi impossible. Copiez le script ou journalisez la relance.",
+      );
+      return;
+    } finally {
+      window.clearTimeout(timeout);
+    }
 
     if (!response.ok) {
       setState("error");
-      setError(payload?.error ?? "Envoi impossible.");
+      setError(payload?.error ?? "Envoi impossible. Copiez le script ou journalisez la relance.");
       return;
     }
 
