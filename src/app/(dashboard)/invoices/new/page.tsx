@@ -1,4 +1,5 @@
 import { AppShell, PageHeader } from "@/components/layout/AppShell";
+import { ManualJourneyRail } from "@/components/layout/ManualJourneyRail";
 import { getInvoiceContractOptions } from "@/server/contratpro-data";
 
 import { InvoiceForm } from "./InvoiceForm";
@@ -33,6 +34,9 @@ export default async function NewInvoicePage({ searchParams }: NewInvoicePagePro
         eyebrow="Facturation"
         title="Nouvelle facture"
       />
+
+      <ManualJourneyRail current={3} />
+
       <section className="invoice-new-brief mt-6 rounded-lg border p-5">
         <div>
           <p>Document prêt à sortir</p>

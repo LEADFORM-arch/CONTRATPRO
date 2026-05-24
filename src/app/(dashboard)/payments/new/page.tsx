@@ -1,4 +1,5 @@
 import { AppShell, PageHeader } from "@/components/layout/AppShell";
+import { ManualJourneyRail } from "@/components/layout/ManualJourneyRail";
 import { getMandateOptions } from "@/server/contratpro-data";
 
 import { PaymentForm } from "./PaymentForm";
@@ -25,6 +26,8 @@ export default async function NewPaymentPage() {
         eyebrow="Nouveau prélèvement"
         title="Créer un paiement SEPA"
       />
+
+      <ManualJourneyRail current={4} />
 
       <section className="payment-new-brief mt-6 rounded-lg border p-5">
         <div>

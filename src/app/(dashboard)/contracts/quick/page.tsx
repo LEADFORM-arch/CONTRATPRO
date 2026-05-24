@@ -1,4 +1,5 @@
 import { AppShell, PageHeader } from "@/components/layout/AppShell";
+import { ManualJourneyRail } from "@/components/layout/ManualJourneyRail";
 import { getCustomerDetail } from "@/server/contratpro-data";
 
 import { QuickContractForm } from "./QuickContractForm";
@@ -85,6 +86,8 @@ export default async function QuickContractPage({
             : "Créer un contrat avec paiement"
         }
       />
+
+      <ManualJourneyRail current={2} />
 
       <div className="contract-form-intro quick-contract-intro mt-6">
         <div>

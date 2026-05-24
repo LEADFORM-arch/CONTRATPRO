@@ -1740,6 +1740,21 @@ describe("production guardrails", () => {
       "Ajouter un client",
     ], "customers empty state actions");
 
+    assertIncludes(read("src/components/layout/ManualJourneyRail.tsx"), [
+      "Parcours express",
+      "Client -> contrat -> facture -> SEPA",
+      "current: 1 | 2 | 3 | 4",
+    ], "manual journey rail");
+
+    for (const route of [
+      "src/app/(dashboard)/customers/new/page.tsx",
+      "src/app/(dashboard)/contracts/quick/page.tsx",
+      "src/app/(dashboard)/invoices/new/page.tsx",
+      "src/app/(dashboard)/payments/new/page.tsx",
+    ]) {
+      assert.ok(read(route).includes("ManualJourneyRail"), `${route} should show the manual journey rail`);
+    }
+
     assertIncludes(read("src/app/(dashboard)/contracts/page.tsx"), [
       "data-od-id=\"contracts-portfolio-architect\"",
       "Architecte IA portefeuille",
@@ -1770,6 +1785,7 @@ describe("production guardrails", () => {
       "equipmentType",
       "priceTtc",
       "paymentMethod",
+      "Ajoutez l'email client pour preparer le lien SEPA",
       "Créer + lien SEPA",
       "Prélèvement SEPA",
       "Option Excel",

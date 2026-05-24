@@ -129,6 +129,20 @@ export function QuickContractForm({
     const form = event.currentTarget;
     const formData = new FormData(form);
     const intent = submitIntent(event);
+    const customerEmail = formData.get("customerEmail");
+    const emailForSepa =
+      typeof customerEmail === "string" && customerEmail.trim()
+        ? customerEmail.trim()
+        : "";
+
+    if (intent === "create-and-sign" && formData.get("paymentMethod") === "SEPA" && !emailForSepa) {
+      setSubmitState({
+        status: "error",
+        message:
+          "Ajoutez l'email client pour preparer le lien SEPA, ou creez le contrat sans lien.",
+      });
+      return;
+    }
 
     setSubmitState({
       status: "loading",

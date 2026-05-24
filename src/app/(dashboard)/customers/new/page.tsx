@@ -1,4 +1,5 @@
 import { AppShell, PageHeader } from "@/components/layout/AppShell";
+import { ManualJourneyRail } from "@/components/layout/ManualJourneyRail";
 
 import { CustomerForm } from "./CustomerForm";
 
@@ -18,6 +19,8 @@ export default function NewCustomerPage() {
         eyebrow="Nouveau client"
         title="Ajouter un client en 1 minute"
       />
+
+      <ManualJourneyRail current={1} />
 
       <div className="customer-form-intro mt-6">
         <div>
