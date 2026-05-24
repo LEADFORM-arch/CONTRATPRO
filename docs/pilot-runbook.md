@@ -12,6 +12,9 @@ Les frustrations reseaux sociaux reprises dans
 rush saisonnier, rendez-vous decales, pression prix, litiges "avant ca marchait",
 confusion entretien/depannage et attestations a envoyer sous 15 jours.
 
+Les reponses produit a tester sont suivies dans
+`docs/solutions-frustrations-chauffagistes.md`.
+
 ## Profil pilote
 
 Choisir un chauffagiste ou une TPE CVC qui coche au moins 4 criteres :

@@ -109,6 +109,78 @@ function ContractNextAction({
   );
 }
 
+function ContractProofShield({
+  contractId,
+  hasCertificate,
+  hasIntervention,
+  hasMandate,
+}: {
+  contractId: string;
+  hasCertificate: boolean;
+  hasIntervention: boolean;
+  hasMandate: boolean;
+}) {
+  const proofItems = [
+    {
+      action: hasIntervention ? "Historique present" : "Planifier visite",
+      detail: hasIntervention
+        ? "Le passage terrain est rattache au contrat."
+        : "Une visite doit creer la trace de depart.",
+      href: hasIntervention ? "#interventions" : `/interventions/new?contractId=${contractId}`,
+      label: "Client absent / report",
+      tone: "cyan",
+    },
+    {
+      action: hasCertificate ? "Preuve prete" : "Creer attestation",
+      detail: hasCertificate
+        ? "L'attestation est retrouvee depuis ce dossier."
+        : "Le document doit sortir apres la visite.",
+      href: hasCertificate ? "#certificates" : `/interventions/new?contractId=${contractId}`,
+      label: "Attestation sous 15 jours",
+      tone: "amber",
+    },
+    {
+      action: "Creer facture",
+      detail: "La facture reprend client, TVA et montant pour separer entretien et supplement.",
+      href: `/invoices/new?contractId=${contractId}`,
+      label: "Entretien vs reparation",
+      tone: "emerald",
+    },
+    {
+      action: hasMandate ? "SEPA pret" : "Faire signer",
+      detail: hasMandate
+        ? "Le mandat evite la chasse au paiement."
+        : "Le client signe le mandat avant paiement.",
+      href: hasMandate ? "/payments/new" : "#sepa-sandbox",
+      label: "Impayes / relances",
+      tone: "blue",
+    },
+  ];
+
+  return (
+    <section className="contract-proof-shield mt-4" aria-label="Solutions aux litiges et oublis">
+      <div className="contract-proof-shield-brief">
+        <p>Bouclier terrain</p>
+        <h3>Repondre aux phrases qui font perdre du temps.</h3>
+        <span>
+          "Le client etait absent", "avant votre passage ca marchait",
+          "l'attestation n'est pas arrivee" : le dossier doit garder les preuves
+          au meme endroit.
+        </span>
+      </div>
+      <div className="contract-proof-grid">
+        {proofItems.map((item) => (
+          <a className="contract-proof-card" data-tone={item.tone} href={item.href} key={item.label}>
+            <small>{item.label}</small>
+            <strong>{item.action}</strong>
+            <span>{item.detail}</span>
+          </a>
+        ))}
+      </div>
+    </section>
+  );
+}
+
 export default async function ContractDetailPage({
   params,
 }: ContractDetailPageProps) {
@@ -179,6 +251,13 @@ export default async function ContractDetailPage({
         hasMandate={Boolean(contract.mandate)}
       />
 
+      <ContractProofShield
+        contractId={contract.id}
+        hasCertificate={contract.certificates.length > 0}
+        hasIntervention={contract.interventions.length > 0}
+        hasMandate={Boolean(contract.mandate)}
+      />
+
       <div className="contract-evidence-grid mt-6">
         <SectionShell
           description="Prix, TVA, calendrier et conditions de paiement."
@@ -229,6 +308,7 @@ export default async function ContractDetailPage({
         </SectionShell>
 
         <SectionShell
+          id="interventions"
           action={
             <a
               className="premium-inline-action rounded-md px-3 py-2 text-sm font-semibold"
@@ -268,7 +348,7 @@ export default async function ContractDetailPage({
       </div>
 
       <div className="contract-evidence-grid mt-4">
-        <SectionShell title="Conformite">
+        <SectionShell id="certificates" title="Conformite">
           <div className="divide-y divide-zinc-100 p-4">
             {contract.certificates.length ? (
               contract.certificates.map((certificate) => (

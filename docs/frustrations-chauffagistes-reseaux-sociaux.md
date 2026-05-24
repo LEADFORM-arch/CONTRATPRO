@@ -117,6 +117,12 @@ Une visite terminee doit produire une preuve propre, pas une tache oubliee.
    mais ne pas le bloquer avant le pilote.
 7. Planning urgence : a garder pour plus tard, apres validation du coeur contrats.
 
+Les solutions produit detaillees sont suivies dans :
+
+```text
+docs/solutions-frustrations-chauffagistes.md
+```
+
 ## A ne pas faire maintenant
 
 - construire un planning complet avant validation terrain ;
@@ -130,4 +136,3 @@ Une visite terminee doit produire une preuve propre, pas une tache oubliee.
 ContratPro aide les chauffagistes a retrouver le bon contrat au bon moment :
 avant le rush, avant l'oubli, avant le litige, avant l'impaye.
 ```
-

@@ -69,6 +69,34 @@ const homeOutcomeCards = [
   ["3 Prouvez", "Facture, attestation, intervention et paiement restent rattaches."],
 ];
 
+const homeFrustrationSolutions = [
+  [
+    "Rush au premier froid",
+    "File du jour",
+    "ContratPro remonte les contrats a traiter avant que les pannes saturent l'agenda.",
+  ],
+  [
+    "Client absent ou report",
+    "Dossier terrain",
+    "Telephone, adresse, installation et prochaine action restent au meme endroit.",
+  ],
+  [
+    "Avant ca marchait",
+    "Preuves liees",
+    "Intervention, attestation, facture et paiement restent rattaches au contrat.",
+  ],
+  [
+    "Attestation oubliee",
+    "Document visible",
+    "La preuve d'entretien ressort comme une action, pas comme une tache cachee.",
+  ],
+  [
+    "Pression prix",
+    "Revenu protege",
+    "Le cockpit montre ce que valent les contrats relances et encaisses proprement.",
+  ],
+];
+
 const homeStructuredData = [
   {
     "@context": "https://schema.org",
@@ -306,6 +334,24 @@ function HomeLanding() {
         <div className="public-proof-grid">
           {homeProblems.map((problem) => (
             <article key={problem}>{problem}</article>
+          ))}
+        </div>
+      </PublicSection>
+
+      <PublicSection
+        description="Chaque douleur terrain doit produire une action claire, pas un menu de plus."
+        title="Les frustrations terrain deviennent des solutions simples."
+      >
+        <div className="home-solution-grid">
+          {homeFrustrationSolutions.map(([pain, solution, detail], index) => (
+            <article key={pain}>
+              <span>{String(index + 1).padStart(2, "0")}</span>
+              <div>
+                <p>{pain}</p>
+                <strong>{solution}</strong>
+                <small>{detail}</small>
+              </div>
+            </article>
           ))}
         </div>
       </PublicSection>

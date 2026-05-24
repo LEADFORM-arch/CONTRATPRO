@@ -1465,6 +1465,80 @@ body .hover\:bg-zinc-100:hover {
   position: absolute;
 }
 
+.home-solution-grid {
+  display: grid;
+  gap: 0.85rem;
+}
+
+@media (min-width: 900px) {
+  .home-solution-grid {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
+}
+
+.home-solution-grid article {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.052), rgba(255, 255, 255, 0.018)),
+    #111316;
+  border: 1px solid #262a31;
+  border-radius: 0.65rem;
+  min-width: 0;
+  padding: 1rem;
+}
+
+.home-solution-grid article:nth-child(1) {
+  border-color: rgba(245, 158, 11, 0.32);
+}
+
+.home-solution-grid article:nth-child(2) {
+  border-color: rgba(56, 189, 248, 0.3);
+}
+
+.home-solution-grid article:nth-child(3) {
+  border-color: rgba(244, 114, 182, 0.28);
+}
+
+.home-solution-grid article:nth-child(4) {
+  border-color: rgba(34, 197, 94, 0.3);
+}
+
+.home-solution-grid article:nth-child(5) {
+  border-color: rgba(14, 165, 233, 0.3);
+}
+
+.home-solution-grid span {
+  color: #38bdf8;
+  display: block;
+  font-size: 0.78rem;
+  font-weight: 950;
+  letter-spacing: 0.08em;
+}
+
+.home-solution-grid p {
+  color: #a1a1aa;
+  font-size: 0.8rem;
+  font-weight: 800;
+  line-height: 1.4;
+  margin-top: 0.8rem;
+}
+
+.home-solution-grid strong {
+  color: #f8fafc;
+  display: block;
+  font-size: 1.02rem;
+  font-weight: 950;
+  line-height: 1.2;
+  margin-top: 0.35rem;
+}
+
+.home-solution-grid small {
+  color: #a1a1aa;
+  display: block;
+  font-size: 0.82rem;
+  line-height: 1.5;
+  margin-top: 0.7rem;
+}
+
 .home-final-cta {
   align-items: center;
   display: flex;
@@ -4749,6 +4823,122 @@ body .hover\:bg-zinc-100:hover {
 
 .contract-next-action-card[data-tone="blue"] span {
   color: #60a5fa;
+}
+
+.contract-proof-shield {
+  background:
+    linear-gradient(135deg, rgba(244, 114, 182, 0.08), rgba(245, 158, 11, 0.07), rgba(56, 189, 248, 0.045)),
+    #0b0d10;
+  border: 1px solid rgba(245, 158, 11, 0.2);
+  border-radius: 0.65rem;
+  display: grid;
+  gap: 1rem;
+  overflow: hidden;
+  padding: 1rem;
+}
+
+@media (min-width: 960px) {
+  .contract-proof-shield {
+    grid-template-columns: minmax(0, 0.62fr) minmax(0, 1.38fr);
+  }
+}
+
+.contract-proof-shield-brief p {
+  color: #fbbf24;
+  font-size: 0.75rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.contract-proof-shield-brief h3 {
+  color: #f8fafc;
+  font-size: 1.28rem;
+  font-weight: 950;
+  line-height: 1.15;
+  margin-top: 0.5rem;
+}
+
+.contract-proof-shield-brief span {
+  color: #a1a1aa;
+  display: block;
+  font-size: 0.88rem;
+  line-height: 1.55;
+  margin-top: 0.6rem;
+}
+
+.contract-proof-grid {
+  display: grid;
+  gap: 0.75rem;
+}
+
+@media (min-width: 720px) {
+  .contract-proof-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+.contract-proof-card {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.016)),
+    #111316;
+  border: 1px solid rgba(255, 255, 255, 0.085);
+  border-radius: 0.55rem;
+  min-width: 0;
+  padding: 0.85rem;
+  text-decoration: none;
+  transition:
+    background 0.18s ease,
+    border-color 0.18s ease,
+    transform 0.18s ease;
+}
+
+.contract-proof-card:hover {
+  background: rgba(255, 255, 255, 0.055);
+  border-color: rgba(255, 255, 255, 0.16);
+  transform: translateY(-1px);
+}
+
+.contract-proof-card small {
+  color: #a1a1aa;
+  display: block;
+  font-size: 0.72rem;
+  font-weight: 850;
+  line-height: 1.35;
+  text-transform: uppercase;
+}
+
+.contract-proof-card strong {
+  color: #f4f4f5;
+  display: block;
+  font-size: 0.95rem;
+  font-weight: 950;
+  line-height: 1.2;
+  margin-top: 0.55rem;
+}
+
+.contract-proof-card span {
+  color: #a1a1aa;
+  display: block;
+  font-size: 0.78rem;
+  line-height: 1.45;
+  margin-top: 0.45rem;
+}
+
+.contract-proof-card[data-tone="cyan"] {
+  border-color: rgba(56, 189, 248, 0.24);
+}
+
+.contract-proof-card[data-tone="amber"] {
+  border-color: rgba(245, 158, 11, 0.28);
+}
+
+.contract-proof-card[data-tone="emerald"] {
+  border-color: rgba(52, 211, 153, 0.24);
+}
+
+.contract-proof-card[data-tone="blue"] {
+  border-color: rgba(96, 165, 250, 0.24);
 }
 
 .contract-detail-section-header {
