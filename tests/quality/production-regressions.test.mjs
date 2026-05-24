@@ -1016,6 +1016,8 @@ describe("production guardrails", () => {
     assertIncludes(read("scripts/demo-journey-smoke-test.mjs"), [
       "getSmokeConfig",
       "CONTRATPRO_DEMO_SEND_EMAIL",
+      "SMOKE_REQUEST_TIMEOUT_MS",
+      "AbortSignal.timeout",
       "/api/import/clients",
       "/api/contracts/quick",
       "/mandate/authorisation",
@@ -1689,6 +1691,9 @@ describe("production guardrails", () => {
     assertIncludes(read("src/app/(dashboard)/import/page.tsx"), [
       "read-excel-file/browser",
       "CSV/XLSX",
+      "IMPORT_REQUEST_TIMEOUT_MS",
+      "controller.abort()",
+      "Aucun chauffagiste ne doit attendre ici",
       "Plan d'import",
       "Fiche de contrôle import",
       "Simulation obligatoire",

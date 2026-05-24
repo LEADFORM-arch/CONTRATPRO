@@ -8,6 +8,7 @@ import {
 const { baseUrl, email, password } = getSmokeConfig("smoke:demo");
 const sendEmail = process.env.CONTRATPRO_DEMO_SEND_EMAIL === "true";
 const stamp = Date.now();
+const SMOKE_REQUEST_TIMEOUT_MS = 90_000;
 
 const commonHeaders = {
   ...getDeploymentProtectionHeaders(),
@@ -23,6 +24,7 @@ async function loginAndGetCookie() {
       headers: commonHeaders,
       method: "POST",
       redirect: "manual",
+      signal: AbortSignal.timeout(SMOKE_REQUEST_TIMEOUT_MS),
     });
   } catch (error) {
     console.error(`FAIL /api/auth/login - impossible de joindre ${baseUrl}.`);
@@ -44,6 +46,7 @@ async function postJson(path, cookie, body, expectedStatus) {
     headers: { ...commonHeaders, cookie },
     method: "POST",
     redirect: "manual",
+    signal: AbortSignal.timeout(SMOKE_REQUEST_TIMEOUT_MS),
   });
   const payload = await response.json().catch(() => ({}));
 
@@ -62,6 +65,7 @@ async function getOk(path, cookie) {
       "user-agent": "ContratPro demo journey smoke test",
     },
     redirect: "manual",
+    signal: AbortSignal.timeout(SMOKE_REQUEST_TIMEOUT_MS),
   });
 
   if (!response.ok) {

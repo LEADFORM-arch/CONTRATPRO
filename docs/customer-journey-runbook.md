@@ -108,14 +108,17 @@ Apres les smokes, faire une session manuelle sur une base pilote :
 2. Importer un fichier CSV/XLSX dans `/import` en dry-run.
 3. Corriger les colonnes ou erreurs bloquantes.
 4. Executer l'import uniquement si le rapport est compris.
-5. Ouvrir `/customers` et verifier 3 fiches clients.
-6. Ouvrir `/contracts` et verifier 3 contrats annuels.
-7. Ouvrir `/relances` et choisir une relance qui serait vraiment envoyee.
-8. Generer une facture PDF.
-9. Generer une attestation PDF.
-10. Envoyer un document test si Resend est configure.
-11. Ouvrir `/payments` et verifier le parcours SEPA sans encaissement live.
-12. Revenir sur `/onboarding` et verifier que le score a progresse.
+5. Si l'import prend trop de temps, stopper le test import et creer le contrat
+   prioritaire a la main. Un chauffagiste ne doit jamais attendre devant une
+   synchronisation silencieuse.
+6. Ouvrir `/customers` et verifier 3 fiches clients.
+7. Ouvrir `/contracts` et verifier 3 contrats annuels.
+8. Ouvrir `/relances` et choisir une relance qui serait vraiment envoyee.
+9. Generer une facture PDF.
+10. Generer une attestation PDF.
+11. Envoyer un document test si Resend est configure.
+12. Ouvrir `/payments` et verifier le parcours SEPA sans encaissement live.
+13. Revenir sur `/onboarding` et verifier que le score a progresse.
 
 ## 6. Definition of done
 

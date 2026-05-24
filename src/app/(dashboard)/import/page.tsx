@@ -52,6 +52,32 @@ type ImportLog = {
   warning_count: number;
 };
 
+const IMPORT_REQUEST_TIMEOUT_MS = 45_000;
+
+async function importFetchJson(
+  init: RequestInit,
+  timeoutMessage: string,
+): Promise<{ payload: Record<string, unknown>; response: Response }> {
+  const controller = new AbortController();
+  const timeout = window.setTimeout(() => controller.abort(), IMPORT_REQUEST_TIMEOUT_MS);
+
+  try {
+    const response = await fetch("/api/import/clients", {
+      ...init,
+      signal: controller.signal,
+    });
+    const payload = (await response.json().catch(() => ({}))) as Record<string, unknown>;
+    return { payload, response };
+  } catch (error) {
+    if (error instanceof DOMException && error.name === "AbortError") {
+      throw new Error(timeoutMessage);
+    }
+    throw error;
+  } finally {
+    window.clearTimeout(timeout);
+  }
+}
+
 const templateHeaders = [
   "raison sociale",
   "prenom",
@@ -463,10 +489,12 @@ export default function ClientImportPage() {
 
   async function refreshLogs() {
     try {
-      const response = await fetch("/api/import/clients", { method: "GET" });
-      const payload = (await response.json()) as { logs?: ImportLog[] };
+      const { payload, response } = await importFetchJson(
+        { method: "GET" },
+        "L'historique import met trop de temps a repondre.",
+      );
       if (response.ok) {
-        setLogs(payload.logs ?? []);
+        setLogs((payload.logs as ImportLog[] | undefined) ?? []);
       }
     } catch {
       setLogs([]);
@@ -484,22 +512,24 @@ export default function ClientImportPage() {
     setResult(null);
 
     try {
-      const response = await fetch("/api/import/clients", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ fileName: nextFileName, mode: "dry-run", rows: nextRows }),
-      });
-      const payload = await response.json();
+      const { payload, response } = await importFetchJson(
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ fileName: nextFileName, mode: "dry-run", rows: nextRows }),
+        },
+        "L'analyse prend trop de temps. Reessayez avec un fichier plus court ou revenez a l'import manuel.",
+      );
 
       if (!response.ok) {
-        setError(payload.error ?? "Analyse impossible.");
+        setError(typeof payload.error === "string" ? payload.error : "Analyse impossible.");
         return;
       }
 
       setReport(payload as ImportReport);
       void refreshLogs();
-    } catch {
-      setError("Le serveur n'a pas repondu pendant l'analyse.");
+    } catch (error) {
+      setError(error instanceof Error ? error.message : "Le serveur n'a pas repondu pendant l'analyse.");
     } finally {
       setIsAnalyzing(false);
     }
@@ -538,23 +568,25 @@ export default function ClientImportPage() {
     setResult(null);
 
     try {
-      const response = await fetch("/api/import/clients", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ fileName, mode: "execute", rows }),
-      });
-      const payload = await response.json();
+      const { payload, response } = await importFetchJson(
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ fileName, mode: "execute", rows }),
+        },
+        "L'import prend trop de temps. Aucun chauffagiste ne doit attendre ici : reessayez avec moins de lignes ou creez le contrat prioritaire a la main.",
+      );
 
       if (!response.ok) {
-        setError(payload.error ?? "Import impossible.");
+        setError(typeof payload.error === "string" ? payload.error : "Import impossible.");
         return;
       }
 
       setResult(payload as ImportReport);
       setReport(null);
       void refreshLogs();
-    } catch {
-      setError("Le serveur n'a pas repondu pendant l'import.");
+    } catch (error) {
+      setError(error instanceof Error ? error.message : "Le serveur n'a pas repondu pendant l'import.");
     } finally {
       setIsExecuting(false);
     }
