@@ -1796,6 +1796,8 @@ describe("production guardrails", () => {
 
     assertIncludes(read("src/app/(dashboard)/contracts/[id]/page.tsx"), [
       "data-od-id=\"contract-next-action\"",
+      "Dossier 3 actions",
+      "contract-proof-drawer",
       "MandateSetupForm",
       "Créer facture",
       "/invoices/new?contractId=",

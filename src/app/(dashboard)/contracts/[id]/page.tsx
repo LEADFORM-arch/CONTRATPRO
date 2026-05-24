@@ -109,6 +109,63 @@ function ContractNextAction({
   );
 }
 
+function ContractPriorityAction({
+  contractId,
+  hasMandate,
+}: {
+  contractId: string;
+  hasMandate: boolean;
+}) {
+  return (
+    <section
+      className="contract-next-action contract-priority-action mt-6"
+      data-od-id="contract-next-action"
+    >
+      <div className="contract-next-action-brief">
+        <p>Dossier 3 actions</p>
+        <h3>Choisissez une seule suite.</h3>
+        <span>
+          Le contrat est cree. La suite normale : facture, SEPA sandbox ou
+          attestation apres visite. Rien d'autre a comprendre maintenant.
+        </span>
+      </div>
+      <div className="contract-next-action-grid">
+        <a
+          className="contract-next-action-card"
+          data-tone="emerald"
+          href={`/invoices/new?contractId=${contractId}`}
+        >
+          <span>01</span>
+          <strong>Creer facture</strong>
+          <small>Sortir le document client depuis le contrat.</small>
+        </a>
+        <a
+          className="contract-next-action-card"
+          data-tone={hasMandate ? "cyan" : "amber"}
+          href={hasMandate ? "/payments/new" : "#sepa-sandbox"}
+        >
+          <span>02</span>
+          <strong>{hasMandate ? "Programmer SEPA" : "Preparer SEPA"}</strong>
+          <small>
+            {hasMandate
+              ? "Mandat actif : programmer l'encaissement."
+              : "Faire signer le lien sandbox avant paiement."}
+          </small>
+        </a>
+        <a
+          className="contract-next-action-card"
+          data-tone="blue"
+          href={`/interventions/new?contractId=${contractId}`}
+        >
+          <span>03</span>
+          <strong>Attestation</strong>
+          <small>Creer la visite et la preuve d'entretien.</small>
+        </a>
+      </div>
+    </section>
+  );
+}
+
 function ContractProofShield({
   contractId,
   hasCertificate,
@@ -225,12 +282,12 @@ export default async function ContractDetailPage({
 
       <div className="contract-dossier-strip mt-3" aria-label="Fiche express contrat">
         <div>
-          <span>Client</span>
+          <span>1 Client</span>
           <strong>{contract.contact}</strong>
           <small>{contract.city}</small>
         </div>
         <div>
-          <span>Installation</span>
+          <span>2 Installation</span>
           <strong>{contract.equipment}</strong>
           <small>{contract.equipmentType}</small>
         </div>
@@ -240,23 +297,30 @@ export default async function ContractDetailPage({
           <small>Renouvellement à surveiller</small>
         </div>
         <div>
-          <span>Encaissement</span>
+          <span>4 Encaissement</span>
           <strong>{contract.mandate ? "SEPA prêt" : "SEPA à signer"}</strong>
           <small>{contract.paymentMethod}</small>
         </div>
       </div>
 
-      <ContractNextAction
+      <ContractPriorityAction
         contractId={contract.id}
         hasMandate={Boolean(contract.mandate)}
       />
 
-      <ContractProofShield
-        contractId={contract.id}
-        hasCertificate={contract.certificates.length > 0}
-        hasIntervention={contract.interventions.length > 0}
-        hasMandate={Boolean(contract.mandate)}
-      />
+      <details className="contract-proof-drawer mt-4">
+        <summary>
+          <span>Preuves secondaires</span>
+          <strong>Litiges, absences et attestations</strong>
+          <small>Ouvrir seulement si le dossier doit justifier une preuve.</small>
+        </summary>
+        <ContractProofShield
+          contractId={contract.id}
+          hasCertificate={contract.certificates.length > 0}
+          hasIntervention={contract.interventions.length > 0}
+          hasMandate={Boolean(contract.mandate)}
+        />
+      </details>
 
       <div className="contract-evidence-grid mt-6">
         <SectionShell

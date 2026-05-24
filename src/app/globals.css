@@ -4825,6 +4825,65 @@ body .hover\:bg-zinc-100:hover {
   color: #60a5fa;
 }
 
+.contract-priority-action {
+  border-color: rgba(245, 158, 11, 0.28);
+}
+
+.contract-proof-drawer {
+  background:
+    linear-gradient(135deg, rgba(245, 158, 11, 0.08), rgba(56, 189, 248, 0.045)),
+    #0b0d10;
+  border: 1px solid rgba(245, 158, 11, 0.2);
+  border-radius: 0.65rem;
+  overflow: hidden;
+}
+
+.contract-proof-drawer > summary {
+  align-items: center;
+  cursor: pointer;
+  display: grid;
+  gap: 0.35rem;
+  list-style: none;
+  padding: 1rem;
+}
+
+.contract-proof-drawer > summary::-webkit-details-marker {
+  display: none;
+}
+
+.contract-proof-drawer > summary::after {
+  color: #fbbf24;
+  content: "Ouvrir";
+  font-size: 0.78rem;
+  font-weight: 900;
+  justify-self: start;
+  text-transform: uppercase;
+}
+
+.contract-proof-drawer[open] > summary::after {
+  content: "Fermer";
+}
+
+.contract-proof-drawer > summary span {
+  color: #fbbf24;
+  font-size: 0.72rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.contract-proof-drawer > summary strong {
+  color: #f8fafc;
+  font-size: 1rem;
+  font-weight: 950;
+}
+
+.contract-proof-drawer > summary small {
+  color: #a1a1aa;
+  font-size: 0.84rem;
+  line-height: 1.45;
+}
+
 .contract-proof-shield {
   background:
     linear-gradient(135deg, rgba(244, 114, 182, 0.08), rgba(245, 158, 11, 0.07), rgba(56, 189, 248, 0.045)),
