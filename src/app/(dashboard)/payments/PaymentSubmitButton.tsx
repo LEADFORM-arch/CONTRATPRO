@@ -3,6 +3,8 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
+const PAYMENT_SUBMIT_TIMEOUT_MS = 35_000;
+
 export function PaymentSubmitButton({
   disabled,
   paymentId,
@@ -18,16 +20,37 @@ export function PaymentSubmitButton({
     setState("loading");
     setMessage("");
 
-    const response = await fetch(`/api/payments/${paymentId}/submit`, {
-      method: "POST",
-    });
-    const payload = (await response.json().catch(() => null)) as
-      | { error?: string }
-      | null;
+    const controller = new AbortController();
+    const timeout = window.setTimeout(
+      () => controller.abort(),
+      PAYMENT_SUBMIT_TIMEOUT_MS,
+    );
+
+    let response: Response;
+    let payload: { error?: string } | null = null;
+    try {
+      response = await fetch(`/api/payments/${paymentId}/submit`, {
+        method: "POST",
+        signal: controller.signal,
+      });
+      payload = (await response.json().catch(() => null)) as
+        | { error?: string }
+        | null;
+    } catch (error) {
+      setState("error");
+      setMessage(
+        error instanceof DOMException && error.name === "AbortError"
+          ? "GoCardless sandbox ne repond pas assez vite. Le paiement reste programme."
+          : "Soumission impossible. Le paiement reste programme.",
+      );
+      return;
+    } finally {
+      window.clearTimeout(timeout);
+    }
 
     if (!response.ok) {
       setState("error");
-      setMessage(payload?.error ?? "Soumission impossible.");
+      setMessage(payload?.error ?? "Soumission impossible. Le paiement reste programme.");
       return;
     }
 

@@ -22,6 +22,7 @@ type SubmitState =
 
 const inputClass =
   "payment-form-input";
+const PAYMENT_REQUEST_TIMEOUT_MS = 30_000;
 
 function formatPaymentEuro(value: number) {
   return new Intl.NumberFormat("fr-FR", {
@@ -54,12 +55,34 @@ export function PaymentForm({ defaultChargeDate, mandates }: PaymentFormProps) {
       message: "Création du prélèvement...",
     });
 
-    const response = await fetch("/api/payments", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(Object.fromEntries(formData.entries())),
-    });
-    const payload = (await response.json()) as { error?: string };
+    const controller = new AbortController();
+    const timeout = window.setTimeout(
+      () => controller.abort(),
+      PAYMENT_REQUEST_TIMEOUT_MS,
+    );
+
+    let response: Response;
+    let payload: { error?: string } = {};
+    try {
+      response = await fetch("/api/payments", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(Object.fromEntries(formData.entries())),
+        signal: controller.signal,
+      });
+      payload = (await response.json().catch(() => ({}))) as { error?: string };
+    } catch (error) {
+      setSubmitState({
+        status: "error",
+        message:
+          error instanceof DOMException && error.name === "AbortError"
+            ? "Creation trop longue. Le mandat reste intact, reessayez ou revenez au contrat."
+            : "Impossible de creer ce paiement.",
+      });
+      return;
+    } finally {
+      window.clearTimeout(timeout);
+    }
 
     if (!response.ok) {
       setSubmitState({

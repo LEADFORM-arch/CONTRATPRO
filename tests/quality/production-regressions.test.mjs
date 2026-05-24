@@ -1856,8 +1856,22 @@ describe("production guardrails", () => {
     assertIncludes(read("src/app/(dashboard)/payments/new/PaymentForm.tsx"), [
       "Aucun mandat SEPA actif disponible",
       "Créer un mandat depuis un contrat",
+      "PAYMENT_REQUEST_TIMEOUT_MS",
+      "Creation trop longue",
       "/contracts",
     ], "payment empty mandate action");
+
+    assertIncludes(read("src/app/(dashboard)/payments/PaymentSubmitButton.tsx"), [
+      "PAYMENT_SUBMIT_TIMEOUT_MS",
+      "GoCardless sandbox ne repond pas assez vite",
+      "Le paiement reste programme",
+    ], "payment submit timeout");
+
+    assertIncludes(read("src/app/(dashboard)/payments/PaymentStatusControls.tsx"), [
+      "PAYMENT_STATUS_TIMEOUT_MS",
+      "Mise a jour trop longue",
+      "Le statut actuel reste visible",
+    ], "payment status timeout");
 
     assertIncludes(read("src/app/api/contracts/quick/route.ts"), [
       "requireApiUser",
