@@ -30,6 +30,14 @@ Aujourd'hui, vos contrats d'entretien sont plutot dans Excel, dans un logiciel,
 ou dans la tete ?
 ```
 
+Relance si le chauffagiste parle peu :
+
+```text
+Quand le froid arrive, qu'est-ce qui vous fait perdre le plus de temps :
+les pannes, les rendez-vous decales, les attestations, les relances ou les clients
+qui disent "avant votre passage ca marchait" ?
+```
+
 Note attendue : vocabulaire reel du chauffagiste.
 
 ## Minute 1 a 3 - Import Excel
@@ -77,6 +85,13 @@ Si vous arrivez ici entre deux interventions, savez-vous quoi faire ?
 Signal vert : il cite une action concrete : facturer, relancer, preparer SEPA,
 sortir l'attestation.
 
+Question litige :
+
+```text
+Si un client dit "avant votre passage ca marchait", est-ce que ce dossier vous
+aide a retrouver ce qui a ete fait et envoye ?
+```
+
 ## Minute 5 a 7 - Facture et attestation
 
 Action :
@@ -95,6 +110,13 @@ Est-ce que ce document est assez propre pour partir chez un client ?
 Signal vert : corrections mineures seulement.
 
 Signal rouge : le document ne lui inspire pas confiance.
+
+Question attestation :
+
+```text
+En periode de rush, est-ce que ce chemin vous evite d'oublier l'attestation sous
+15 jours ?
+```
 
 ## Minute 7 a 8 - SEPA sandbox
 
@@ -126,8 +148,9 @@ Questions a poser dans cet ordre :
 2. Quel mot est trop technique ?
 3. Est-ce que vous importeriez votre vrai fichier ?
 4. Combien de contrats oublies ou relances tard vous avez par an ?
-5. A 49 EUR/mois, est-ce que vous testez ?
-6. A 99 EUR/mois avec SEPA et relances, est-ce encore logique ?
+5. Combien d'attestations ou factures partent trop tard pendant le rush ?
+6. A 49 EUR/mois, est-ce que vous testez ?
+7. A 99 EUR/mois avec SEPA et relances, est-ce encore logique ?
 
 Ne pas negocier. Noter les mots exacts.
 
@@ -141,4 +164,3 @@ puissiez retrouver vos contrats et sortir les bons documents sans perdre de temp
 ```
 
 Remplir ensuite `fiche-decision-pilote.md` a chaud.
-

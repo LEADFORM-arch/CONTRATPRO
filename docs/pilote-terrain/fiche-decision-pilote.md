@@ -52,6 +52,28 @@ Gain de temps percu : faible / moyen / fort
 Risque revenu percu : faible / moyen / fort
 ```
 
+## Frustrations terrain observees
+
+Cocher ce qui ressort spontanement pendant l'echange.
+
+```text
+[ ] Rush saisonnier / appels au premier froid
+[ ] Rendez-vous decales ou client absent
+[ ] Devis complementaire mal compris par le client
+[ ] Litige "avant votre passage ca marchait"
+[ ] Confusion entretien / depannage / reparation
+[ ] Attestation oubliee ou envoyee trop tard
+[ ] Facture envoyee trop tard
+[ ] Relance contrat oubliee
+[ ] Pression prix face aux grands groupes
+```
+
+Phrase exacte du chauffagiste :
+
+```text
+
+```
+
 ## Prix
 
 ```text
@@ -72,6 +94,9 @@ Choisir une seule objection principale.
 [ ] Documents pas assez propres
 [ ] SEPA pas clair
 [ ] Import Excel pas rassurant
+[ ] Ne repond pas assez au rush saisonnier
+[ ] Ne protege pas assez en cas de litige client
+[ ] Ne simplifie pas assez les attestations
 [ ] Il utilise deja un outil suffisant
 [ ] Autre :
 ```
@@ -99,4 +124,3 @@ Action :
 Responsable :
 Date limite :
 ```
-

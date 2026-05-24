@@ -7,6 +7,11 @@ Le pilote doit repondre a une seule question : un chauffagiste paierait-il pour
 importer son portefeuille, voir ses contrats a relancer et securiser le cash-flow
 via relances + SEPA ?
 
+Les frustrations reseaux sociaux reprises dans
+`docs/frustrations-chauffagistes-reseaux-sociaux.md` doivent guider les questions :
+rush saisonnier, rendez-vous decales, pression prix, litiges "avant ca marchait",
+confusion entretien/depannage et attestations a envoyer sous 15 jours.
+
 ## Profil pilote
 
 Choisir un chauffagiste ou une TPE CVC qui coche au moins 4 criteres :

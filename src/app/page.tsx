@@ -22,7 +22,7 @@ export const dynamic = "force-dynamic";
 export const metadata: Metadata = {
   title: "Logiciel contrats entretien CVC pour chauffagistes",
   description:
-    "ContratPro aide les chauffagistes à retrouver leurs contrats d’entretien, automatiser les relances, générer les attestations et suivre les paiements.",
+    "ContratPro aide les chauffagistes a retrouver leurs contrats d'entretien avant le rush, l'oubli, le litige ou l'impaye.",
   alternates: {
     canonical: "/",
   },
@@ -37,9 +37,10 @@ export const metadata: Metadata = {
 type CardTone = "amber" | "cyan" | "emerald" | "rose";
 
 const homeProblems = [
-  "Vous vendez des contrats d'entretien, puis certains restent caches dans Excel.",
-  "Apres les visites, les attestations et factures peuvent partir trop tard.",
-  "Sans rappel clair, un contrat annuel vendu peut ne pas etre relance ni encaisse.",
+  "Au premier froid, les pannes arrivent et les contrats caches dans Excel deviennent urgents.",
+  "Un client absent, un report ou une attestation oubliee peut casser la journee.",
+  "Quand un client dit \"avant ca marchait\", le dossier doit retrouver les preuves.",
+  "Un contrat annuel vendu mais non relance reste du revenu laisse dehors.",
 ];
 
 const homeWorkflow = [
@@ -50,9 +51,9 @@ const homeWorkflow = [
 ];
 
 const homeProofs = [
-  ["15 min", "pour voir les contrats a reprendre"],
-  ["45 jours", "avant echeance pour relancer proprement"],
-  ["SEPA", "pour automatiser les encaissements recurrents"],
+  ["Avant froid", "les contrats a reprendre sortent de la pile"],
+  ["15 jours", "pour garder l'attestation visible apres visite"],
+  ["Preuves", "facture, intervention, attestation et paiement lies"],
 ];
 
 const homeTradeZones = [
@@ -64,8 +65,8 @@ const homeTradeZones = [
 
 const homeOutcomeCards = [
   ["1 Importez", "Votre fichier Excel devient une base clients exploitable."],
-  ["2 Traitez", "Vous ouvrez le dossier client qui demande une action."],
-  ["3 Envoyez", "Factures, attestations et relances partent au bon moment."],
+  ["2 Traitez", "Vous ouvrez le dossier qui demande une action avant le rush."],
+  ["3 Prouvez", "Facture, attestation, intervention et paiement restent rattaches."],
 ];
 
 const homeStructuredData = [
@@ -268,7 +269,7 @@ function HomeLanding() {
             </a>
           </>
         }
-        description="ContratPro aide les chauffagistes a garder leurs contrats d'entretien sous controle : echeances, relances, attestations, factures et encaissements au meme endroit."
+        description="ContratPro aide les chauffagistes a retrouver le bon contrat au bon moment : avant le rush, avant l'oubli, avant le litige, avant l'impaye."
         eyebrow="Logiciel contrats de maintenance CVC"
         title="Ne laissez plus vos contrats d'entretien dormir dans Excel."
         visual={<HomeLandingVisual />}
@@ -286,7 +287,7 @@ function HomeLanding() {
       <section className="home-trade-band mx-auto max-w-[1500px] px-5 py-8 sm:px-8">
         <div>
           <p>Fait pour le CVC</p>
-          <h2>Chaudières, PAC, VMC, clim : chaque contrat garde sa place.</h2>
+          <h2>Chaudieres, PAC, VMC, clim : chaque contrat garde sa place.</h2>
         </div>
         <div className="home-trade-grid">
           {homeTradeZones.map(([label, detail]) => (
@@ -299,8 +300,8 @@ function HomeLanding() {
       </section>
 
       <PublicSection
-        description="Quand les journees s'enchainent entre depannages, entretiens et devis, ContratPro vous rappelle les contrats a reprendre avant qu'ils ne disparaissent dans les fichiers."
-        title="Vos contrats d'entretien ne doivent plus vous echapper."
+        description="Quand les journees s'enchainent entre depannages, entretiens, devis et reports client, ContratPro garde la prochaine action visible."
+        title="Avant le rush, l'oubli ou le litige."
       >
         <div className="public-proof-grid">
           {homeProblems.map((problem) => (
@@ -310,7 +311,7 @@ function HomeLanding() {
       </PublicSection>
 
       <PublicSection
-        description="Vous ouvrez ContratPro, vous voyez l'action utile, vous avancez. Pas besoin de chercher dans dix menus pour savoir quoi faire."
+        description="Le dossier doit dire qui appeler, quoi envoyer, quoi facturer et quelle preuve garder. Pas besoin de chercher dans dix menus."
         title="Un ecran simple pour savoir quoi faire."
       >
         <div className="home-outcome-grid">
