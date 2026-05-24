@@ -667,9 +667,37 @@ describe("production guardrails", () => {
       "AppShell",
       "getInterventions",
       "PWA terrain",
-      "PLANIFIER",
+      "data-od-id=\"terrain-next-action\"",
+      "Action terrain maintenant",
+      "terrain-command-panel",
       "terrain-card",
     ], "terrain page");
+
+    assertIncludes(read("src/app/(dashboard)/interventions/page.tsx"), [
+      "data-od-id=\"intervention-next-action\"",
+      "Prochaine action",
+      "CertificateAction",
+      "intervention-command-panel",
+    ], "intervention next action");
+
+    assertIncludes(read("src/app/(dashboard)/interventions/CertificateAction.tsx"), [
+      "CERTIFICATE_ACTION_TIMEOUT_MS",
+      "Generation trop longue",
+      "Ouvrez le dossier pour verifier",
+    ], "intervention certificate timeout");
+
+    assertIncludes(read("src/app/(dashboard)/interventions/new/InterventionForm.tsx"), [
+      "INTERVENTION_SUBMIT_TIMEOUT_MS",
+      "Enregistrement trop long",
+      "Reessayez depuis le dossier",
+    ], "intervention form timeout");
+
+    assertIncludes(read("src/app/globals.css"), [
+      ".terrain-command-panel",
+      ".terrain-command-actions",
+      ".intervention-command-panel",
+      ".intervention-inline-action",
+    ], "terrain intervention action styles");
 
     assertIncludes(read("README.md"), [
       "Priorite 5b - Mobile terrain PWA",

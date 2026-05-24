@@ -21,6 +21,7 @@ type SubmitState =
   | { status: "error"; message: string };
 
 const inputClass = "contract-form-input";
+const INTERVENTION_SUBMIT_TIMEOUT_MS = 30_000;
 
 function FormSection({
   index,
@@ -69,17 +70,43 @@ export function InterventionForm({
     });
 
     const contractId = String(formData.get("contractId") ?? "");
-    const response = await fetch("/api/interventions", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(Object.fromEntries(formData.entries())),
-    });
-    const payload = (await response.json()) as { error?: string };
+    const controller = new AbortController();
+    const timeout = window.setTimeout(
+      () => controller.abort(),
+      INTERVENTION_SUBMIT_TIMEOUT_MS,
+    );
+
+    let response: Response;
+    let payload: { error?: string } | null = null;
+    try {
+      response = await fetch("/api/interventions", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(Object.fromEntries(formData.entries())),
+        signal: controller.signal,
+      });
+      payload = (await response.json().catch(() => null)) as
+        | { error?: string }
+        | null;
+    } catch (error) {
+      setSubmitState({
+        status: "error",
+        message:
+          error instanceof DOMException && error.name === "AbortError"
+            ? "Enregistrement trop long. Gardez la page ouverte et reessayez."
+            : "Impossible de planifier cette intervention. Reessayez depuis le dossier.",
+      });
+      return;
+    } finally {
+      window.clearTimeout(timeout);
+    }
 
     if (!response.ok) {
       setSubmitState({
         status: "error",
-        message: payload.error || "Impossible de planifier cette intervention.",
+        message:
+          payload?.error ||
+          "Impossible de planifier cette intervention. Reessayez depuis le dossier.",
       });
       return;
     }

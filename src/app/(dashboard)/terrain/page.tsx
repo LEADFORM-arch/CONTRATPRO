@@ -3,25 +3,32 @@ import { formatEuro } from "@/lib/mock-data";
 import { getInterventions } from "@/server/contratpro-data";
 
 function actionLabel(certificateStatus: string) {
-  if (certificateStatus.includes("générer")) {
-    return "GENERER PDF";
+  if (certificateStatus.includes("generer") || certificateStatus.includes("générer")) {
+    return "Generer PDF";
   }
 
   if (certificateStatus.includes("envoyer")) {
-    return "ENVOYER";
+    return "Envoyer";
   }
 
-  return "CONSULTER";
+  return "Consulter";
+}
+
+function certificateHref(certificateId: string) {
+  return certificateId ? `/certificates/${certificateId}` : "/certificates";
 }
 
 export default async function TerrainPage() {
   const interventions = await getInterventions();
-  const planned = interventions.filter((item) => item.status === "Planifiée");
-  const done = interventions.filter((item) => item.status === "Réalisée");
-  const certificateQueue = interventions.filter((item) =>
-    item.certificateStatus.includes("générer") ||
-    item.certificateStatus.includes("envoyer"),
+  const planned = interventions.filter((item) => item.status.includes("Planifi"));
+  const done = interventions.filter((item) => item.status.includes("Realis") || item.status.includes("Réalis"));
+  const certificateQueue = interventions.filter(
+    (item) =>
+      item.certificateStatus.includes("generer") ||
+      item.certificateStatus.includes("générer") ||
+      item.certificateStatus.includes("envoyer"),
   );
+  const priorityIntervention = certificateQueue[0] ?? planned[0] ?? interventions[0];
   const protectedRevenue = interventions.reduce((sum, item) => sum + item.value, 0);
 
   return (
@@ -29,51 +36,80 @@ export default async function TerrainPage() {
       <PageHeader
         action={
           <a className="premium-action rounded-md text-sm font-semibold" href="/interventions/new">
-            PLANIFIER
+            Planifier
           </a>
         }
-        description="Vue smartphone pour enchainer les visites, retrouver le client, ouvrir le contrat et declencher les attestations."
+        description="Vue mobile pour retrouver le bon dossier, traiter la prochaine visite et sortir le document sans chercher."
         eyebrow="PWA terrain"
         title="Interventions mobile"
       />
 
-      <section className="terrain-hero mt-6">
+      <section className="terrain-command-panel mt-6" data-od-id="terrain-next-action">
         <div>
-          <p className="terrain-kicker">Mode installable</p>
-          <h3>Votre file terrain dans la poche.</h3>
+          <p className="terrain-kicker">Action terrain maintenant</p>
+          <h3>
+            {priorityIntervention
+              ? `${priorityIntervention.customer} - ${priorityIntervention.city}`
+              : "Planifier la premiere visite"}
+          </h3>
           <p>
-            ContratPro peut etre installe sur mobile via le navigateur. Ce premier
-            lot concentre les actions terrain critiques sans remplacer encore une
-            vraie application offline.
+            {priorityIntervention
+              ? `${priorityIntervention.equipment} - ${priorityIntervention.performedAt}. Ouvrez le dossier ou sortez l'attestation.`
+              : "Aucune intervention chargee. Creez une visite rattachee a un contrat pour demarrer le suivi terrain."}
           </p>
         </div>
-        <div className="terrain-hero-metrics">
-          <span>{planned.length} a faire</span>
-          <span>{done.length} realisee(s)</span>
-          <span>{formatEuro(protectedRevenue)} proteges</span>
+        <div className="terrain-command-actions">
+          {priorityIntervention?.contractId ? (
+            <a
+              className="premium-secondary-action rounded-md px-3 py-2 text-center text-sm font-semibold"
+              href={`/contracts/${priorityIntervention.contractId}`}
+            >
+              Ouvrir dossier
+            </a>
+          ) : null}
+          <a
+            className="premium-action rounded-md text-sm font-semibold"
+            href={
+              priorityIntervention
+                ? certificateHref(priorityIntervention.certificateId)
+                : "/interventions/new"
+            }
+          >
+            {priorityIntervention ? actionLabel(priorityIntervention.certificateStatus) : "Creer visite"}
+          </a>
         </div>
       </section>
 
       <div className="terrain-metrics mt-4">
         <article>
-          <span>Planning</span>
-          <strong>{interventions.length}</strong>
-          <p>visites chargees</p>
+          <span>A faire</span>
+          <strong>{planned.length}</strong>
+          <p>visites visibles</p>
         </article>
         <article>
-          <span>Attestations</span>
+          <span>Documents</span>
           <strong>{certificateQueue.length}</strong>
-          <p>a produire ou envoyer</p>
+          <p>PDF a produire ou envoyer</p>
+        </article>
+        <article>
+          <span>Realisees</span>
+          <strong>{done.length}</strong>
+          <p>visites terminees</p>
+        </article>
+        <article>
+          <span>Protege</span>
+          <strong>{formatEuro(protectedRevenue)}</strong>
+          <p>revenu rattache</p>
         </article>
       </div>
 
       <section className="terrain-list mt-4">
         <div className="terrain-list-header">
           <div>
-            <h3>File d'interventions</h3>
-            <p>Cartes lisibles sur smartphone, pensees pour une utilisation en deplacement.</p>
+            <h3>File terrain</h3>
+            <p>Chaque carte donne le client, l'equipement et les deux gestes utiles.</p>
           </div>
-          <StatusPill>{planned.length} planifiee(s)</StatusPill>
+          <StatusPill>{interventions.length} visite(s)</StatusPill>
         </div>
 
         <div className="terrain-cards">
@@ -94,12 +130,12 @@ export default async function TerrainPage() {
                   <dd>{intervention.equipment}</dd>
                 </div>
                 <div>
-                  <dt>Technicien</dt>
-                  <dd>{intervention.technician}</dd>
+                  <dt>Prochaine</dt>
+                  <dd>{intervention.nextVisitDate}</dd>
                 </div>
                 <div>
-                  <dt>Prochaine visite</dt>
-                  <dd>{intervention.nextVisitDate}</dd>
+                  <dt>Technicien</dt>
+                  <dd>{intervention.technician}</dd>
                 </div>
                 <div>
                   <dt>Attestation</dt>
@@ -113,12 +149,12 @@ export default async function TerrainPage() {
                     className="premium-secondary-action rounded-md px-3 py-2 text-center text-sm font-semibold"
                     href={`/contracts/${intervention.contractId}`}
                   >
-                    CONTRAT
+                    Dossier
                   </a>
                 ) : null}
                 <a
                   className="premium-action rounded-md text-sm font-semibold"
-                  href={intervention.certificateId ? `/certificates/${intervention.certificateId}` : "/certificates"}
+                  href={certificateHref(intervention.certificateId)}
                 >
                   {actionLabel(intervention.certificateStatus)}
                 </a>
