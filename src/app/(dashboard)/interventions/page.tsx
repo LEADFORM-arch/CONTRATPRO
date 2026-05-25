@@ -43,6 +43,12 @@ function phoneHref(phone: string) {
   return digits && phone !== "-" ? `tel:${digits}` : "";
 }
 
+function mapsHref(address: string) {
+  return address && address !== "-"
+    ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(address)}`
+    : "";
+}
+
 export default async function InterventionsPage() {
   const interventions = await getInterventions();
   const scheduled = interventions.filter((intervention) =>
@@ -96,6 +102,16 @@ export default async function InterventionsPage() {
               href={phoneHref(priorityIntervention.phone)}
             >
               Appeler client
+            </a>
+          ) : null}
+          {priorityIntervention?.address && mapsHref(priorityIntervention.address) ? (
+            <a
+              className="premium-secondary-action rounded-md px-3 py-2 text-sm font-semibold"
+              href={mapsHref(priorityIntervention.address)}
+              rel="noreferrer"
+              target="_blank"
+            >
+              Itineraire
             </a>
           ) : null}
           {priorityIntervention?.contractId ? (
@@ -188,6 +204,16 @@ export default async function InterventionsPage() {
                     <p className="mt-1 text-xs text-cyan-200">
                       {intervention.phone}
                     </p>
+                    {mapsHref(intervention.address) ? (
+                      <a
+                        className="mt-2 inline-flex text-xs font-bold text-sky-300"
+                        href={mapsHref(intervention.address)}
+                        rel="noreferrer"
+                        target="_blank"
+                      >
+                        Itineraire
+                      </a>
+                    ) : null}
                   </td>
                   <td className="px-4 py-4 text-zinc-300">
                     {intervention.equipment}

@@ -671,7 +671,9 @@ describe("production guardrails", () => {
       "Action terrain maintenant",
       "terrain-command-panel",
       "phoneHref",
+      "mapsHref",
       "terrain-contact-strip",
+      "Itineraire",
       "Appeler",
       "terrain-card",
     ], "terrain page");
@@ -680,6 +682,8 @@ describe("production guardrails", () => {
       "data-od-id=\"intervention-next-action\"",
       "Prochaine action",
       "Appeler client",
+      "mapsHref",
+      "Itineraire",
       "CertificateAction",
       "intervention-command-panel",
     ], "intervention next action");
@@ -706,6 +710,7 @@ describe("production guardrails", () => {
       ".terrain-command-panel",
       ".terrain-command-actions",
       ".terrain-contact-strip",
+      ".terrain-contact-actions",
       ".intervention-command-panel",
       ".intervention-inline-action",
     ], "terrain intervention action styles");

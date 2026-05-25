@@ -7183,6 +7183,14 @@ body .hover\:bg-zinc-100:hover {
   color: #a5f3fc;
 }
 
+.terrain-contact-actions {
+  align-items: center;
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 0.7rem;
+  justify-content: flex-end;
+}
+
 .terrain-actions {
   grid-template-columns: repeat(2, minmax(0, 1fr));
   margin-top: 1rem;

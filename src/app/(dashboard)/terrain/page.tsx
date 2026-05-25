@@ -23,6 +23,12 @@ function phoneHref(phone: string) {
   return digits && phone !== "-" ? `tel:${digits}` : "";
 }
 
+function mapsHref(address: string) {
+  return address && address !== "-"
+    ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(address)}`
+    : "";
+}
+
 export default async function TerrainPage() {
   const interventions = await getInterventions();
   const planned = interventions.filter((item) => item.status.includes("Planifi"));
@@ -70,6 +76,16 @@ export default async function TerrainPage() {
               href={phoneHref(priorityIntervention.phone)}
             >
               Appeler
+            </a>
+          ) : null}
+          {priorityIntervention?.address && mapsHref(priorityIntervention.address) ? (
+            <a
+              className="premium-secondary-action rounded-md px-3 py-2 text-center text-sm font-semibold"
+              href={mapsHref(priorityIntervention.address)}
+              rel="noreferrer"
+              target="_blank"
+            >
+              Itineraire
             </a>
           ) : null}
           {priorityIntervention?.contractId ? (
@@ -158,11 +174,22 @@ export default async function TerrainPage() {
 
               <div className="terrain-contact-strip">
                 <span>{intervention.address}</span>
-                {phoneHref(intervention.phone) ? (
-                  <a href={phoneHref(intervention.phone)}>Appeler {intervention.phone}</a>
-                ) : (
-                  <span>Telephone non renseigne</span>
-                )}
+                <span className="terrain-contact-actions">
+                  {mapsHref(intervention.address) ? (
+                    <a
+                      href={mapsHref(intervention.address)}
+                      rel="noreferrer"
+                      target="_blank"
+                    >
+                      Itineraire
+                    </a>
+                  ) : null}
+                  {phoneHref(intervention.phone) ? (
+                    <a href={phoneHref(intervention.phone)}>Appeler {intervention.phone}</a>
+                  ) : (
+                    <span>Telephone non renseigne</span>
+                  )}
+                </span>
               </div>
 
               <div className="terrain-actions">
