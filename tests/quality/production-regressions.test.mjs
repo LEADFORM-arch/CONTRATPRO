@@ -670,15 +670,25 @@ describe("production guardrails", () => {
       "data-od-id=\"terrain-next-action\"",
       "Action terrain maintenant",
       "terrain-command-panel",
+      "phoneHref",
+      "terrain-contact-strip",
+      "Appeler",
       "terrain-card",
     ], "terrain page");
 
     assertIncludes(read("src/app/(dashboard)/interventions/page.tsx"), [
       "data-od-id=\"intervention-next-action\"",
       "Prochaine action",
+      "Appeler client",
       "CertificateAction",
       "intervention-command-panel",
     ], "intervention next action");
+
+    assertIncludes(read("src/server/contratpro-data.ts"), [
+      "customers(company_name,first_name,last_name,city,phone,address,zip_code)",
+      "phone: customer?.phone",
+      "address:",
+    ], "terrain intervention contact data");
 
     assertIncludes(read("src/app/(dashboard)/interventions/CertificateAction.tsx"), [
       "CERTIFICATE_ACTION_TIMEOUT_MS",
@@ -695,6 +705,7 @@ describe("production guardrails", () => {
     assertIncludes(read("src/app/globals.css"), [
       ".terrain-command-panel",
       ".terrain-command-actions",
+      ".terrain-contact-strip",
       ".intervention-command-panel",
       ".intervention-inline-action",
     ], "terrain intervention action styles");

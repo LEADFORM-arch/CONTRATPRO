@@ -38,6 +38,11 @@ function needsCertificate(certificateStatus: string) {
   );
 }
 
+function phoneHref(phone: string) {
+  const digits = phone.replace(/[^\d+]/g, "");
+  return digits && phone !== "-" ? `tel:${digits}` : "";
+}
+
 export default async function InterventionsPage() {
   const interventions = await getInterventions();
   const scheduled = interventions.filter((intervention) =>
@@ -85,6 +90,14 @@ export default async function InterventionsPage() {
           </span>
         </div>
         <div className="intervention-command-actions">
+          {priorityIntervention?.phone && phoneHref(priorityIntervention.phone) ? (
+            <a
+              className="premium-secondary-action rounded-md px-3 py-2 text-sm font-semibold"
+              href={phoneHref(priorityIntervention.phone)}
+            >
+              Appeler client
+            </a>
+          ) : null}
           {priorityIntervention?.contractId ? (
             <a
               className="premium-secondary-action rounded-md px-3 py-2 text-sm font-semibold"
@@ -171,6 +184,9 @@ export default async function InterventionsPage() {
                     </p>
                     <p className="mt-1 text-xs text-zinc-400">
                       {intervention.city}
+                    </p>
+                    <p className="mt-1 text-xs text-cyan-200">
+                      {intervention.phone}
                     </p>
                   </td>
                   <td className="px-4 py-4 text-zinc-300">

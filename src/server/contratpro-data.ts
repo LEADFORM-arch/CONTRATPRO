@@ -340,6 +340,9 @@ type SupabaseInterventionRow = {
         first_name: string | null;
         last_name: string | null;
         city: string | null;
+        phone: string | null;
+        address: string | null;
+        zip_code: string | null;
       }>;
     }>;
   }>;
@@ -1077,25 +1080,33 @@ export async function getContractOptions() {
 
 export async function getInterventions() {
   const rows = await supabaseRequest<SupabaseInterventionRow[]>(
-    "/interventions?select=id,performed_at,technician,status,report,next_visit_date,contracts(id,end_date,price_ttc,installations(type,brand,model,customers(company_name,first_name,last_name,city))),certificates(id,sent_to_customer)&order=performed_at.asc",
+    "/interventions?select=id,performed_at,technician,status,report,next_visit_date,contracts(id,end_date,price_ttc,installations(type,brand,model,customers(company_name,first_name,last_name,city,phone,address,zip_code))),certificates(id,sent_to_customer)&order=performed_at.asc",
   );
 
   if (!rows) {
-    return demoContracts.map((contract) => ({
-      id: `int-${contract.id}`,
-      contractId: contract.id,
-      customer: contract.customer,
-      city: contract.city,
-      equipment: contract.equipment,
-      performedAt: contract.lastVisit,
-      technician: "-",
-      status: "Réalisée",
-      report: "Intervention issue des données démo.",
-      nextVisitDate: contract.renewal,
-      certificateId: "",
-      certificateStatus: "À vérifier",
-      value: contract.value,
-    }));
+    return demoContracts.map((contract) => {
+      const demoCustomer = demoCustomers.find(
+        (customer) => customer.name === contract.customer,
+      );
+
+      return {
+        id: `int-${contract.id}`,
+        contractId: contract.id,
+        customer: contract.customer,
+        city: contract.city,
+        phone: demoCustomer?.phone ?? "-",
+        address: contract.city,
+        equipment: contract.equipment,
+        performedAt: contract.lastVisit,
+        technician: "-",
+        status: "Réalisée",
+        report: "Intervention issue des données démo.",
+        nextVisitDate: contract.renewal,
+        certificateId: "",
+        certificateStatus: "À vérifier",
+        value: contract.value,
+      };
+    });
   }
 
   return rows.map((row) => {
@@ -1109,6 +1120,11 @@ export async function getInterventions() {
       contractId: contract?.id ?? "",
       customer: customerName(customer),
       city: customer?.city ?? "-",
+      phone: customer?.phone ?? "-",
+      address:
+        [customer?.address, customer?.zip_code, customer?.city]
+          .filter(Boolean)
+          .join(" ") || "-",
       equipment: equipmentLabel(installation),
       performedAt: formatDate(row.performed_at),
       technician: row.technician ?? "-",

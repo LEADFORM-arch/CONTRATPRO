@@ -18,6 +18,11 @@ function certificateHref(certificateId: string) {
   return certificateId ? `/certificates/${certificateId}` : "/certificates";
 }
 
+function phoneHref(phone: string) {
+  const digits = phone.replace(/[^\d+]/g, "");
+  return digits && phone !== "-" ? `tel:${digits}` : "";
+}
+
 export default async function TerrainPage() {
   const interventions = await getInterventions();
   const planned = interventions.filter((item) => item.status.includes("Planifi"));
@@ -59,6 +64,14 @@ export default async function TerrainPage() {
           </p>
         </div>
         <div className="terrain-command-actions">
+          {priorityIntervention?.phone && phoneHref(priorityIntervention.phone) ? (
+            <a
+              className="premium-secondary-action rounded-md px-3 py-2 text-center text-sm font-semibold"
+              href={phoneHref(priorityIntervention.phone)}
+            >
+              Appeler
+            </a>
+          ) : null}
           {priorityIntervention?.contractId ? (
             <a
               className="premium-secondary-action rounded-md px-3 py-2 text-center text-sm font-semibold"
@@ -142,6 +155,15 @@ export default async function TerrainPage() {
                   <dd>{intervention.certificateStatus}</dd>
                 </div>
               </dl>
+
+              <div className="terrain-contact-strip">
+                <span>{intervention.address}</span>
+                {phoneHref(intervention.phone) ? (
+                  <a href={phoneHref(intervention.phone)}>Appeler {intervention.phone}</a>
+                ) : (
+                  <span>Telephone non renseigne</span>
+                )}
+              </div>
 
               <div className="terrain-actions">
                 {intervention.contractId ? (
