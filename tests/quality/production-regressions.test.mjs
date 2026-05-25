@@ -753,6 +753,13 @@ describe("production guardrails", () => {
       "no-store",
     ], "invoice pdf route");
 
+    assertIncludes(read("src/app/(dashboard)/invoices/[id]/page.tsx"), [
+      "invoice-proof-checks",
+      "Email a completer",
+      "Paiement a suivre",
+      "formatEuro(invoice.amountTtc)",
+    ], "invoice proof checks");
+
     assertIncludes(read("src/app/api/certificates/[id]/pdf/route.ts"), [
       "buildCertificatePdf",
       "application/pdf",
@@ -774,6 +781,7 @@ describe("production guardrails", () => {
 
     assertIncludes(read("src/app/globals.css"), [
       ".certificate-proof-checks",
+      ".invoice-proof-checks",
       "grid-template-columns: repeat(4, minmax(0, 1fr))",
     ], "certificate proof check styles");
 

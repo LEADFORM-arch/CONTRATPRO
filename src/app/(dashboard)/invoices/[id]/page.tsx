@@ -94,6 +94,30 @@ export default async function InvoiceDetailPage({ params }: InvoicePageProps) {
             <small>Reprendre SEPA, visite ou attestation.</small>
           </a>
         </div>
+        <div className="invoice-proof-checks">
+          <article>
+            <span>Client</span>
+            <strong>{invoice.customer}</strong>
+            <small>{invoice.email === "-" ? "Email a completer" : invoice.email}</small>
+          </article>
+          <article>
+            <span>Total TTC</span>
+            <strong>{formatEuro(invoice.amountTtc)}</strong>
+            <small>
+              HT {formatEuro(invoice.amountHt)} - TVA {invoice.vatRate}%
+            </small>
+          </article>
+          <article>
+            <span>Echeance</span>
+            <strong>{invoice.dueDate}</strong>
+            <small>Emise le {invoice.issueDate}</small>
+          </article>
+          <article>
+            <span>Encaissement</span>
+            <strong>{invoice.status}</strong>
+            <small>{invoice.paidAt === "-" ? "Paiement a suivre" : `Payee le ${invoice.paidAt}`}</small>
+          </article>
+        </div>
       </section>
 
       <section className="mt-6 grid gap-6 xl:grid-cols-[1fr_320px]">
