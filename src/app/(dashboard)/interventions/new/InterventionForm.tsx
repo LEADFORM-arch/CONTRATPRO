@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { FormEvent, ReactNode, useState } from "react";
+import { FormEvent, ReactNode, useRef, useState } from "react";
 
 type ContractOption = {
   id: string;
@@ -22,6 +22,26 @@ type SubmitState =
 
 const inputClass = "contract-form-input";
 const INTERVENTION_SUBMIT_TIMEOUT_MS = 30_000;
+const quickReports = [
+  {
+    label: "Entretien OK",
+    report:
+      "Entretien realise. Points de controle effectues. Aucun defaut critique signale. Attestation a generer.",
+    status: "COMPLETED",
+  },
+  {
+    label: "Anomalie a suivre",
+    report:
+      "Intervention realisee. Une anomalie est a suivre avec le client. Prevoir controle ou devis selon retour.",
+    status: "COMPLETED",
+  },
+  {
+    label: "Client absent",
+    report:
+      "Passage non realise : client absent ou acces impossible. Reprogrammer une nouvelle visite.",
+    status: "CANCELLED",
+  },
+];
 
 function FormSection({
   index,
@@ -54,10 +74,22 @@ export function InterventionForm({
   selectedContractId = "",
 }: InterventionFormProps) {
   const router = useRouter();
+  const reportRef = useRef<HTMLTextAreaElement>(null);
+  const statusRef = useRef<HTMLSelectElement>(null);
   const [submitState, setSubmitState] = useState<SubmitState>({
     status: "idle",
     message: "",
   });
+
+  function applyQuickReport(report: string, status: string) {
+    if (reportRef.current) {
+      reportRef.current.value = report;
+    }
+
+    if (statusRef.current) {
+      statusRef.current.value = status;
+    }
+  }
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -175,7 +207,7 @@ export function InterventionForm({
 
         <label className="contract-form-field">
           <span>Statut</span>
-          <select className={inputClass} name="status">
+          <select className={inputClass} name="status" ref={statusRef}>
             <option value="SCHEDULED">Planifiée</option>
             <option value="COMPLETED">Réalisée</option>
             <option value="CANCELLED">Annulée</option>
@@ -198,12 +230,32 @@ export function InterventionForm({
         index="03"
         title="Compte rendu"
       >
+        <div className="intervention-report-presets md:col-span-3">
+          <div>
+            <span>Scripts terrain</span>
+            <p>Inserez une base propre, puis ajustez en 10 secondes.</p>
+          </div>
+          <div>
+            {quickReports.map((quickReport) => (
+              <button
+                key={quickReport.label}
+                onClick={() =>
+                  applyQuickReport(quickReport.report, quickReport.status)
+                }
+                type="button"
+              >
+                {quickReport.label}
+              </button>
+            ))}
+          </div>
+        </div>
         <label className="contract-form-field md:col-span-3">
           <span>Rapport technicien</span>
           <textarea
             className="contract-form-input min-h-32 py-3"
             name="report"
             placeholder="Points contrôlés, anomalies, recommandations client..."
+            ref={reportRef}
           />
         </label>
       </FormSection>

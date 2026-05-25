@@ -7291,6 +7291,63 @@ body .hover\:bg-zinc-100:hover {
   max-width: 13rem;
 }
 
+.intervention-report-presets {
+  align-items: center;
+  background:
+    linear-gradient(135deg, rgba(20, 184, 166, 0.12), rgba(14, 165, 233, 0.06)),
+    rgba(255, 255, 255, 0.025);
+  border: 1px solid rgba(45, 212, 191, 0.16);
+  border-radius: 0.6rem;
+  display: flex;
+  gap: 1rem;
+  justify-content: space-between;
+  padding: 0.85rem;
+}
+
+.intervention-report-presets span {
+  color: #5eead4;
+  display: block;
+  font-size: 0.76rem;
+  font-weight: 900;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.intervention-report-presets p {
+  color: #cbd5e1;
+  font-size: 0.84rem;
+  line-height: 1.45;
+  margin-top: 0.25rem;
+}
+
+.intervention-report-presets > div:last-child {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  justify-content: flex-end;
+}
+
+.intervention-report-presets button {
+  background: rgba(15, 23, 42, 0.72);
+  border: 1px solid rgba(94, 234, 212, 0.2);
+  border-radius: 0.45rem;
+  color: #ecfeff;
+  font-size: 0.78rem;
+  font-weight: 850;
+  min-height: 2.45rem;
+  padding: 0.55rem 0.7rem;
+  transition:
+    background-color 160ms ease,
+    border-color 160ms ease,
+    color 160ms ease;
+}
+
+.intervention-report-presets button:hover {
+  background: rgba(20, 184, 166, 0.16);
+  border-color: rgba(94, 234, 212, 0.38);
+  color: #ffffff;
+}
+
 .intervention-form-intro {
   align-items: center;
   background:
@@ -7391,9 +7448,18 @@ body .hover\:bg-zinc-100:hover {
 
 @media (max-width: 640px) {
   .intervention-form-intro,
-  .intervention-form-command {
+  .intervention-form-command,
+  .intervention-report-presets {
     align-items: stretch;
     flex-direction: column;
+  }
+
+  .intervention-report-presets > div:last-child {
+    justify-content: stretch;
+  }
+
+  .intervention-report-presets button {
+    flex: 1 1 100%;
   }
 }
 

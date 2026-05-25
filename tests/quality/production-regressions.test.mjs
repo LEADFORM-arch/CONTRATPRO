@@ -702,6 +702,10 @@ describe("production guardrails", () => {
 
     assertIncludes(read("src/app/(dashboard)/interventions/new/InterventionForm.tsx"), [
       "INTERVENTION_SUBMIT_TIMEOUT_MS",
+      "quickReports",
+      "applyQuickReport",
+      "intervention-report-presets",
+      "Entretien OK",
       "Enregistrement trop long",
       "Reessayez depuis le dossier",
     ], "intervention form timeout");
@@ -713,6 +717,7 @@ describe("production guardrails", () => {
       ".terrain-contact-actions",
       ".intervention-command-panel",
       ".intervention-inline-action",
+      ".intervention-report-presets",
     ], "terrain intervention action styles");
 
     assertIncludes(read("README.md"), [
