@@ -759,11 +759,23 @@ describe("production guardrails", () => {
       "no-store",
     ], "certificate pdf route");
 
+    assertIncludes(read("src/app/(dashboard)/certificates/[id]/page.tsx"), [
+      "certificate-proof-checks",
+      "Email a completer",
+      "Serie non renseignee",
+      "legalReference",
+    ], "certificate proof checks");
+
     assertIncludes(read("src/components/documents/DocumentSendButton.tsx"), [
       "DOCUMENT_SEND_TIMEOUT_MS",
       "AbortController",
       "Le PDF reste disponible",
     ], "document send button timeout");
+
+    assertIncludes(read("src/app/globals.css"), [
+      ".certificate-proof-checks",
+      "grid-template-columns: repeat(4, minmax(0, 1fr))",
+    ], "certificate proof check styles");
 
     assertIncludes(read("src/server/resend.ts"), [
       "RESEND_API_KEY est absent",

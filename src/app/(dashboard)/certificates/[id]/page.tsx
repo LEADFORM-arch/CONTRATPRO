@@ -102,6 +102,28 @@ export default async function CertificateDetailPage({
             <PrintButton />
           </div>
         </div>
+        <div className="certificate-proof-checks">
+          <article>
+            <span>Client</span>
+            <strong>{certificate.customer}</strong>
+            <small>{certificate.email === "-" ? "Email a completer" : certificate.email}</small>
+          </article>
+          <article>
+            <span>Equipement</span>
+            <strong>{certificate.equipment}</strong>
+            <small>{certificate.serialNumber === "-" ? "Serie non renseignee" : certificate.serialNumber}</small>
+          </article>
+          <article>
+            <span>Intervention</span>
+            <strong>{certificate.performedAt}</strong>
+            <small>{certificate.technician}</small>
+          </article>
+          <article>
+            <span>Legal</span>
+            <strong>{certificate.legalReference}</strong>
+            <small>{certificate.status}</small>
+          </article>
+        </div>
       </section>
 
       <section className="mt-6 grid gap-6 xl:grid-cols-[1fr_340px]">
