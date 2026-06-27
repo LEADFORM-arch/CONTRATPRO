@@ -3,6 +3,14 @@ import type { Metadata } from "next";
 import { PublicHero, PublicSection, PublicShell } from "@/components/marketing/PublicShell";
 import { StructuredData } from "@/components/marketing/StructuredData";
 import { AppShell, PageHeader, StatusPill } from "@/components/layout/AppShell";
+import {
+  AgentPanel,
+  ButtonLink,
+  EmptyState,
+  Gauge,
+  Metric,
+  StatCard,
+} from "@/components/ui";
 import { billingPlans } from "@/lib/billing-plans";
 import { formatEuro } from "@/lib/mock-data";
 import { getCurrentAdminUser } from "@/server/admin";
@@ -131,93 +139,6 @@ const homeStructuredData = [
   },
 ];
 
-function StatCard({
-  label,
-  value,
-  detail,
-  tone,
-}: {
-  label: string;
-  value: string;
-  detail: string;
-  tone: CardTone;
-}) {
-  return (
-    <article className="dashboard-stat-card" data-tone={tone}>
-      <p className="text-xs font-medium uppercase tracking-wide text-zinc-400">
-        {label}
-      </p>
-      <strong className="mt-3 block text-3xl font-semibold text-zinc-50">
-        {value}
-      </strong>
-      <p className="mt-2 text-sm text-zinc-400">{detail}</p>
-    </article>
-  );
-}
-
-function MiniMetric({
-  label,
-  value,
-}: {
-  label: string;
-  value: string;
-}) {
-  return (
-    <div className="dashboard-mini-metric">
-      <p className="text-xs font-medium uppercase tracking-wide text-zinc-400">
-        {label}
-      </p>
-      <strong className="mt-2 block text-xl font-semibold text-zinc-50">
-        {value}
-      </strong>
-    </div>
-  );
-}
-
-function SafetySignal({
-  label,
-  value,
-  detail,
-  tone,
-}: {
-  label: string;
-  value: string;
-  detail: string;
-  tone: CardTone;
-}) {
-  return (
-    <article className="contract-safety-signal" data-tone={tone}>
-      <p>{label}</p>
-      <strong>{value}</strong>
-      <span>{detail}</span>
-    </article>
-  );
-}
-
-function DashboardActionRow({
-  action,
-  count,
-  detail,
-  href,
-  tone,
-}: {
-  action: string;
-  count: number;
-  detail: string;
-  href: string;
-  tone: CardTone;
-}) {
-  return (
-    <a className="dashboard-today-action" data-tone={tone} href={href}>
-      <span>{count}</span>
-      <div>
-        <strong>{action}</strong>
-        <small>{detail}</small>
-      </div>
-    </a>
-  );
-}
-
 function HomeLandingVisual() {
   return (
     <div className="home-hero-visual">
@@ -258,30 +179,6 @@ function TodayCountCard({
   );
 }
 
-function TodayQueueItem({
-  action,
-  detail,
-  href,
-  label,
-  tone,
-}: {
-  action: string;
-  detail: string;
-  href: string;
-  label: string;
-  tone: CardTone;
-}) {
-  return (
-    <a className="dashboard-priority-item" data-tone={tone} href={href}>
-      <span>{action}</span>
-      <div>
-        <strong>{label}</strong>
-        <p>{detail}</p>
-      </div>
-    </a>
-  );
-}
-
 function HomeLanding() {
   return (
     <PublicShell>
@@ -289,15 +186,15 @@ function HomeLanding() {
       <PublicHero
         action={
           <>
-            <a className="premium-action rounded-md text-sm font-semibold" href="/demo">
-              Programmer une demo
+            <a className="cp-btn cp-btn-primary" href="/demo">
+              Programmer une démo
             </a>
-            <a className="premium-secondary-action rounded-md px-4 py-2 text-sm font-semibold" href="/simulateur">
-              Calculer mes contrats oublies
+            <a className="cp-btn cp-btn-secondary" href="/simulateur">
+              Calculer mes contrats oubliés
             </a>
           </>
         }
-        description="ContratPro aide les chauffagistes a retrouver le bon contrat au bon moment : avant le rush, avant l'oubli, avant le litige, avant l'impaye."
+        description="ContratPro aide les chauffagistes à retrouver le bon contrat au bon moment : avant le rush, avant l'oubli, avant le litige, avant l'impayé."
         eyebrow="Logiciel contrats de maintenance CVC"
         title="Ne laissez plus vos contrats d'entretien dormir dans Excel."
         visual={<HomeLandingVisual />}
@@ -399,7 +296,7 @@ function HomeLanding() {
               <span>/ mois</span>
               <p>{plan.description}</p>
               <a
-                className="premium-secondary-action mt-4 inline-flex rounded-md px-4 py-2 text-sm font-semibold"
+                className="cp-btn cp-btn-secondary cp-btn-sm mt-4"
                 href={`/pricing#${plan.id}`}
               >
                 Voir {plan.name}
@@ -420,7 +317,7 @@ function HomeLanding() {
             les relances structurees peuvent proteger.
           </p>
         </div>
-        <a className="premium-action rounded-md text-sm font-semibold" href="/simulateur">
+        <a className="cp-btn cp-btn-primary" href="/simulateur">
           Lancer le simulateur
         </a>
       </section>
@@ -618,38 +515,57 @@ async function DashboardHome() {
     <AppShell activePath="/" showInternalTools={isAdmin}>
       <PageHeader
         action={
-          <div className="flex flex-wrap gap-2">
+          <>
             {isAdmin ? (
-              <a
-                className="premium-secondary-action rounded-md px-4 py-2 text-sm font-medium"
-                href="/admin/prospection"
-              >
+              <a className="cp-btn cp-btn-secondary cp-btn-sm" href="/admin/prospection">
                 Admin prospection
               </a>
             ) : null}
-            <a className="premium-secondary-action rounded-md px-4 py-2 text-sm font-medium" href="/relances">
+            <a className="cp-btn cp-btn-secondary cp-btn-sm" href="/relances">
               Voir relances
             </a>
-            <a className="premium-action rounded-md text-sm font-semibold" href="/contracts/quick">
+            <a className="cp-btn cp-btn-primary cp-btn-sm" href="/contracts/quick">
               Nouveau contrat
             </a>
-          </div>
+          </>
         }
-        description="Les echeances, attestations, factures et paiements qui demandent une action aujourd'hui."
+        description="Les échéances, attestations, factures et paiements qui demandent une action aujourd'hui."
         eyebrow="Cockpit dirigeant"
-        title="Securisation des contrats CVC"
+        title="Sécurisation des contrats CVC"
       />
 
-      <section className="dashboard-artisan-home mt-6">
-        <div className="dashboard-artisan-copy">
-          <p>Aujourd'hui</p>
-          <h2>Ce qui mérite votre attention maintenant.</h2>
-          <span>
-            Pas besoin de tout lire : traitez une action, puis retour terrain.
-          </span>
-        </div>
+      {/* Bandeau : jauge de sécurité + actions du jour */}
+      <section className="cp-grid-cockpit-hero">
+        <article className="cp-card cp-cockpit-score" data-tone={safetyTone}>
+          <div className="cp-cockpit-score-head">
+            <p className="cp-kicker">Score de sécurité</p>
+            <span className="cp-pill cp-pill-dot" data-tone={safetyTone}>
+              {safetyScore >= 80 ? "Sous contrôle" : safetyScore >= 58 ? "À surveiller" : "Critique"}
+            </span>
+          </div>
+          <div className="cp-cockpit-gauge-row">
+            <Gauge
+              value={safetyScore}
+              label={safetyScore}
+              caption="/ 100"
+              tone={safetyTone}
+            />
+            <div className="cp-cockpit-score-readout">
+              <p className="cp-cockpit-score-thesis">
+                {nextSecuringAction?.action ?? "Portefeuille sous contrôle"}
+              </p>
+              <p className="cp-cockpit-score-detail">
+                {nextSecuringAction?.detail ??
+                  "Aucune fuite urgente détectée. Continuez à suivre les prochaines échéances."}
+              </p>
+              <a className="cp-btn cp-btn-primary cp-btn-sm" href={nextSecuringAction?.href ?? "/relances"}>
+                Ouvrir la file
+              </a>
+            </div>
+          </div>
+        </article>
 
-        <div className="dashboard-today-counts">
+        <div className="cp-cockpit-today">
           <TodayCountCard
             detail="relances ou SEPA à préparer"
             href="/contracts"
@@ -672,288 +588,147 @@ async function DashboardHome() {
             value={todayDocumentCount}
           />
         </div>
+      </section>
 
-        <div className="dashboard-quick-actions">
-          <a className="premium-action rounded-md text-sm font-semibold" href="/contracts/quick">
-            Créer contrat
-          </a>
-          <a className="premium-secondary-action rounded-md px-4 py-2 text-sm font-semibold" href="/import">
-            Importer Excel
-          </a>
-          <a className="premium-secondary-action rounded-md px-4 py-2 text-sm font-semibold" href="/invoices/new">
-            Créer facture
-          </a>
-        </div>
-
-        <div className="dashboard-priority-list">
-          <div className="dashboard-priority-header">
-            <strong>File courte</strong>
-            <span>{priorityQueue.length || "0"} priorité(s)</span>
+      {/* File courte priorisée */}
+      <section className="cp-section cp-cockpit-queue">
+        <header className="cp-section-header">
+          <div>
+            <h3 className="cp-section-title">File courte du jour</h3>
+            <p className="cp-section-desc">Les dossiers qui méritent une action avant de retourner sur le terrain.</p>
           </div>
+          <span className="cp-pill">{priorityQueue.length || "0"} priorité(s)</span>
+        </header>
+        <div className="cp-section-body">
           {priorityQueue.length ? (
-            priorityQueue.map((item) => (
-              <TodayQueueItem
-                action={item.action}
-                detail={item.detail}
-                href={item.href}
-                key={`${item.action}-${item.label}-${item.detail}`}
-                label={item.label}
-                tone={item.tone}
-              />
-            ))
-          ) : (
-            <div className="dashboard-priority-empty">
-              <strong>Aucune urgence.</strong>
-              <p>Le portefeuille est calme. Vous pouvez créer un contrat ou vérifier les échéances.</p>
+            <div className="cp-queue-list">
+              {priorityQueue.map((item) => (
+                <a className="cp-queue-item" data-tone={item.tone} href={item.href} key={`${item.action}-${item.label}-${item.detail}`}>
+                  <span className="cp-queue-action">{item.action}</span>
+                  <div className="cp-queue-body">
+                    <strong>{item.label}</strong>
+                    <small>{item.detail}</small>
+                  </div>
+                  <span className="cp-queue-arrow">→</span>
+                </a>
+              ))}
             </div>
+          ) : (
+            <EmptyState
+              diagnosis="Aucune urgence détectée."
+              detail="Le portefeuille est calme. Vous pouvez créer un contrat ou vérifier les échéances à venir."
+              action={<ButtonLink variant="primary" size="sm" href="/contracts">Voir les contrats</ButtonLink>}
+            />
           )}
         </div>
       </section>
 
-      <section className="dashboard-next-move mt-6" data-tone={dashboardNextMove.tone}>
+      {/* Agent Architecte IA */}
+      <AgentPanel
+        eyebrow="Architecte IA contrats"
+        thesis={architectDecision.title}
+        proof={architectDecision.proof}
+        action={
+          <div className="flex flex-col items-end gap-2">
+            <span className="cp-pill cp-pill-dot" data-tone={architectDecision.tone}>{architectDecision.label}</span>
+            <a className="cp-btn cp-btn-primary cp-btn-sm" href={architectDecision.href}>{architectDecision.action}</a>
+          </div>
+        }
+      />
+
+      {/* Signaux de sécurité (revenu à risque, échéances, SEPA) */}
+      <div className="cp-safety-grid">
+        <StatCard
+          label="Revenu à risque"
+          value={formatEuro(renewalValueAtRisk)}
+          detail={`${atRiskRenewals.length} contrat(s) sous 45 jours`}
+          tone="rose"
+        />
+        <StatCard
+          label="Échéances critiques"
+          value={String(criticalRenewals.length)}
+          detail={`${criticalRenewals.length} critique(s) sous 15 jours`}
+          tone="amber"
+        />
+        <StatCard
+          label="Paiements rejetés"
+          value={String(failedPayments.length)}
+          detail={`${pendingPayments.length} en cours de traitement`}
+          tone="rose"
+        />
+        <StatCard
+          label="SEPA à activer"
+          value={`${sepaShare}%`}
+          detail={`${renewalsWithoutSepa.length} renouvellement(s) sans mandat`}
+          tone="cyan"
+        />
+      </div>
+
+      {/* Prochaine action dirigée */}
+      <section className="cp-next-move" data-tone={dashboardNextMove.tone}>
         <div>
-          <p>{dashboardNextMove.label}</p>
-          <h2>{dashboardNextMove.title}</h2>
-          <span>{dashboardNextMove.detail}</span>
+          <p className="cp-kicker">{dashboardNextMove.label}</p>
+          <h2 className="cp-next-move-title">{dashboardNextMove.title}</h2>
+          <p className="cp-next-move-detail">{dashboardNextMove.detail}</p>
         </div>
-        <a className="premium-action rounded-md text-sm font-semibold" href={dashboardNextMove.href}>
-          {dashboardNextMove.cta}
-        </a>
+        <a className="cp-btn cp-btn-primary" href={dashboardNextMove.href}>{dashboardNextMove.cta}</a>
       </section>
 
       {!hasPortfolio ? (
-        <section className="dashboard-empty-cockpit mt-6" data-od-id="dashboard-empty-cockpit">
+        <section className="cp-card cp-onboarding-cta">
           <div>
-            <p>Activation portefeuille</p>
-            <h2>Importez votre base pour voir le revenu à sécuriser.</h2>
-            <span>
-              Le cockpit devient utile des que vos clients, equipements et contrats
-              annuels sont presents. Commencez par un dry-run, sans creation irreversible.
-            </span>
+            <p className="cp-eyebrow">Activation portefeuille</p>
+            <h2 className="cp-onboarding-title">Importez votre base pour voir le revenu à sécuriser.</h2>
+            <p className="cp-onboarding-detail">
+              Le cockpit devient utile dès que vos clients, équipements et contrats annuels sont présents. Commencez par un dry-run, sans création irréversible.
+            </p>
           </div>
-          <div className="dashboard-empty-actions">
-            <a className="premium-action rounded-md text-sm font-semibold" href="/import">
-              Importer mes contrats
-            </a>
-            <a className="premium-secondary-action rounded-md px-4 py-2 text-sm font-semibold" href="/contracts/quick">
-              Créer un contrat
-            </a>
+          <div className="flex flex-wrap gap-3">
+            <a className="cp-btn cp-btn-primary" href="/import">Importer mes contrats</a>
+            <a className="cp-btn cp-btn-secondary" href="/contracts/quick">Créer un contrat</a>
           </div>
         </section>
       ) : null}
 
-      <section className="contract-safety-cockpit mt-6">
-        <div className="contract-safety-brief">
-          <div>
-            <p className="text-xs font-semibold uppercase tracking-wide text-emerald-300">
-              Cockpit revenu recurrent
-            </p>
-            <h2>Securiser les contrats avant qu'ils ne fuient.</h2>
-            <p>
-              Lecture dirigeant des échéances, documents, paiements et mandats
-              qui menacent directement le revenu annuel.
-            </p>
-          </div>
-          <div className="contract-safety-gauge" data-tone={safetyTone}>
-            <span>Score securite</span>
-            <strong>{safetyScore}</strong>
-            <small>/100</small>
-          </div>
-        </div>
-
-        <div className="contract-safety-grid">
-          <SafetySignal
-            detail={`${atRiskRenewals.length} contrat(s) sous 45 jours`}
-            label="Revenu a risque"
-            tone="rose"
-            value={formatEuro(renewalValueAtRisk)}
-          />
-          <SafetySignal
-            detail={`${criticalRenewals.length} critique(s) sous 15 jours`}
-            label="Echeances critiques"
-            tone="amber"
-            value={String(criticalRenewals.length)}
-          />
-          <SafetySignal
-            detail={`${pendingPayments.length} en cours de traitement`}
-            label="Paiements rejetes"
-            tone="rose"
-            value={String(failedPayments.length)}
-          />
-          <SafetySignal
-            detail={`${renewalsWithoutSepa.length} renouvellement(s) sans mandat`}
-            label="SEPA a activer"
-            tone="cyan"
-            value={`${sepaShare}%`}
-          />
-        </div>
-
-        <div className="contract-safety-command">
-          <div>
-            <p className="text-xs font-semibold uppercase tracking-wide text-zinc-500">
-              Action du jour
-            </p>
-            <h3>
-              {nextSecuringAction?.action ?? "Portefeuille sous contrôle"}
-            </h3>
-            <p>
-              {nextSecuringAction?.detail ??
-                "Aucune fuite urgente détectée. Continuez à suivre les prochaines échéances."}
-            </p>
-          </div>
-          <a
-            className="premium-action rounded-md text-sm font-semibold"
-            href={nextSecuringAction?.href ?? "/relances"}
-          >
-            Ouvrir la file
-          </a>
-        </div>
-
-        <div className="contract-safety-actions">
-          {safetyActions.map((item) => (
-            <a
-              className="contract-safety-action"
-              data-tone={item.tone}
-              href={item.href}
-              key={item.action}
-            >
-              <span>{item.count}</span>
-              <strong>{item.action}</strong>
-              <small>{item.detail}</small>
-            </a>
-          ))}
-        </div>
-      </section>
-
-      <section className="dashboard-command-grid mt-6" data-od-id="dashboard-contract-architect">
-        <article className="dashboard-architect-panel" data-tone={architectDecision.tone}>
-          <div>
-            <p className="text-sm font-semibold text-cyan-300">Architecte IA contrats</p>
-            <h3>{architectDecision.title}</h3>
-            <span>{architectDecision.proof}</span>
-          </div>
-          <div className="dashboard-architect-decision">
-            <small>Diagnostic</small>
-            <strong>{architectDecision.label}</strong>
-            <a className="premium-action rounded-md text-sm font-semibold" href={architectDecision.href}>
-              {architectDecision.action}
-            </a>
-          </div>
-        </article>
-
-        <article className="dashboard-today-panel">
-          <div className="dashboard-today-header">
-            <div>
-              <p>Aujourd'hui</p>
-              <h3>Actions qui securisent le cash</h3>
-            </div>
-            <StatusPill>{actionCount} actions</StatusPill>
-          </div>
-          <div className="dashboard-today-list">
-            {actionCount > 0 ? (
-              safetyActions
-                .filter((item) => item.count > 0)
-                .map((item) => (
-                  <DashboardActionRow
-                    action={item.action}
-                    count={item.count}
-                    detail={item.detail}
-                    href={item.href}
-                    key={item.action}
-                    tone={item.tone}
-                  />
-                ))
-            ) : (
-              <div className="dashboard-today-empty">
-                <strong>Aucune action urgente.</strong>
-                <p>Le portefeuille est calme. Continuez par le suivi des prochains contrats.</p>
-                <a href="/contracts">Voir les contrats</a>
-              </div>
-            )}
-          </div>
-        </article>
-      </section>
-
-      <div className="mt-6 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-        <StatCard
-          detail={`${contracts.length} contrats suivis`}
-          label="Revenu annuel"
-          tone="emerald"
-          value={formatEuro(annualRevenue)}
-        />
-        <StatCard
-          detail={`${customers.length} fiches clients actives`}
-          label="Portefeuille"
-          tone="cyan"
-          value={String(customers.length)}
-        />
-        <StatCard
-          detail={`${certificatesToSend.length} attestations a traiter`}
-          label="Conformite"
-          tone="amber"
-          value={String(certificates.length)}
-        />
-        <StatCard
-          detail={`${sepaPayments.length} paiements SEPA suivis`}
-          label="SEPA"
-          tone="rose"
-          value={`${sepaShare}%`}
-        />
+      {/* Metrics globales tabulaires */}
+      <div className="cp-stat-grid">
+        <StatCard label="Revenu annuel" value={formatEuro(annualRevenue)} detail={`${contracts.length} contrats suivis`} tone="emerald" />
+        <StatCard label="Portefeuille" value={String(customers.length)} detail={`${customers.length} fiches clients actives`} tone="cyan" />
+        <StatCard label="Conformité" value={String(certificates.length)} detail={`${certificatesToSend.length} attestations à traiter`} tone="amber" />
+        <StatCard label="SEPA" value={`${sepaShare}%`} detail={`${sepaPayments.length} paiements SEPA suivis`} tone="rose" />
       </div>
 
-      <div className="mt-6 grid gap-6 xl:grid-cols-[1.35fr_0.9fr]">
-        <section className="dashboard-section overflow-hidden">
-          <div className="dashboard-section-header flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+      <div className="cp-split-grid">
+        <section className="cp-section">
+          <header className="cp-section-header">
             <div>
-              <h3 className="text-base font-semibold text-zinc-50">
-                Renouvellements prioritaires
-              </h3>
-              <p className="mt-1 text-sm text-zinc-400">
-                Triés par échéance pour déclencher les relances au bon moment.
-              </p>
+              <h3 className="cp-section-title">Renouvellements prioritaires</h3>
+              <p className="cp-section-desc">Triés par échéance pour déclencher les relances au bon moment.</p>
             </div>
-            <a
-              className="premium-secondary-action rounded-md px-3 py-2 text-sm font-semibold"
-              href="/contracts"
-            >
-              Voir tous
-            </a>
-          </div>
-
+            <a className="cp-btn cp-btn-secondary cp-btn-sm" href="/contracts">Voir tous</a>
+          </header>
           <div className="overflow-x-auto">
-            <table className="w-full min-w-[760px] text-left text-sm">
+            <table className="cp-table">
               <thead>
-                <tr className="dashboard-table-head text-xs uppercase tracking-wide text-zinc-400">
-                  <th className="px-4 py-3 font-semibold">Client</th>
-                  <th className="px-4 py-3 font-semibold">Equipement</th>
-                  <th className="px-4 py-3 font-semibold">Echeance</th>
-                  <th className="px-4 py-3 font-semibold">Montant</th>
-                  <th className="px-4 py-3 font-semibold">Statut</th>
+                <tr>
+                  <th>Client</th>
+                  <th>Équipement</th>
+                  <th>Échéance</th>
+                  <th>Montant</th>
+                  <th>Statut</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-zinc-800/80">
+              <tbody>
                 {renewals.map((contract) => (
-                  <tr className="dashboard-table-row" key={contract.id}>
-                    <td className="px-4 py-4">
-                      <p className="font-semibold text-zinc-50">
-                        {contract.customer}
-                      </p>
-                      <p className="mt-1 text-xs text-zinc-400">
-                        {contract.city}
-                      </p>
+                  <tr key={contract.id}>
+                    <td>
+                      <p className="cp-cell-strong">{contract.customer}</p>
+                      <p className="cp-cell-sub">{contract.city}</p>
                     </td>
-                    <td className="px-4 py-4 text-zinc-300">
-                      {contract.equipment}
-                    </td>
-                    <td className="px-4 py-4 text-zinc-200">
-                      {contract.renewal}
-                    </td>
-                    <td className="px-4 py-4 font-semibold text-zinc-50">
-                      {formatEuro(contract.value)}
-                    </td>
-                    <td className="px-4 py-4">
-                      <StatusPill>{contract.status}</StatusPill>
-                    </td>
+                    <td>{contract.equipment}</td>
+                    <td>{contract.renewal}</td>
+                    <td className="cp-cell-amount">{formatEuro(contract.value)}</td>
+                    <td><StatusPill>{contract.status}</StatusPill></td>
                   </tr>
                 ))}
               </tbody>
@@ -961,113 +736,60 @@ async function DashboardHome() {
           </div>
         </section>
 
-        <section className="dashboard-section p-4">
-          <div className="flex items-start justify-between gap-4">
+        <section className="cp-section">
+          <header className="cp-section-header">
             <div>
-              <h3 className="text-base font-semibold text-zinc-50">
-                Situation dirigeant
-              </h3>
-              <p className="mt-1 text-sm text-zinc-400">
-                Les signaux qui parlent chiffre d'affaires, cash et risque.
-              </p>
+              <h3 className="cp-section-title">Situation dirigeant</h3>
+              <p className="cp-section-desc">Les signaux qui parlent chiffre d'affaires, cash et risque.</p>
             </div>
-            <span className="dashboard-live-pill">Live</span>
-          </div>
-
-          <div className="mt-5 grid gap-3 sm:grid-cols-2 xl:grid-cols-1">
-            <MiniMetric
-              label="Panier contrat moyen"
-              value={formatEuro(
-                contracts.length ? Math.round(annualRevenue / contracts.length) : 0,
-              )}
-            />
-            <MiniMetric
-              label="Revenu client moyen"
-              value={formatEuro(
-                customers.length ? Math.round(annualRevenue / customers.length) : 0,
-              )}
-            />
-            <MiniMetric
-              label="Attestations en attente"
-              value={String(certificatesToSend.length)}
-            />
+            <span className="cp-pill cp-pill-dot" data-tone="emerald">Live</span>
+          </header>
+          <div className="cp-section-body cp-metric-stack">
+            <Metric label="Panier contrat moyen" value={formatEuro(contracts.length ? Math.round(annualRevenue / contracts.length) : 0)} />
+            <Metric label="Revenu client moyen" value={formatEuro(customers.length ? Math.round(annualRevenue / customers.length) : 0)} />
+            <Metric label="Attestations en attente" value={String(certificatesToSend.length)} />
           </div>
         </section>
       </div>
 
-      <div className="mt-6 grid gap-6 xl:grid-cols-[0.95fr_1.05fr]">
-        <section className="dashboard-section p-4">
-          <div className="flex items-center justify-between gap-4">
+      <div className="cp-split-grid cp-split-grid-alt">
+        <section className="cp-section">
+          <header className="cp-section-header">
             <div>
-              <h3 className="text-base font-semibold text-zinc-50">
-                Paiements a surveiller
-              </h3>
-              <p className="mt-1 text-sm text-zinc-400">
-                Prelevements, virements et relances issus du modele Supabase.
-              </p>
+              <h3 className="cp-section-title">Paiements à surveiller</h3>
+              <p className="cp-section-desc">Prélèvements, virements et relances issus du moteur Supabase.</p>
             </div>
-            <a
-              className="premium-secondary-action rounded-md px-3 py-2 text-sm font-semibold"
-              href="/payments"
-            >
-              Paiements
-            </a>
-          </div>
-
-          <div className="mt-5 divide-y divide-zinc-800/80">
+            <a className="cp-btn cp-btn-secondary cp-btn-sm" href="/payments">Paiements</a>
+          </header>
+          <div className="cp-section-body cp-payment-list">
             {paymentQueue.map((payment) => (
-              <div
-                className="dashboard-list-row grid gap-3 py-4 sm:grid-cols-[1fr_auto_auto] sm:items-center"
-                key={payment.id}
-              >
+              <div className="cp-payment-row" key={payment.id}>
                 <div>
-                  <p className="font-medium text-zinc-50">{payment.customer}</p>
-                  <p className="mt-1 text-sm text-zinc-400">
-                    {payment.method} - {payment.dueDate}
-                  </p>
+                  <p className="cp-cell-strong">{payment.customer}</p>
+                  <p className="cp-cell-sub">{payment.method} — {payment.dueDate}</p>
                 </div>
-                <strong className="text-sm text-zinc-50">
-                  {formatEuro(payment.amount)}
-                </strong>
+                <strong className="cp-cell-amount">{formatEuro(payment.amount)}</strong>
                 <StatusPill>{payment.status}</StatusPill>
               </div>
             ))}
           </div>
         </section>
 
-        <section className="dashboard-section p-4">
-          <div className="flex items-center justify-between gap-4">
+        <section className="cp-section">
+          <header className="cp-section-header">
             <div>
-              <h3 className="text-base font-semibold text-zinc-50">
-                Conformite entretien
-              </h3>
-              <p className="mt-1 text-sm text-zinc-400">
-                Attestations legales rattachees aux interventions et contrats.
-              </p>
+              <h3 className="cp-section-title">Conformité entretien</h3>
+              <p className="cp-section-desc">Attestations légales rattachées aux interventions et contrats.</p>
             </div>
-            <a
-              className="premium-secondary-action rounded-md px-3 py-2 text-sm font-semibold"
-              href="/certificates"
-            >
-              Attestations
-            </a>
-          </div>
-
-          <div className="mt-5 grid gap-3 sm:grid-cols-3">
+            <a className="cp-btn cp-btn-secondary cp-btn-sm" href="/certificates">Attestations</a>
+          </header>
+          <div className="cp-section-body cp-cert-grid">
             {certificates.slice(0, 3).map((certificate) => (
-              <article className="dashboard-certificate-card" key={certificate.id}>
-                <p className="text-sm font-semibold text-zinc-50">
-                  {certificate.customer}
-                </p>
-                <p className="mt-2 text-sm text-zinc-400">
-                  {certificate.equipment}
-                </p>
-                <p className="mt-3 text-xs font-medium uppercase tracking-wide text-zinc-500">
-                  {certificate.issuedAt}
-                </p>
-                <div className="mt-3">
-                  <StatusPill>{certificate.status}</StatusPill>
-                </div>
+              <article className="cp-cert-card" key={certificate.id}>
+                <p className="cp-cell-strong">{certificate.customer}</p>
+                <p className="cp-cell-sub">{certificate.equipment}</p>
+                <p className="cp-cert-date">{certificate.issuedAt}</p>
+                <StatusPill>{certificate.status}</StatusPill>
               </article>
             ))}
           </div>

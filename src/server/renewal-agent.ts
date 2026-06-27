@@ -98,10 +98,10 @@ function riskLevel(score: number): RenewalAgentRecommendation["riskLevel"] {
 
 function nextAction(renewal: RenewalInput, score: number) {
   if (renewal.contact === "-") {
-    return "Completer le contact client avant relance.";
+    return "Compléter le contact client avant relance.";
   }
   if (score >= 75 && renewal.daysRemaining <= 15) {
-    return "Valider un email court puis appeler le client le meme jour.";
+    return "Valider un email court puis appeler le client le même jour.";
   }
   if (renewal.paymentMethod.includes("SEPA")) {
     return "Valider l'email avec rappel du mandat SEPA et suivi automatique.";
@@ -111,20 +111,20 @@ function nextAction(renewal: RenewalInput, score: number) {
 
 function decisionBrief(renewal: RenewalInput, score: number) {
   if (score >= 75) {
-    return `${renewal.customer} doit etre traite en priorite: ${renewal.value.toLocaleString(
+    return `${renewal.customer} doit être traité en priorité : ${renewal.value.toLocaleString(
       "fr-FR",
-    )} EUR annuels et echeance ${renewal.endDate}.`;
+    )} € annuels et échéance ${renewal.endDate}.`;
   }
   if (score >= 55) {
-    return `${renewal.customer} est dans la fenetre commerciale active: valider le message puis suivre la reponse.`;
+    return `${renewal.customer} est dans la fenêtre commerciale active : valider le message puis suivre la réponse.`;
   }
-  return `${renewal.customer} reste en surveillance: action utile mais non prioritaire aujourd'hui.`;
+  return `${renewal.customer} reste en surveillance : action utile mais non prioritaire aujourd'hui.`;
 }
 
 function messageVariants(renewal: RenewalInput) {
   const emailText = renewal.script;
-  const phoneText = `Bonjour ${renewal.customer}, je vous appelle car votre contrat d'entretien pour ${renewal.equipment} arrive a echeance le ${renewal.endDate}. Je voulais verifier avec vous si on le renouvelle pour maintenir le suivi annuel et l'attestation.`;
-  const smsText = `Bonjour, votre contrat d'entretien ${renewal.equipment} arrive a echeance le ${renewal.endDate}. Souhaitez-vous le renouveler ?`;
+  const phoneText = `Bonjour ${renewal.customer}, je vous appelle car votre contrat d'entretien pour ${renewal.equipment} arrive à échéance le ${renewal.endDate}. Je voulais vérifier avec vous si on le renouvelle pour maintenir le suivi annuel et l'attestation.`;
+  const smsText = `Bonjour, votre contrat d'entretien ${renewal.equipment} arrive à échéance le ${renewal.endDate}. Souhaitez-vous le renouveler ?`;
 
   return [
     {
@@ -149,23 +149,23 @@ function reasons(renewal: RenewalInput, score: number) {
   const items: string[] = [];
 
   if (renewal.daysRemaining <= 0) {
-    items.push("Contrat deja arrive a echeance.");
+    items.push("Contrat déjà arrivé à échéance.");
   } else if (renewal.daysRemaining <= 15) {
-    items.push("Echeance a moins de 15 jours.");
+    items.push("Échéance à moins de 15 jours.");
   } else if (renewal.daysRemaining <= 45) {
-    items.push("Fenetre commerciale active avant echeance.");
+    items.push("Fenêtre commerciale active avant échéance.");
   }
 
   if (renewal.value >= 250) {
-    items.push("Montant annuel significatif a proteger.");
+    items.push("Montant annuel significatif à protéger.");
   }
 
   if (renewal.paymentMethod.includes("SEPA")) {
-    items.push("Paiement SEPA exploitable pour reduire la friction.");
+    items.push("Paiement SEPA exploitable pour réduire la friction.");
   }
 
   if (score < 55) {
-    items.push("A surveiller sans action urgente.");
+    items.push("À surveiller sans action urgente.");
   }
 
   return items;

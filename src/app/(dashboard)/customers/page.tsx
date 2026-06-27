@@ -1,60 +1,10 @@
 import { AppShell, PageHeader } from "@/components/layout/AppShell";
 import { ActivationEmptyState } from "@/components/layout/ActivationEmptyState";
+import { AgentPanel, StatCard } from "@/components/ui";
 import { formatEuro } from "@/lib/mock-data";
 import { getCustomers } from "@/server/contratpro-data";
 
 type CustomerTone = "amber" | "cyan" | "emerald";
-
-function CustomerMetric({
-  label,
-  value,
-  detail,
-  tone,
-}: {
-  label: string;
-  value: string;
-  detail: string;
-  tone: CustomerTone;
-}) {
-  return (
-    <article className="customer-metric-card" data-tone={tone}>
-      <p className="text-xs font-medium uppercase tracking-wide text-zinc-500">
-        {label}
-      </p>
-      <strong className="mt-3 block text-3xl font-semibold text-zinc-950">
-        {value}
-      </strong>
-      <p className="mt-2 text-sm leading-5 text-zinc-500">{detail}</p>
-    </article>
-  );
-}
-
-function CustomerWorkTile({
-  count,
-  detail,
-  href,
-  label,
-  step,
-  tone,
-}: {
-  count: string;
-  detail: string;
-  href: string;
-  label: string;
-  step: string;
-  tone: CustomerTone;
-}) {
-  return (
-    <a className="artisan-terrain-tile" data-tone={tone} href={href}>
-      <span>{step}</span>
-      <div>
-        <strong>{label}</strong>
-        <p>{detail}</p>
-      </div>
-      <em>{count}</em>
-    </a>
-  );
-}
 
 export default async function CustomersPage() {
   const customers = await getCustomers();
@@ -79,7 +29,7 @@ export default async function CustomersPage() {
     <AppShell activePath="/customers">
       <PageHeader
         action={
-          <a className="premium-action rounded-md text-sm font-semibold" href="/customers/new">
+          <a className="cp-btn cp-btn-primary cp-btn-sm" href="/customers/new">
             Ajouter client
           </a>
         }
@@ -88,80 +38,58 @@ export default async function CustomersPage() {
         title="Clients finaux"
       />
 
-      <section className="customer-command-panel mt-6">
-        <div className="customer-command-copy">
-          <p>Départ terrain</p>
-          <h2>Ouvrez le bon client, puis créez le contrat.</h2>
-          <span>
-            Si vous avez déjà un fichier, importez-le. Sinon, ajoutez un client reçu au téléphone et lancez son contrat juste après.
-          </span>
-        </div>
-        <div className="customer-command-proof">
-          <small>Base actuelle</small>
-          <strong>{customers.length} client(s)</strong>
-          <span>
-            {customersWithoutContract.length} à contractualiser ·{" "}
-            {totalContracts} contrat(s) · {formatEuro(totalRevenue)} suivis
-          </span>
-        </div>
-      </section>
+      <AgentPanel
+        eyebrow="Départ terrain"
+        thesis="Ouvrez le bon client, puis créez le contrat."
+        proof={
+          <>
+            {customersWithoutContract.length} à contractualiser · {totalContracts} contrat(s) · {formatEuro(totalRevenue)} suivis.
+            {customersWithoutContract.length > 0 ? " Si vous avez déjà un fichier, importez-le. Sinon, ajoutez un client reçu au téléphone." : " Le portefeuille est actif, continuez à contractualiser proprement."}
+          </>
+        }
+        action={
+          <div className="flex flex-col items-end gap-2">
+            <span className="cp-pill cp-pill-dot" data-tone="cyan">{customers.length} client(s)</span>
+            <a className="cp-btn cp-btn-primary cp-btn-sm" href="/import">Importer Excel</a>
+          </div>
+        }
+      />
 
       {priorityCustomers.length ? (
-        <section className="customer-priority-panel mt-5" aria-label="Clients à traiter">
-          <div className="customer-priority-header">
+        <section className="cp-relance-today">
+          <header className="cp-relance-today-head">
             <div>
-              <p>À traiter maintenant</p>
-              <h3>3 fiches maximum pour éviter de chercher dans tout le portefeuille.</h3>
+              <p className="cp-eyebrow">À traiter maintenant</p>
+              <h3 className="cp-relance-today-title">3 fiches maximum pour éviter de chercher dans tout le portefeuille.</h3>
             </div>
-            <a
-              className="premium-secondary-action rounded-md px-4 py-2 text-sm font-semibold"
-              href="/customers/new"
-            >
-              Ajouter client
-            </a>
-          </div>
-          <div className="customer-priority-grid">
+            <a className="cp-btn cp-btn-secondary cp-btn-sm" href="/customers/new">Ajouter client</a>
+          </header>
+          <div className="cp-relance-today-grid">
             {priorityCustomers.map((customer, index) => {
               const needsContract = customer.contracts === 0;
               return (
-                <article
-                  className="customer-priority-card"
-                  data-state={needsContract ? "contract" : "active"}
-                  key={customer.id}
-                >
-                  <div className="customer-priority-top">
-                    <span>{String(index + 1).padStart(2, "0")}</span>
-                    <em>{needsContract ? "Contrat à créer" : "Dossier actif"}</em>
+                <article className="cp-relance-card" data-tone={needsContract ? "amber" : "emerald"} key={customer.id}>
+                  <div className="cp-relance-card-head">
+                    <span className="cp-relance-card-num">{String(index + 1).padStart(2, "0")}</span>
+                    <strong className="cp-relance-card-urgency">{needsContract ? "Contrat à créer" : "Dossier actif"}</strong>
                   </div>
-                  <h4>{customer.name}</h4>
-                  <p>{customer.city} · {customer.contact}</p>
-                  <dl>
+                  <h4 className="cp-relance-card-customer">{customer.name}</h4>
+                  <p className="cp-cell-sub">{customer.city} · {customer.contact}</p>
+                  <dl className="cp-relance-card-meta">
                     <div>
                       <dt>Contrats</dt>
                       <dd>{customer.contracts}</dd>
                     </div>
                     <div>
                       <dt>Revenu</dt>
-                      <dd>{formatEuro(customer.revenue)}</dd>
+                      <dd className="cp-cell-amount">{formatEuro(customer.revenue)}</dd>
                     </div>
                   </dl>
-                  <div className="customer-priority-actions">
-                    <a
-                      className="premium-action rounded-md px-3 py-2 text-center text-sm font-semibold"
-                      href={
-                        needsContract
-                          ? `/contracts/quick?customerId=${customer.id}`
-                          : `/customers/${customer.id}`
-                      }
-                    >
+                  <div className="cp-relance-card-actions">
+                    <a className="cp-btn cp-btn-primary cp-btn-sm" href={needsContract ? `/contracts/quick?customerId=${customer.id}` : `/customers/${customer.id}`}>
                       {needsContract ? "Créer contrat" : "Ouvrir dossier"}
                     </a>
-                    <a
-                      className="premium-inline-action rounded-md px-3 py-2 text-center text-sm font-semibold"
-                      href={`/customers/${customer.id}`}
-                    >
-                      Fiche client
-                    </a>
+                    <a className="cp-btn cp-btn-ghost cp-btn-sm" href={`/customers/${customer.id}`}>Fiche</a>
                   </div>
                 </article>
               );
@@ -170,137 +98,76 @@ export default async function CustomersPage() {
         </section>
       ) : null}
 
-      <section className="artisan-terrain-lanes mt-5" aria-label="Raccourcis clients">
-        <CustomerWorkTile
-          count="Excel"
-          detail="Reprendre une liste clients, équipements et contrats sans ressaisie."
-          href="/import"
-          label="Importer fichier"
-          step="1"
-          tone="cyan"
-        />
-        <CustomerWorkTile
-          count="+"
-          detail="Saisir un client reçu au téléphone ou après une intervention."
-          href="/customers/new"
-          label="Ajouter client"
-          step="2"
-          tone="emerald"
-        />
-        <CustomerWorkTile
-          count={String(customers.length)}
-          detail="Ouvrir un dossier, vérifier contact, ville, contrats et revenu."
-          href={priorityCustomer ? `/customers/${priorityCustomer.id}` : "/customers/new"}
-          label="Ouvrir dossier"
-          step="3"
-          tone="amber"
-        />
+      <section className="cp-work-lanes">
+        <a className="cp-work-tile" data-tone="cyan" href="/import">
+          <span className="cp-work-tile-step">1</span>
+          <div><strong>Importer fichier</strong><p>Reprendre une liste clients, équipements et contrats sans ressaisie.</p></div>
+          <em>Excel</em>
+        </a>
+        <a className="cp-work-tile" data-tone="emerald" href="/customers/new">
+          <span className="cp-work-tile-step">2</span>
+          <div><strong>Ajouter client</strong><p>Saisir un client reçu au téléphone ou après une intervention.</p></div>
+          <em>+</em>
+        </a>
+        <a className="cp-work-tile" data-tone="amber" href={priorityCustomer ? `/customers/${priorityCustomer.id}` : "/customers/new"}>
+          <span className="cp-work-tile-step">3</span>
+          <div><strong>Ouvrir dossier</strong><p>Vérifier contact, ville, contrats et revenu.</p></div>
+          <em>{customers.length}</em>
+        </a>
       </section>
 
-      <details className="artisan-evidence-details mt-5">
-        <summary className="worklist-summary">
-          Voir les chiffres clients
-        </summary>
-        <div className="grid gap-4 md:grid-cols-3">
-        <CustomerMetric
-          detail="fiches clients actives"
-          label="Portefeuille"
-          tone="cyan"
-          value={String(customers.length)}
-        />
-        <CustomerMetric
-          detail="contrats rattachés aux clients"
-          label="Contrats"
-          tone="emerald"
-          value={String(totalContracts)}
-        />
-        <CustomerMetric
-          detail="revenu annuel client suivi"
-          label="Revenu"
-          tone="amber"
-          value={formatEuro(totalRevenue)}
-        />
-        </div>
-      </details>
+      <div className="cp-stat-grid">
+        <StatCard label="Portefeuille" value={String(customers.length)} detail="fiches clients actives" tone="cyan" />
+        <StatCard label="Contrats" value={String(totalContracts)} detail="contrats rattachés aux clients" tone="emerald" />
+        <StatCard label="Revenu" value={formatEuro(totalRevenue)} detail="revenu annuel client suivi" tone="amber" />
+      </div>
 
-      <details className="customer-section mt-6">
-        <summary className="worklist-summary">
-          Voir tous les clients ({customers.length})
-        </summary>
-        <div className="customer-section-header flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+      <section className="cp-section">
+        <header className="cp-section-header">
           <div>
-            <h3 className="text-base font-semibold text-zinc-950">
-              Portefeuille clients
-            </h3>
-            <p className="mt-1 text-sm text-zinc-500">
-              Contacts, villes, revenus récurrents et dossiers rattachés.
-            </p>
+            <h3 className="cp-section-title">Portefeuille clients</h3>
+            <p className="cp-section-desc">Contacts, villes, revenus récurrents et dossiers rattachés.</p>
           </div>
-          <span className="customer-count-pill">{customers.length} clients</span>
-        </div>
+          <span className="cp-pill">{customers.length} clients</span>
+        </header>
 
         {customers.length ? (
-          <div className="grid gap-4 p-4 lg:grid-cols-3">
+          <div className="cp-section-body cp-customer-grid">
             {customers.map((customer) => (
-            <article className="customer-card" key={customer.id}>
-              <div className="flex items-start justify-between gap-4">
-                <div>
-                  <h3 className="text-lg font-semibold text-zinc-950">
-                    {customer.name}
-                  </h3>
-                  <p className="mt-1 text-sm text-zinc-500">{customer.contact}</p>
-                </div>
-                <span className="customer-city-pill">{customer.city}</span>
-              </div>
-
-              <dl className="mt-5 grid gap-3 text-sm">
-                <div className="customer-detail-line">
-                  <dt>Téléphone</dt>
-                  <dd>{customer.phone}</dd>
-                </div>
-                <div className="customer-detail-line">
-                  <dt>Email</dt>
-                  <dd>{customer.email}</dd>
-                </div>
-                <div className="grid grid-cols-2 gap-3 pt-1">
-                  <div className="customer-mini-cell">
-                    <dt>Contrats</dt>
-                    <dd>{customer.contracts}</dd>
+              <article className="cp-customer-card" key={customer.id}>
+                <div className="cp-customer-card-head">
+                  <div>
+                    <h3 className="cp-customer-name">{customer.name}</h3>
+                    <p className="cp-cell-sub">{customer.contact}</p>
                   </div>
-                  <div className="customer-mini-cell">
-                    <dt>Revenu</dt>
-                    <dd>{formatEuro(customer.revenue)}</dd>
-                  </div>
+                  <span className="cp-pill" data-tone="sky">{customer.city}</span>
                 </div>
-              </dl>
-
-              <a
-                className="premium-secondary-action mt-5 inline-flex w-full justify-center rounded-md px-3 py-2 text-sm font-semibold"
-                href={`/customers/${customer.id}`}
-              >
-                Ouvrir le dossier
-              </a>
-            </article>
+                <dl className="cp-customer-details">
+                  <div className="cp-detail-item"><dt>Téléphone</dt><dd>{customer.phone}</dd></div>
+                  <div className="cp-detail-item"><dt>Email</dt><dd>{customer.email}</dd></div>
+                  <div className="cp-customer-mini">
+                    <div className="cp-detail-item"><dt>Contrats</dt><dd>{customer.contracts}</dd></div>
+                    <div className="cp-detail-item"><dt>Revenu</dt><dd className="cp-cell-amount">{formatEuro(customer.revenue)}</dd></div>
+                  </div>
+                </dl>
+                <a className="cp-btn cp-btn-secondary cp-btn-sm" href={`/customers/${customer.id}`}>Ouvrir le dossier</a>
+              </article>
             ))}
           </div>
         ) : (
-          <div className="p-4">
+          <div className="cp-section-body">
             <ActivationEmptyState
               actionHref="/import"
               actionLabel="Importer mon fichier clients"
               eyebrow="Premier portefeuille"
-              proofPoints={[
-                "Reprendre Excel sans ressaisie",
-                "Préparer contrats et équipements",
-                "Débloquer relances et factures",
-              ]}
+              proofPoints={["Reprendre Excel sans ressaisie", "Préparer contrats et équipements", "Débloquer relances et factures"]}
               secondaryHref="/customers/new"
               secondaryLabel="Ajouter un client"
               title="Commencez par importer ou créer vos premiers clients CVC."
             />
           </div>
         )}
-      </details>
+      </section>
     </AppShell>
   );
 }

@@ -9,21 +9,25 @@ const navItems = [
 
 export function Sidebar() {
   return (
-    <aside className="border-r border-zinc-200 bg-white p-5">
-      <p className="text-xs font-semibold uppercase tracking-wide text-emerald-700">
-        ContratPro
-      </p>
-      <nav className="mt-6 grid gap-1 text-sm">
-        {navItems.map((item) => (
-          <a
-            className="rounded-md px-3 py-2 font-medium text-zinc-600 hover:bg-zinc-100"
-            href={item.href}
-            key={item.href}
-          >
-            {item.label}
-          </a>
-        ))}
-      </nav>
+    <aside className="cp-sidebar">
+      <div className="cp-brand">
+        <span className="cp-brand-mark">CP</span>
+        <div>
+          <p className="cp-brand-name">ContratPro</p>
+          <p className="cp-brand-tag">Maintenance CVC</p>
+        </div>
+      </div>
+      <div>
+        <p className="cp-nav-section-label">Navigation</p>
+        <nav className="cp-nav">
+          {navItems.map((item) => (
+            <a className="cp-nav-item" href={item.href} key={item.href}>
+              <span className="cp-nav-dot" />
+              <span>{item.label}</span>
+            </a>
+          ))}
+        </nav>
+      </div>
     </aside>
   );
 }

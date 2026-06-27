@@ -1,5 +1,6 @@
 import { AppShell, PageHeader, StatusPill } from "@/components/layout/AppShell";
 import { ActivationEmptyState } from "@/components/layout/ActivationEmptyState";
+import { AgentPanel, StatCard } from "@/components/ui";
 import { formatEuro } from "@/lib/mock-data";
 import {
   getRenewalActions,
@@ -13,47 +14,6 @@ import { RenewalActionControls } from "./RenewalActionControls";
 import { SendRenewalEmailButton } from "./SendRenewalEmailButton";
 
 type RelanceTone = "amber" | "cyan" | "emerald" | "rose";
-
-function StatCard({
-  label,
-  value,
-  detail,
-  tone,
-}: {
-  label: string;
-  value: string;
-  detail: string;
-  tone: RelanceTone;
-}) {
-  return (
-    <article className="relance-stat-card" data-tone={tone}>
-      <p className="text-xs font-medium uppercase tracking-wide text-zinc-400">
-        {label}
-      </p>
-      <strong className="mt-3 block text-3xl font-semibold text-zinc-50">
-        {value}
-      </strong>
-      <p className="mt-2 text-sm leading-5 text-zinc-400">{detail}</p>
-    </article>
-  );
-}
-
-function ActionStat({
-  label,
-  value,
-  tone,
-}: {
-  label: string;
-  value: number;
-  tone: RelanceTone;
-}) {
-  return (
-    <div className="relance-action-stat" data-tone={tone}>
-      <p className="text-xs uppercase tracking-wide text-zinc-400">{label}</p>
-      <strong className="mt-1 block text-xl text-zinc-50">{value}</strong>
-    </div>
-  );
-}
 
 function urgencyTone(daysRemaining: number): RelanceTone {
   if (daysRemaining <= 15) {
@@ -142,7 +102,7 @@ export default async function RelancesPage() {
     <AppShell activePath="/relances">
       <PageHeader
         action={
-          <a className="premium-action rounded-md text-sm font-semibold" href="/contracts/quick">
+          <a className="cp-btn cp-btn-primary cp-btn-sm" href="/contracts/quick">
             Nouveau contrat
           </a>
         }
@@ -151,73 +111,67 @@ export default async function RelancesPage() {
         title="Relances renouvellement"
       />
 
-      <section className="relance-command-panel mt-6" data-od-id="relance-revenue-command">
-        <div className="relance-command-brief">
-          <p>Commande du jour</p>
-          <h2>{command.label}</h2>
-          <span>{command.proof}</span>
-        </div>
-        <div className="relance-command-decision" data-tone={commandTone}>
-          <small>Action prioritaire</small>
-          <strong>{command.action}</strong>
-          {topRenewal ? (
-            <span>
-              {topRenewal.customer} - {formatEuro(topRenewal.value)} - J-{topRenewal.daysRemaining}
-            </span>
-          ) : (
-            <span>Importer ou créer un contrat actif pour alimenter la file.</span>
-          )}
-          <a className="premium-action rounded-md text-sm font-semibold" href={topRenewal ? `/contracts/${topRenewal.id}` : "/contracts/quick"}>
-            Ouvrir le dossier
-          </a>
-        </div>
-      </section>
-
-      {priorityRenewals.length ? (
-        <section className="relance-today-panel mt-5" aria-label="Relances du jour">
-          <div className="relance-today-header">
-            <div>
-              <p>File du jour</p>
-              <h3>3 dossiers maximum. On relance, puis on passe au chantier suivant.</h3>
-            </div>
-            <span>{formatEuro(priorityValue)} à protéger</span>
+      {/* Commande du jour — hero avec AgentPanel */}
+      <div data-od-id="relance-revenue-command" className="relance-command-panel">
+      <AgentPanel
+        eyebrow="Commande du jour"
+        thesis={command.label}
+        proof={
+          <>
+            {command.proof}
+            {topRenewal ? (
+              <span className="mt-3 block" style={{ color: "var(--text-primary)" }}>
+                <strong>{topRenewal.customer}</strong> — {formatEuro(topRenewal.value)} — J-{topRenewal.daysRemaining}
+              </span>
+            ) : (
+              <span className="mt-3 block">Importer ou créer un contrat actif pour alimenter la file.</span>
+            )}
+          </>
+        }
+        action={
+          <div className="relance-command-decision flex flex-col items-end gap-2">
+            <span className="cp-pill cp-pill-dot" data-tone={commandTone}>Action prioritaire · {command.action}</span>
+            <a className="cp-btn cp-btn-primary cp-btn-sm" href={topRenewal ? `/contracts/${topRenewal.id}` : "/contracts/quick"}>
+              Ouvrir le dossier
+            </a>
           </div>
-          <div className="relance-today-grid">
+        }
+      />
+      </div>
+
+      {/* File du jour — 3 dossiers max */}
+      {priorityRenewals.length ? (
+        <section className="cp-relance-today">
+          <header className="cp-relance-today-head">
+            <div>
+              <p className="cp-eyebrow">File du jour</p>
+              <h3 className="cp-relance-today-title">3 dossiers maximum. On relance, puis on passe au chantier suivant.</h3>
+            </div>
+            <span className="cp-pill cp-pill-dot" data-tone="rose">{formatEuro(priorityValue)} à protéger</span>
+          </header>
+          <div className="cp-relance-today-grid">
             {priorityRenewals.map((renewal, index) => (
-              <article
-                className="relance-today-card"
-                data-tone={urgencyTone(renewal.daysRemaining)}
-                key={renewal.id}
-              >
-                <div className="relance-today-card-head">
-                  <span>{String(index + 1).padStart(2, "0")}</span>
-                  <strong>J-{renewal.daysRemaining}</strong>
+              <article className="cp-relance-card" data-tone={urgencyTone(renewal.daysRemaining)} key={renewal.id}>
+                <div className="cp-relance-card-head">
+                  <span className="cp-relance-card-num">{String(index + 1).padStart(2, "0")}</span>
+                  <strong className="cp-relance-card-urgency">J-{renewal.daysRemaining}</strong>
                 </div>
-                <h4>{renewal.customer}</h4>
-                <p>{renewal.equipment}</p>
-                <dl>
+                <h4 className="cp-relance-card-customer">{renewal.customer}</h4>
+                <p className="cp-cell-sub">{renewal.equipment}</p>
+                <dl className="cp-relance-card-meta">
                   <div>
                     <dt>À sauver</dt>
-                    <dd>{formatEuro(renewal.value)}</dd>
+                    <dd className="cp-cell-amount">{formatEuro(renewal.value)}</dd>
                   </div>
                   <div>
                     <dt>Canal</dt>
                     <dd>{renewal.channel}</dd>
                   </div>
                 </dl>
-                <div className="relance-today-actions">
-                  <SendRenewalEmailButton
-                    channel={renewal.channel}
-                    contractId={renewal.id}
-                    message={renewal.script}
-                  />
+                <div className="cp-relance-card-actions">
+                  <SendRenewalEmailButton channel={renewal.channel} contractId={renewal.id} message={renewal.script} />
                   <CopyScriptButton script={renewal.script} />
-                  <a
-                    className="premium-inline-action rounded-md px-3 py-2 text-center text-sm font-semibold"
-                    href={`/contracts/${renewal.id}`}
-                  >
-                    Dossier
-                  </a>
+                  <a className="cp-btn cp-btn-ghost cp-btn-sm" href={`/contracts/${renewal.id}`}>Dossier</a>
                 </div>
               </article>
             ))}
@@ -225,302 +179,174 @@ export default async function RelancesPage() {
         </section>
       ) : null}
 
-      <details className="artisan-evidence-details mt-5">
-        <summary className="worklist-summary">
-          Voir les chiffres de relance
-        </summary>
-        <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-          <StatCard
-            detail="recommandations à valider par un humain"
-            label="File agent"
-            tone="cyan"
-            value={String(agent.validationQueue)}
-          />
-          <StatCard
-            detail="contrats avec score IA critique"
-            label="Critiques"
-            tone="amber"
-            value={String(agent.criticalCount)}
-          />
-          <StatCard
-            detail="revenu annuel priorisé par l'agent"
-            label="ROI potentiel"
-            tone="rose"
-            value={formatEuro(agent.totalExpectedValue)}
-          />
-          <StatCard
-            detail="peuvent être renouvelés avec mandat"
-            label="SEPA prêt"
-            tone="emerald"
-            value={String(sepaReady.length)}
-          />
-        </div>
-      </details>
+      {/* Métriques agent */}
+      <div className="cp-stat-grid">
+        <StatCard label="File agent" value={String(agent.validationQueue)} detail="recommandations à valider par un humain" tone="cyan" />
+        <StatCard label="Critiques" value={String(agent.criticalCount)} detail="contrats avec score IA critique" tone="amber" />
+        <StatCard label="ROI potentiel" value={formatEuro(agent.totalExpectedValue)} detail="revenu annuel priorisé par l'agent" tone="rose" />
+        <StatCard label="SEPA prêt" value={String(sepaReady.length)} detail="peuvent être renouvelés avec mandat" tone="emerald" />
+      </div>
 
-      <details className="relance-agent-panel mt-5 rounded-lg border p-4 shadow-sm">
-        <summary className="worklist-summary">
-          Voir l'analyse Architecte IA
-        </summary>
-        <div className="flex flex-col gap-3 lg:flex-row lg:items-start lg:justify-between">
+      {/* Top recommandations agent — sublimées */}
+      <section className="cp-relance-agent relance-agent-panel">
+        <header className="cp-relance-agent-head">
           <div>
-            <p className="text-sm font-semibold text-cyan-300">
-              Architecte IA de croissance
-            </p>
-            <h3 className="mt-1 text-lg font-bold text-zinc-50">
-              Agent de relance CVC
-            </h3>
-            <p className="mt-2 max-w-3xl text-sm leading-6 text-zinc-400">
-              L'agent trie les contrats par risque commercial, montant à protéger,
-              friction de paiement et historique de relance. Chaque action reste
-              soumise à validation humaine avant envoi.
+            <p className="cp-eyebrow">Architecte IA de croissance</p>
+            <h3 className="cp-relance-agent-title">Agent de relance CVC</h3>
+            <p className="cp-relance-agent-desc">
+              L'agent trie les contrats par risque commercial, montant à protéger, friction de paiement et historique de relance. Chaque action reste soumise à validation humaine avant envoi.
             </p>
           </div>
-          <span className="relance-agent-badge">
-            {agent.highCount + agent.criticalCount} priorité(s)
-          </span>
-        </div>
-
-        <div className="mt-4 grid gap-3 lg:grid-cols-3">
+          <span className="cp-pill cp-pill-dot" data-tone="cyan">{agent.highCount + agent.criticalCount} priorité(s)</span>
+        </header>
+        <div className="cp-relance-agent-grid">
           {agent.topRecommendations.map((recommendation) => (
-            <article
-              className="relance-agent-card"
-              data-tone={agentTone(recommendation.riskLevel)}
-              key={recommendation.contractId}
-            >
-              <div className="flex items-start justify-between gap-3">
+            <article className="cp-agent-card relance-agent-card" data-tone={agentTone(recommendation.riskLevel)} key={recommendation.contractId}>
+              <div className="cp-agent-card-head">
                 <div>
-                  <p className="text-sm font-semibold text-zinc-50">
-                    {recommendation.customer}
-                  </p>
-                  <p className="mt-1 text-xs text-zinc-500">
-                    {recommendation.roiLabel}
-                  </p>
+                  <p className="cp-cell-strong">{recommendation.customer}</p>
+                  <p className="cp-cell-sub">{recommendation.roiLabel}</p>
                 </div>
-                <strong>{recommendation.score}</strong>
+                <div className="cp-agent-score">
+                  <span className="cp-agent-score-ring">{recommendation.score}</span>
+                </div>
               </div>
-              <p className="mt-3 text-sm leading-5 text-zinc-300">
-                {recommendation.action}
-              </p>
-              <p className="relance-agent-brief mt-3">
-                {recommendation.decisionBrief}
-              </p>
-              <ul className="mt-3 space-y-1 text-xs leading-5 text-zinc-500">
+              <p className="cp-agent-card-action">{recommendation.action}</p>
+              <p className="cp-agent-card-brief">{recommendation.decisionBrief}</p>
+              <ul className="cp-checklist">
                 {recommendation.reasons.slice(0, 3).map((reason) => (
-                  <li key={reason}>{reason}</li>
+                  <li className="cp-check-item" key={reason}>{reason}</li>
                 ))}
               </ul>
-              <a
-                className="premium-secondary-action mt-4 inline-flex rounded-md px-3 py-2 text-sm font-semibold"
-                href={`/contracts/${recommendation.contractId}`}
-              >
-                Valider
-              </a>
+              <a className="cp-btn cp-btn-secondary cp-btn-sm" href={`/contracts/${recommendation.contractId}`}>Valider</a>
             </article>
           ))}
         </div>
-      </details>
+      </section>
 
-      <details className="relance-section mt-5">
-        <summary className="worklist-summary">
-          Voir toute la file commerciale ({renewals.length})
-        </summary>
-        <div className="relance-section-header flex flex-wrap items-start justify-between gap-4">
+      {/* File commerciale complète */}
+      <section className="cp-section">
+        <header className="cp-section-header">
           <div>
-            <h3 className="text-base font-semibold text-zinc-50">
-              File commerciale
-            </h3>
-            <p className="mt-1 text-sm text-zinc-400">
-              Tri par échéance, avec la prochaine action conseillée.
-            </p>
+            <h3 className="cp-section-title">File commerciale</h3>
+            <p className="cp-section-desc">Tri par échéance, avec la prochaine action conseillée.</p>
           </div>
-          <span className="relance-critical-pill">
-            {critical.length} critique(s)
-          </span>
-        </div>
+          <span className="cp-pill" data-tone="rose">{critical.length} critique(s) · {renewals.length} total</span>
+        </header>
 
         {renewals.length ? (
-          <div className="grid gap-4 p-4">
+          <div className="cp-section-body cp-deal-list">
             {renewals.map((renewal) => {
-            const recommendation = recommendationsByContract.get(renewal.id);
-            return (
-            <article
-              className="relance-deal-card"
-              data-tone={urgencyTone(renewal.daysRemaining)}
-              key={renewal.id}
-            >
-              <div className="grid gap-5 xl:grid-cols-[1.25fr_0.9fr_auto] xl:items-start">
-                <div>
-                  <div className="flex flex-wrap items-center gap-3">
-                    <a
-                      className="text-lg font-semibold text-zinc-50"
-                      href={`/contracts/${renewal.id}`}
-                    >
-                      {renewal.customer}
-                    </a>
-                    <StatusPill>{renewal.priority}</StatusPill>
-                  </div>
-                  <p className="mt-2 text-sm text-zinc-400">
-                    {renewal.city} - {renewal.equipment}
-                  </p>
-                  <p className="relance-script mt-4 text-sm leading-6">
-                    {renewal.script}
-                  </p>
-                  {recommendation ? (
-                    <div className="relance-agent-note mt-3">
-                      <span>Score IA {recommendation.score}</span>
-                      <p>{recommendation.action}</p>
-                      <div className="relance-agent-variants">
-                        {recommendation.messageVariants.map((variant) => (
-                          <details key={variant.label}>
-                            <summary>{variant.label}</summary>
-                            <p>{variant.text}</p>
-                          </details>
-                        ))}
-                      </div>
+              const recommendation = recommendationsByContract.get(renewal.id);
+              return (
+                <article className="cp-deal-card" data-tone={urgencyTone(renewal.daysRemaining)} key={renewal.id}>
+                  <div className="cp-deal-main">
+                    <div className="cp-deal-head">
+                      <a className="cp-deal-customer" href={`/contracts/${renewal.id}`}>{renewal.customer}</a>
+                      <StatusPill>{renewal.priority}</StatusPill>
                     </div>
-                  ) : null}
-                </div>
+                    <p className="cp-cell-sub">{renewal.city} — {renewal.equipment}</p>
+                    <p className="cp-deal-script">{renewal.script}</p>
+                    {recommendation ? (
+                      <div className="cp-deal-agent-note relance-agent-note">
+                        <span className="cp-pill" data-tone="cyan">Score IA {recommendation.score}</span>
+                        <p>{recommendation.action}</p>
+                        <div className="cp-deal-variants">
+                          {recommendation.messageVariants.map((variant) => (
+                            <details key={variant.label}>
+                              <summary>{variant.label}</summary>
+                              <p>{variant.text}</p>
+                            </details>
+                          ))}
+                        </div>
+                      </div>
+                    ) : null}
+                  </div>
 
-                <dl className="grid grid-cols-2 gap-3 text-sm">
-                  <div className="relance-detail-cell">
-                    <dt>Échéance</dt>
-                    <dd>{renewal.endDate}</dd>
-                  </div>
-                  <div className="relance-detail-cell">
-                    <dt>Jours</dt>
-                    <dd>{renewal.daysRemaining}</dd>
-                  </div>
-                  <div className="relance-detail-cell">
-                    <dt>Montant</dt>
-                    <dd>{formatEuro(renewal.value)}</dd>
-                  </div>
-                  <div className="relance-detail-cell">
-                    <dt>Canal</dt>
-                    <dd>{renewal.channel}</dd>
-                  </div>
-                </dl>
+                  <dl className="cp-deal-meta">
+                    <div className="cp-detail-item"><dt>Échéance</dt><dd>{renewal.endDate}</dd></div>
+                    <div className="cp-detail-item"><dt>Jours</dt><dd>{renewal.daysRemaining}</dd></div>
+                    <div className="cp-detail-item"><dt>Montant</dt><dd className="cp-cell-amount">{formatEuro(renewal.value)}</dd></div>
+                    <div className="cp-detail-item"><dt>Canal</dt><dd>{renewal.channel}</dd></div>
+                  </dl>
 
-                <div className="flex flex-wrap gap-2 xl:flex-col">
-                  <SendRenewalEmailButton
-                    channel={renewal.channel}
-                    contractId={renewal.id}
-                    message={renewal.script}
-                  />
-                  <CopyScriptButton script={renewal.script} />
-                  <LogRenewalButton
-                    channel={renewal.channel}
-                    contractId={renewal.id}
-                    message={renewal.script}
-                  />
-                  <a
-                    className="premium-inline-action rounded-md px-3 py-2 text-center text-sm font-semibold"
-                    href={`/contracts/${renewal.id}`}
-                  >
-                    Dossier
-                  </a>
-                </div>
-              </div>
-            </article>
-            );
+                  <div className="cp-deal-actions">
+                    <SendRenewalEmailButton channel={renewal.channel} contractId={renewal.id} message={renewal.script} />
+                    <CopyScriptButton script={renewal.script} />
+                    <LogRenewalButton channel={renewal.channel} contractId={renewal.id} message={renewal.script} />
+                    <a className="cp-btn cp-btn-ghost cp-btn-sm" href={`/contracts/${renewal.id}`}>Dossier</a>
+                  </div>
+                </article>
+              );
             })}
           </div>
         ) : (
-          <div className="p-4">
+          <div className="cp-section-body">
             <ActivationEmptyState
               actionHref="/contracts/quick"
               actionLabel="Créer un contrat actif"
               eyebrow="Relance automatique"
-              proofPoints={[
-                "Détecter les échéances",
-                "Prioriser le revenu à risque",
-                "Préparer scripts et emails",
-              ]}
+              proofPoints={["Détecter les échéances", "Prioriser le revenu à risque", "Préparer scripts et emails"]}
               secondaryHref="/import"
               secondaryLabel="Importer contrats"
               title="Les relances apparaissent dès qu'un contrat actif possède une échéance."
             />
           </div>
         )}
-      </details>
+      </section>
 
-      <details className="relance-section mt-5">
-        <summary className="worklist-summary">
-          Voir le journal des relances ({actions.length})
-        </summary>
-        <div className="relance-section-header flex flex-wrap items-start justify-between gap-4">
+      {/* Journal des relances */}
+      <section className="cp-section">
+        <header className="cp-section-header">
           <div>
-            <h3 className="text-base font-semibold text-zinc-50">
-              Journal des relances
-            </h3>
-            <p className="mt-1 text-sm text-zinc-400">
-              Historique commercial prêt pour le suivi, les stats et les
-              automatisations.
-            </p>
+            <h3 className="cp-section-title">Journal des relances</h3>
+            <p className="cp-section-desc">Historique commercial prêt pour le suivi, les stats et les automatisations.</p>
           </div>
           <StatusPill>{actions.length} action(s)</StatusPill>
-        </div>
+        </header>
 
-        <div className="grid gap-3 p-4 md:grid-cols-4">
-          <ActionStat label="À faire" tone="amber" value={actionStats.todo} />
-          <ActionStat label="Envoyées" tone="cyan" value={actionStats.sent} />
-          <ActionStat label="Gagnées" tone="emerald" value={actionStats.won} />
-          <ActionStat label="Perdues" tone="rose" value={actionStats.lost} />
+        <div className="cp-section-body cp-relance-stats">
+          <StatCard label="À faire" value={String(actionStats.todo)} tone="amber" />
+          <StatCard label="Envoyées" value={String(actionStats.sent)} tone="cyan" />
+          <StatCard label="Gagnées" value={String(actionStats.won)} tone="emerald" />
+          <StatCard label="Perdues" value={String(actionStats.lost)} tone="rose" />
         </div>
 
         <div className="overflow-x-auto">
-          <table className="w-full min-w-[860px] text-left text-sm">
+          <table className="cp-table">
             <thead>
-              <tr className="dashboard-table-head text-xs uppercase tracking-wide text-zinc-400">
-                <th className="px-4 py-3 font-semibold">Client</th>
-                <th className="px-4 py-3 font-semibold">Canal</th>
-                <th className="px-4 py-3 font-semibold">Action</th>
-                <th className="px-4 py-3 font-semibold">Échéance</th>
-                <th className="px-4 py-3 font-semibold">Issue</th>
-                <th className="px-4 py-3 font-semibold">Statut</th>
-                <th className="px-4 py-3 font-semibold">Décision</th>
+              <tr>
+                <th>Client</th>
+                <th>Canal</th>
+                <th>Action</th>
+                <th>Échéance</th>
+                <th>Issue</th>
+                <th>Statut</th>
+                <th>Décision</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-zinc-800/80">
+            <tbody>
               {actions.length ? (
                 actions.map((action) => (
-                  <tr className="dashboard-table-row" key={action.id}>
-                    <td className="px-4 py-4">
-                      <a
-                        className="font-semibold text-emerald-300"
-                        href={`/contracts/${action.contractId}`}
-                      >
-                        {action.customer}
-                      </a>
-                    </td>
-                    <td className="px-4 py-4 font-medium text-zinc-100">{action.channel}</td>
-                    <td className="max-w-md px-4 py-4 text-zinc-300">
-                      {action.message}
-                    </td>
-                    <td className="px-4 py-4 text-zinc-300">{action.dueAt}</td>
-                    <td className="px-4 py-4 text-zinc-300">{action.outcome}</td>
-                    <td className="px-4 py-4">
-                      <StatusPill>{action.status}</StatusPill>
-                    </td>
-                    <td className="px-4 py-4">
-                      <RenewalActionControls
-                        actionId={action.id}
-                        currentStatus={action.rawStatus}
-                      />
-                    </td>
+                  <tr key={action.id}>
+                    <td><a className="cp-deal-link" href={`/contracts/${action.contractId}`}>{action.customer}</a></td>
+                    <td className="cp-cell-strong">{action.channel}</td>
+                    <td className="cp-deal-message">{action.message}</td>
+                    <td>{action.dueAt}</td>
+                    <td>{action.outcome}</td>
+                    <td><StatusPill>{action.status}</StatusPill></td>
+                    <td><RenewalActionControls actionId={action.id} currentStatus={action.rawStatus} /></td>
                   </tr>
                 ))
               ) : (
                 <tr>
-                  <td className="px-4 py-6 text-sm text-zinc-400" colSpan={7}>
-                    Aucune relance journalisée pour le moment. Cliquez sur
-                    Journaliser dans la file commerciale.
-                  </td>
+                  <td className="cp-empty-inline" colSpan={7}>Aucune relance journalisée pour le moment. Cliquez sur Journaliser dans la file commerciale.</td>
                 </tr>
               )}
             </tbody>
           </table>
         </div>
-      </details>
+      </section>
     </AppShell>
   );
 }

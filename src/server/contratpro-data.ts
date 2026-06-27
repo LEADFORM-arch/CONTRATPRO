@@ -503,19 +503,19 @@ function equipmentLabel(installation?: {
   model: string | null;
 }) {
   if (!installation) {
-    return "Equipement non renseigne";
+    return "Équipement non renseigné";
   }
   return [installation.brand, installation.model].filter(Boolean).join(" ") || installation.type;
 }
 
 function equipmentTypeLabel(type: string) {
   const labels: Record<string, string> = {
-    BOILER_GAS: "Chaudiere gaz",
-    BOILER_OIL: "Chaudiere fioul",
+    BOILER_GAS: "Chaudière gaz",
+    BOILER_OIL: "Chaudière fioul",
     HEAT_PUMP_AIR_AIR: "PAC air/air",
     HEAT_PUMP_AIR_WATER: "PAC air/eau",
-    HEAT_PUMP_GEO: "PAC geothermie",
-    AC_REVERSIBLE: "Clim reversible",
+    HEAT_PUMP_GEO: "PAC géothermie",
+    AC_REVERSIBLE: "Clim réversible",
     VMC: "VMC",
     OTHER: "Autre équipement",
   };
@@ -848,7 +848,7 @@ export async function getContractDetail(id: string) {
       phone: "-",
       address: "-",
       equipment: demo.equipment,
-      equipmentType: "Equipement",
+      equipmentType: "Équipement",
       serialNumber: "-",
       powerKw: "-",
       location: "-",
@@ -1051,7 +1051,7 @@ export async function getCustomerOptions() {
 
   return rows.map((row) => ({
     id: row.id,
-    label: `${customerName(row)} - ${row.city ?? "Ville non renseignee"}`,
+    label: `${customerName(row)} - ${row.city ?? "Ville non renseignée"}`,
   }));
 }
 
@@ -1193,7 +1193,7 @@ export async function getCertificateDetail(id: string) {
       phone: "-",
       address: "-",
       equipment: demo.equipment,
-      equipmentType: "Equipement CVC",
+      equipmentType: "Équipement CVC",
       serialNumber: "-",
       powerKw: "-",
       location: "-",

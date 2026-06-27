@@ -6,11 +6,8 @@ const navItems = [
   { href: "/architecte-ia", label: "Architecte IA" },
   { href: "/simulateur", label: "Simulateur" },
   { href: "/attestation-entretien-chaudiere", label: "Attestation" },
-  { href: "/demo", label: "Demo" },
-  { href: "/pricing", label: "Tarif" },
-  { href: "/cookies", label: "Cookies" },
-  { href: "/privacy", label: "Confidentialite" },
-  { href: "/dpa", label: "DPA" },
+  { href: "/pricing", label: "Tarifs" },
+  { href: "/demo", label: "Démo" },
 ];
 
 export function PublicShell({
@@ -23,13 +20,13 @@ export function PublicShell({
   return (
     <main
       className={[
-        "public-shell min-h-screen text-white",
+        "public-shell min-h-screen",
         variant === "openDesign" ? "public-shell-open-design" : "",
       ]
         .filter(Boolean)
         .join(" ")}
     >
-      <header className="public-nav mx-auto flex max-w-[1500px] items-center justify-between gap-4 px-5 py-5 sm:px-8">
+      <header className="public-nav">
         <a className="public-brand" href="/">
           <span>CP</span>
           <div>
@@ -37,29 +34,34 @@ export function PublicShell({
             <small>Maintenance CVC</small>
           </div>
         </a>
-        <nav className="hidden items-center gap-2 text-sm md:flex">
+        <nav className="hidden items-center gap-1 md:flex">
           {navItems.map((item) => (
             <a className="public-nav-link" href={item.href} key={item.href}>
               {item.label}
             </a>
           ))}
         </nav>
-        <a className="premium-action rounded-md text-sm font-semibold" href="/login">
-          Connexion
-        </a>
+        <div className="flex items-center gap-2">
+          <a className="cp-btn cp-btn-secondary cp-btn-sm" href="/demo">
+            Démo
+          </a>
+          <a className="cp-btn cp-btn-primary cp-btn-sm" href="/login">
+            Connexion
+          </a>
+        </div>
       </header>
 
       {children}
 
-      <footer className="public-footer mx-auto grid max-w-[1500px] gap-4 px-5 py-8 text-sm sm:px-8 md:grid-cols-[1fr_auto]">
+      <footer className="public-footer mx-auto grid gap-4 px-5 py-8 text-sm sm:px-8 md:grid-cols-[1fr_auto]">
         <p>
-          ContratPro aide les entreprises CVC a piloter contrats, attestations,
-          relances et encaissements recurrents.
+          ContratPro aide les entreprises CVC à piloter contrats, attestations,
+          relances et encaissements récurrents.
         </p>
-        <div className="flex flex-wrap gap-3">
-          <a href="/legal">Mentions legales</a>
+        <div className="flex flex-wrap gap-4">
+          <a href="/legal">Mentions légales</a>
           <a href="/terms">CGV</a>
-          <a href="/privacy">Confidentialite</a>
+          <a href="/privacy">Confidentialité</a>
           <a href="/dpa">DPA</a>
           <a href="/cookies">Cookies</a>
           <CookiePreferencesButton />
@@ -83,15 +85,11 @@ export function PublicHero({
   visual?: ReactNode;
 }) {
   return (
-    <section className="public-hero mx-auto grid max-w-[1500px] gap-10 px-5 pb-10 pt-8 sm:px-8 lg:grid-cols-[minmax(0,1fr)_600px] lg:items-center">
+    <section className="public-hero">
       <div>
-        <p className="text-sm font-semibold text-emerald-300">{eyebrow}</p>
-        <h1 className="mt-4 max-w-3xl text-4xl font-black tracking-normal text-zinc-50 sm:text-5xl">
-          {title}
-        </h1>
-        <p className="mt-5 max-w-2xl text-base leading-7 text-zinc-400">
-          {description}
-        </p>
+        <p className="cp-eyebrow">{eyebrow}</p>
+        <h1 className="mt-4">{title}</h1>
+        <p className="mt-5 max-w-2xl text-base">{description}</p>
         {action ? <div className="mt-7 flex flex-wrap gap-3">{action}</div> : null}
       </div>
 
@@ -99,7 +97,7 @@ export function PublicHero({
         <div className="public-product-visual">
           <div className="public-visual-top">
             <span>Contrats actifs</span>
-            <strong>48 900 EUR</strong>
+            <strong>48 900 €</strong>
           </div>
           <div className="public-visual-bars">
             <span data-size="92" />
@@ -109,15 +107,15 @@ export function PublicHero({
           </div>
           <div className="public-visual-list">
             <div>
-              <span>Relances a 30 jours</span>
+              <span>Relances à 30 jours</span>
               <strong>12</strong>
             </div>
             <div>
-              <span>Attestations envoyees</span>
+              <span>Attestations envoyées</span>
               <strong>34</strong>
             </div>
             <div>
-              <span>SEPA sous controle</span>
+              <span>SEPA sous contrôle</span>
               <strong>96%</strong>
             </div>
           </div>
@@ -137,13 +135,11 @@ export function PublicSection({
   title: string;
 }) {
   return (
-    <section className="mx-auto max-w-[1500px] px-5 py-8 sm:px-8">
+    <section className="public-section">
       <div className="mb-5">
-        <h2 className="text-2xl font-black text-zinc-50">{title}</h2>
+        <h2>{title}</h2>
         {description ? (
-          <p className="mt-2 max-w-2xl text-sm leading-6 text-zinc-400">
-            {description}
-          </p>
+          <p className="mt-2 max-w-2xl text-sm">{description}</p>
         ) : null}
       </div>
       {children}

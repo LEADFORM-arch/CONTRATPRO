@@ -1,39 +1,11 @@
 import { AppShell, PageHeader, StatusPill } from "@/components/layout/AppShell";
 import { ActivationEmptyState } from "@/components/layout/ActivationEmptyState";
+import { AgentPanel, StatCard } from "@/components/ui";
 import { formatEuro } from "@/lib/mock-data";
 import { getPayments } from "@/server/contratpro-data";
 
 import { PaymentSubmitButton } from "./PaymentSubmitButton";
 import { PaymentStatusControls } from "./PaymentStatusControls";
-
-type PaymentTone = "amber" | "cyan" | "emerald" | "rose";
-
-function PaymentWorkTile({
-  count,
-  detail,
-  href,
-  label,
-  step,
-  tone,
-}: {
-  count: string;
-  detail: string;
-  href: string;
-  label: string;
-  step: string;
-  tone: PaymentTone;
-}) {
-  return (
-    <a className="artisan-terrain-tile" data-tone={tone} href={href}>
-      <span>{step}</span>
-      <div>
-        <strong>{label}</strong>
-        <p>{detail}</p>
-      </div>
-      <em>{count}</em>
-    </a>
-  );
-}
 
 export default async function PaymentsPage() {
   const payments = await getPayments();
@@ -82,55 +54,51 @@ export default async function PaymentsPage() {
     <AppShell activePath="/payments">
       <PageHeader
         action={
-          <a
-            className="premium-action rounded-md px-4 py-2 text-sm font-semibold"
-            href="/payments/new"
-          >
-            Créer paiement
-          </a>
+          <a className="cp-btn cp-btn-primary cp-btn-sm" href="/payments/new">Créer paiement</a>
         }
         description="Une seule question : quel prélèvement faut-il encaisser ou corriger maintenant ?"
         eyebrow="Trésorerie récurrente"
         title="Paiements et mandats SEPA"
       />
 
-      <section className="payment-sandbox-note mt-5" aria-label="Mode SEPA sandbox">
+      <div className="cp-sandbox-note">
         <div>
-          <p>Mode sandbox GoCardless</p>
-          <strong>Vous pouvez tester le parcours sans vrai prélèvement bancaire.</strong>
+          <p className="cp-eyebrow">Mode sandbox GoCardless</p>
+          <strong>Testez le parcours sans vrai prélèvement bancaire.</strong>
         </div>
-        <span>
-          Le chauffagiste suit le client, le montant et le statut. Les identifiants provider restent dans les détails avancés.
-        </span>
-      </section>
+        <span className="cp-cell-sub">Le chauffagiste suit le client, le montant et le statut. Les identifiants provider restent dans les détails avancés.</span>
+      </div>
 
-      <section className="payment-command-panel mt-6" data-od-id="payment-cash-command">
-        <div className="payment-command-brief">
-          <p>Commande cash-flow</p>
-          <h2>{cashCommand.label}</h2>
-          <span>{cashCommand.detail}</span>
-        </div>
-        <div className="payment-command-decision" data-tone={cashCommand.tone}>
-          <small>Action prioritaire</small>
-          <strong>{cashCommand.action}</strong>
-          {nextPayment ? (
-            <span>
-              {nextPayment.customer} - {formatEuro(nextPayment.amount)} - {nextPayment.status}
-            </span>
-          ) : (
-            <span>Créer un premier paiement pour alimenter le cockpit.</span>
-          )}
-          <a className="premium-action rounded-md text-sm font-semibold" href={nextPayment?.contractId ? `/contracts/${nextPayment.contractId}` : "/payments/new"}>
-            Ouvrir le dossier
-          </a>
-        </div>
-      </section>
+      <AgentPanel
+        eyebrow="Commande cash-flow"
+        thesis={cashCommand.label}
+        proof={
+          <>
+            {cashCommand.detail}
+            {nextPayment ? (
+              <span className="mt-3 block" style={{ color: "var(--text-primary)" }}>
+                <strong>{nextPayment.customer}</strong> — {formatEuro(nextPayment.amount)} — {nextPayment.status}
+              </span>
+            ) : (
+              <span className="mt-3 block">Créer un premier paiement pour alimenter le cockpit.</span>
+            )}
+          </>
+        }
+        action={
+          <div className="flex flex-col items-end gap-2">
+            <span className="cp-pill cp-pill-dot" data-tone={cashCommand.tone}>{cashCommand.action}</span>
+            <a className="cp-btn cp-btn-primary cp-btn-sm" href={nextPayment?.contractId ? `/contracts/${nextPayment.contractId}` : "/payments/new"}>
+              Ouvrir le dossier
+            </a>
+          </div>
+        }
+      />
 
       {priorityPayments.length ? (
-        <section className="artisan-action-queue mt-5" aria-label="Paiements prioritaires">
+        <section className="cp-priority-queue">
           {priorityPayments.map((payment, index) => (
             <a
-              className="artisan-action-card"
+              className="cp-priority-card"
               data-tone={
                 payment.rawStatus === "FAILED"
                   ? "rose"
@@ -141,208 +109,116 @@ export default async function PaymentsPage() {
               href={payment.contractId ? `/contracts/${payment.contractId}` : "/payments/new"}
               key={payment.id}
             >
-              <span>{String(index + 1).padStart(2, "0")}</span>
-              <div>
+              <span className="cp-priority-num">{String(index + 1).padStart(2, "0")}</span>
+              <div className="cp-priority-body">
                 <strong>{payment.customer}</strong>
                 <p>{payment.status} · {payment.dueDate}</p>
               </div>
-              <em>{formatEuro(payment.amount)}</em>
+              <em className="cp-priority-amount">{formatEuro(payment.amount)}</em>
             </a>
           ))}
         </section>
       ) : null}
 
-      <section className="artisan-terrain-lanes mt-5" aria-label="Raccourcis paiement">
-        <PaymentWorkTile
-          count={String(failed.length)}
-          detail="Rejets ou échecs à corriger avant relance client."
-          href="/payments"
-          label="Corriger un rejet"
-          step="1"
-          tone={failed.length ? "rose" : "emerald"}
-        />
-        <PaymentWorkTile
-          count={formatEuro(amountToCollect)}
-          detail="Prélèvements programmés ou à envoyer au provider."
-          href="/payments/new"
-          label="Encaisser maintenant"
-          step="2"
-          tone={pending.length ? "amber" : "emerald"}
-        />
-        <PaymentWorkTile
-          count="+"
-          detail="Créer un paiement depuis un mandat actif et un contrat."
-          href="/payments/new"
-          label="Nouveau paiement"
-          step="3"
-          tone="cyan"
-        />
+      <section className="cp-work-lanes">
+        <a className="cp-work-tile" data-tone={failed.length ? "rose" : "emerald"} href="/payments">
+          <span className="cp-work-tile-step">1</span>
+          <div><strong>Corriger un rejet</strong><p>Rejets ou échecs à corriger avant relance client.</p></div>
+          <em>{failed.length}</em>
+        </a>
+        <a className="cp-work-tile" data-tone={pending.length ? "amber" : "emerald"} href="/payments/new">
+          <span className="cp-work-tile-step">2</span>
+          <div><strong>Encaisser maintenant</strong><p>Prélèvements programmés ou à envoyer au provider.</p></div>
+          <em>{formatEuro(amountToCollect)}</em>
+        </a>
+        <a className="cp-work-tile" data-tone="cyan" href="/payments/new">
+          <span className="cp-work-tile-step">3</span>
+          <div><strong>Nouveau paiement</strong><p>Créer un paiement depuis un mandat actif et un contrat.</p></div>
+          <em>+</em>
+        </a>
       </section>
 
-      <details className="artisan-evidence-details mt-5">
-        <summary className="worklist-summary">
-          Voir les chiffres cash-flow
-        </summary>
-        <div className="grid gap-3 md:grid-cols-4">
-        <article className="payment-stat-card" data-tone="cyan">
-          <p className="text-xs font-medium uppercase tracking-wide text-zinc-400">
-            Paiements suivis
-          </p>
-          <strong className="mt-3 block text-3xl font-semibold text-zinc-50">
-            {payments.length}
-          </strong>
-          <p className="mt-2 text-sm text-zinc-400">Échéances en portefeuille</p>
-        </article>
-        <article className="payment-stat-card" data-tone="amber">
-          <p className="text-xs font-medium uppercase tracking-wide text-zinc-400">
-            À encaisser
-          </p>
-          <strong className="mt-3 block text-3xl font-semibold text-zinc-50">
-            {formatEuro(amountToCollect)}
-          </strong>
-          <p className="mt-2 text-sm text-zinc-400">Prélèvements en cours</p>
-        </article>
-        <article className="payment-stat-card" data-tone="emerald">
-          <p className="text-xs font-medium uppercase tracking-wide text-zinc-400">
-            Confirmé
-          </p>
-          <strong className="mt-3 block text-3xl font-semibold text-zinc-50">
-            {formatEuro(amountConfirmed)}
-          </strong>
-          <p className="mt-2 text-sm text-zinc-400">
-            Taux {collectionRate}% sur la période
-          </p>
-        </article>
-        <article className="payment-stat-card" data-tone="rose">
-          <p className="text-xs font-medium uppercase tracking-wide text-zinc-400">
-            Rejets
-          </p>
-          <strong className="mt-3 block text-3xl font-semibold text-zinc-50">
-            {failed.length}
-          </strong>
-          <p className="mt-2 text-sm text-zinc-400">{formatEuro(amountFailed)} à récupérer</p>
-        </article>
-        </div>
-      </details>
+      <div className="cp-stat-grid">
+        <StatCard label="Paiements suivis" value={String(payments.length)} detail="Échéances en portefeuille" tone="cyan" />
+        <StatCard label="À encaisser" value={formatEuro(amountToCollect)} detail="Prélèvements en cours" tone="amber" />
+        <StatCard label="Confirmé" value={formatEuro(amountConfirmed)} detail={`Taux ${collectionRate}% sur la période`} tone="emerald" />
+        <StatCard label="Rejets" value={String(failed.length)} detail={`${formatEuro(amountFailed)} à récupérer`} tone="rose" />
+      </div>
 
-      <details className="payment-section mt-5 rounded-lg border">
-        <summary className="worklist-summary">
-          Voir tous les paiements ({payments.length})
-        </summary>
-        <div className="payment-section-header">
+      <section className="cp-section">
+        <header className="cp-section-header">
           <div>
-            <p className="text-xs font-semibold uppercase tracking-wide text-emerald-300">
-              Encaissement récurrent
-            </p>
-            <h3 className="mt-1 text-lg font-semibold text-zinc-50">
-              Mandats actifs, prélèvements programmés et incidents
-            </h3>
+            <h3 className="cp-section-title">Mandats actifs, prélèvements et incidents</h3>
+            <p className="cp-section-desc">Encaissement récurrent suivi contrat par contrat.</p>
           </div>
-          <span className="payment-risk-pill">
+          <span className="cp-pill" data-tone={failed.length ? "rose" : "emerald"}>
             {failed.length} rejet{failed.length > 1 ? "s" : ""}
           </span>
-        </div>
+        </header>
 
         {payments.length ? (
           <div className="overflow-x-auto">
-            <table className="w-full min-w-[1160px] text-left text-sm">
-            <thead>
-              <tr className="dashboard-table-head">
-                <th className="px-4 py-3 font-semibold">Client</th>
-                <th className="px-4 py-3 font-semibold">Libellé</th>
-                <th className="px-4 py-3 font-semibold">Méthode</th>
-                <th className="px-4 py-3 font-semibold">Échéance</th>
-                <th className="px-4 py-3 font-semibold">Montant</th>
-                <th className="px-4 py-3 font-semibold">Statut</th>
-                <th className="px-4 py-3 font-semibold">Suivi SEPA</th>
-                <th className="px-4 py-3 font-semibold">Décision</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-zinc-800/80">
-              {payments.map((payment) => (
-                <tr className="payment-table-row" key={payment.id}>
-                  <td className="px-4 py-4">
-                    {payment.contractId ? (
-                      <a
-                        className="font-semibold text-zinc-50 hover:text-emerald-300"
-                        href={`/contracts/${payment.contractId}`}
-                      >
-                        {payment.customer}
-                      </a>
-                    ) : (
-                      <span className="font-semibold text-zinc-50">
-                        {payment.customer}
-                      </span>
-                    )}
-                    <p className="mt-1 text-xs text-zinc-500">
-                      Mandat {payment.mandateStatus}
-                    </p>
-                  </td>
-                  <td className="px-4 py-4 text-zinc-300">
-                    <span>{payment.description}</span>
-                    {payment.failureReason ? (
-                      <p className="payment-failure-note mt-2 text-xs">
-                        {payment.failureReason}
-                      </p>
-                    ) : null}
-                  </td>
-                  <td className="px-4 py-4">
-                    <span className="payment-method-pill">{payment.method}</span>
-                  </td>
-                  <td className="px-4 py-4 font-medium text-zinc-300">
-                    {payment.dueDate}
-                  </td>
-                  <td className="px-4 py-4 text-base font-semibold text-zinc-50">
-                    {formatEuro(payment.amount)}
-                  </td>
-                  <td className="px-4 py-4">
-                    <StatusPill>{payment.status}</StatusPill>
-                  </td>
-                  <td className="px-4 py-4">
-                    {payment.providerPaymentId ? (
-                      <div className="payment-provider-status">
-                        <span className="payment-provider-pill">Confirmé sandbox</span>
-                        <details className="payment-provider-details">
-                          <summary>ID technique</summary>
-                          <span>{payment.providerPaymentId}</span>
-                        </details>
-                      </div>
-                    ) : (
-                      <PaymentSubmitButton
-                        disabled={payment.rawStatus !== "PENDING_SUBMISSION"}
-                        paymentId={payment.id}
-                      />
-                    )}
-                  </td>
-                  <td className="px-4 py-4">
-                    <PaymentStatusControls
-                      currentStatus={payment.rawStatus}
-                      paymentId={payment.id}
-                    />
-                  </td>
+            <table className="cp-table">
+              <thead>
+                <tr>
+                  <th>Client</th>
+                  <th>Libellé</th>
+                  <th>Méthode</th>
+                  <th>Échéance</th>
+                  <th>Montant</th>
+                  <th>Statut</th>
+                  <th>Suivi SEPA</th>
+                  <th>Décision</th>
                 </tr>
-              ))}
-            </tbody>
+              </thead>
+              <tbody>
+                {payments.map((payment) => (
+                  <tr key={payment.id}>
+                    <td>
+                      {payment.contractId ? (
+                        <a className="cp-deal-link" href={`/contracts/${payment.contractId}`}>{payment.customer}</a>
+                      ) : (
+                        <span className="cp-cell-strong">{payment.customer}</span>
+                      )}
+                      <p className="cp-cell-sub">Mandat {payment.mandateStatus}</p>
+                    </td>
+                    <td>
+                      <span>{payment.description}</span>
+                      {payment.failureReason ? (
+                        <p className="cp-payment-failure">{payment.failureReason}</p>
+                      ) : null}
+                    </td>
+                    <td><span className="cp-pill">{payment.method}</span></td>
+                    <td>{payment.dueDate}</td>
+                    <td className="cp-cell-amount">{formatEuro(payment.amount)}</td>
+                    <td><StatusPill>{payment.status}</StatusPill></td>
+                    <td>
+                      {payment.providerPaymentId ? (
+                        <span className="cp-pill cp-pill-dot" data-tone="emerald">Confirmé sandbox</span>
+                      ) : (
+                        <PaymentSubmitButton disabled={payment.rawStatus !== "PENDING_SUBMISSION"} paymentId={payment.id} />
+                      )}
+                    </td>
+                    <td><PaymentStatusControls currentStatus={payment.rawStatus} paymentId={payment.id} /></td>
+                  </tr>
+                ))}
+              </tbody>
             </table>
           </div>
         ) : (
-          <div className="p-4">
+          <div className="cp-section-body">
             <ActivationEmptyState
               actionHref="/payments/new"
               actionLabel="Créer un paiement"
               eyebrow="Cash-flow CVC"
-              proofPoints={[
-                "Suivre mandat et échéance",
-                "Contrôler les rejets",
-                "Relier paiement et contrat",
-              ]}
+              proofPoints={["Suivre mandat et échéance", "Contrôler les rejets", "Relier paiement et contrat"]}
               secondaryHref="/contracts"
               secondaryLabel="Voir contrats"
               title="Ajoutez un premier paiement pour sécuriser l'encaissement récurrent."
             />
           </div>
         )}
-      </details>
+      </section>
     </AppShell>
   );
 }

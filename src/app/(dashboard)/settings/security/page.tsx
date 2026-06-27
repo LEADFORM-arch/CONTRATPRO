@@ -77,10 +77,7 @@ export default async function SecuritySettingsPage() {
     <AppShell activePath="/settings/security" showInternalTools={Boolean(currentAdmin)}>
       <PageHeader
         action={
-          <a
-            className="premium-secondary-action rounded-md px-4 py-2 text-sm font-semibold"
-            href="/settings/company"
-          >
+          <a className="cp-btn cp-btn-secondary cp-btn-sm" href="/settings/company">
             Identité entreprise
           </a>
         }

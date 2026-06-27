@@ -55,10 +55,10 @@ export default function PricingPage() {
       <PublicHero
         action={
           <>
-            <a className="premium-action rounded-md text-sm font-semibold" href="/demo">
+            <a className="cp-btn cp-btn-primary" href="/demo">
               Voir la démo
             </a>
-            <a className="premium-secondary-action rounded-md px-4 py-2 text-sm font-semibold" href="/simulateur">
+            <a className="cp-btn cp-btn-secondary" href="/simulateur">
               Calculer le ROI
             </a>
           </>
@@ -90,13 +90,13 @@ export default function PricingPage() {
                 ))}
               </div>
               <a
-                className="premium-action mt-4 rounded-md text-sm font-semibold"
+                className="cp-btn cp-btn-primary cp-btn-sm mt-4"
                 href={`/login?plan=${plan.id}`}
               >
                 Choisir {plan.name}
               </a>
               <a
-                className="premium-secondary-action mt-3 inline-flex rounded-md px-4 py-2 text-sm font-semibold"
+                className="cp-btn cp-btn-secondary cp-btn-sm mt-3"
                 href={`/simulateur?plan=${plan.id}`}
               >
                 Tester le ROI

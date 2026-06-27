@@ -1,33 +1,10 @@
 import { AppShell, PageHeader, StatusPill } from "@/components/layout/AppShell";
 import { ActivationEmptyState } from "@/components/layout/ActivationEmptyState";
+import { AgentPanel, StatCard } from "@/components/ui";
 import { formatEuro } from "@/lib/mock-data";
 import { getContracts } from "@/server/contratpro-data";
 
 type ContractTone = "amber" | "cyan" | "emerald" | "rose";
-
-function PortfolioMetric({
-  label,
-  value,
-  detail,
-  tone,
-}: {
-  label: string;
-  value: string;
-  detail: string;
-  tone: ContractTone;
-}) {
-  return (
-    <article className="contract-metric-card" data-tone={tone}>
-      <p className="text-xs font-medium uppercase tracking-wide text-zinc-400">
-        {label}
-      </p>
-      <strong className="mt-3 block text-3xl font-semibold text-zinc-50">
-        {value}
-      </strong>
-      <p className="mt-2 text-sm leading-5 text-zinc-400">{detail}</p>
-    </article>
-  );
-}
 
 function ContractWorkTile({
   count,
@@ -45,8 +22,8 @@ function ContractWorkTile({
   tone: ContractTone;
 }) {
   return (
-    <a className="artisan-terrain-tile" data-tone={tone} href={href}>
-      <span>{step}</span>
+    <a className="cp-work-tile" data-tone={tone} href={href}>
+      <span className="cp-work-tile-step">{step}</span>
       <div>
         <strong>{label}</strong>
         <p>{detail}</p>
@@ -110,51 +87,54 @@ export default async function ContractsPage() {
     <AppShell activePath="/contracts">
       <PageHeader
         action={
-          <div className="flex flex-wrap gap-2">
-            <a className="premium-action rounded-md text-sm font-semibold" href="/contracts/quick">
-              Contrat guide
+          <>
+            <a className="cp-btn cp-btn-primary cp-btn-sm" href="/contracts/quick">
+              Contrat guidé
             </a>
-            <a
-              className="premium-secondary-action rounded-md px-4 py-2 text-sm font-semibold"
-              href="/contracts/new"
-            >
+            <a className="cp-btn cp-btn-secondary cp-btn-sm" href="/contracts/new">
               Formulaire complet
             </a>
-          </div>
+          </>
         }
         description="Repérez le contrat à facturer, relancer ou passer en SEPA."
         eyebrow="Gestion contrats"
         title="Contrats de maintenance CVC"
       />
 
-      <section className="contract-portfolio-command mt-6" data-od-id="contracts-portfolio-architect">
-        <div className="contract-portfolio-brief">
-          <span className="sr-only">Architecte IA portefeuille</span>
-          <p>À faire maintenant</p>
-          <h2>{architectDecision.label}</h2>
-          <span>{architectDecision.proof}</span>
-        </div>
-        <div className="contract-portfolio-decision" data-tone={architectDecision.tone}>
-          <small>Prochaine action</small>
-          <strong>{architectDecision.action}</strong>
-          {nextContract ? (
-            <span>
-              {nextContract.customer} - {formatEuro(nextContract.value)}
+      <div data-od-id="contracts-portfolio-architect">
+      <AgentPanel
+        eyebrow="Architecte IA portefeuille"
+        thesis={architectDecision.label}
+        proof={
+          <>
+            {architectDecision.proof}
+            {nextContract ? (
+              <span className="mt-2 block">
+                <strong style={{ color: "var(--text-primary)" }}>{nextContract.customer}</strong> — {formatEuro(nextContract.value)}
+              </span>
+            ) : (
+              <span className="mt-2 block">Importer ou créer un premier contrat.</span>
+            )}
+          </>
+        }
+        action={
+          <div className="flex flex-col items-end gap-2">
+            <span className="cp-pill cp-pill-dot" data-tone={architectDecision.tone}>
+              {architectDecision.action}
             </span>
-          ) : (
-            <span>Importer ou créer un premier contrat.</span>
-          )}
-          <a className="premium-action rounded-md text-sm font-semibold" href={architectDecision.href}>
-            {architectDecision.action}
-          </a>
-        </div>
-      </section>
+            <a className="cp-btn cp-btn-primary cp-btn-sm" href={architectDecision.href}>
+              {architectDecision.action}
+            </a>
+          </div>
+        }
+      />
+      </div>
 
       {priorityContracts.length ? (
-        <section className="artisan-action-queue mt-5" aria-label="Contrats prioritaires">
+        <section className="cp-priority-queue">
           {priorityContracts.map((contract, index) => (
             <a
-              className="artisan-action-card"
+              className="cp-priority-card"
               data-tone={
                 contractsToRenew.includes(contract)
                   ? "rose"
@@ -165,18 +145,18 @@ export default async function ContractsPage() {
               href={`/contracts/${contract.id}`}
               key={contract.id}
             >
-              <span>{String(index + 1).padStart(2, "0")}</span>
-              <div>
+              <span className="cp-priority-num">{String(index + 1).padStart(2, "0")}</span>
+              <div className="cp-priority-body">
                 <strong>{contract.customer}</strong>
                 <p>{contract.equipment}</p>
               </div>
-              <em>{formatEuro(contract.value)}</em>
+              <em className="cp-priority-amount">{formatEuro(contract.value)}</em>
             </a>
           ))}
         </section>
       ) : null}
 
-      <section className="artisan-terrain-lanes mt-5" aria-label="Raccourcis contrat">
+      <section className="cp-work-lanes">
         <ContractWorkTile
           count={String(contractsToRenew.length)}
           detail="Échéances proches, visites ou relances à déclencher."
@@ -197,115 +177,68 @@ export default async function ContractsPage() {
           count="+"
           detail="Ajouter un dossier propre sans passer par le formulaire long."
           href="/contracts/quick"
-          label="Nouveau contrat guide"
+          label="Nouveau contrat guidé"
           step="3"
           tone="cyan"
         />
       </section>
 
-      <details className="artisan-evidence-details mt-5">
-        <summary className="worklist-summary">
-          Voir les chiffres portefeuille
-        </summary>
-        <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-        <PortfolioMetric
-          detail="contrats actifs dans le portefeuille"
-          label="Contrats actifs"
-          tone="cyan"
-          value={String(contracts.length)}
-        />
-        <PortfolioMetric
-          detail="revenu annuel suivi dans ContratPro"
-          label="Revenu annuel"
-          tone="emerald"
-          value={formatEuro(total)}
-        />
-        <PortfolioMetric
-          detail={`${sepaContracts.length} contrat(s) avec paiement automatisé`}
-          label="SEPA"
-          tone="amber"
-          value={`${sepaRate}%`}
-        />
-        <PortfolioMetric
-          detail={`${contractsToRenew.length} contrat(s) à traiter en priorité`}
-          label="À sécuriser"
-          tone="rose"
-          value={formatEuro(revenueToSecure)}
-        />
-        </div>
-      </details>
+      <div className="cp-stat-grid">
+        <StatCard label="Contrats actifs" value={String(contracts.length)} detail="contrats actifs dans le portefeuille" tone="cyan" />
+        <StatCard label="Revenu annuel" value={formatEuro(total)} detail="revenu annuel suivi dans ContratPro" tone="emerald" />
+        <StatCard label="SEPA" value={`${sepaRate}%`} detail={`${sepaContracts.length} contrat(s) avec paiement automatisé`} tone="amber" />
+        <StatCard label="À sécuriser" value={formatEuro(revenueToSecure)} detail={`${contractsToRenew.length} contrat(s) à traiter en priorité`} tone="rose" />
+      </div>
 
-      <details className="contract-section mt-6 overflow-hidden">
-        <summary className="worklist-summary">
-          Voir tous les contrats ({contracts.length})
-        </summary>
-        <div className="contract-section-header flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+      <section className="cp-section">
+        <header className="cp-section-header">
           <div>
-            <h3 className="text-base font-semibold text-zinc-50">
-              Portefeuille contrats
-            </h3>
-            <p className="mt-1 text-sm text-zinc-400">
-              Vue de pilotage des échéances, paiements et dossiers clients.
-            </p>
+            <h3 className="cp-section-title">Portefeuille contrats</h3>
+            <p className="cp-section-desc">Vue de pilotage des échéances, paiements et dossiers clients.</p>
           </div>
-          <span className="contract-count-pill">{contracts.length} dossiers</span>
-        </div>
+          <span className="cp-pill">{contracts.length} dossiers</span>
+        </header>
 
         {contracts.length ? (
           <div className="overflow-x-auto">
-            <table className="w-full min-w-[920px] text-left text-sm">
-            <thead>
-              <tr className="dashboard-table-head text-xs uppercase tracking-wide text-zinc-400">
-                <th className="px-4 py-3 font-semibold">Client</th>
-                <th className="px-4 py-3 font-semibold">Équipement</th>
-                <th className="px-4 py-3 font-semibold">Échéance</th>
-                <th className="px-4 py-3 font-semibold">Dernière visite</th>
-                <th className="px-4 py-3 font-semibold">Paiement</th>
-                <th className="px-4 py-3 font-semibold">Montant</th>
-                <th className="px-4 py-3 font-semibold">Statut</th>
-                <th className="px-4 py-3 font-semibold">Dossier</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-zinc-800/80">
-              {contracts.map((contract) => (
-                <tr className="contract-table-row" key={contract.id}>
-                  <td className="px-4 py-4">
-                    <p className="font-semibold text-zinc-50">
-                      {contract.customer}
-                    </p>
-                    <p className="mt-1 text-xs text-zinc-400">{contract.city}</p>
-                  </td>
-                  <td className="px-4 py-4 text-zinc-300">{contract.equipment}</td>
-                  <td className="px-4 py-4 font-medium text-zinc-50">
-                    {contract.renewal}
-                  </td>
-                  <td className="px-4 py-4 text-zinc-300">{contract.lastVisit}</td>
-                  <td className="px-4 py-4">
-                    <span className="contract-payment-pill">
-                      {contract.payment}
-                    </span>
-                  </td>
-                  <td className="px-4 py-4 font-semibold text-zinc-50">
-                    {formatEuro(contract.value)}
-                  </td>
-                  <td className="px-4 py-4">
-                    <StatusPill>{contract.status}</StatusPill>
-                  </td>
-                  <td className="px-4 py-4">
-                    <a
-                      className="premium-secondary-action rounded-md px-3 py-2 text-sm font-semibold"
-                      href={`/contracts/${contract.id}`}
-                    >
-                      Ouvrir
-                    </a>
-                  </td>
+            <table className="cp-table">
+              <thead>
+                <tr>
+                  <th>Client</th>
+                  <th>Équipement</th>
+                  <th>Échéance</th>
+                  <th>Dernière visite</th>
+                  <th>Paiement</th>
+                  <th>Montant</th>
+                  <th>Statut</th>
+                  <th>Dossier</th>
                 </tr>
-              ))}
-            </tbody>
+              </thead>
+              <tbody>
+                {contracts.map((contract) => (
+                  <tr key={contract.id}>
+                    <td>
+                      <p className="cp-cell-strong">{contract.customer}</p>
+                      <p className="cp-cell-sub">{contract.city}</p>
+                    </td>
+                    <td>{contract.equipment}</td>
+                    <td className="cp-cell-strong">{contract.renewal}</td>
+                    <td>{contract.lastVisit}</td>
+                    <td><span className="cp-pill">{contract.payment}</span></td>
+                    <td className="cp-cell-amount">{formatEuro(contract.value)}</td>
+                    <td><StatusPill>{contract.status}</StatusPill></td>
+                    <td>
+                      <a className="cp-btn cp-btn-secondary cp-btn-sm" href={`/contracts/${contract.id}`}>
+                        Ouvrir
+                      </a>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
             </table>
           </div>
         ) : (
-          <div className="p-4">
+          <div className="cp-section-body">
             <ActivationEmptyState
               actionHref="/contracts/quick"
               actionLabel="Créer mon premier contrat"
@@ -321,7 +254,7 @@ export default async function ContractsPage() {
             />
           </div>
         )}
-      </details>
+      </section>
     </AppShell>
   );
 }

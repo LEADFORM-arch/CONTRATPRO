@@ -27,7 +27,7 @@ type ProductNavItem = {
 
 const productNavItems: ProductNavItem[] = [
   { href: "/", label: "Pilotage", tone: "control" },
-  { href: "/onboarding", label: "D\u00e9marrer", step: "1", tone: "start" },
+  { href: "/onboarding", label: "Démarrer", step: "1", tone: "start" },
   { href: "/import", label: "Import Excel", step: "2", tone: "import" },
   { href: "/customers", label: "Clients", step: "3", tone: "clients" },
   { href: "/contracts", label: "Contrats", step: "4", tone: "contracts" },
@@ -39,7 +39,7 @@ const productNavItems: ProductNavItem[] = [
   { href: "/interventions", label: "Interventions", tone: "interventions" },
   { href: "/settings/company", label: "Entreprise", tone: "company" },
   { href: "/settings/billing", label: "Abonnement", tone: "billing" },
-  { href: "/settings/security", label: "S\u00e9curit\u00e9", tone: "security" },
+  { href: "/settings/security", label: "Sécurité", tone: "security" },
 ];
 
 const guidedNavItems = productNavItems.filter(
@@ -52,7 +52,7 @@ const internalNavItems = [
   { href: "/admin/pilots", label: "Pilotes" },
   { href: "/admin/ops", label: "Supervision" },
   { href: "/admin/notifications", label: "Notifications" },
-  { href: "/admin/prospection", label: "Dashboard acquisition" },
+  { href: "/admin/prospection", label: "Acquisition" },
   { href: "/admin/prospection/guide", label: "Guide skill FB" },
   { href: "/admin/prospection/content", label: "Contenus FB" },
   { href: "/prospection", label: "Pipeline leads" },
@@ -64,11 +64,9 @@ function pageToneForPath(path: string): PageTone {
   if (matchingItem) {
     return matchingItem.tone as PageTone;
   }
-
   if (path.startsWith("/admin") || path === "/prospection") {
     return "control";
   }
-
   return "control";
 }
 
@@ -80,7 +78,6 @@ function nextGuidedItem(step?: string) {
   if (!step) {
     return undefined;
   }
-
   const index = guidedNavItems.findIndex((item) => item.step === step);
   return guidedNavItems[index + 1];
 }
@@ -99,117 +96,123 @@ export function AppShell({
   const nextItem = nextGuidedItem(activeItem?.step);
 
   return (
-    <main className="app-shell-bg min-h-screen bg-zinc-100 text-zinc-950" data-page-tone={pageTone}>
-      <div className="grid min-h-screen lg:grid-cols-[248px_1fr]">
-        <aside className="app-sidebar border-b border-zinc-200 bg-white px-5 py-5 lg:border-b-0 lg:border-r">
+    <main className="cp-shell" data-page-tone={pageTone}>
+      <aside className="cp-sidebar" aria-label="Navigation ContratPro">
+        <div className="cp-brand">
+          <span className="cp-brand-mark">CP</span>
           <div>
-            <p className="text-xs font-semibold uppercase tracking-wide text-emerald-700">
-              ContratPro
-            </p>
-            <h1 className="mt-1 text-xl font-semibold">Maintenance CVC</h1>
+            <p className="cp-brand-name">ContratPro</p>
+            <p className="cp-brand-tag">Maintenance CVC</p>
           </div>
+        </div>
 
-          <a
-            className="premium-secondary-action mt-6 block rounded-md px-3 py-2 text-center text-sm font-medium"
-            href="/contracts/quick"
-          >
-            + Nouveau contrat
-          </a>
+        <a className="cp-btn cp-btn-primary cp-btn-sm" href="/contracts/quick">
+          + Nouveau contrat
+        </a>
 
-          <nav className="mt-6 grid grid-cols-2 gap-2 text-sm lg:grid-cols-1" aria-label="Parcours ContratPro">
-            <p className="nav-section-label col-span-2 lg:col-span-1">Parcours</p>
+        <div>
+          <p className="cp-nav-section-label">Parcours</p>
+          <nav className="cp-nav" aria-label="Parcours ContratPro">
             {guidedNavItems.map((item) => {
               const active = activePath === item.href;
               return (
                 <a
-                  className={`nav-item rounded-md px-3 py-2 font-medium ${
-                    active ? "nav-item-active" : "text-zinc-600"
-                  }`}
-                  data-tone={item.tone}
+                  className="cp-nav-item"
+                  data-active={active ? "true" : "false"}
                   href={item.href}
                   key={item.href}
                 >
-                  <span className="nav-step">{item.step}</span>
+                  <span className="cp-nav-step">{item.step}</span>
                   <span>{item.label}</span>
                 </a>
               );
             })}
           </nav>
+        </div>
 
-          <nav className="mt-5 grid grid-cols-2 gap-2 text-sm lg:grid-cols-1" aria-label="Outils ContratPro">
-            <p className="nav-section-label col-span-2 lg:col-span-1">Suivi</p>
+        <div>
+          <p className="cp-nav-section-label">Suivi</p>
+          <nav className="cp-nav" aria-label="Suivi ContratPro">
             {secondaryNavItems.map((item) => {
               const active = activePath === item.href;
               return (
                 <a
-                  className={`nav-item rounded-md px-3 py-2 font-medium ${
-                    active ? "nav-item-active" : "text-zinc-600"
-                  }`}
-                  data-tone={item.tone}
+                  className="cp-nav-item"
+                  data-active={active ? "true" : "false"}
                   href={item.href}
                   key={item.href}
                 >
-                  <span className="nav-dot" />
+                  <span className="cp-nav-dot" />
                   <span>{item.label}</span>
                 </a>
               );
             })}
           </nav>
+        </div>
 
-          {showInternalTools ? (
-            <div className="internal-nav-section">
-              <p className="internal-nav-label">Interne fondateur</p>
-              <nav className="mt-2 grid grid-cols-2 gap-2 text-sm lg:grid-cols-1">
-                {internalNavItems.map((item) => {
-                  const active = activePath === item.href;
-                  return (
-                    <a
-                      className={`nav-item internal-nav-item rounded-md px-3 py-2 font-medium ${
-                        active ? "nav-item-active" : "text-zinc-600"
-                      }`}
-                      href={item.href}
-                      key={item.href}
-                    >
-                      {item.label}
-                    </a>
-                  );
-                })}
-              </nav>
-            </div>
-          ) : null}
-
-        </aside>
-        <section className="app-main-panel px-4 py-5 sm:px-6 lg:px-8">
-          <div className="app-topbar" aria-label="Session utilisateur">
-            <div>
-              <p>Session</p>
-              <strong>Espace entreprise</strong>
-            </div>
-            <LogoutButton />
+        {showInternalTools ? (
+          <div>
+            <p className="cp-nav-section-label">Interne fondateur</p>
+            <nav className="cp-nav" aria-label="Outils internes">
+              {internalNavItems.map((item) => {
+                const active = activePath === item.href;
+                return (
+                  <a
+                    className="cp-nav-item"
+                    data-active={active ? "true" : "false"}
+                    href={item.href}
+                    key={item.href}
+                  >
+                    <span className="cp-nav-dot" />
+                    <span>{item.label}</span>
+                  </a>
+                );
+              })}
+            </nav>
           </div>
+        ) : null}
+      </aside>
+
+      <section className="cp-main">
+        <div className="cp-topbar" aria-label="Session utilisateur">
+          <div className="cp-topbar-identity">
+            <span className="cp-live-dot" aria-hidden />
+            <div>
+              <p className="cp-topbar-label">Session active</p>
+              <p className="cp-topbar-tenant">Espace entreprise</p>
+            </div>
+          </div>
+          <LogoutButton />
+        </div>
+
+        <div className="cp-content">
           {activeItem ? (
-            <div className="app-route-cue" data-tone={activeItem.tone}>
+            <div className="cp-route-cue" data-tone={activeItem.tone}>
               {activeItem.step ? (
-                <span className="app-route-step">{activeItem.step}</span>
+                <span className="cp-route-cue-step">{activeItem.step}</span>
               ) : (
-                <span className="app-route-dot" />
+                <span className="cp-route-cue-step">•</span>
               )}
               <div>
-                <p>
-                  {activeItem.step
-                    ? `Etape ${activeItem.step} du parcours`
-                    : "Zone de suivi"}
+                <p className="cp-kicker">
+                  {activeItem.step ? `Étape ${activeItem.step} du parcours` : "Zone de suivi"}
                 </p>
-                <strong>{activeItem.label}</strong>
+                <strong style={{ color: "var(--text-primary)" }}>{activeItem.label}</strong>
               </div>
               {nextItem ? (
-                <a href={nextItem.href}>Suite : {nextItem.label}</a>
+                <a
+                  className="cp-btn cp-btn-ghost cp-btn-sm"
+                  href={nextItem.href}
+                  style={{ marginLeft: "auto" }}
+                >
+                  Suite : {nextItem.label} →
+                </a>
               ) : null}
             </div>
           ) : null}
           {children}
-        </section>
-      </div>
+        </div>
+      </section>
     </main>
   );
 }
@@ -226,25 +229,17 @@ export function PageHeader({
   action?: ReactNode;
 }) {
   return (
-    <header className="flex flex-col gap-4 border-b border-zinc-200 pb-5 xl:flex-row xl:items-end xl:justify-between">
+    <header className="cp-header">
       <div>
-        <p className="text-sm font-medium text-emerald-700">{eyebrow}</p>
-        <h2 className="mt-2 max-w-3xl text-3xl font-semibold tracking-normal text-zinc-950">
-          {title}
-        </h2>
-        <p className="mt-2 max-w-2xl text-sm leading-6 text-zinc-600">
-          {description}
-        </p>
+        <p className="cp-header-eyebrow">{eyebrow}</p>
+        <h2 className="cp-header-title">{title}</h2>
+        <p className="cp-header-desc">{description}</p>
       </div>
-      {action}
+      {action ? <div className="flex flex-wrap items-center gap-2">{action}</div> : null}
     </header>
   );
 }
 
 export function StatusPill({ children }: { children: ReactNode }) {
-  return (
-    <span className="status-pill">
-      {children}
-    </span>
-  );
+  return <span className="cp-pill">{children}</span>;
 }

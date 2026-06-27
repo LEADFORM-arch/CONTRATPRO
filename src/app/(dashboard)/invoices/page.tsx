@@ -1,38 +1,10 @@
 import { AppShell, PageHeader, StatusPill } from "@/components/layout/AppShell";
 import { ActivationEmptyState } from "@/components/layout/ActivationEmptyState";
+import { AgentPanel, StatCard } from "@/components/ui";
 import { formatEuro } from "@/lib/mock-data";
 import { getInvoices } from "@/server/contratpro-data";
 
 import { InvoiceStatusControls } from "./InvoiceStatusControls";
-
-type InvoiceTone = "amber" | "cyan" | "emerald" | "rose";
-
-function InvoiceWorkTile({
-  count,
-  detail,
-  href,
-  label,
-  step,
-  tone,
-}: {
-  count: string;
-  detail: string;
-  href: string;
-  label: string;
-  step: string;
-  tone: InvoiceTone;
-}) {
-  return (
-    <a className="artisan-terrain-tile" data-tone={tone} href={href}>
-      <span>{step}</span>
-      <div>
-        <strong>{label}</strong>
-        <p>{detail}</p>
-      </div>
-      <em>{count}</em>
-    </a>
-  );
-}
 
 export default async function InvoicesPage() {
   const invoices = await getInvoices();
@@ -80,194 +52,124 @@ export default async function InvoicesPage() {
   return (
     <AppShell activePath="/invoices">
       <PageHeader
-        action={
-          <a
-            className="premium-action rounded-md px-4 py-2 text-sm font-semibold"
-            href="/invoices/new"
-          >
-            Créer facture
-          </a>
-        }
+        action={<a className="cp-btn cp-btn-primary cp-btn-sm" href="/invoices/new">Créer facture</a>}
         description="Suivez les factures issues des contrats de maintenance, les montants ouverts et les paiements confirmés."
         eyebrow="Facturation"
         title="Factures contrats CVC"
       />
 
-      <section className="invoice-command-panel mt-6" data-od-id="invoice-billing-command">
-        <div className="invoice-command-brief">
-          <p>Commande facturation</p>
-          <h2>{invoiceCommand.label}</h2>
-          <span>{invoiceCommand.detail}</span>
-        </div>
-        <div className="invoice-command-decision" data-tone={invoiceCommand.tone}>
-          <small>Action prioritaire</small>
-          <strong>{invoiceCommand.action}</strong>
-          {priorityInvoice ? (
-            <span>
-              {priorityInvoice.number} - {priorityInvoice.customer} - {formatEuro(priorityInvoice.amountTtc)}
-            </span>
-          ) : (
-            <span>Créer une première facture pour alimenter le registre.</span>
-          )}
-          <a className="premium-action rounded-md text-sm font-semibold" href={priorityInvoice ? `/invoices/${priorityInvoice.id}` : "/invoices/new"}>
-            Ouvrir le dossier
-          </a>
-        </div>
-      </section>
-
-      <section className="artisan-terrain-lanes mt-5" aria-label="Raccourcis facture">
-        <InvoiceWorkTile
-          count="+"
-          detail="Choisir un contrat, vérifier le montant, générer le PDF."
-          href="/invoices/new"
-          label="Créer facture"
-          step="1"
-          tone="emerald"
-        />
-        <InvoiceWorkTile
-          count={String(openInvoices.length)}
-          detail="Envoyer, suivre ou relancer les factures ouvertes."
-          href={priorityInvoice ? `/invoices/${priorityInvoice.id}` : "/invoices/new"}
-          label="Traiter les ouvertes"
-          step="2"
-          tone={overdueInvoices.length ? "rose" : openInvoices.length ? "amber" : "emerald"}
-        />
-        <InvoiceWorkTile
-          count={String(invoices.length)}
-          detail="Retrouver toutes les factures et décisions d'encaissement."
-          href="/invoices"
-          label="Registre factures"
-          step="3"
-          tone="cyan"
-        />
-      </section>
-
-      <details className="artisan-evidence-details mt-5">
-        <summary className="worklist-summary">
-          Voir les chiffres facturation
-        </summary>
-        <div className="grid gap-3 md:grid-cols-4">
-        {[
-          ["Factures", invoices.length, "Documents émis", "cyan"],
-          ["À encaisser", formatEuro(openAmount), "Solde ouvert", "amber"],
-          ["Encaissé", formatEuro(paidAmount), `${paidRate}% réglé`, "emerald"],
-          ["Retards", formatEuro(overdueAmount), `${overdueInvoices.length} facture(s)`, "rose"],
-        ].map(([label, value, helper, tone]) => (
-          <article
-            className="invoice-stat-card"
-            data-tone={tone}
-            key={label}
-          >
-            <p className="text-xs font-medium uppercase tracking-wide text-zinc-400">
-              {label}
-            </p>
-            <strong className="mt-3 block text-3xl font-semibold text-zinc-50">
-              {value}
-            </strong>
-            <p className="mt-2 text-sm text-zinc-400">{helper}</p>
-          </article>
-        ))}
-        </div>
-      </details>
-
-      <details className="invoice-section mt-5 rounded-lg border">
-        <summary className="worklist-summary">
-          Voir toutes les factures ({invoices.length})
-        </summary>
-        <div className="invoice-section-header">
-          <div>
-            <p className="text-xs font-semibold uppercase tracking-wide text-emerald-300">
-              Registre de facturation
-            </p>
-            <h3 className="mt-1 text-lg font-semibold text-zinc-50">
-              Factures maintenance, échéances et décisions d'encaissement
-            </h3>
+      <AgentPanel
+        eyebrow="Commande facturation"
+        thesis={invoiceCommand.label}
+        proof={
+          <>
+            {invoiceCommand.detail}
+            {priorityInvoice ? (
+              <span className="mt-3 block" style={{ color: "var(--text-primary)" }}>
+                <strong>{priorityInvoice.number}</strong> — {priorityInvoice.customer} — {formatEuro(priorityInvoice.amountTtc)}
+              </span>
+            ) : (
+              <span className="mt-3 block">Créer une première facture pour alimenter le registre.</span>
+            )}
+          </>
+        }
+        action={
+          <div className="flex flex-col items-end gap-2">
+            <span className="cp-pill cp-pill-dot" data-tone={invoiceCommand.tone}>{invoiceCommand.action}</span>
+            <a className="cp-btn cp-btn-primary cp-btn-sm" href={priorityInvoice ? `/invoices/${priorityInvoice.id}` : "/invoices/new"}>
+              Ouvrir le dossier
+            </a>
           </div>
-          <span className="invoice-open-pill">{formatEuro(openAmount)} ouvert</span>
-        </div>
+        }
+      />
+
+      <section className="cp-work-lanes">
+        <a className="cp-work-tile" data-tone="emerald" href="/invoices/new">
+          <span className="cp-work-tile-step">1</span>
+          <div><strong>Créer facture</strong><p>Choisir un contrat, vérifier le montant, générer le PDF.</p></div>
+          <em>+</em>
+        </a>
+        <a className="cp-work-tile" data-tone={overdueInvoices.length ? "rose" : openInvoices.length ? "amber" : "emerald"} href={priorityInvoice ? `/invoices/${priorityInvoice.id}` : "/invoices/new"}>
+          <span className="cp-work-tile-step">2</span>
+          <div><strong>Traiter les ouvertes</strong><p>Envoyer, suivre ou relancer les factures ouvertes.</p></div>
+          <em>{openInvoices.length}</em>
+        </a>
+        <a className="cp-work-tile" data-tone="cyan" href="/invoices">
+          <span className="cp-work-tile-step">3</span>
+          <div><strong>Registre factures</strong><p>Retrouver toutes les factures et décisions d'encaissement.</p></div>
+          <em>{invoices.length}</em>
+        </a>
+      </section>
+
+      <div className="cp-stat-grid">
+        <StatCard label="Factures" value={String(invoices.length)} detail="Documents émis" tone="cyan" />
+        <StatCard label="À encaisser" value={formatEuro(openAmount)} detail="Solde ouvert" tone="amber" />
+        <StatCard label="Encaissé" value={formatEuro(paidAmount)} detail={`${paidRate}% réglé`} tone="emerald" />
+        <StatCard label="Retards" value={formatEuro(overdueAmount)} detail={`${overdueInvoices.length} facture(s)`} tone="rose" />
+      </div>
+
+      <section className="cp-section">
+        <header className="cp-section-header">
+          <div>
+            <h3 className="cp-section-title">Registre de facturation</h3>
+            <p className="cp-section-desc">Factures maintenance, échéances et décisions d'encaissement.</p>
+          </div>
+          <span className="cp-pill" data-tone="amber">{formatEuro(openAmount)} ouvert</span>
+        </header>
 
         {invoices.length ? (
           <div className="overflow-x-auto">
-            <table className="w-full min-w-[1040px] text-left text-sm">
-            <thead>
-              <tr className="dashboard-table-head">
-                <th className="px-4 py-3 font-semibold">Facture</th>
-                <th className="px-4 py-3 font-semibold">Client</th>
-                <th className="px-4 py-3 font-semibold">Émission</th>
-                <th className="px-4 py-3 font-semibold">Échéance</th>
-                <th className="px-4 py-3 font-semibold">Montant</th>
-                <th className="px-4 py-3 font-semibold">Statut</th>
-                <th className="px-4 py-3 font-semibold">Décision</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-zinc-800/80">
-              {invoices.map((invoice) => (
-                <tr className="invoice-table-row" key={invoice.id}>
-                  <td className="px-4 py-4">
-                    <a
-                      className="font-semibold text-zinc-50 hover:text-emerald-300"
-                      href={`/invoices/${invoice.id}`}
-                    >
-                      {invoice.number}
-                    </a>
-                    <p className="mt-1 text-xs text-zinc-500">
-                      {invoice.equipment}
-                    </p>
-                  </td>
-                  <td className="px-4 py-4">
-                    {invoice.contractId ? (
-                      <a
-                        className="font-semibold text-zinc-100 hover:text-emerald-300"
-                        href={`/contracts/${invoice.contractId}`}
-                      >
-                        {invoice.customer}
-                      </a>
-                    ) : (
-                      <span className="font-semibold text-zinc-100">
-                        {invoice.customer}
-                      </span>
-                    )}
-                    <p className="mt-1 text-xs text-zinc-500">{invoice.city}</p>
-                  </td>
-                  <td className="px-4 py-4 text-zinc-300">{invoice.issueDate}</td>
-                  <td className="px-4 py-4 font-medium text-zinc-300">
-                    {invoice.dueDate}
-                  </td>
-                  <td className="px-4 py-4 text-base font-semibold text-zinc-50">
-                    {formatEuro(invoice.amountTtc)}
-                  </td>
-                  <td className="px-4 py-4">
-                    <StatusPill>{invoice.status}</StatusPill>
-                  </td>
-                  <td className="px-4 py-4">
-                    <InvoiceStatusControls
-                      currentStatus={invoice.rawStatus}
-                      invoiceId={invoice.id}
-                    />
-                  </td>
+            <table className="cp-table">
+              <thead>
+                <tr>
+                  <th>Facture</th>
+                  <th>Client</th>
+                  <th>Émission</th>
+                  <th>Échéance</th>
+                  <th>Montant</th>
+                  <th>Statut</th>
+                  <th>Décision</th>
                 </tr>
-              ))}
-            </tbody>
+              </thead>
+              <tbody>
+                {invoices.map((invoice) => (
+                  <tr key={invoice.id}>
+                    <td>
+                      <a className="cp-deal-link" href={`/invoices/${invoice.id}`}>{invoice.number}</a>
+                      <p className="cp-cell-sub">{invoice.equipment}</p>
+                    </td>
+                    <td>
+                      {invoice.contractId ? (
+                        <a className="cp-deal-link" href={`/contracts/${invoice.contractId}`}>{invoice.customer}</a>
+                      ) : (
+                        <span className="cp-cell-strong">{invoice.customer}</span>
+                      )}
+                      <p className="cp-cell-sub">{invoice.city}</p>
+                    </td>
+                    <td>{invoice.issueDate}</td>
+                    <td className="cp-cell-strong">{invoice.dueDate}</td>
+                    <td className="cp-cell-amount">{formatEuro(invoice.amountTtc)}</td>
+                    <td><StatusPill>{invoice.status}</StatusPill></td>
+                    <td><InvoiceStatusControls currentStatus={invoice.rawStatus} invoiceId={invoice.id} /></td>
+                  </tr>
+                ))}
+              </tbody>
             </table>
           </div>
         ) : (
-          <div className="p-4">
+          <div className="cp-section-body">
             <ActivationEmptyState
               actionHref="/invoices/new"
               actionLabel="Créer une facture"
               eyebrow="Facturation pilote"
-              proofPoints={[
-                "Numérotation propre",
-                "TVA et échéance visibles",
-                "PDF prêt à envoyer",
-              ]}
+              proofPoints={["Numérotation propre", "TVA et échéance visibles", "PDF prêt à envoyer"]}
               secondaryHref="/contracts"
               secondaryLabel="Voir contrats"
               title="Créez une première facture pour vérifier le flux document et encaissement."
             />
           </div>
         )}
-      </details>
+      </section>
     </AppShell>
   );
 }

@@ -1,43 +1,15 @@
 import { AppShell, PageHeader, StatusPill } from "@/components/layout/AppShell";
 import { ActivationEmptyState } from "@/components/layout/ActivationEmptyState";
+import { AgentPanel, StatCard } from "@/components/ui";
 import { getCertificates } from "@/server/contratpro-data";
-
-type CertificateTone = "amber" | "cyan" | "emerald" | "rose";
-
-function CertificateWorkTile({
-  count,
-  detail,
-  href,
-  label,
-  step,
-  tone,
-}: {
-  count: string;
-  detail: string;
-  href: string;
-  label: string;
-  step: string;
-  tone: CertificateTone;
-}) {
-  return (
-    <a className="artisan-terrain-tile" data-tone={tone} href={href}>
-      <span>{step}</span>
-      <div>
-        <strong>{label}</strong>
-        <p>{detail}</p>
-      </div>
-      <em>{count}</em>
-    </a>
-  );
-}
 
 export default async function CertificatesPage() {
   const certificates = await getCertificates();
   const pendingCertificates = certificates.filter(
-    (certificate) => certificate.status !== "EnvoyÃ©e",
+    (certificate) => !certificate.status.toLowerCase().includes("envoy"),
   );
   const sentCount = certificates.filter(
-    (certificate) => certificate.status === "Envoyée",
+    (certificate) => certificate.status.toLowerCase().includes("envoy"),
   ).length;
   const pendingCount = certificates.length - sentCount;
   const referencesCount = new Set(
@@ -52,7 +24,7 @@ export default async function CertificatesPage() {
         tone: "amber" as const,
       }
     : {
-        action: "Preparer la prochaine",
+        action: "Préparer la prochaine",
         detail: "Toutes les attestations connues sont envoyées. Continuez depuis les interventions.",
         label: "Conformité stable",
         tone: "emerald" as const,
@@ -61,195 +33,114 @@ export default async function CertificatesPage() {
   return (
     <AppShell activePath="/certificates">
       <PageHeader
-        action={
-          <a
-            className="premium-action rounded-md px-4 py-2 text-sm font-semibold"
-            href="/contracts"
-          >
-            Depuis un contrat
-          </a>
-        }
+        action={<a className="cp-btn cp-btn-primary cp-btn-sm" href="/contracts">Depuis un contrat</a>}
         description="Pilotez les attestations d'entretien, leur statut d'envoi et les références réglementaires rattachées à chaque intervention."
         eyebrow="Conformité"
         title="Attestations légales"
       />
 
-      <section className="certificate-command-panel mt-6" data-od-id="certificate-proof-command">
-        <div className="certificate-command-brief">
-          <p>Commande conformité</p>
-          <h2>{certificateCommand.label}</h2>
-          <span>{certificateCommand.detail}</span>
-        </div>
-        <div className="certificate-command-decision" data-tone={certificateCommand.tone}>
-          <small>Action prioritaire</small>
-          <strong>{certificateCommand.action}</strong>
-          {priorityCertificate ? (
-            <span>
-              {priorityCertificate.customer} - {priorityCertificate.equipment}
-            </span>
-          ) : (
-            <span>Planifier une intervention pour générer la première attestation.</span>
-          )}
-          <a
-            className="premium-action rounded-md text-sm font-semibold"
-            href={priorityCertificate ? `/certificates/${priorityCertificate.id}` : "/interventions/new"}
-          >
-            Ouvrir le document
-          </a>
-        </div>
-      </section>
-
-      <section className="artisan-terrain-lanes mt-5" aria-label="Raccourcis attestation">
-        <CertificateWorkTile
-          count="+"
-          detail="Partir d'une intervention ou d'un contrat de maintenance."
-          href="/interventions/new"
-          label="Générer attestation"
-          step="1"
-          tone="emerald"
-        />
-        <CertificateWorkTile
-          count={String(pendingCount)}
-          detail="Vérifier la preuve, puis l'envoyer au client."
-          href={priorityCertificate ? `/certificates/${priorityCertificate.id}` : "/interventions/new"}
-          label="Envoyer au client"
-          step="2"
-          tone={pendingCount ? "amber" : "emerald"}
-        />
-        <CertificateWorkTile
-          count={String(certificates.length)}
-          detail="Retrouver les attestations et références conservées."
-          href="/certificates"
-          label="Registre preuves"
-          step="3"
-          tone="cyan"
-        />
-      </section>
-
-      <details className="artisan-evidence-details mt-5">
-        <summary className="worklist-summary">
-          Voir les chiffres conformité
-        </summary>
-        <div className="grid gap-3 md:grid-cols-3">
-        <article className="certificate-stat-card" data-tone="emerald">
-          <p className="text-xs font-semibold uppercase tracking-wide text-zinc-500">
-            Attestations
-          </p>
-          <p className="mt-3 text-3xl font-semibold text-zinc-50">
-            {certificates.length}
-          </p>
-          <p className="mt-2 text-sm text-zinc-400">Documents archivés</p>
-        </article>
-        <article className="certificate-stat-card" data-tone="amber">
-          <p className="text-xs font-semibold uppercase tracking-wide text-zinc-500">
-            À envoyer
-          </p>
-          <p className="mt-3 text-3xl font-semibold text-zinc-50">
-            {pendingCount}
-          </p>
-          <p className="mt-2 text-sm text-zinc-400">Clients à notifier</p>
-        </article>
-        <article className="certificate-stat-card" data-tone="cyan">
-          <p className="text-xs font-semibold uppercase tracking-wide text-zinc-500">
-            Cadre suivi
-          </p>
-          <p className="mt-3 text-3xl font-semibold text-zinc-50">
-            {referencesCount}
-          </p>
-          <p className="mt-2 text-sm text-zinc-400">
-            Références réglementaires
-          </p>
-        </article>
-        </div>
-      </details>
-
-      <details className="certificate-section mt-5 rounded-lg border">
-        <summary className="worklist-summary">
-          Voir toutes les attestations ({certificates.length})
-        </summary>
-        <div className="certificate-section-header">
-          <div>
-            <p className="text-xs font-semibold uppercase tracking-wide text-emerald-300">
-              Registre documentaire
-            </p>
-            <h3 className="mt-1 text-lg font-semibold text-zinc-50">
-              Attestations prêtes pour archivage et envoi client
-            </h3>
+      <AgentPanel
+        eyebrow="Commande conformité"
+        thesis={certificateCommand.label}
+        proof={
+          <>
+            {certificateCommand.detail}
+            {priorityCertificate ? (
+              <span className="mt-3 block" style={{ color: "var(--text-primary)" }}>
+                <strong>{priorityCertificate.customer}</strong> — {priorityCertificate.equipment}
+              </span>
+            ) : (
+              <span className="mt-3 block">Planifier une intervention pour générer la première attestation.</span>
+            )}
+          </>
+        }
+        action={
+          <div className="flex flex-col items-end gap-2">
+            <span className="cp-pill cp-pill-dot" data-tone={certificateCommand.tone}>{certificateCommand.action}</span>
+            <a className="cp-btn cp-btn-primary cp-btn-sm" href={priorityCertificate ? `/certificates/${priorityCertificate.id}` : "/interventions/new"}>
+              Ouvrir le document
+            </a>
           </div>
-          <span className="certificate-sla-pill">
-            {sentCount}/{certificates.length} envoyées
-          </span>
-        </div>
+        }
+      />
+
+      <section className="cp-work-lanes">
+        <a className="cp-work-tile" data-tone="emerald" href="/interventions/new">
+          <span className="cp-work-tile-step">1</span>
+          <div><strong>Générer attestation</strong><p>Partir d'une intervention ou d'un contrat de maintenance.</p></div>
+          <em>+</em>
+        </a>
+        <a className="cp-work-tile" data-tone={pendingCount ? "amber" : "emerald"} href={priorityCertificate ? `/certificates/${priorityCertificate.id}` : "/interventions/new"}>
+          <span className="cp-work-tile-step">2</span>
+          <div><strong>Envoyer au client</strong><p>Vérifier la preuve, puis l'envoyer au client.</p></div>
+          <em>{pendingCount}</em>
+        </a>
+        <a className="cp-work-tile" data-tone="cyan" href="/certificates">
+          <span className="cp-work-tile-step">3</span>
+          <div><strong>Registre preuves</strong><p>Retrouver les attestations et références conservées.</p></div>
+          <em>{certificates.length}</em>
+        </a>
+      </section>
+
+      <div className="cp-stat-grid">
+        <StatCard label="Attestations" value={String(certificates.length)} detail="Documents archivés" tone="emerald" />
+        <StatCard label="À envoyer" value={String(pendingCount)} detail="Clients à notifier" tone="amber" />
+        <StatCard label="Cadre suivi" value={String(referencesCount)} detail="Références réglementaires" tone="cyan" />
+      </div>
+
+      <section className="cp-section">
+        <header className="cp-section-header">
+          <div>
+            <h3 className="cp-section-title">Registre documentaire</h3>
+            <p className="cp-section-desc">Attestations prêtes pour archivage et envoi client.</p>
+          </div>
+          <span className="cp-pill" data-tone="emerald">{sentCount}/{certificates.length} envoyées</span>
+        </header>
 
         {certificates.length ? (
           <div className="overflow-x-auto">
-            <table className="w-full min-w-[820px] text-left text-sm">
-            <thead>
-              <tr className="dashboard-table-head">
-                <th className="px-4 py-3 font-semibold">Client</th>
-                <th className="px-4 py-3 font-semibold">Equipement</th>
-                <th className="px-4 py-3 font-semibold">Emission</th>
-                <th className="px-4 py-3 font-semibold">Reference</th>
-                <th className="px-4 py-3 font-semibold">Statut</th>
-                <th className="px-4 py-3 font-semibold">Document</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-zinc-800/80">
-              {certificates.map((certificate) => (
-                <tr className="certificate-table-row" key={certificate.id}>
-                  <td className="px-4 py-4">
-                    <div className="font-semibold text-zinc-50">
-                      {certificate.customer}
-                    </div>
-                    <div className="mt-1 text-xs text-zinc-500">
-                      ID {certificate.id}
-                    </div>
-                  </td>
-                  <td className="px-4 py-4 text-zinc-300">
-                    {certificate.equipment}
-                  </td>
-                  <td className="px-4 py-4 font-medium text-zinc-200">
-                    {certificate.issuedAt}
-                  </td>
-                  <td className="px-4 py-4">
-                    <span className="certificate-reference-pill">
-                      {certificate.legalReference}
-                    </span>
-                  </td>
-                  <td className="px-4 py-4">
-                    <StatusPill>{certificate.status}</StatusPill>
-                  </td>
-                  <td className="px-4 py-4">
-                    <a
-                      className="premium-inline-action"
-                      href={`/certificates/${certificate.id}`}
-                    >
-                      Ouvrir
-                    </a>
-                  </td>
+            <table className="cp-table">
+              <thead>
+                <tr>
+                  <th>Client</th>
+                  <th>Équipement</th>
+                  <th>Émission</th>
+                  <th>Référence</th>
+                  <th>Statut</th>
+                  <th>Document</th>
                 </tr>
-              ))}
-            </tbody>
+              </thead>
+              <tbody>
+                {certificates.map((certificate) => (
+                  <tr key={certificate.id}>
+                    <td>
+                      <p className="cp-cell-strong">{certificate.customer}</p>
+                      <p className="cp-cell-sub">ID {certificate.id}</p>
+                    </td>
+                    <td>{certificate.equipment}</td>
+                    <td className="cp-cell-strong">{certificate.issuedAt}</td>
+                    <td><span className="cp-pill">{certificate.legalReference}</span></td>
+                    <td><StatusPill>{certificate.status}</StatusPill></td>
+                    <td><a className="cp-btn cp-btn-secondary cp-btn-sm" href={`/certificates/${certificate.id}`}>Ouvrir</a></td>
+                  </tr>
+                ))}
+              </tbody>
             </table>
           </div>
         ) : (
-          <div className="p-4">
+          <div className="cp-section-body">
             <ActivationEmptyState
               actionHref="/interventions/new"
               actionLabel="Planifier une intervention"
               eyebrow="Conformité entretien"
-              proofPoints={[
-                "Attestation liée à l'intervention",
-                "Référence légale conservée",
-                "Envoi client historisé",
-              ]}
+              proofPoints={["Attestation liée à l'intervention", "Référence légale conservée", "Envoi client historisé"]}
               secondaryHref="/contracts"
               secondaryLabel="Voir contrats"
               title="Générez les attestations depuis les interventions réalisées."
             />
           </div>
         )}
-      </details>
+      </section>
     </AppShell>
   );
 }
