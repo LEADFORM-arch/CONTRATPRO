@@ -69,30 +69,33 @@ export default async function PaymentsPage() {
         <span className="cp-cell-sub">Le chauffagiste suit le client, le montant et le statut. Les identifiants provider restent dans les détails avancés.</span>
       </div>
 
-      <AgentPanel
-        eyebrow="Commande cash-flow"
-        thesis={cashCommand.label}
-        proof={
-          <>
-            {cashCommand.detail}
-            {nextPayment ? (
-              <span className="mt-3 block" style={{ color: "var(--text-primary)" }}>
-                <strong>{nextPayment.customer}</strong> — {formatEuro(nextPayment.amount)} — {nextPayment.status}
-              </span>
-            ) : (
-              <span className="mt-3 block">Créer un premier paiement pour alimenter le cockpit.</span>
-            )}
-          </>
-        }
-        action={
-          <div className="flex flex-col items-end gap-2">
-            <span className="cp-pill cp-pill-dot" data-tone={cashCommand.tone}>{cashCommand.action}</span>
-            <a className="cp-btn cp-btn-primary cp-btn-sm" href={nextPayment?.contractId ? `/contracts/${nextPayment.contractId}` : "/payments/new"}>
-              Ouvrir le dossier
-            </a>
-          </div>
-        }
-      />
+      <div data-od-id="payment-cash-command">
+        <AgentPanel
+          eyebrow="Commande cash-flow"
+          thesis={cashCommand.label}
+          proof={
+            <>
+              {cashCommand.detail}
+              {nextPayment ? (
+                <span className="mt-3 block" style={{ color: "var(--text-primary)" }}>
+                  <strong>{nextPayment.customer}</strong> — {formatEuro(nextPayment.amount)} — {nextPayment.status}
+                </span>
+              ) : (
+                <span className="mt-3 block">Créer un premier paiement pour alimenter le cockpit.</span>
+              )}
+            </>
+          }
+          action={
+            <div className="flex flex-col items-end gap-2">
+              <span className="cp-kicker">Action prioritaire</span>
+              <span className="cp-pill cp-pill-dot" data-tone={cashCommand.tone}>{cashCommand.action}</span>
+              <a className="cp-btn cp-btn-primary cp-btn-sm" href={nextPayment?.contractId ? `/contracts/${nextPayment.contractId}` : "/payments/new"}>
+                Ouvrir le dossier
+              </a>
+            </div>
+          }
+        />
+      </div>
 
       {priorityPayments.length ? (
         <section className="cp-priority-queue">

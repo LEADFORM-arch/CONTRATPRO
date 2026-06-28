@@ -58,30 +58,33 @@ export default async function InvoicesPage() {
         title="Factures contrats CVC"
       />
 
-      <AgentPanel
-        eyebrow="Commande facturation"
-        thesis={invoiceCommand.label}
-        proof={
-          <>
-            {invoiceCommand.detail}
-            {priorityInvoice ? (
-              <span className="mt-3 block" style={{ color: "var(--text-primary)" }}>
-                <strong>{priorityInvoice.number}</strong> — {priorityInvoice.customer} — {formatEuro(priorityInvoice.amountTtc)}
-              </span>
-            ) : (
-              <span className="mt-3 block">Créer une première facture pour alimenter le registre.</span>
-            )}
-          </>
-        }
-        action={
-          <div className="flex flex-col items-end gap-2">
-            <span className="cp-pill cp-pill-dot" data-tone={invoiceCommand.tone}>{invoiceCommand.action}</span>
-            <a className="cp-btn cp-btn-primary cp-btn-sm" href={priorityInvoice ? `/invoices/${priorityInvoice.id}` : "/invoices/new"}>
-              Ouvrir le dossier
-            </a>
-          </div>
-        }
-      />
+      <div data-od-id="invoice-billing-command">
+        <AgentPanel
+          eyebrow="Commande facturation"
+          thesis={invoiceCommand.label}
+          proof={
+            <>
+              {invoiceCommand.detail}
+              {priorityInvoice ? (
+                <span className="mt-3 block" style={{ color: "var(--text-primary)" }}>
+                  <strong>{priorityInvoice.number}</strong> — {priorityInvoice.customer} — {formatEuro(priorityInvoice.amountTtc)}
+                </span>
+              ) : (
+                <span className="mt-3 block">Créer une première facture pour alimenter le registre.</span>
+              )}
+            </>
+          }
+          action={
+            <div className="flex flex-col items-end gap-2">
+              <span className="cp-kicker">Action prioritaire</span>
+              <span className="cp-pill cp-pill-dot" data-tone={invoiceCommand.tone}>{invoiceCommand.action}</span>
+              <a className="cp-btn cp-btn-primary cp-btn-sm" href={priorityInvoice ? `/invoices/${priorityInvoice.id}` : "/invoices/new"}>
+                Ouvrir le dossier
+              </a>
+            </div>
+          }
+        />
+      </div>
 
       <section className="cp-work-lanes">
         <a className="cp-work-tile" data-tone="emerald" href="/invoices/new">

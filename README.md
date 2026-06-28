@@ -4,7 +4,7 @@ SaaS de gestion des contrats de maintenance CVC pour chauffagistes : clients,
 contrats annuels, interventions, attestations, paiements, relances et
 documents legaux.
 
-Depot GitHub officiel : https://github.com/admincairn/CONTRATPRO
+Depot GitHub officiel : https://github.com/LEADFORM-arch/CONTRATPRO
 
 Espace Vercel de reference : https://vercel.com/contratpro
 
@@ -482,7 +482,7 @@ docs/vercel-launch-checklist.md
 Le projet est prepare pour un import Vercel depuis :
 
 ```text
-https://github.com/admincairn/CONTRATPRO
+https://github.com/LEADFORM-arch/CONTRATPRO
 ```
 
 ContratPro force Node `24.x` via `package.json`. Le template production pointe

@@ -165,7 +165,7 @@ check(
   "Runbook production",
   existsSync(file("docs/production-runbook.md")) &&
     includesAll(read("docs/production-runbook.md"), [
-      "https://github.com/admincairn/CONTRATPRO",
+      "https://github.com/LEADFORM-arch/CONTRATPRO",
       "Gate avant merge",
       "Variables Vercel obligatoires",
       "Cron relances quotidiennes",
@@ -194,7 +194,7 @@ check(
   "Checklist Vercel",
   existsSync(file("docs/vercel-launch-checklist.md")) &&
     includesAll(read("docs/vercel-launch-checklist.md"), [
-      "https://github.com/admincairn/CONTRATPRO",
+      "https://github.com/LEADFORM-arch/CONTRATPRO",
       "https://vercel.com/contratpro",
       "Node.js 24.x",
       "npm run deploy:preflight",
@@ -210,7 +210,7 @@ check(
   "Preflight Vercel",
   existsSync(file("scripts/vercel-preflight.mjs")) &&
     includesAll(read("scripts/vercel-preflight.mjs"), [
-      "github.com/admincairn/CONTRATPRO.git",
+      "github.com/LEADFORM-arch/CONTRATPRO.git",
       "Node 24",
       "https://your-project-ref.supabase.co",
     ]),

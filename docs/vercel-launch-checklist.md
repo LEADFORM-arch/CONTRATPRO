@@ -8,7 +8,7 @@ propres, un build reproductible et un controle post-deploiement.
 Repo source :
 
 ```text
-https://github.com/admincairn/CONTRATPRO
+https://github.com/LEADFORM-arch/CONTRATPRO
 ```
 
 Espace Vercel de reference :
@@ -43,7 +43,7 @@ git remote -v
 doit afficher :
 
 ```text
-origin  https://github.com/admincairn/CONTRATPRO.git
+origin  https://github.com/LEADFORM-arch/CONTRATPRO.git
 ```
 
 Verifier aussi l'auteur Git local avant de pousser sur `main` :
@@ -67,7 +67,7 @@ admin@votre-domaine.fr
 Dans Vercel :
 
 1. creer un nouveau projet ;
-2. importer `admincairn/CONTRATPRO` ;
+2. importer `LEADFORM-arch/CONTRATPRO` ;
 3. laisser Framework Preset sur Next.js ;
 4. garder Root Directory a la racine du repo ;
 5. regler Node.js 24.x ou laisser Vercel lire `engines.node`.

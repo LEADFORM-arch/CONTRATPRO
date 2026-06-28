@@ -28,9 +28,9 @@ function ContractPriorityAction({
   hasMandate: boolean;
 }) {
   return (
-    <section className="cp-next-action-block">
+    <section className="cp-next-action-block" data-od-id="contract-next-action">
       <div className="cp-next-action-brief">
-        <p className="cp-eyebrow">Dossier — 3 actions</p>
+        <p className="cp-eyebrow">Dossier 3 actions</p>
         <h3 className="cp-next-action-title">Une seule suite suffit.</h3>
         <span className="cp-next-action-detail">
           Le contrat est créé. La suite normale : facture, SEPA ou attestation après visite. Rien d'autre à comprendre maintenant.
@@ -194,7 +194,7 @@ export default async function ContractDetailPage({
         hasMandate={Boolean(contract.mandate)}
       />
 
-      <details className="cp-proof-drawer">
+      <details className="cp-proof-drawer contract-proof-drawer">
         <summary>
           <span>Preuves secondaires</span>
           <strong>Litiges, absences et attestations</strong>

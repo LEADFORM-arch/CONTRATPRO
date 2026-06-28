@@ -52,7 +52,7 @@ const internalNavItems = [
   { href: "/admin/pilots", label: "Pilotes" },
   { href: "/admin/ops", label: "Supervision" },
   { href: "/admin/notifications", label: "Notifications" },
-  { href: "/admin/prospection", label: "Acquisition" },
+  { href: "/admin/prospection", label: "Dashboard acquisition" },
   { href: "/admin/prospection/guide", label: "Guide skill FB" },
   { href: "/admin/prospection/content", label: "Contenus FB" },
   { href: "/prospection", label: "Pipeline leads" },

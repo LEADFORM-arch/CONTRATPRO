@@ -47,8 +47,8 @@ check(
 
 check(
   "Remote GitHub officiel",
-  gitRemote().includes("github.com/admincairn/CONTRATPRO.git"),
-  "origin doit pointer vers admincairn/CONTRATPRO",
+  gitRemote().includes("github.com/LEADFORM-arch/CONTRATPRO.git"),
+  "origin doit pointer vers LEADFORM-arch/CONTRATPRO",
 );
 
 check(
@@ -91,7 +91,7 @@ check(
   "Runbook Vercel",
   existsSync(file("docs/vercel-launch-checklist.md")) &&
     includesAll(read("docs/vercel-launch-checklist.md"), [
-      "admincairn/CONTRATPRO",
+      "LEADFORM-arch/CONTRATPRO",
       "https://vercel.com/contratpro",
       "Node.js 24.x",
       "npm run deploy:smoke",

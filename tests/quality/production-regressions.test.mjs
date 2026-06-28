@@ -947,7 +947,7 @@ describe("production guardrails", () => {
     ], "pull request template");
 
     assertIncludes(read("docs/production-runbook.md"), [
-      "https://github.com/admincairn/CONTRATPRO",
+      "https://github.com/LEADFORM-arch/CONTRATPRO",
       "Gate avant merge",
       "Variables Vercel obligatoires",
       "Cron relances quotidiennes",
@@ -967,7 +967,7 @@ describe("production guardrails", () => {
     ], "production env example");
 
     assertIncludes(read("scripts/vercel-preflight.mjs"), [
-      "github.com/admincairn/CONTRATPRO.git",
+      "github.com/LEADFORM-arch/CONTRATPRO.git",
       "Node 24",
       "deployer ContratPro avec Node 24.x",
       "https://your-project-ref.supabase.co",
@@ -1006,7 +1006,7 @@ describe("production guardrails", () => {
     ], "deployment smoke test");
 
     assertIncludes(read("docs/vercel-launch-checklist.md"), [
-      "admincairn/CONTRATPRO",
+      "LEADFORM-arch/CONTRATPRO",
       "https://vercel.com/contratpro",
       "Node.js 24.x",
       "npm run deploy:preflight",
@@ -1201,14 +1201,14 @@ describe("production guardrails", () => {
       "GOCARDLESS_ENVIRONMENT",
       "pilote sans encaissement automatique",
       "expediteur a verifier plus tard",
-      "admincairn/CONTRATPRO",
+      "LEADFORM-arch/CONTRATPRO",
       "getProductionActivationPlan",
       "getProductionArchitectSummary",
       "productionControlLinks",
       "recommendedDecision",
       "supabaseDashboardHref",
       "SUPABASE_PROJECT_REF",
-      "https://vercel.com/contratpro?repo=https%3A%2F%2Fgithub.com%2Fadmincairn%2FCONTRATPRO",
+      "https://vercel.com/contratpro?repo=https%3A%2F%2Fgithub.com%2FLEADFORM-arch%2FCONTRATPRO",
       "Architecte IA production",
       "LIVE OK",
       "LIVE PAUSE",

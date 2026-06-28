@@ -89,7 +89,7 @@ export default async function ContractsPage() {
         action={
           <>
             <a className="cp-btn cp-btn-primary cp-btn-sm" href="/contracts/quick">
-              Contrat guidé
+              Contrat guide
             </a>
             <a className="cp-btn cp-btn-secondary cp-btn-sm" href="/contracts/new">
               Formulaire complet
@@ -119,6 +119,7 @@ export default async function ContractsPage() {
         }
         action={
           <div className="flex flex-col items-end gap-2">
+            <span className="cp-kicker">Prochaine action</span>
             <span className="cp-pill cp-pill-dot" data-tone={architectDecision.tone}>
               {architectDecision.action}
             </span>

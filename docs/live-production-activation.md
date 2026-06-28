@@ -44,7 +44,7 @@ Bloquant si une politique RLS echoue.
 Dashboard Vercel :
 
 ```text
-https://vercel.com/contratpro?repo=https%3A%2F%2Fgithub.com%2Fadmincairn%2FCONTRATPRO
+https://vercel.com/contratpro?repo=https%3A%2F%2Fgithub.com%2FLEADFORM-arch%2FCONTRATPRO
 ```
 
 Executer :

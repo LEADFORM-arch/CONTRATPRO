@@ -7,7 +7,7 @@ verifies et procedure de retour arriere.
 Depot GitHub officiel :
 
 ```text
-https://github.com/admincairn/CONTRATPRO
+https://github.com/LEADFORM-arch/CONTRATPRO
 ```
 
 Espace Vercel de reference :
@@ -50,7 +50,7 @@ Le remote local attendu est :
 git remote -v
 ```
 
-avec `origin` pointe vers `https://github.com/admincairn/CONTRATPRO.git`.
+avec `origin` pointe vers `https://github.com/LEADFORM-arch/CONTRATPRO.git`.
 
 Avant un push vers `main`, verifier aussi l'auteur Git :
 

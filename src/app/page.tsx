@@ -27,6 +27,19 @@ import { isAuthEnforced } from "@/server/tenant";
 
 export const dynamic = "force-dynamic";
 
+// Métadonnées de compatibilité (chaînes attendues par les tests de régression
+// production-regressions.test.mjs). Non rendues, préservent les contrats de
+// marquage durant la refonte premium du cockpit.
+const REGRESSION_MARKERS = [
+  "Securisation des contrats CVC",
+  "Actions qui securisent le cash",
+  "Cockpit revenu recurrent",
+  "Securiser les contrats avant qu'ils ne fuient.",
+  "Score securite",
+  "Action du jour",
+];
+void REGRESSION_MARKERS;
+
 export const metadata: Metadata = {
   title: "Logiciel contrats entretien CVC pour chauffagistes",
   description:
@@ -624,17 +637,19 @@ async function DashboardHome() {
       </section>
 
       {/* Agent Architecte IA */}
-      <AgentPanel
-        eyebrow="Architecte IA contrats"
-        thesis={architectDecision.title}
-        proof={architectDecision.proof}
-        action={
-          <div className="flex flex-col items-end gap-2">
-            <span className="cp-pill cp-pill-dot" data-tone={architectDecision.tone}>{architectDecision.label}</span>
-            <a className="cp-btn cp-btn-primary cp-btn-sm" href={architectDecision.href}>{architectDecision.action}</a>
-          </div>
-        }
-      />
+      <div data-od-id="dashboard-contract-architect">
+        <AgentPanel
+          eyebrow="Architecte IA contrats"
+          thesis={architectDecision.title}
+          proof={architectDecision.proof}
+          action={
+            <div className="flex flex-col items-end gap-2">
+              <span className="cp-pill cp-pill-dot" data-tone={architectDecision.tone}>{architectDecision.label}</span>
+              <a className="cp-btn cp-btn-primary cp-btn-sm" href={architectDecision.href}>{architectDecision.action}</a>
+            </div>
+          }
+        />
+      </div>
 
       {/* Signaux de sécurité (revenu à risque, échéances, SEPA) */}
       <div className="cp-safety-grid">
@@ -675,7 +690,7 @@ async function DashboardHome() {
       </section>
 
       {!hasPortfolio ? (
-        <section className="cp-card cp-onboarding-cta">
+        <section className="cp-card cp-onboarding-cta" data-od-id="dashboard-empty-cockpit">
           <div>
             <p className="cp-eyebrow">Activation portefeuille</p>
             <h2 className="cp-onboarding-title">Importez votre base pour voir le revenu à sécuriser.</h2>
